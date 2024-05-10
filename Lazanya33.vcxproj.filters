@@ -75,6 +75,9 @@
     <ClInclude Include="BlockGenerationSystem.h">
       <Filter>Source Files\Game\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="WinApp.h">
+      <Filter>Source Files\WinApp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Lazanya33.cpp">
@@ -97,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="BlockGenerationSystem.cpp">
       <Filter>Source Files\Game\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="WinApp.cpp">
+      <Filter>Source Files\WinApp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
