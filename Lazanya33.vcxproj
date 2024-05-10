@@ -148,6 +148,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SceneTree.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="WinApp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BlockGenerationSystem.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="SceneTree.cpp" />
+    <ClCompile Include="WinApp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Lazanya33.rc" />
