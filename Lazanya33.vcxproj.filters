@@ -19,12 +19,6 @@
     <Filter Include="Source Files\Game">
       <UniqueIdentifier>{171ab869-7203-4700-9d41-92d236b4f18d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Game\GameManager">
-      <UniqueIdentifier>{49815b69-2f9a-4201-a730-7cb983acea4c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Game\SceneTree">
-      <UniqueIdentifier>{9e46eac6-b9e1-4d22-92d4-71cea838cfe6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Game\Systems">
       <UniqueIdentifier>{33daa824-53a1-4ba8-98e9-15321e3d2630}</UniqueIdentifier>
     </Filter>
@@ -33,6 +27,36 @@
     </Filter>
     <Filter Include="Source Files\Game\Components">
       <UniqueIdentifier>{76113c83-7d84-4b30-ab3e-133f791573c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Engine">
+      <UniqueIdentifier>{49815b69-2f9a-4201-a730-7cb983acea4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Systems\Render">
+      <UniqueIdentifier>{0a7e3f6f-8d25-41d4-ac37-742e77d095c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Managers">
+      <UniqueIdentifier>{b01dcc92-79a7-4ed0-a2f4-d9f34a75331d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Systems\Timer">
+      <UniqueIdentifier>{596140ad-5bd4-45c8-829f-7a843eee1c1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Systems\Input">
+      <UniqueIdentifier>{28f71c4b-fdcc-4f7e-8043-781392b793fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\SceneGraph">
+      <UniqueIdentifier>{9e46eac6-b9e1-4d22-92d4-71cea838cfe6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\SceneGraph\Scene">
+      <UniqueIdentifier>{0cca24fe-3439-4da8-a4ee-bfdd7cc07457}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\SceneGraph\Scene\Letter">
+      <UniqueIdentifier>{e8bef5f5-3d30-4755-87ac-3463f57a56b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\SceneGraph\Scene\Entry">
+      <UniqueIdentifier>{e5f09a0f-6456-479a-9387-226fa1962fd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\SceneGraph\Scene\SceneInterface">
+      <UniqueIdentifier>{f8766cbe-cf3d-425d-a418-e9536b1d9849}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -45,23 +69,20 @@
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Lazanya33.h">
+    <ClInclude Include="WinMain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SceneTree.h">
-      <Filter>Source Files\Game\SceneTree</Filter>
+    <ClInclude Include="SceneGraph.h">
+      <Filter>Source Files\Game\SceneGraph</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>Source Files\Game\GameManager</Filter>
+    <ClInclude Include="Engine.h">
+      <Filter>Source Files\Game\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Source Files\Game\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderSystem.h">
-      <Filter>Source Files\Game\Systems</Filter>
     </ClInclude>
     <ClInclude Include="BlockComponent.h">
       <Filter>Source Files\Game\Components</Filter>
@@ -78,31 +99,79 @@
     <ClInclude Include="WinApp.h">
       <Filter>Source Files\WinApp</Filter>
     </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Source Files\Game\Systems\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Source Files\Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderable.h">
+      <Filter>Source Files\Game\Systems\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleRenderable.h">
+      <Filter>Source Files\Game\Systems\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="CollectiveRenderable.h">
+      <Filter>Source Files\Game\Systems\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="EntryScene.h">
+      <Filter>Source Files\Game\SceneGraph\Scene\Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="LetterScene.h">
+      <Filter>Source Files\Game\SceneGraph\Scene\Letter</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem.h">
+      <Filter>Source Files\Game\Systems\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem.h">
+      <Filter>Source Files\Game\Systems\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="IScene.h">
+      <Filter>Source Files\Game\SceneGraph\Scene\SceneInterface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Lazanya33.cpp">
+    <ClCompile Include="WinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SceneTree.cpp">
-      <Filter>Source Files\Game\SceneTree</Filter>
+    <ClCompile Include="SceneGraph.cpp">
+      <Filter>Source Files\Game\SceneGraph</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>Source Files\Game\GameManager</Filter>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Source Files\Game\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Source Files\Game\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderSystem.cpp">
-      <Filter>Source Files\Game\Systems</Filter>
     </ClCompile>
     <ClCompile Include="BlockGenerationSystem.cpp">
       <Filter>Source Files\Game\Systems</Filter>
     </ClCompile>
     <ClCompile Include="WinApp.cpp">
       <Filter>Source Files\WinApp</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files\Game\Systems\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Source Files\Game\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationController.h">
+      <Filter>Source Files\Game\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EntryScene.cpp">
+      <Filter>Source Files\Game\SceneGraph\Scene\Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="LetterScene.cpp">
+      <Filter>Source Files\Game\SceneGraph\Scene\Letter</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem.cpp">
+      <Filter>Source Files\Game\Systems\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="IScene.cpp">
+      <Filter>Source Files\Game\SceneGraph\Scene\SceneInterface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
