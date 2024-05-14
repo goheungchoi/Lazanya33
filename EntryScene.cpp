@@ -8,7 +8,10 @@ EntryScene::EntryScene() {
 
 void EntryScene::Update(double DeltaTime)
 {
-	 _sceneManager.ChangeScene(_sceneDependencies.find("Letter")->second);
+	if (Input::inputManager->IsTurnDn(VK_SPACE))
+	{
+		_sceneManager.ChangeScene(_sceneDependencies.find("Letter")->second);
+	}
 }
  
 void EntryScene::Draw()

@@ -55,9 +55,6 @@
     <Filter Include="Source Files\Game\SceneGraph\Scene\Entry">
       <UniqueIdentifier>{e5f09a0f-6456-479a-9387-226fa1962fd1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Game\SceneGraph\Scene\SceneInterface">
-      <UniqueIdentifier>{f8766cbe-cf3d-425d-a418-e9536b1d9849}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -126,9 +123,6 @@
     <ClInclude Include="RenderSystem.h">
       <Filter>Source Files\Game\Systems\Render</Filter>
     </ClInclude>
-    <ClInclude Include="IScene.h">
-      <Filter>Source Files\Game\SceneGraph\Scene\SceneInterface</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -169,9 +163,6 @@
     </ClCompile>
     <ClCompile Include="InputSystem.cpp">
       <Filter>Source Files\Game\Systems\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="IScene.cpp">
-      <Filter>Source Files\Game\SceneGraph\Scene\SceneInterface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

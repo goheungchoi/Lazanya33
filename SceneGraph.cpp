@@ -30,6 +30,8 @@ void SceneGraph::InitScene()
 	
 	//...scene Ãß°¡
 	_sceneRegistry["Entry"]->AddSceneDependency(_sceneRegistry["Letter"],"Letter");
+
+	//Ã¹ ¾À
 	_currScenePtr = _sceneRegistry.find("Entry")->second;
 }
 
