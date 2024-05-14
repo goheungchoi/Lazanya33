@@ -64,6 +64,9 @@
     <Filter Include="Source Files\Game\SceneGraph\Scene\Play">
       <UniqueIdentifier>{87ce9835-5732-4f62-897e-77408a6f111b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\GameObjects\Wall">
+      <UniqueIdentifier>{b06f047f-4eeb-4c86-9d68-1af5b7c733a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -89,15 +92,6 @@
     </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Source Files\Game\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="BlockComponent.h">
-      <Filter>Source Files\Game\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Source Files\Game\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="BlockPattern.h">
-      <Filter>Source Files\Game\Components</Filter>
     </ClInclude>
     <ClInclude Include="BlockGenerationSystem.h">
       <Filter>Source Files\Game\Systems</Filter>
@@ -161,6 +155,18 @@
     </ClInclude>
     <ClInclude Include="PlayScene.h">
       <Filter>Source Files\Game\SceneGraph\Scene\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Source Files\Game\GameObjects\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickRenderComponent.h">
+      <Filter>Source Files\Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickPattern.h">
+      <Filter>Source Files\Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickHealthComponent.h">
+      <Filter>Source Files\Game\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
