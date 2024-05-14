@@ -8,6 +8,7 @@ constexpr int PLAYER_DEFAULT_AD = 0;
 constexpr int PLAYER_DEFAULT_MAX_OXYGEN_LEVEL = 0;
 constexpr int PLAYER_DEFAULT_MAX_HP = 0;
 constexpr int PLAYER_DEFAULT_LASGULA_DURATION = 0;
+constexpr int PLAYER_DEFAULT_COMBO_DURATION = 0;
 
 /**
  * @brief Example use of AnimationController
@@ -38,7 +39,11 @@ private:
     _oxygenLevel{PLAYER_DEFAULT_MAX_OXYGEN_LEVEL},
     _maxHP{PLAYER_DEFAULT_MAX_HP},
     _hp{PLAYER_DEFAULT_MAX_HP},
-    _lasgulaDuration(PLAYER_DEFAULT_LASGULA_DURATION),
+    _lasgulaDuration{PLAYER_DEFAULT_LASGULA_DURATION},
+    _lasgulaElapsedTime {0.0f},
+    _comboDuration {PLAYER_DEFAULT_COMBO_DURATION},
+    _comboElapsedTime {0.0f},
+    _comboNumber {0},
 
     _score{0} {}
 
@@ -77,10 +82,6 @@ private:
   void AddScore(int score) override { _score += score; }
   void AddScoreFromOxyBlock(int score) override { AddScore(score); }
   void AddScoreSpecialCase(int score) override { AddScore(score); }
-
-  void SetLasgulaDuration(float) override { /*TODO*/ }
-  
-  void SetComboDuration(float) override { /*TODO*/ }
 
   bool IsDead() override { return _hp <= 0 || _oxygenLevel <= 0; }
 
