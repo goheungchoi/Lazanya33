@@ -3,22 +3,23 @@
 #include "IRenderable.h"
 
 template<class T>
-class SingleRenderable : public IRenderable {
-	static Bitmap* _pSprite;
+class CollectiveRenderable : public IRenderable {
+	static std::unordered_map<std::wstring, Bitmap*> _pSpriteRegister;
 	//static std::optional<CachedBitmap> _spriteCache;
 
 protected:
-	Rect _spriteRect;	// The destination Rect
+	std::unordered_map<Bitmap*, Rect> _spriteRects;	// The destination Rect
 	/*std::wstring _text;
 	PointF _textOrigin;
+	FontFamily _fontFamily;
 	Font _font;
 	StringFormat _textFormat;
 	SolidBrush _textBrush{Color(255, 0, 0, 0)};*/
 
 
 public:
-	SingleRenderable() {};
-	SingleRenderable(int x, int y) 
+	CollectiveRenderable() {};
+	CollectiveRenderable(int x, int y) 
 		: IRenderable(x, y), _spriteRect(x, y, 500, 500) {
 	}
 	virtual ~SingleRenderable() {};
@@ -90,4 +91,4 @@ public:
 };
 
 template<class T>
-Bitmap* SingleRenderable<T>::_pSprite{ nullptr };
+std::unordered_map<std::wstring, Bitmap*> CollectiveRenderable<T>::_pSpriteRegister;
