@@ -2,6 +2,18 @@
 
 using namespace Gdiplus;
 
+enum class H_DIRECTION {
+  LEFT = 0b0001,
+  RIGHT = 0b0010,
+  CENTER = 0b0011,
+};
+
+enum class V_DIRECTION { 
+  TOP = 0b0100, 
+  CENTER = 0b1100, 
+  BOTTOM = 0b1000 
+};
+
 class IRenderable {
 protected:
 	Point _position;
