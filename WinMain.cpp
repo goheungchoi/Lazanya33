@@ -18,11 +18,24 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
+	try {
+       
 	global::GetWinApp().Initialize(hInstance);
 
 	global::GetWinApp().Run();
 
 	global::GetWinApp().Finalize();
+
+	} catch (const std::exception& e) {
+    const char* w = e.what();
+		std::wstring wstr;
+		wstr.append(L"\t-> ");
+		for (std::size_t i=0; w[i] != '\0'; ++i) {
+			wstr.push_back(static_cast<wchar_t>(w[i]));
+		}
+		wstr.push_back(L'\n');
+		OutputDebugString(wstr.data());
+	}
 
 	return EXIT_SUCCESS; //0
 }

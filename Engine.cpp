@@ -16,7 +16,7 @@ Engine::Engine()
 	// TODO: Drawing Test
 	_renderer = new GDIRenderer(global::GetWinApp().GetWindow(), 
 															{global::GetWinApp().GetWidth(), 
-															global::GetWinApp().GetHeight()});
+															 global::GetWinApp().GetHeight()});
 	_renderSystem = new RenderSystem(_renderer);
 }
 
@@ -32,7 +32,6 @@ void Engine::Initialize()
 	_sceneGraph->InitScene();
 
 	// TODO: Drawing Test
-	_renderSystem->RegisterRenderableObject(_drawableObject);
 }
 
 void Engine::Update(double deltaTime)
@@ -43,7 +42,7 @@ void Engine::Update(double deltaTime)
 
 void Engine::Render()
 {
-	_renderSystem->Render();
+
 }
 
 void Engine::Finalize()

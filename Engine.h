@@ -8,7 +8,6 @@ private:
 	class	SceneGraph* _sceneGraph;
 	class GDIRenderer* _renderer;
 	class RenderSystem* _renderSystem;
-	class IRenderable* _drawableObject;
 public:
 	Engine();
 	~Engine();
