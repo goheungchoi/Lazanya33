@@ -1,4 +1,5 @@
 #include "pch.h"
+
 #include "SceneGraph.h"
 #include "EntryScene.h"
 #include "LetterScene.h"
@@ -6,6 +7,7 @@
 
 SceneGraph::SceneGraph()
 {
+	IScene::_sceneManager = this;
 }
 
 SceneGraph::~SceneGraph()
@@ -39,6 +41,7 @@ void SceneGraph::InitScene()
 
 void SceneGraph::ChangeScene(IScene* newScene)
 {
+	
 	_currScenePtr = newScene;
 }
 
@@ -52,6 +55,14 @@ void SceneGraph::Draw()
 	_currScenePtr->Draw();
 }
 //-------------------------------------------------------------------
+
+IScene::IScene()
+{
+}
+
+IScene::~IScene()
+{
+}
 
 void IScene::AddSceneDependency(IScene* scene, std::string sceneName)
 {
