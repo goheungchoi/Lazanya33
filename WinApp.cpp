@@ -1,7 +1,7 @@
 #include "pch.h"
 #include <Windows.h>
 #include "WinApp.h"
-#include "GameManager.h"
+#include "Engine.h"
 
 namespace global
 {
@@ -69,18 +69,18 @@ void WinApp::Initialize(HINSTANCE hInstance)
 	ShowWindow(_hWnd, SW_SHOWNORMAL);
 	UpdateWindow(_hWnd);
 
-	GameManager::GetInstance()->Initialize();
+	Engine::GetInstance()->Initialize();
 }
 
 void WinApp::Run()
 {
-	GameManager::GetInstance()->Run();
+	Engine::GetInstance()->Run();
 }
 
 void WinApp::Finalize()
 {
-	GameManager::GetInstance()->Finalize();
-	GameManager::GetInstance()->DestroyInstance();
+	Engine::GetInstance()->Finalize();
+	Engine::GetInstance()->DestroyInstance();
 }
 
 LRESULT WinApp::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

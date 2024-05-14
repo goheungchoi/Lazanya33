@@ -1,4 +1,16 @@
-﻿  GameManager.cpp
+﻿  Engine.cpp
+C:\Users\User\Desktop\git\1QProject\Lazanya33\IScene.h(13,13): error C2079: 'IScene::_sceneManager'은(는) 정의되지 않은 class 'SceneGraph'을(를) 사용합니다.
+  (소스 파일 '/Engine.cpp'을(를) 컴파일하는 중)
+  
+  IScene.cpp
+  LetterScene.cpp
+C:\Users\User\Desktop\git\1QProject\Lazanya33\IScene.h(13,13): error C2079: 'IScene::_sceneManager'은(는) 정의되지 않은 class 'SceneGraph'을(를) 사용합니다.
+  (소스 파일 '/LetterScene.cpp'을(를) 컴파일하는 중)
+  
+  EntryScene.cpp
+  SceneGraph.cpp
+C:\Users\User\Desktop\git\1QProject\Lazanya33\IScene.h(13,13): error C2079: 'IScene::_sceneManager'은(는) 정의되지 않은 class 'SceneGraph'을(를) 사용합니다.
+  (소스 파일 '/SceneGraph.cpp'을(를) 컴파일하는 중)
+  
   WinApp.cpp
   코드를 생성하고 있습니다...
-  Lazanya33.vcxproj -> C:\Users\User\Desktop\git\1QProject\Lazanya33\x64\Debug\Lazanya33.exe

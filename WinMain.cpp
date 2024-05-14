@@ -7,6 +7,9 @@
 #include "WinMain.h"
 #include "WinApp.h"
 
+#pragma comment(lib, "msimg32.lib")
+#pragma comment(lib, "Gdiplus.lib")
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPWSTR lpCmdLine,

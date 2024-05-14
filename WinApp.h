@@ -6,8 +6,8 @@ private:
 	HINSTANCE _hInstance = { 0, };
 	HWND _hWnd = { 0, };
 
-	int _screenWidth = 1600;
-	int _screenHeight = 900;
+	int _screenWidth = 1920;
+	int _screenHeight = 1080;
 
 public:
 	WinApp() = default;
