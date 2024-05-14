@@ -2,15 +2,15 @@
 #include "EntryScene.h"
 #include "SingleRenderable.h"
 
-EntryScene::EntryScene() {
-	_drawableObject = new SingleRenderable<int>(100, 100);
+EntryScene::EntryScene() 
+{
 }
 
 void EntryScene::Update(double DeltaTime)
 {
-	 _sceneManager.ChangeScene(_sceneDependencies.find("Letter")->second);
 }
  
 void EntryScene::Draw()
 {
+	_renderSystem->Render();
 }

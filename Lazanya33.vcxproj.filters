@@ -49,14 +49,8 @@
     <Filter Include="Source Files\Game\SceneGraph\Scene">
       <UniqueIdentifier>{0cca24fe-3439-4da8-a4ee-bfdd7cc07457}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Game\SceneGraph\Scene\Letter">
-      <UniqueIdentifier>{e8bef5f5-3d30-4755-87ac-3463f57a56b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Game\SceneGraph\Scene\Entry">
       <UniqueIdentifier>{e5f09a0f-6456-479a-9387-226fa1962fd1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Game\SceneGraph\Scene\SceneInterface">
-      <UniqueIdentifier>{f8766cbe-cf3d-425d-a418-e9536b1d9849}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Game\GameObjects">
       <UniqueIdentifier>{890895c4-3b9f-4a0b-8cbf-254b9117a0b2}</UniqueIdentifier>
@@ -66,6 +60,12 @@
     </Filter>
     <Filter Include="Source Files\Game\GameObjects\Player\Decorators">
       <UniqueIdentifier>{93975b4f-5522-4f18-a85b-747b4655bd48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\SceneGraph\Scene\Play">
+      <UniqueIdentifier>{87ce9835-5732-4f62-897e-77408a6f111b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\GameObjects\Wall">
+      <UniqueIdentifier>{b06f047f-4eeb-4c86-9d68-1af5b7c733a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -93,15 +93,6 @@
     <ClInclude Include="Renderer.h">
       <Filter>Source Files\Game\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="BlockComponent.h">
-      <Filter>Source Files\Game\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Source Files\Game\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="BlockPattern.h">
-      <Filter>Source Files\Game\Components</Filter>
-    </ClInclude>
     <ClInclude Include="BlockGenerationSystem.h">
       <Filter>Source Files\Game\Systems</Filter>
     </ClInclude>
@@ -126,17 +117,11 @@
     <ClInclude Include="EntryScene.h">
       <Filter>Source Files\Game\SceneGraph\Scene\Entry</Filter>
     </ClInclude>
-    <ClInclude Include="LetterScene.h">
-      <Filter>Source Files\Game\SceneGraph\Scene\Letter</Filter>
-    </ClInclude>
     <ClInclude Include="InputSystem.h">
       <Filter>Source Files\Game\Systems\Input</Filter>
     </ClInclude>
     <ClInclude Include="RenderSystem.h">
       <Filter>Source Files\Game\Systems\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="IScene.h">
-      <Filter>Source Files\Game\SceneGraph\Scene\SceneInterface</Filter>
     </ClInclude>
     <ClInclude Include="GoldSeeker.h">
       <Filter>Source Files\Game\GameObjects\Player\Decorators</Filter>
@@ -167,6 +152,24 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Source Files\Game\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScene.h">
+      <Filter>Source Files\Game\SceneGraph\Scene\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Source Files\Game\GameObjects\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickRenderComponent.h">
+      <Filter>Source Files\Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickPattern.h">
+      <Filter>Source Files\Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickHealthComponent.h">
+      <Filter>Source Files\Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GridDeque.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -203,14 +206,8 @@
     <ClCompile Include="EntryScene.cpp">
       <Filter>Source Files\Game\SceneGraph\Scene\Entry</Filter>
     </ClCompile>
-    <ClCompile Include="LetterScene.cpp">
-      <Filter>Source Files\Game\SceneGraph\Scene\Letter</Filter>
-    </ClCompile>
     <ClCompile Include="InputSystem.cpp">
       <Filter>Source Files\Game\Systems\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="IScene.cpp">
-      <Filter>Source Files\Game\SceneGraph\Scene\SceneInterface</Filter>
     </ClCompile>
     <ClCompile Include="Wimp.cpp">
       <Filter>Source Files\Game\GameObjects\Player\Decorators</Filter>
@@ -235,6 +232,9 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Source Files\Game\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScene.cpp">
+      <Filter>Source Files\Game\SceneGraph\Scene\Play</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

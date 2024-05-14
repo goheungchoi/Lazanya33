@@ -6,6 +6,8 @@ private:
 	static Engine* _instance;
 
 	class	SceneGraph* _sceneGraph;
+
+	class IRenderable* _drawableObject;
 	class GDIRenderer* _renderer;
 	class RenderSystem* _renderSystem;
 public:

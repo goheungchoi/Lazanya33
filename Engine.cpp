@@ -18,6 +18,7 @@ Engine::Engine()
 															{global::GetWinApp().GetWidth(), 
 															 global::GetWinApp().GetHeight()});
 	_renderSystem = new RenderSystem(_renderer);
+	IScene::_renderSystem = _renderSystem;
 }
 
 Engine::~Engine()
@@ -42,7 +43,7 @@ void Engine::Update(double deltaTime)
 
 void Engine::Render()
 {
-
+	_sceneGraph->GetCurrentScene()->Draw();
 }
 
 void Engine::Finalize()

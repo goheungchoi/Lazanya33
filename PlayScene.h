@@ -1,13 +1,14 @@
 #pragma once
 #include "SceneGraph.h"
-
-class EntryScene: public IScene
+#include "Player.h"
+class PlayScene :public IScene
 {
 	class IRenderable* _drawableObject;
-
+	IPlayer* player = new Player();
 public:
-	EntryScene();
-	~EntryScene() {};
+	PlayScene();
+	~PlayScene() {};
+	
 	void Update(double DeltaTime)override;
 	void Draw()override;
 };

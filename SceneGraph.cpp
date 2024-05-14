@@ -1,11 +1,12 @@
 #include "pch.h"
+
 #include "SceneGraph.h"
 #include "EntryScene.h"
-#include "LetterScene.h"
-
+#include "PlayScene.h"
 
 SceneGraph::SceneGraph()
 {
+	IScene::_sceneManager = this;
 }
 
 SceneGraph::~SceneGraph()
@@ -26,10 +27,11 @@ IScene* SceneGraph::GetCurrentScene()
 void SceneGraph::InitScene()
 {
 	_sceneRegistry["Entry"] = new EntryScene;
-	_sceneRegistry["Letter"] = new LetterScene;
-	
+	_sceneRegistry["Play"] = new PlayScene;
 	//...scene Ãß°¡
-	_sceneRegistry["Entry"]->AddSceneDependency(_sceneRegistry["Letter"],"Letter");
+
+	_sceneRegistry["Entry"]->AddSceneDependency(_sceneRegistry["Play"], "Play");
+	//Ã¹ ¾À
 	_currScenePtr = _sceneRegistry.find("Entry")->second;
 }
 
@@ -37,6 +39,7 @@ void SceneGraph::InitScene()
 
 void SceneGraph::ChangeScene(IScene* newScene)
 {
+	
 	_currScenePtr = newScene;
 }
 
@@ -50,6 +53,14 @@ void SceneGraph::Draw()
 	_currScenePtr->Draw();
 }
 //-------------------------------------------------------------------
+
+IScene::IScene()
+{
+}
+
+IScene::~IScene()
+{
+}
 
 void IScene::AddSceneDependency(IScene* scene, std::string sceneName)
 {
