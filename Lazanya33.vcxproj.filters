@@ -49,9 +49,6 @@
     <Filter Include="Source Files\Game\SceneGraph\Scene">
       <UniqueIdentifier>{0cca24fe-3439-4da8-a4ee-bfdd7cc07457}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Game\SceneGraph\Scene\Letter">
-      <UniqueIdentifier>{e8bef5f5-3d30-4755-87ac-3463f57a56b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Game\SceneGraph\Scene\Entry">
       <UniqueIdentifier>{e5f09a0f-6456-479a-9387-226fa1962fd1}</UniqueIdentifier>
     </Filter>
@@ -126,9 +123,6 @@
     <ClInclude Include="EntryScene.h">
       <Filter>Source Files\Game\SceneGraph\Scene\Entry</Filter>
     </ClInclude>
-    <ClInclude Include="LetterScene.h">
-      <Filter>Source Files\Game\SceneGraph\Scene\Letter</Filter>
-    </ClInclude>
     <ClInclude Include="InputSystem.h">
       <Filter>Source Files\Game\Systems\Input</Filter>
     </ClInclude>
@@ -202,9 +196,6 @@
     </ClCompile>
     <ClCompile Include="EntryScene.cpp">
       <Filter>Source Files\Game\SceneGraph\Scene\Entry</Filter>
-    </ClCompile>
-    <ClCompile Include="LetterScene.cpp">
-      <Filter>Source Files\Game\SceneGraph\Scene\Letter</Filter>
     </ClCompile>
     <ClCompile Include="InputSystem.cpp">
       <Filter>Source Files\Game\Systems\Input</Filter>

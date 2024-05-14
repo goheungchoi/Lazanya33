@@ -157,7 +157,6 @@
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="IPlayer.h" />
     <ClInclude Include="IRenderable.h" />
-    <ClInclude Include="LetterScene.h" />
     <ClInclude Include="EntryScene.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerDecorator.h" />
@@ -187,7 +186,6 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GoldSeeker.cpp" />
     <ClCompile Include="InputSystem.cpp" />
-    <ClCompile Include="LetterScene.cpp" />
     <ClCompile Include="EntryScene.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
