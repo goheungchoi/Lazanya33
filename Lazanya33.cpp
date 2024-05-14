@@ -43,6 +43,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     MSG msg;
 
+    {
+        int aaa[] = {
+
+  #include "test.txt"
+        };
+      }
+
+     
     // Main message loop:
     while (GetMessage(&msg, nullptr, 0, 0))
     {
@@ -52,6 +60,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             DispatchMessage(&msg);
         }
     }
+
 
     return (int) msg.wParam;
 }
