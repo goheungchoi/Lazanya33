@@ -2,22 +2,36 @@
 
 class IPlayer {
 public:
-  virtual int GetAttack() = 0;
+  /* Setters */
+  virtual int GetAttackDamage() = 0;
   virtual int GetCurrOxyLevel() = 0;
   virtual int GetCurrHP() = 0;
-  virtual int GetCurrPoint() = 0;
+  virtual int GetCurrScore() = 0;
 
-  virtual int SetMaxOxygenLevel(int) = 0;
-  virtual int SetOxygenLevel(int) = 0;
+  /* Getters */
+  virtual void SetAttackDamage(int) = 0;
 
-  virtual int SetMaxHP(int) = 0;
-  virtual int SetHP(int) = 0;
+  virtual void SetMaxOxygenLevel(float) = 0;
+  virtual void SetOxygenLevel(float) = 0;
 
+  virtual void SetMaxHP(int) = 0;
+  virtual void SetHP(int) = 0;
+
+  virtual void SetLasgulaDuration(float) = 0;
+  virtual void SetComboDuration(float) = 0;
+
+  /* Modifiers */
   virtual void AddHP(int hp) = 0;
-  virtual void AddOxygen(int amountOfOxygen) = 0;
-  virtual void AddOxygenSpecialCase(int amountOfOxygen) = 0;
-  virtual void AddPoint(int points) = 0;
-  virtual void AddPointSpecialCase(int points) = 0;
+
+  virtual void AddOxygen(float amountOfOxygen) = 0;
+  virtual void AddOxygenFromOxyBlock(float amountOfOxygen) = 0;
+  virtual void AddOxygenSpecialCase(float amountOfOxygen) = 0;
+
+  virtual void AddScore(int score) = 0;
+  virtual void AddScoreFromOxyBlock(int score) = 0;
+  virtual void AddScoreSpecialCase(int score) = 0;
 
   virtual bool IsDead() = 0;
+
+  virtual void Move(int x, int y) = 0;
 };
