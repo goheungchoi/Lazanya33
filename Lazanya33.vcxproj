@@ -149,7 +149,10 @@
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="IRenderable.h" />
-    <ClInclude Include="IScene.h" />
+    <ClInclude Include="IScene.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="LetterScene.h" />
     <ClInclude Include="EntryScene.h" />
     <ClInclude Include="RenderSystem.h" />
@@ -171,7 +174,10 @@
     <ClCompile Include="BlockGenerationSystem.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="InputSystem.cpp" />
-    <ClCompile Include="IScene.cpp" />
+    <ClCompile Include="IScene.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="LetterScene.cpp" />
     <ClCompile Include="EntryScene.cpp" />
     <ClCompile Include="ResourceManager.cpp" />

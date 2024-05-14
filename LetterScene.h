@@ -1,5 +1,6 @@
 #pragma once
 #include "SceneGraph.h"
+
 class LetterScene:public IScene
 {
 public:

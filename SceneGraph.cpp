@@ -49,3 +49,9 @@ void SceneGraph::Draw()
 {
 	_currScenePtr->Draw();
 }
+//-------------------------------------------------------------------
+
+void IScene::AddSceneDependency(IScene* scene, std::string sceneName)
+{
+	_sceneDependencies[sceneName] = scene;
+}

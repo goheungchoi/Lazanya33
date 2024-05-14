@@ -1,10 +1,7 @@
 #pragma once
 
 #include "SceneGraph.h"
-#include "Timer.h"
-#include "InputSystem.h"
 
-class SceneGraph;
 
 class IScene
 {

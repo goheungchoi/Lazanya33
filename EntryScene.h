@@ -1,5 +1,5 @@
 #pragma once
-#include "IScene.h"
+#include "SceneGraph.h"
 
 class EntryScene: public IScene
 {
