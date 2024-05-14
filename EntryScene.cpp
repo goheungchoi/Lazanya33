@@ -4,7 +4,6 @@
 
 EntryScene::EntryScene() 
 {
-	_renderSystem->RegisterRenderableObject(player);
 }
 
 void EntryScene::Update(double DeltaTime)
