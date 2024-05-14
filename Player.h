@@ -18,12 +18,12 @@ class Player : public IPlayer, public IRenderable {
 
 	/* Properties */
 private:
-  int _ad;
+  int _ad;    // Brick Interation
   float _maxOxygenLevel;
-  float _oxygenLevel;
-  int _maxHP;
-  int _hp;
-  int _score;
+  float _oxygenLevel;     // OxygenLevelSystem
+  int _maxHP; // N/a
+  int _hp;    // N/A
+  int _score; // Brick Interation
 
   float _lasgulaDuration;
   float _lasgulaElapsedTime;

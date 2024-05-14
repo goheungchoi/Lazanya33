@@ -2,9 +2,9 @@
 
 #include "PlayerDecorator.h"
 
-class SugarGirl : public PlayerDecorator {
+class GoldSeeker : public PlayerDecorator {
 public:
-  SugarGirl(IPlayer* player) : PlayerDecorator(player) {}
+  GoldSeeker(IPlayer* player) : PlayerDecorator(player) {}
 
   void AddScoreSpecialCase(int points) override {
     PlayerDecorator::AddScoreSpecialCase(points + 10);
