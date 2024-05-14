@@ -168,6 +168,9 @@
     <ClInclude Include="BrickHealthComponent.h">
       <Filter>Source Files\Game\Components</Filter>
     </ClInclude>
+    <ClInclude Include="GridDeque.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">

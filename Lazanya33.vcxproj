@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="Anaerobic.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="GridDeque.h" />
     <ClInclude Include="Naughty.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Pummeler.h" />
