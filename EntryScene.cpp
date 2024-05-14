@@ -1,15 +1,14 @@
 #include "pch.h"
 #include "EntryScene.h"
 #include "SingleRenderable.h"
-#include "Player.h"
 
-EntryScene::EntryScene() {
-	Player a;
+EntryScene::EntryScene() 
+{
+	_renderSystem->RegisterRenderableObject(player);
 }
 
 void EntryScene::Update(double DeltaTime)
 {
-	
 }
  
 void EntryScene::Draw()
