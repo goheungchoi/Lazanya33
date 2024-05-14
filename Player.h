@@ -59,10 +59,10 @@ private:
   void SetHP(int hp) override { _hp = (hp <= _maxHP) * hp + (hp > _maxHP) *_maxHP; }
 
   //TODO: lasgula
-  virtual void SetLasgulaDuration(float) = 0;
+  void SetLasgulaDuration(float) override { /*TODO*/ }
   
   //TODO: combo
-  virtual void SetComboDuration(float) = 0;
+  void SetComboDuration(float) override { /*TODO*/ }
 
   /* Modifiers */
   void AddHP(int hp) override 
@@ -78,11 +78,9 @@ private:
   void AddScoreFromOxyBlock(int score) override { AddScore(score); }
   void AddScoreSpecialCase(int score) override { AddScore(score); }
 
-  void SetLasgulaDuration(float) override {
+  void SetLasgulaDuration(float) override { /*TODO*/ }
   
-  };
-  
-  virtual void SetComboDuration(float) = 0;
+  void SetComboDuration(float) override { /*TODO*/ }
 
   bool IsDead() override { return _hp <= 0 || _oxygenLevel <= 0; }
 
