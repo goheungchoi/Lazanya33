@@ -55,6 +55,15 @@
     <Filter Include="Source Files\Game\SceneGraph\Scene\Entry">
       <UniqueIdentifier>{e5f09a0f-6456-479a-9387-226fa1962fd1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\GameObjects">
+      <UniqueIdentifier>{890895c4-3b9f-4a0b-8cbf-254b9117a0b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\GameObjects\Player">
+      <UniqueIdentifier>{e787b334-a200-4624-b78f-deb8208c310f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\GameObjects\Player\Decorators">
+      <UniqueIdentifier>{93975b4f-5522-4f18-a85b-747b4655bd48}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -123,6 +132,36 @@
     <ClInclude Include="RenderSystem.h">
       <Filter>Source Files\Game\Systems\Render</Filter>
     </ClInclude>
+    <ClInclude Include="GoldSeeker.h">
+      <Filter>Source Files\Game\GameObjects\Player\Decorators</Filter>
+    </ClInclude>
+    <ClInclude Include="Anaerobic.h">
+      <Filter>Source Files\Game\GameObjects\Player\Decorators</Filter>
+    </ClInclude>
+    <ClInclude Include="Naughty.h">
+      <Filter>Source Files\Game\GameObjects\Player\Decorators</Filter>
+    </ClInclude>
+    <ClInclude Include="Pummeler.h">
+      <Filter>Source Files\Game\GameObjects\Player\Decorators</Filter>
+    </ClInclude>
+    <ClInclude Include="SugarGirl.h">
+      <Filter>Source Files\Game\GameObjects\Player\Decorators</Filter>
+    </ClInclude>
+    <ClInclude Include="TenaciousDwarf.h">
+      <Filter>Source Files\Game\GameObjects\Player\Decorators</Filter>
+    </ClInclude>
+    <ClInclude Include="Wimp.h">
+      <Filter>Source Files\Game\GameObjects\Player\Decorators</Filter>
+    </ClInclude>
+    <ClInclude Include="IPlayer.h">
+      <Filter>Source Files\Game\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerDecorator.h">
+      <Filter>Source Files\Game\GameObjects\Player\Decorators</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Source Files\Game\GameObjects\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -163,6 +202,30 @@
     </ClCompile>
     <ClCompile Include="InputSystem.cpp">
       <Filter>Source Files\Game\Systems\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Wimp.cpp">
+      <Filter>Source Files\Game\GameObjects\Player\Decorators</Filter>
+    </ClCompile>
+    <ClCompile Include="TenaciousDwarf.cpp">
+      <Filter>Source Files\Game\GameObjects\Player\Decorators</Filter>
+    </ClCompile>
+    <ClCompile Include="SugarGirl.cpp">
+      <Filter>Source Files\Game\GameObjects\Player\Decorators</Filter>
+    </ClCompile>
+    <ClCompile Include="Pummeler.cpp">
+      <Filter>Source Files\Game\GameObjects\Player\Decorators</Filter>
+    </ClCompile>
+    <ClCompile Include="Naughty.cpp">
+      <Filter>Source Files\Game\GameObjects\Player\Decorators</Filter>
+    </ClCompile>
+    <ClCompile Include="GoldSeeker.cpp">
+      <Filter>Source Files\Game\GameObjects\Player\Decorators</Filter>
+    </ClCompile>
+    <ClCompile Include="Anaerobic.cpp">
+      <Filter>Source Files\Game\GameObjects\Player\Decorators</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Game\GameObjects\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
