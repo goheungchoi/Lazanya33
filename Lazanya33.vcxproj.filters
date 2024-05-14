@@ -67,6 +67,9 @@
     <Filter Include="Source Files\Game\GameObjects\Wall">
       <UniqueIdentifier>{b06f047f-4eeb-4c86-9d68-1af5b7c733a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\GameObjects\Wall\Brick">
+      <UniqueIdentifier>{7ea8bfcf-625f-453c-919f-e3ff503e3e00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -92,9 +95,6 @@
     </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Source Files\Game\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="BlockGenerationSystem.h">
-      <Filter>Source Files\Game\Systems</Filter>
     </ClInclude>
     <ClInclude Include="WinApp.h">
       <Filter>Source Files\WinApp</Filter>
@@ -171,6 +171,12 @@
     <ClInclude Include="GridDeque.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>Source Files\Game\GameObjects\Wall\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockGenerationSystem.h">
+      <Filter>Source Files\Game\GameObjects\Wall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -187,9 +193,6 @@
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Source Files\Game\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="BlockGenerationSystem.cpp">
-      <Filter>Source Files\Game\Systems</Filter>
     </ClCompile>
     <ClCompile Include="WinApp.cpp">
       <Filter>Source Files\WinApp</Filter>
@@ -235,6 +238,12 @@
     </ClCompile>
     <ClCompile Include="PlayScene.cpp">
       <Filter>Source Files\Game\SceneGraph\Scene\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockGenerationSystem.cpp">
+      <Filter>Source Files\Game\GameObjects\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Source Files\Game\GameObjects\Wall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
