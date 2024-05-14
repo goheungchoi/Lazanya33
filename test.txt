@@ -1,3 +1,18 @@
-1, 0, 1, 0, 1,
-1, 0, 1, 2, 1,
-1, 0, 1, 0, 1
+5/11
+
+고흥: 엔진 설계
+성우: WinMain, WinApp
+호영: GameEngine, RenderLoop
+
+5/13
+
+고흥: Renderer, RenderSystem, IRenderable
+성우: SceneGraph, IScene, EntryScene, LetterScene
+호영: Deque2D, Timer
+
+5/14
+
+고흥: Player, PlayerDecorator, SingleRenderable, CollectiveRenderable
+성우: input,  `Render`랑 `Scenes` 디버깅하고 QA, GameScene
+호영: GridDeque 완성 및 디버깅, Brick Struct, Wall
+
