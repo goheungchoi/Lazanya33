@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CollectiveRenderable.h"
+
 class IPlayer : public CollectiveRenderable<IPlayer> {
 public:
 	IPlayer() = delete;
