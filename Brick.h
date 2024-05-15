@@ -22,6 +22,12 @@ struct Brick
   int block_downAir = 0; // 브릭을 부수면 공기의 감소 또는 증가
   int block_health = 0;
   
+	Brick() {
+		block_score = 1;
+    block_downAir = 4; 
+    block_health = 10;
+	}
+
   Brick(BrickType type)
   {
     switch (type)

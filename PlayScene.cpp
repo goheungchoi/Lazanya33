@@ -1,10 +1,20 @@
 #include "pch.h"
 #include "PlayScene.h"
 #include "BrickGenerationSystem.h"
-PlayScene::PlayScene()
-{
-	_renderSystem->RegisterRenderableObject(_walls);
-	_renderSystem->RegisterRenderableObject(dynamic_cast<IRenderable*>(_player));
+
+#include "GridMap.h"
+#include "Player.h"
+#include "Wall.h"
+
+PlayScene::PlayScene() 
+: _gridMap{new GridMap(
+		GRID_MAP_POSITION_X, 
+		GRID_MAP_POSITION_Y, 
+		15, 5, 120, 120)}, 
+	_player{new Player()}, _walls{new Wall()} {	
+	_gridMap->AttachChildRenderable(_player);
+	_gridMap->AttachChildRenderable(_walls);
+	_renderSystem->RegisterRenderableObject(_gridMap);
 	//가족력 선택 이전에 필요한 RenderableObject 등록하기.
 }
 

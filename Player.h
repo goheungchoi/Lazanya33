@@ -13,7 +13,7 @@ constexpr int PLAYER_DEFAULT_COMBO_DURATION = 0;
 /**
  * @brief Example use of AnimationController
  */
-class Player : public IPlayer, public CollectiveRenderable<Player> {
+class Player : public IPlayer {
 	AnimationController* _animationController{nullptr};
 
 	/* Properties */

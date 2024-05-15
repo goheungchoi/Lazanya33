@@ -56,7 +56,7 @@ public:
     _textBrush(Color(255, 0, 0, 0)) {}
 
   CollectiveRenderable(int x, int y, bool caching = true)
-  : IRenderable(x, y), CollectiveRenderable(caching) {}
+  : CollectiveRenderable(caching) { SetPosition(x, y); }
 
 	CollectiveRenderable(
 		int x, 
@@ -65,10 +65,9 @@ public:
 		V_DIRECTION vertical, 
 		bool caching = true
 	) : 
-	IRenderable(x, y), 
 	CollectiveRenderable(caching),
   _horizontal{horizontal},
-  _vertical{vertical} {}
+  _vertical{vertical} { SetPosition(x, y); }
 
 	/**
    * @brief 임의의 프레임 포지션과 너비, 높이를 지정하고, 기본 프레임을 생성합니다.
@@ -79,7 +78,8 @@ public:
    * @param caching 
    */
   CollectiveRenderable(int x, int y, int w, int h, bool caching = false) 
-		: IRenderable(x, y), CollectiveRenderable(caching) {
+		: CollectiveRenderable(caching) {
+		SetPosition(x, y);
     _spriteRects[nullptr] = Rect(x, y, w, h);
     _currentSprite = &_spriteRects[nullptr];
 	}

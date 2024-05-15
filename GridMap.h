@@ -1,25 +1,20 @@
 #pragma once
 
-#include "UIComponent.h"
-#include "Div.h"
+#include "CollectiveRenderable.h"
 
-template<
-std::size_t nrows, 
-std::size_t ncols,
-std::size_t width,
-std::size_t height
->
-class GridMap : public Div<CollectiveRenderable<GridMap>> {
+class GridMap : public CollectiveRenderable<GridMap> {
 	std::size_t _cellWidth;
 	std::size_t _cellHeight;
 	Matrix _T;
 
 public: 
-	GridMap(int x, int y)
-	: _cellWidth{width / nrows}, _cellHeight{height / ncols},
-		IRenderable(x, y) {
-		T.Scale(_cellWidth, _cellHeight);
-		T.TransformPoints(_position.X, _position.Y);
+	GridMap(int x, int y, 
+	std::size_t nrows, std::size_t ncols, 
+	std::size_t cellWidth, std::size_t cellHeight)
+	: _cellWidth{cellWidth}, _cellHeight{cellHeight},
+		CollectiveRenderable<GridMap>(x, y) {
+		_T.Scale(_cellWidth, _cellHeight);
+		_T.Translate(_position.X, _position.Y);
 	}
 
 	void Render(Graphics& g) override { 

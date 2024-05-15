@@ -8,8 +8,8 @@
 // TODO: Might need some loop animations
 
 // UIComponent can inherit from either SingleRenderable or CollectiveRenderable
-template<Renderable T>
-class UIComponent : public T {
-	
-};
+//template<Renderable T>
+//class UIComponent : public T {
+//	
+//};
 

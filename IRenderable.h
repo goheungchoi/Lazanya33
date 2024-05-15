@@ -21,8 +21,8 @@ protected:
 	std::vector<IRenderable*> _children;
 
 public:
-	IRenderable() : _position{ 0, 0 }, _children(5, nullptr) {}
-	IRenderable(int x, int y) : _position{ x, y }, _children(5, nullptr) {}
+	IRenderable() : _position{ 0, 0 } {}
+	IRenderable(int x, int y) : _position{ x, y } {}
 	virtual ~IRenderable() {}
 
 	void SetPosition(int x, int y) {
@@ -49,5 +49,5 @@ public:
 	}
 };
 
-template<class T>
-concept Renderable = std::is_base_of_v<IRenderable, T>;
+//template<class T>
+//concept Renderable = std::is_base_of_v<IRenderable, T>;

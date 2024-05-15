@@ -1,6 +1,6 @@
 #pragma once
 
-class IPlayer {
+class IPlayer : public CollectiveRenderable<IPlayer> {
 public:
   /* Getters */
 	virtual int GetPositionX() = 0;
