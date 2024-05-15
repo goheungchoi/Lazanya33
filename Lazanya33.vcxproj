@@ -108,10 +108,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalOptions>/FI "pch.h" %(AdditionalOptions)</AdditionalOptions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -142,6 +142,8 @@
     <ClInclude Include="Anaerobic.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Brick.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="Div.h" />
     <ClInclude Include="GridDeque.h" />
     <ClInclude Include="GridMap.h" />
     <ClInclude Include="Naughty.h" />

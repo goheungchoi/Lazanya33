@@ -6,7 +6,7 @@ public:
 	virtual int GetPositionX() = 0;
 	virtual int GetPositionY() = 0;
   virtual int GetAttackDamage() = 0;
-  virtual int GetCurrOxyLevel() = 0;
+  virtual float GetCurrOxyLevel() = 0;
   virtual int GetCurrHP() = 0;
   virtual int GetCurrScore() = 0;
 

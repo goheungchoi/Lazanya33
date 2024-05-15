@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IPlayer.h"
-#include "IRenderable.h"
+#include "CollectiveRenderable.h"
 #include "AnimationController.h"
 
 constexpr int PLAYER_DEFAULT_AD = 0;
@@ -13,7 +13,7 @@ constexpr int PLAYER_DEFAULT_COMBO_DURATION = 0;
 /**
  * @brief Example use of AnimationController
  */
-class Player : public IPlayer, public IRenderable {
+class Player : public IPlayer, public CollectiveRenderable<Player> {
 	AnimationController* _animationController{nullptr};
 
 	/* Properties */
@@ -51,7 +51,7 @@ private:
   int GetPositionX() { return _position.X; }
   int GetPositionY() { return _position.Y; }
   int GetAttackDamage() override { return _ad; }
-  int GetCurrOxyLevel() override { return _oxygenLevel; }
+  float GetCurrOxyLevel() override { return _oxygenLevel; }
   int GetCurrHP() override { return _hp; }
   int GetCurrScore() override { return _score; }
 
@@ -95,13 +95,4 @@ private:
     IRenderable::_position.X += x;
     IRenderable::_position.Y += y;
   }
-
-	void Render(Graphics& g) override {	// TODO: Need to remove const
-    // _animationController->GetCurrentFrame()->Render(g);
-
-#ifndef NDEBUG	// 디버깅일 때, 디버그용 사각형을 그림.
-		Pen debuggingPen(Color::Red, 5.f);
-		g.DrawRectangle(&debuggingPen, Rect(900, 900, 950, 950));
-#endif
-	}
 };
