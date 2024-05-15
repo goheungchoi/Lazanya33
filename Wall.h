@@ -2,7 +2,6 @@
 #include "IRenderable.h"
 #include "GridDeque.h"
 #include "Brick.h"
-#include "BrickGenerationSystem.h"
 
 constexpr std::size_t wallNumRows = 15;
 constexpr std::size_t wallNumCols = 5;
@@ -12,15 +11,11 @@ class Wall :public IRenderable
 private:
 	GridDeque<Brick> _bricks;
 	GridDeque<Gdiplus::CachedBitmap*> _brickSprites;
-	BrickGenSystem* _generationSystem;
 
 public:
 	Wall() : 
 	_bricks(wallNumRows,wallNumCols), 
-		_brickSprites(wallNumRows, wallNumCols)
-	{
-		_generationSystem = new BrickGenSystem(this);
-	}
+		_brickSprites(wallNumRows, wallNumCols){}
 	~Wall(){}	
 
 
