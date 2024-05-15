@@ -261,7 +261,7 @@ public:
    * @brief
    * @param g
    */
-  void Render(Gdiplus::Graphics& g) override {
+  virtual void Render(Gdiplus::Graphics& g) override {
 
 		_caching && 
 		_currentCachedBitmap && 

@@ -56,4 +56,6 @@ public:
   bool IsDead() override { return _player->IsDead(); }
 
   virtual void Move(int x, int y) override { _player->Move(x, y); }
+
+	virtual void Render(Gdiplus::Graphics& g) override { _player->Render(g); }
 };
