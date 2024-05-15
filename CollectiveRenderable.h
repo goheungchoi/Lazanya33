@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "IRenderable.h"
 
@@ -17,6 +17,12 @@ class CollectiveRenderable : public IRenderable {
 
   // Sprite Frames
   std::unordered_map<Bitmap*, Rect> _spriteRects;  // The destination Rect
+
+	// Graphics
+	bool _border{false};
+  Pen _pen;
+  bool _fill{false};
+  SolidBrush _brush;
 
   // Pivot Position
   H_DIRECTION _horizontal{H_DIRECTION::LEFT};
@@ -44,12 +50,39 @@ class CollectiveRenderable : public IRenderable {
 
   CollectiveRenderable(int x, int y, bool caching = false)
   : IRenderable(x, y), CollectiveRenderable(caching) {}
+
+	CollectiveRenderable(
+		int x, 
+		int y, 
+		H_DIRECTION horizontal, 
+		V_DIRECTION vertical, 
+		bool caching = false
+	) : 
+	IRenderable(x, y), 
+	CollectiveRenderable(caching),
+  _horizontal{horizontal},
+  _vertical{vertical} {}
+
+	/**
+   * @brief ì„ì˜ì˜ í”„ë ˆì„ í¬ì§€ì…˜ê³¼ ë„ˆë¹„, ë†’ì´ë¥¼ ì§€ì •í•˜ê³ , ê¸°ë³¸ í”„ë ˆì„ì„ ìƒì„±í•©ë‹ˆë‹¤.
+   * @param x 
+   * @param y 
+   * @param w 
+   * @param h 
+   * @param caching 
+   */
+  CollectiveRenderable(int x, int y, int w, int h, bool caching = false) 
+		: IRenderable(x, y), SingleRenderable(caching) {
+    _spriteRects[nullptr] = Rect(x, y, w, h);
+    _currentSprite = &_spriteRects[nullptr];
+	}
+
   
   virtual ~CollectiveRenderable() {}
 
   /**
-   * @brief ½ºÇÁ¶óÀÌÆ®¸¦ ÅÂ±×¿Í ÇÔ²² ·»´õ·¯ºí ¿ÀºêÁ§Æ®¿¡ ¹ÙÀÎµù ÇÕ´Ï´Ù.
-   * @param pSprite ¹ÙÀÎµù ÇÒ ½ºÇÁ¶óÀÌÆ® Æ÷ÀÎÅÍ
+   * @brief Â½ÂºÃ‡ÃÂ¶Ã³Ã€ÃŒÃ†Â®Â¸Â¦ Ã…Ã‚Â±Ã—Â¿Ã Ã‡Ã”Â²Â² Â·Â»Â´ÃµÂ·Â¯ÂºÃ­ Â¿Ã€ÂºÃªÃÂ§Ã†Â®Â¿Â¡ Â¹Ã™Ã€ÃÂµÃ¹ Ã‡Ã•Â´ÃÂ´Ã™.
+   * @param pSprite Â¹Ã™Ã€ÃÂµÃ¹ Ã‡Ã’ Â½ÂºÃ‡ÃÂ¶Ã³Ã€ÃŒÃ†Â® Ã†Ã·Ã€ÃÃ…Ã
    */
   void BindSpriteWithTag(Bitmap* pSprite, const std::wstring& tag) {
     _pSpriteRegister[tag] = pSprite;
@@ -64,15 +97,15 @@ class CollectiveRenderable : public IRenderable {
     // Adjust the sprite Rect following pivot positions
     __AdjustSpriteRect(pSprite, spriteRect);
 
-    // ½ºÇÁ¶óÀÌÆ® ÇÁ·¹ÀÓÀ» ´ã½À´Ï´Ù.
+    // Â½ÂºÃ‡ÃÂ¶Ã³Ã€ÃŒÃ†Â® Ã‡ÃÂ·Â¹Ã€Ã“Ã€Â» Â´Ã£Â½Ã€Â´ÃÂ´Ã™.
     _spriteRects[pSprite] = std::move(spriteRect);
   }
 
   /**
-   * @brief ½ºÇÁ¶óÀÌÆ® ÇÁ·¹ÀÓÀÇ Æ÷Áö¼ÇÀ» º¯°æµÈ ÇÇ¹ş Æ÷Áö¼Ç¿¡ ¸Â°Ô ¾÷µ¥ÀÌÆ®
-   * ÇÕ´Ï´Ù.
-   * @param horizontal ¼öÆò ÇÇ¹ş Æ÷Áö¼Ç
-   * @param vertical ¼öÁ÷ ÇÇ¹ş Æ÷Áö¼Ç
+   * @brief Â½ÂºÃ‡ÃÂ¶Ã³Ã€ÃŒÃ†Â® Ã‡ÃÂ·Â¹Ã€Ã“Ã€Ã‡ Ã†Ã·ÃÃ¶Â¼Ã‡Ã€Â» ÂºÂ¯Â°Ã¦ÂµÃˆ Ã‡Ã‡Â¹Ã¾ Ã†Ã·ÃÃ¶Â¼Ã‡Â¿Â¡ Â¸Ã‚Â°Ã” Â¾Ã·ÂµÂ¥Ã€ÃŒÃ†Â®
+   * Ã‡Ã•Â´ÃÂ´Ã™.
+   * @param horizontal Â¼Ã¶Ã†Ã² Ã‡Ã‡Â¹Ã¾ Ã†Ã·ÃÃ¶Â¼Ã‡
+   * @param vertical Â¼Ã¶ÃÃ· Ã‡Ã‡Â¹Ã¾ Ã†Ã·ÃÃ¶Â¼Ã‡
    */
   void UpdateSpritePivotPosition(H_DIRECTION horizontal, V_DIRECTION vertical) {
     _horizontal = horizontal;
@@ -82,41 +115,51 @@ class CollectiveRenderable : public IRenderable {
     }
   }
 
+	void SetBorder(char r, char g, char b, char a = 255U, int width = 1) {
+		_border = true;
+		_pen.SetColor(Color(a, r, g, b), width);
+	}
+
+	void SetFillColor(char r, char g, char b, char a = 255U) {
+		_border = true;
+		_brush.SetColor(Color(a, r, g, b));
+	}
+
   /**
-   * @brief ÀÌ ¿ÀºêÁ§Æ®°¡ Ç¥½ÃÇÒ ÅØ½ºÆ®¸¦ ¼³Á¤ÇÑ´Ù.
+   * @brief Ã€ÃŒ Â¿Ã€ÂºÃªÃÂ§Ã†Â®Â°Â¡ Ã‡Â¥Â½ÃƒÃ‡Ã’ Ã…Ã˜Â½ÂºÃ†Â®Â¸Â¦ Â¼Â³ÃÂ¤Ã‡Ã‘Â´Ã™.
    */
   void SetText(const wchar_t* text) { _text.assign(text); }
   void SetTextPosition(float x, float y) { _textPosition = {x, y}; }
 
   /**
-   * @brief ÅØ½ºÆ®ÀÇ ½ºÇÁ¶óÀÌÆ® ÇÁ·¹ÀÓ ¾È¿¡¼­ÀÇ »ó´ëÀû À§Ä¡¸¦ ¸®ÅÏÇÑ´Ù.
-   * @return »ó´ëÀû À§Ä¡ÀÇ X°ª
+   * @brief Ã…Ã˜Â½ÂºÃ†Â®Ã€Ã‡ Â½ÂºÃ‡ÃÂ¶Ã³Ã€ÃŒÃ†Â® Ã‡ÃÂ·Â¹Ã€Ã“ Â¾ÃˆÂ¿Â¡Â¼Â­Ã€Ã‡ Â»Ã³Â´Ã«Ã€Ã» Ã€Â§Ã„Â¡Â¸Â¦ Â¸Â®Ã…ÃÃ‡Ã‘Â´Ã™.
+   * @return Â»Ã³Â´Ã«Ã€Ã» Ã€Â§Ã„Â¡Ã€Ã‡ XÂ°Âª
    */
   float GetTextPositionX() { return _textPosition.X; }
   /**
-   * @brief ÅØ½ºÆ®ÀÇ ½ºÇÁ¶óÀÌÆ® ÇÁ·¹ÀÓ ¾È¿¡¼­ÀÇ »ó´ëÀû À§Ä¡¸¦ ¸®ÅÏÇÑ´Ù.
-   * @return »ó´ëÀû À§Ä¡ÀÇ Y°ª
+   * @brief Ã…Ã˜Â½ÂºÃ†Â®Ã€Ã‡ Â½ÂºÃ‡ÃÂ¶Ã³Ã€ÃŒÃ†Â® Ã‡ÃÂ·Â¹Ã€Ã“ Â¾ÃˆÂ¿Â¡Â¼Â­Ã€Ã‡ Â»Ã³Â´Ã«Ã€Ã» Ã€Â§Ã„Â¡Â¸Â¦ Â¸Â®Ã…ÃÃ‡Ã‘Â´Ã™.
+   * @return Â»Ã³Â´Ã«Ã€Ã» Ã€Â§Ã„Â¡Ã€Ã‡ YÂ°Âª
    */
   float GetTextPositionY() { return _textPosition.Y; }
   /**
-   * @brief ÅØ½ºÆ®ÀÇ ½ºÇÁ¶óÀÌÆ® ÇÁ·¹ÀÓ ¾È¿¡¼­ÀÇ »ó´ëÀû À§Ä¡¸¦ ¸®ÅÏÇÑ´Ù.
-   * @return PointF ½ºÆ®·°ÃÄ
+   * @brief Ã…Ã˜Â½ÂºÃ†Â®Ã€Ã‡ Â½ÂºÃ‡ÃÂ¶Ã³Ã€ÃŒÃ†Â® Ã‡ÃÂ·Â¹Ã€Ã“ Â¾ÃˆÂ¿Â¡Â¼Â­Ã€Ã‡ Â»Ã³Â´Ã«Ã€Ã» Ã€Â§Ã„Â¡Â¸Â¦ Â¸Â®Ã…ÃÃ‡Ã‘Â´Ã™.
+   * @return PointF Â½ÂºÃ†Â®Â·Â°ÃƒÃ„
    */
   PointF GetTextPosition() { return _textPosition; }
 
   /**
-   * @brief ÆùÆ® ÆĞ¹Ğ¸®¸¦ ¼³Á¤ÇÕ´Ï´Ù.
-   * @param fontFamily ÆùÆ® ÆĞ¹Ğ¸®, ¿¹½Ã) L"Arial"
+   * @brief Ã†Ã¹Ã†Â® Ã†ÃÂ¹ÃÂ¸Â®Â¸Â¦ Â¼Â³ÃÂ¤Ã‡Ã•Â´ÃÂ´Ã™.
+   * @param fontFamily Ã†Ã¹Ã†Â® Ã†ÃÂ¹ÃÂ¸Â®, Â¿Â¹Â½Ãƒ) L"Arial"
    */
   void SetFontFamily(const char* fontFamily) {
     _fontFamily = FontFamily(fontFamily);
   }
 
   /**
-   * @brief ÅØ½ºÆ®ÀÇ ÆùÆ®¸¦ ¼³Á¤ÇÑ´Ù.
-   * @param fontSize ÇÈ¼¿ ´ÜÀ§ ÆùÆ® »çÀÌÁî
-   * @param fontStyle ÆùÆ® ½ºÅ¸ÀÏ, ±âº»°ª = Regular
-   * @param unit ÆùÆ® ´ÜÀ§, ±âº»°ª = Pixel
+   * @brief Ã…Ã˜Â½ÂºÃ†Â®Ã€Ã‡ Ã†Ã¹Ã†Â®Â¸Â¦ Â¼Â³ÃÂ¤Ã‡Ã‘Â´Ã™.
+   * @param fontSize Ã‡ÃˆÂ¼Â¿ Â´ÃœÃ€Â§ Ã†Ã¹Ã†Â® Â»Ã§Ã€ÃŒÃÃ®
+   * @param fontStyle Ã†Ã¹Ã†Â® Â½ÂºÃ…Â¸Ã€Ã, Â±Ã¢ÂºÂ»Â°Âª = Regular
+   * @param unit Ã†Ã¹Ã†Â® Â´ÃœÃ€Â§, Â±Ã¢ÂºÂ»Â°Âª = Pixel
    */
   void SetFont(int fontSize, FontStyle fontStyle = FontStyleRegular,
                Unit unit = UnitPixel) {
@@ -124,7 +167,7 @@ class CollectiveRenderable : public IRenderable {
   }
 
   /**
-   * @brief ÅØ½ºÆ®ÀÇ »ö±òÀ» ¼³Á¤ÇÕ´Ï´Ù. (0U ~ 255U)
+   * @brief Ã…Ã˜Â½ÂºÃ†Â®Ã€Ã‡ Â»Ã¶Â±Ã²Ã€Â» Â¼Â³ÃÂ¤Ã‡Ã•Â´ÃÂ´Ã™. (0U ~ 255U)
    * @param r 
    * @param g 
    * @param b 
@@ -135,7 +178,7 @@ class CollectiveRenderable : public IRenderable {
   }
 
   /**
-   * @brief ÆùÆ® ¼öÆò Á¤·ÄÀ» ¼³Á¤ÇÑ´Ù.
+   * @brief Ã†Ã¹Ã†Â® Â¼Ã¶Ã†Ã² ÃÂ¤Â·Ã„Ã€Â» Â¼Â³ÃÂ¤Ã‡Ã‘Â´Ã™.
    * @param textHAlignmet LEFT, CENTER, or RIGHT
    */
   void SetTextHorizontalAlignment(H_DIRECTION textHAlignment) {
@@ -153,7 +196,7 @@ class CollectiveRenderable : public IRenderable {
   } 
 
   /**
-   * @brief ÆùÆ® ¼öÁ÷ Á¤·ÄÀ» ¼³Á¤ÇÑ´Ù.
+   * @brief Ã†Ã¹Ã†Â® Â¼Ã¶ÃÃ· ÃÂ¤Â·Ã„Ã€Â» Â¼Â³ÃÂ¤Ã‡Ã‘Â´Ã™.
    * @param textVJustification TOP, CENTER, or BOTTOM
    */
   void SetTextVerticalJustify(H_DIRECTION textVJustification) {
@@ -171,15 +214,15 @@ class CollectiveRenderable : public IRenderable {
   } 
 
   /**
-   * @brief ÇöÀç ·»´õ¸µ ÇÏ°í ÀÖ´Â ½ºÇÁ¶óÀÌÆ®ÀÇ Æ÷ÀÎÅÍ¸¦ ¸®ÅÏÇÕ´Ï´Ù.
-   * @return ½ºÇÁ¶óÀÌÆ®ÀÇ ºñÆ®¸Ê Æ÷ÀÎÅÍ
+   * @brief Ã‡Ã¶Ã€Ã§ Â·Â»Â´ÃµÂ¸Âµ Ã‡ÃÂ°Ã­ Ã€Ã–Â´Ã‚ Â½ÂºÃ‡ÃÂ¶Ã³Ã€ÃŒÃ†Â®Ã€Ã‡ Ã†Ã·Ã€ÃÃ…ÃÂ¸Â¦ Â¸Â®Ã…ÃÃ‡Ã•Â´ÃÂ´Ã™.
+   * @return Â½ÂºÃ‡ÃÂ¶Ã³Ã€ÃŒÃ†Â®Ã€Ã‡ ÂºÃ±Ã†Â®Â¸ÃŠ Ã†Ã·Ã€ÃÃ…Ã
    */
   Bitmap* GetCurrentSprite() { return _currentSprite; }
 
   /**
-   * @brief ÅÂ±×¿¡ ¸Â´Â ½ºÇÁ¶óÀÌÆ®·Î ÀüÈ¯ÇÕ´Ï´Ù. 
-   * ÀÌ ÇÔ¼ö´Â ´Ù¸¥ ÇÔ¼öµé¿¡ ºñ¿¡ »ó´ëÀûÀ¸·Î ´À¸± ¼ö ÀÖ½À´Ï´Ù.
-   * @param tag ½ºÇÁ¶óÀÌÆ® ÅÂ±×
+   * @brief Ã…Ã‚Â±Ã—Â¿Â¡ Â¸Ã‚Â´Ã‚ Â½ÂºÃ‡ÃÂ¶Ã³Ã€ÃŒÃ†Â®Â·Ã Ã€Ã¼ÃˆÂ¯Ã‡Ã•Â´ÃÂ´Ã™. 
+   * Ã€ÃŒ Ã‡Ã”Â¼Ã¶Â´Ã‚ Â´Ã™Â¸Â¥ Ã‡Ã”Â¼Ã¶ÂµÃ©Â¿Â¡ ÂºÃ±Â¿Â¡ Â»Ã³Â´Ã«Ã€Ã»Ã€Â¸Â·Ã Â´Ã€Â¸Â± Â¼Ã¶ Ã€Ã–Â½Ã€Â´ÃÂ´Ã™.
+   * @param tag Â½ÂºÃ‡ÃÂ¶Ã³Ã€ÃŒÃ†Â® Ã…Ã‚Â±Ã—
    */
   void SetCurrentTag(const wchar_t* tag) {
     _currentTag.assign(tag);
@@ -220,23 +263,24 @@ class CollectiveRenderable : public IRenderable {
       );
     } else {
       // If no caching
-      g.DrawImage(_currentSprite, *_currentSpriteRect);
+      _currentSprite && g.DrawImage(_currentSprite, *_currentSpriteRect);
     }
+
+		// Draw border if enabled
+    _border && 
+		g.DrawRectangle(&_pen, _spriteRect);
+
+		// Fill Rect if enabled
+		_fill && 
+		g.FillRectangle(&_brush, _spriteRect);
 
     // Draw Text
-    if (!_text.empty()) {
-      g.DrawString(_text.c_str(), -1, &_font, _textPosition, &_textFormat, &_textBrush);
-    }
-
-#ifndef NDEBUG  // µğ¹ö±ëÀÏ ¶§, µğ¹ö±×¿ë »ç°¢ÇüÀ» ±×¸².
-    Pen debuggingPen(Color::Red, 5.f);
-    g.DrawRectangle(&debuggingPen, *_currentSpriteRect);
-#endif
+    !_text.empty() && g.DrawString(_text.c_str(), -1, &_font, _textPosition, &_textFormat, &_textBrush);
   }
 
  private:
   /**
-   * @brief ÇÇ¹ş Æ÷Áö¼Ç¿¡ ¸Â°Ô ½ºÇÁ¶óÀÌÆ® ÇÁ·¹ÀÓÀ» Á¶Á¤ÇÕ´Ï´Ù.
+   * @brief Ã‡Ã‡Â¹Ã¾ Ã†Ã·ÃÃ¶Â¼Ã‡Â¿Â¡ Â¸Ã‚Â°Ã” Â½ÂºÃ‡ÃÂ¶Ã³Ã€ÃŒÃ†Â® Ã‡ÃÂ·Â¹Ã€Ã“Ã€Â» ÃÂ¶ÃÂ¤Ã‡Ã•Â´ÃÂ´Ã™.
    * @param sprite
    * @param spriteRect
    */

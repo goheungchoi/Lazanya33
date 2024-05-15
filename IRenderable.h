@@ -29,12 +29,13 @@ public:
 		_position.Y = y;
 	}
 
-	virtual void Render(Gdiplus::Graphics& g) = 0;
+	virtual void Render(Graphics& g) = 0;
 
 	void AttachChildRenderable(IRenderable* child) {
 		_children.push_back(child);
 	}
-	virtual void RenderChildren(Gdiplus::Graphics& g) {
+
+	virtual void RenderChildren(Graphics& g) {
 		// Translate the position of children in accordance with 
 		// the parent position!
 		for (auto pChild : _children) {

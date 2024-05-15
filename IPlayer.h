@@ -2,13 +2,17 @@
 
 class IPlayer {
 public:
-  /* Setters */
+  /* Getters */
+	virtual int GetPositionX() = 0;
+	virtual int GetPositionY() = 0;
   virtual int GetAttackDamage() = 0;
   virtual int GetCurrOxyLevel() = 0;
   virtual int GetCurrHP() = 0;
   virtual int GetCurrScore() = 0;
 
-  /* Getters */
+  /* Setters */
+	virtual void SetPosition(int x, int y) = 0;
+
   virtual void SetAttackDamage(int) = 0;
 
   virtual void SetMaxOxygenLevel(float) = 0;

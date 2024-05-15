@@ -14,7 +14,7 @@ constexpr int PLAYER_DEFAULT_COMBO_DURATION = 0;
  * @brief Example use of AnimationController
  */
 class Player : public IPlayer, public IRenderable {
-	AnimationController* _animationController;
+	AnimationController* _animationController{nullptr};
 
 	/* Properties */
 private:
@@ -48,12 +48,18 @@ private:
     _score{0} {}
 
   /* Getters */
+  int GetPositionX() { return _position.X; }
+  int GetPositionY() { return _position.Y; }
   int GetAttackDamage() override { return _ad; }
   int GetCurrOxyLevel() override { return _oxygenLevel; }
   int GetCurrHP() override { return _hp; }
   int GetCurrScore() override { return _score; }
 
   /* Setters */
+	void SetPosition(int x, int y) {
+		IRenderable::_position.X = x;
+    IRenderable::_position.Y = y;
+	}
   void SetAttackDamage(int ad) { _ad = ad; };
   void SetMaxOxygenLevel(float maxOxygenLevel) override {
     _maxOxygenLevel = maxOxygenLevel;
