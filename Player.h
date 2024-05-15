@@ -4,7 +4,7 @@
 #include "CollectiveRenderable.h"
 #include "AnimationController.h"
 
-constexpr int PLAYER_DEFAULT_AD = 0;
+constexpr int PLAYER_DEFAULT_AD = 10;
 constexpr int PLAYER_DEFAULT_MAX_OXYGEN_LEVEL = 0;
 constexpr int PLAYER_DEFAULT_MAX_HP = 0;
 constexpr int PLAYER_DEFAULT_LASGULA_DURATION = 0;
@@ -34,7 +34,7 @@ private:
  public:
 
 	Player()
-  : IPlayer(2, 2, 1, 2, true),
+  : IPlayer(2, 2, 1, 1, true),
 		_ad{PLAYER_DEFAULT_AD},
     _maxOxygenLevel{PLAYER_DEFAULT_MAX_OXYGEN_LEVEL},
     _oxygenLevel{PLAYER_DEFAULT_MAX_OXYGEN_LEVEL},

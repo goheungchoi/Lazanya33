@@ -5,17 +5,13 @@
 class GridMap : public CollectiveRenderable<GridMap> {
 	std::size_t _cellWidth;
 	std::size_t _cellHeight;
-	Matrix _T;
 
 public: 
 	GridMap(int x, int y, 
 	std::size_t nrows, std::size_t ncols, 
 	std::size_t cellWidth, std::size_t cellHeight)
 	: _cellWidth{cellWidth}, _cellHeight{cellHeight},
-		CollectiveRenderable<GridMap>(x, y) {
-		_T.Scale(_cellWidth, _cellHeight);
-		_T.Translate(_position.X, _position.Y);
-	}
+		CollectiveRenderable<GridMap>(x, y) {}
 
 	void Render(Graphics& g) override { 
 		CollectiveRenderable<GridMap>::Render(g);
@@ -23,10 +19,12 @@ public:
 	}
 
 	void RenderChildren(Graphics& g) override {
-		//g.SetTransform(&_T);
+		g.TranslateTransform(_position.X, _position.Y);
+		g.ScaleTransform(_cellWidth, _cellHeight);
 		for (auto& pChild : _children) { 
 			pChild->Render(g);
 		}
+		g.ResetTransform();
     //g.ResetTransform();
 	}
 };

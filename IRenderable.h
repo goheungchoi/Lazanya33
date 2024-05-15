@@ -25,7 +25,7 @@ public:
 	IRenderable(int x, int y) : _position{ x, y } {}
 	virtual ~IRenderable() {}
 
-	void SetPosition(int x, int y) {
+	virtual void SetPosition(int x, int y) {
 		_position.X = x;
 		_position.Y = y;
 	}

@@ -86,6 +86,10 @@ public:
 
   virtual ~CollectiveRenderable() {}
 
+	/*void SetPosition(int x, int y) override { 
+		IRenderable::SetPosition(x, y); 
+	}*/
+
   /**
    * @brief ½ºÇÁ¶óÀÌÆ®¸¦ ÅÂ±×¿Í ÇÔ²² ·»´õ·¯ºí ¿ÀºêÁ§Æ®¿¡ ¹ÙÀÎµù ÇÕ´Ï´Ù.
    * @param pSprite ¹ÙÀÎµù ÇÒ ½ºÇÁ¶óÀÌÆ® Æ÷ÀÎÅÍ
@@ -277,14 +281,17 @@ public:
 		_currentSprite && 
 		g.DrawImage(_currentSprite, *_currentSpriteRect);
 
-
 		// Draw border if enabled
     _border && 
-		g.DrawRectangle(&_pen, *_currentSpriteRect);
+		//g.DrawRectangle(&_pen, *_currentSpriteRect);
+		g.DrawRectangle(&_pen, _position.X, _position.Y,
+		_currentSpriteRect->Width, _currentSpriteRect->Height);
 
 		// Fill Rect if enabled
 		_fill && 
-		g.FillRectangle(&_brush, *_currentSpriteRect);
+		//g.FillRectangle(&_brush, *_currentSpriteRect);
+		g.FillRectangle(&_brush, _position.X, _position.Y,
+		_currentSpriteRect->Width, _currentSpriteRect->Height);
 
     // Draw Text
     !_text.empty() && g.DrawString(_text.c_str(), -1, &_font, _textPosition, &_textFormat, &_textBrush);

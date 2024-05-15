@@ -19,10 +19,10 @@ PlayScene::PlayScene()
 		new PlayerBricksInteractionSystem(_player,_walls)
 	}
 {	
-	_gridMap->AttachChildRenderable(_player);
 	_gridMap->AttachChildRenderable(_walls);
+	_gridMap->AttachChildRenderable(_player);
 	_renderSystem->RegisterRenderableObject(_gridMap);
-	_player->SetPosition(3, 1);
+	_player->SetPosition(2, 1);
   _brickGenSystem->GenerateNextRows();
 	_brickGenSystem->GenerateNextRows();
 	_brickGenSystem->GenerateNextRows();
@@ -40,7 +40,7 @@ void PlayScene::Update(double DeltaTime)
 	if (Input::inputManager->IsTurnDn(VK_DOWN))
 	{
 		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
-		(_player->GetPositionY()-1,_player->GetPositionX());
+		(_player->GetPositionY()+1,_player->GetPositionX());
 	}
 	if (Input::inputManager->IsTurnDn(VK_LEFT))
 	{
