@@ -10,6 +10,9 @@ class PlayScene :public IScene
 	class IPlayer* _player;
 	class Wall* _walls;
 
+/* Systems */
+	class BrickGenSystem* _brickGenSystem;
+
 public:
 	PlayScene();
 	~PlayScene() {};
