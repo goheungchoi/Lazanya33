@@ -12,13 +12,20 @@ PlayScene::PlayScene()
 		GRID_MAP_POSITION_X, 
 		GRID_MAP_POSITION_Y, 
 		15, 5, 120, 120)}, 
-	_player{new Player()}, _walls{new Wall()},_brickGenSystem{new BrickGenSystem(_walls)}
-	, _playerBrickInteractionSystem{new PlayerBricksInteractionSystem(_player,_walls)}
+	_player{new Player()}, 
+	_walls{new Wall()},
+	_brickGenSystem{new BrickGenSystem(_walls)}, 
+	_playerBrickInteractionSystem{
+		new PlayerBricksInteractionSystem(_player,_walls)
+	}
 {	
 	_gridMap->AttachChildRenderable(_player);
 	_gridMap->AttachChildRenderable(_walls);
 	_renderSystem->RegisterRenderableObject(_gridMap);
 	_player->SetPosition(3, 1);
+  _brickGenSystem->GenerateNextRows();
+	_brickGenSystem->GenerateNextRows();
+	_brickGenSystem->GenerateNextRows();
 	//가족력 선택 이전에 필요한 RenderableObject 등록하기.
 }
 

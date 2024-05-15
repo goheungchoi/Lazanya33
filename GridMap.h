@@ -23,10 +23,10 @@ public:
 	}
 
 	void RenderChildren(Graphics& g) override {
-		g.SetTransform(&_T);
+		//g.SetTransform(&_T);
 		for (auto& pChild : _children) { 
 			pChild->Render(g);
 		}
-    g.ResetTransform();
+    //g.ResetTransform();
 	}
 };

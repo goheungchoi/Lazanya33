@@ -17,7 +17,14 @@ private:
 	BrickPattern* _pNextPattern;
 	Wall* _wall;
 public:
-	BrickGenSystem(Wall* wall) :_wall(wall) {}
+	BrickGenSystem(Wall* wall) : _wall(wall) { 
+		_patterns[0] ={
+			BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,
+			BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,
+			BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT
+		};
+		_pNextPattern = &_patterns[0];
+	}
 	~BrickGenSystem(){}
 
 	void ReadNextPattern() {
