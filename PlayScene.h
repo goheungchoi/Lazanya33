@@ -9,6 +9,10 @@ class PlayScene :public IScene
 	class GridMap* _gridMap;
 	class IPlayer* _player;
 	class Wall* _walls;
+
+/* Systems */
+	class BrickGenSystem* _brickGenSystem;
+
 	class PlayerBricksInteractionSystem* _playerBrickInteractionSystem;
 public:
 	PlayScene();

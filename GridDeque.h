@@ -20,7 +20,7 @@ class GridDeque {
   GridDeque(size_t nrows, size_t ncols) 
     : nrows(nrows), ncols(ncols), numRows{0} {
     // 요소를 저장하는 배열 할당
-    elems = new T[nrows * ncols];
+    elems = new T[nrows * ncols]{T()};
     // 초기 상태에서 hdPtr와 tlPtr는 배열의 시작 위치를 가리킴
     hdPtr = elems;
     tlPtr = elems;
