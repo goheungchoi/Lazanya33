@@ -79,6 +79,9 @@
     <Filter Include="Source Files\Game\Components\Render">
       <UniqueIdentifier>{62182454-0ebc-4335-b174-36b674ee9e2a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\Components\UI\Grid">
+      <UniqueIdentifier>{a44f453b-5e5a-4a75-8209-c656e78219e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -189,11 +192,17 @@
     <ClInclude Include="PlayerBricksInteractionSystem.h">
       <Filter>Source Files\Game\Systems\Game</Filter>
     </ClInclude>
-    <ClInclude Include="GridMap.h">
-      <Filter>Source Files\Game\Components</Filter>
-    </ClInclude>
     <ClInclude Include="BrickGenerationSystem.h">
       <Filter>Source Files\Game\Systems\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Div.h">
+      <Filter>Source Files\Game\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Source Files\Game\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GridMap.h">
+      <Filter>Source Files\Game\Components\UI\Grid</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

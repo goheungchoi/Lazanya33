@@ -13,7 +13,7 @@ public:
 	virtual int GetPositionX() override { return _player->GetPositionX(); }
 	virtual int GetPositionY() override { return _player->GetPositionY(); }
   virtual int GetAttackDamage() override { return _player->GetAttackDamage(); }
-  virtual int GetCurrOxyLevel() override { return _player->GetCurrOxyLevel(); }
+  virtual float GetCurrOxyLevel() override { return _player->GetCurrOxyLevel(); }
   virtual int GetCurrHP() override { return _player->GetCurrHP(); }
   virtual int GetCurrScore() override { return _player->GetCurrScore(); }
 

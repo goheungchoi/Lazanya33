@@ -37,18 +37,24 @@ class CollectiveRenderable : public IRenderable {
   SolidBrush      _textBrush;  // Color of the text
 
  public:
-  CollectiveRenderable(bool caching = false) : 
+  CollectiveRenderable(bool caching = true) : 
+		// Cache Data
     _caching{caching}, 
     _currentSprite{nullptr}, 
     _currentCachedBitmap{nullptr},
     _currentSpriteRect{nullptr},
 
+		// Graphics
+    _pen(Color(0, 0, 0)),
+    _brush(Color(0, 0, 0)),
+
+		// Text Data
     _textPosition(0.0f, 0.0f),
     _fontFamily(L"Arial"), 
     _font(&_fontFamily, 12, FontStyleRegular, UnitPixel),
     _textBrush(Color(255, 0, 0, 0)) {}
 
-  CollectiveRenderable(int x, int y, bool caching = false)
+  CollectiveRenderable(int x, int y, bool caching = true)
   : IRenderable(x, y), CollectiveRenderable(caching) {}
 
 	CollectiveRenderable(
@@ -56,7 +62,7 @@ class CollectiveRenderable : public IRenderable {
 		int y, 
 		H_DIRECTION horizontal, 
 		V_DIRECTION vertical, 
-		bool caching = false
+		bool caching = true
 	) : 
 	IRenderable(x, y), 
 	CollectiveRenderable(caching),
@@ -72,12 +78,11 @@ class CollectiveRenderable : public IRenderable {
    * @param caching 
    */
   CollectiveRenderable(int x, int y, int w, int h, bool caching = false) 
-		: IRenderable(x, y), SingleRenderable(caching) {
+		: IRenderable(x, y), CollectiveRenderable(caching) {
     _spriteRects[nullptr] = Rect(x, y, w, h);
     _currentSprite = &_spriteRects[nullptr];
 	}
 
-  
   virtual ~CollectiveRenderable() {}
 
   /**
@@ -248,7 +253,7 @@ class CollectiveRenderable : public IRenderable {
    * @brief
    * @param g
    */
-  void Render(Gdiplus::Graphics& g) override {
+  virtual void Render(Gdiplus::Graphics& g) override {
     if (_caching) {
       // Check if the cached bitmap of the current sprite exists
       if (!_currentCachedBitmap) {
@@ -268,11 +273,11 @@ class CollectiveRenderable : public IRenderable {
 
 		// Draw border if enabled
     _border && 
-		g.DrawRectangle(&_pen, _spriteRect);
+		g.DrawRectangle(&_pen, *_currentSpriteRect);
 
 		// Fill Rect if enabled
 		_fill && 
-		g.FillRectangle(&_brush, _spriteRect);
+		g.FillRectangle(&_brush, *_currentSpriteRect);
 
     // Draw Text
     !_text.empty() && g.DrawString(_text.c_str(), -1, &_font, _textPosition, &_textFormat, &_textBrush);
@@ -323,3 +328,7 @@ class CollectiveRenderable : public IRenderable {
 template <class T>
 std::unordered_map<std::wstring, Bitmap*>
     CollectiveRenderable<T>::_pSpriteRegister;
+
+template <class T>
+std::unordered_map<Bitmap*, CachedBitmap*>
+    CollectiveRenderable<T>::_pSpriteCacheData;

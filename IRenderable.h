@@ -17,6 +17,7 @@ enum class V_DIRECTION {
 class IRenderable {
 protected:
 	Point _position;
+	Matrix _translate;
 	std::vector<IRenderable*> _children;
 
 public:
@@ -31,15 +32,20 @@ public:
 
 	virtual void Render(Graphics& g) = 0;
 
-	void AttachChildRenderable(IRenderable* child) {
+	virtual void AttachChildRenderable(IRenderable* child) {
 		_children.push_back(child);
 	}
 
 	virtual void RenderChildren(Graphics& g) {
 		// Translate the position of children in accordance with 
 		// the parent position!
+		g.TranslateTransform(_position.X, _position.Y);
 		for (auto pChild : _children) {
 			pChild->Render(g);
 		}
+		g.TranslateTransform(0, 0);
 	}
 };
+
+template<class T>
+concept Renderable = std::is_base_of_v<IRenderable, T>;

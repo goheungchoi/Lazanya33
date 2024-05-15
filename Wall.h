@@ -2,7 +2,7 @@
 #include "IRenderable.h"
 #include "GridDeque.h"
 #include "Brick.h"
-#include "BlockGenerationSystem.h"
+#include "BrickGenerationSystem.h"
 
 class Wall :public IRenderable
 {
