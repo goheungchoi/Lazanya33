@@ -2,7 +2,12 @@
 
 #include "IRenderable.h"
 
-template<std::size_t nrows, std::size_t ncols>
+template<
+std::size_t nrows, 
+std::size_t ncols,
+std::size_t width,
+std::size_t height
+>
 class GridMap : public IRenderable {
 	std::size_t _cellWidth;
 	std::size_t _cellHeight;
@@ -11,12 +16,13 @@ class GridMap : public IRenderable {
 
 public:
 	constexpr 
-	GridMap(std::size_t width, std::size_t height)
-	: _cellWidth{width / nrows}, _cellHeight{height / ncols} {}
+	GridMap(int x, int y)
+	: _cellWidth{width / nrows}, _cellHeight{height / ncols},
+		IRenderable(x, y) {}
 
-
-	void RenderChildren(Graphics& g) {
+	void RenderChildren(Graphics& g) override {
 		
-	}
 
+
+	}
 };

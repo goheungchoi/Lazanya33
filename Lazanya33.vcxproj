@@ -151,7 +151,7 @@
     <ClInclude Include="Pummeler.h" />
     <ClInclude Include="SugarGirl.h" />
     <ClInclude Include="BrickRenderComponent.h" />
-    <ClInclude Include="BlockGenerationSystem.h" />
+    <ClInclude Include="BrickGenerationSystem.h" />
     <ClInclude Include="BrickPattern.h" />
     <ClInclude Include="CollectiveRenderable.h" />
     <ClInclude Include="framework.h" />
@@ -188,7 +188,7 @@
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Pummeler.cpp" />
     <ClCompile Include="SugarGirl.cpp" />
-    <ClCompile Include="BlockGenerationSystem.cpp" />
+    <ClCompile Include="BrickGenerationSystem.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GoldSeeker.cpp" />
     <ClCompile Include="InputSystem.cpp" />

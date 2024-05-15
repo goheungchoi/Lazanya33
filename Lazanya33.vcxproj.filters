@@ -171,9 +171,6 @@
     <ClInclude Include="Brick.h">
       <Filter>Source Files\Game\GameObjects\Wall\Brick</Filter>
     </ClInclude>
-    <ClInclude Include="BlockGenerationSystem.h">
-      <Filter>Source Files\Game\GameObjects\Wall</Filter>
-    </ClInclude>
     <ClInclude Include="UIComponent.h">
       <Filter>Source Files\Game\Components\UI</Filter>
     </ClInclude>
@@ -194,6 +191,9 @@
     </ClInclude>
     <ClInclude Include="GridMap.h">
       <Filter>Source Files\Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickGenerationSystem.h">
+      <Filter>Source Files\Game\Systems\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -257,11 +257,11 @@
     <ClCompile Include="PlayScene.cpp">
       <Filter>Source Files\Game\SceneGraph\Scene\Play</Filter>
     </ClCompile>
-    <ClCompile Include="BlockGenerationSystem.cpp">
-      <Filter>Source Files\Game\GameObjects\Wall</Filter>
-    </ClCompile>
     <ClCompile Include="Wall.cpp">
       <Filter>Source Files\Game\GameObjects\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickGenerationSystem.cpp">
+      <Filter>Source Files\Game\Systems\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
