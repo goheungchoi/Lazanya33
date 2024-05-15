@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "PlayScene.h"
 #include "BrickGenerationSystem.h"
+#include "PlayerBricksInteractionSystem.h"
 
 #include "GridMap.h"
 #include "Player.h"
@@ -11,7 +12,9 @@ PlayScene::PlayScene()
 		GRID_MAP_POSITION_X, 
 		GRID_MAP_POSITION_Y, 
 		15, 5, 120, 120)}, 
-	_player{new Player()}, _walls{new Wall()} {	
+	_player{new Player()}, _walls{new Wall()}
+	, _playerBrickInteractionSystem{new PlayerBricksInteractionSystem(_player,_walls)}
+{	
 	_gridMap->AttachChildRenderable(_player);
 	_gridMap->AttachChildRenderable(_walls);
 	_renderSystem->RegisterRenderableObject(_gridMap);
@@ -20,6 +23,10 @@ PlayScene::PlayScene()
 
 void PlayScene::Update(double DeltaTime)
 {
+	if (Input::inputManager->IsTurnDn(VK_DOWN))
+	{
+		
+	}
 #ifdef PLAYSCENE
 	if (/*!가족력을 선택했는가?*/)
 	{

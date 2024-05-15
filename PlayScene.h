@@ -9,7 +9,7 @@ class PlayScene :public IScene
 	class GridMap* _gridMap;
 	class IPlayer* _player;
 	class Wall* _walls;
-
+	class PlayerBricksInteractionSystem* _playerBrickInteractionSystem;
 public:
 	PlayScene();
 	~PlayScene() {};
