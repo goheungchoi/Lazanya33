@@ -121,7 +121,7 @@ public:
     }
   }
 
-	void SetBorder(char r, char g, char b, char a = 255U, int width = 1) {
+	void SetBorder(char r, char g, char b, char a = 255, int width = 1) {
 		_border = true;
 		_pen.SetColor(Color(a, r, g, b), width);
 	}
@@ -252,7 +252,7 @@ public:
 	void CacheData(Graphics& g) override {
 		if (_caching) {
 			for (auto& it : _pSpriteRegister) {
-        _SpriteCacheData[it.second] = new CachedBitmap(_currentSprite, &g);
+        _pSpriteCacheData[it.first] = new CachedBitmap(_currentSprite, &g);
 			}
 		}
 	}
@@ -336,5 +336,5 @@ std::unordered_map<std::wstring, Bitmap*>
     CollectiveRenderable<T>::_pSpriteRegister;
 
 template <class T>
-std::unordered_map<Bitmap*, CachedBitmap*>
+std::unordered_map<std::wstring, CachedBitmap*>
     CollectiveRenderable<T>::_pSpriteCacheData;
