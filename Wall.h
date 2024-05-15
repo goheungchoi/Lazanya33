@@ -10,12 +10,14 @@ class Wall :public IRenderable
 {
 private:
 	GridDeque<Brick> _bricks;
-	GridDeque<Gdiplus::CachedBitmap*> _brickSprites;
+	//GridDeque<Gdiplus::CachedBitmap*> _brickSprites;
+	GridDeque<IRenderable*> _brickSquares;
 
 public:
-	Wall() : 
-	_bricks(wallNumRows,wallNumCols), 
-		_brickSprites(wallNumRows, wallNumCols){}
+	Wall() :
+		_bricks(wallNumRows, wallNumCols),
+		_brickSquares(wallNumRows, wallNumCols) {}
+		///_brickSprites(wallNumRows, wallNumCols){}
 	~Wall(){}	
 
 
@@ -28,9 +30,14 @@ public:
 		_bricks.PushBack(ilist);
 	}
 
-	void PushBackBrickSprites(std::initializer_list<Gdiplus::CachedBitmap*> ilist)
+	/*void PushBackBrickSprites(std::initializer_list<Gdiplus::CachedBitmap*> ilist)
 	{
 		_brickSprites.PushBack(ilist);
+	}*/
+
+	void PushBackBrickSprites(std::initializer_list<IRenderable*> ilist)
+	{
+		_brickSquares.PushBack(ilist);
 	}
 
 	void DamageBrick(int row, int col, int dmg)
@@ -47,14 +54,19 @@ public:
 
 	void DestroyBrick(int row, int col) {
 		// 벽돌 부수면 렌더링만 안해버림.
-		_brickSprites.At(row, col) = nullptr;
+		//_brickSprites.At(row, col) = nullptr;
+		_brickSquares.At(row, col) = nullptr;
 	}
 
 	void Render(Graphics& g) override {
 		for (int i=1; i < 10; ++i) {
 			for (int j=0; j < wallNumCols; ++j) {
-				Gdiplus::CachedBitmap* pBitmap = _brickSprites.At(i, j);
-				pBitmap && g.DrawCachedBitmap(pBitmap, i, j);
+				/*Gdiplus::CachedBitmap* pBitmap = _brickSprites.At(i, j);
+				pBitmap && g.DrawCachedBitmap(pBitmap, i, j);*/
+				if (_brickSquares.At(i, j)) {
+					_brickSquares.At(i, j)->SetPosition(j, i);
+					_brickSquares.At(i, j)->Render(g);
+				}
 			}
 		}
 	}

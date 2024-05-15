@@ -24,14 +24,14 @@ public:
 		if (_wall->GetBrick(row, col).block_health <= 0)
 		{
 			RewardPlayer(row, col);
-			DestoryBrick(row, col);
+			_wall->DestroyBrick(row, col);
 			if (_player->GetPositionY() < 4)
 			{
-				MovePlayerTo(row, col);
+				_player->SetPosition(col, row);
 			}
 			else
 			{
-				MovePlayerTo(row, 4);
+				_player->SetPosition(4, row);
 			}
 		}
 		// RewardPlayer(int row, int col);
@@ -41,27 +41,16 @@ public:
 
 	void RewardPlayer(int row, int col) {
 		// 파괴될 벽돌 데이터 수집
+		_player->AddScore(_wall->GetBrick(row, col).block_score);
 		
+		if (_player->GetPositionY() != row)
+		{
+			_player->AddOxygen(_wall->GetBrick(row, col).block_downAir);
+		}
 		// 플레이어의 양옆 벽돌이 파괴됐으면 (player.y == brick.y) 
 		// 플레이어 점수 o
 		// 
 		// 산소 x
-	}
-
-	void DestoryBrick(int row, int col) {
-		// 벽돌 파괴
-	}
-
-	void PopFrontRowOfBricks() {
-
-	}
-
-	void PushBackRowOfBricks() {
-
-	}
-
-	void MovePlayerTo(int row, int col) {
-
 	}
 
 };

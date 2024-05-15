@@ -34,7 +34,8 @@ private:
  public:
 
 	Player()
-  : _ad{PLAYER_DEFAULT_AD},
+  : IPlayer(2, 2, 120, 240, true),
+		_ad{PLAYER_DEFAULT_AD},
     _maxOxygenLevel{PLAYER_DEFAULT_MAX_OXYGEN_LEVEL},
     _oxygenLevel{PLAYER_DEFAULT_MAX_OXYGEN_LEVEL},
     _maxHP{PLAYER_DEFAULT_MAX_HP},

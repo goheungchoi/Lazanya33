@@ -36,12 +36,20 @@ public:
 				Brick(p[i][3]),
 				Brick(p[i][4])
 			});
-			_wall->PushBackBrickSprites({
+			/*_wall->PushBackBrickSprites({
 				GetBrickSprite(p[i][0], L"01"),
 				GetBrickSprite(p[i][1], L"01"),
 				GetBrickSprite(p[i][2], L"01"),
 				GetBrickSprite(p[i][3], L"01"),
 				GetBrickSprite(p[i][4], L"01"),
+			});*/
+
+			_wall->PushBackBrickSprites({
+				new BDefault(),
+				new BDefault(),
+				new BDefault(),
+				new BDefault(),
+				new BDefault()
 			});
 		}
 	}

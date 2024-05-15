@@ -12,20 +12,38 @@ PlayScene::PlayScene()
 		GRID_MAP_POSITION_X, 
 		GRID_MAP_POSITION_Y, 
 		15, 5, 120, 120)}, 
-	_player{new Player()}, _walls{new Wall()}
+	_player{new Player()}, _walls{new Wall()},_brickGenSystem{new BrickGenSystem(_walls)}
 	, _playerBrickInteractionSystem{new PlayerBricksInteractionSystem(_player,_walls)}
 {	
 	_gridMap->AttachChildRenderable(_player);
 	_gridMap->AttachChildRenderable(_walls);
 	_renderSystem->RegisterRenderableObject(_gridMap);
+	_player->SetPosition(3, 1);
 	//가족력 선택 이전에 필요한 RenderableObject 등록하기.
 }
 
 void PlayScene::Update(double DeltaTime)
 {
+	//for test, if turn down space, gen brick
+	if (Input::inputManager->IsTurnDn(VK_SPACE))
+	{
+		_brickGenSystem->GenerateNextRows();
+	}
+
 	if (Input::inputManager->IsTurnDn(VK_DOWN))
 	{
-		
+		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
+		(_player->GetPositionY()-1,_player->GetPositionX());
+	}
+	if (Input::inputManager->IsTurnDn(VK_LEFT))
+	{
+		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
+		(_player->GetPositionY(), _player->GetPositionX()-1);
+	}
+	if (Input::inputManager->IsTurnDn(VK_RIGHT))
+	{
+		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
+		(_player->GetPositionY(), _player->GetPositionX()+1);
 	}
 #ifdef PLAYSCENE
 	if (/*!가족력을 선택했는가?*/)

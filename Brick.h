@@ -81,6 +81,7 @@ struct Brick
 template<class T>
 class BrickGraphics : public CollectiveRenderable<T> {
 
+public:
 #ifndef NDEBUG
 	BrickGraphics() 
     : CollectiveRenderable<T>(0, 0, 1, 1) {
@@ -91,7 +92,12 @@ class BrickGraphics : public CollectiveRenderable<T> {
 
 };
 
-class BDefault : public BrickGraphics<BDefault> {};
+class BDefault : public BrickGraphics<BDefault> {
+
+public:
+	BDefault() : BrickGraphics<BDefault>() {};
+
+};
 
 class BStone : public BrickGraphics<BStone> {};
 

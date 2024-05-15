@@ -81,7 +81,7 @@ public:
 		: CollectiveRenderable(caching) {
 		SetPosition(x, y);
     _spriteRects[nullptr] = Rect(x, y, w, h);
-    _currentSprite = &_spriteRects[nullptr];
+		_currentSpriteRect = &_spriteRects[nullptr];
 	}
 
   virtual ~CollectiveRenderable() {}
@@ -123,7 +123,8 @@ public:
 
 	void SetBorder(char r, char g, char b, char a = 255, int width = 1) {
 		_border = true;
-		_pen.SetColor(Color(a, r, g, b), width);
+		_pen.SetColor(Color(a, r, g, b));
+    _pen.SetWidth(width);
 	}
 
 	void SetFillColor(char r, char g, char b, char a = 255U) {
