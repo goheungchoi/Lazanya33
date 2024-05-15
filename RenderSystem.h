@@ -28,6 +28,12 @@ public:
     _renderableObjects.clear();
   }
 
+	void CacheDataInRegistry() {
+		for (auto& it : _renderableObjects) {
+      it->CacheData(*_renderer->GetGraphics());
+		}
+	}
+
   /**
    * @brief 렌더러블 오브젝트 목록을 렌더한 후, 렌더러의 
    * 드로우 함수를 호출한다.

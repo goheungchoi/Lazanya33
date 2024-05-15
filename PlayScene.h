@@ -4,7 +4,9 @@
 class PlayScene :public IScene
 {
 	class IRenderable* _drawableObject;
-	IPlayer* player = new Player();
+	IPlayer* _player = new Player();
+	Wall* _walls = new Wall;
+
 public:
 	PlayScene();
 	~PlayScene() {};

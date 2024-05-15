@@ -31,6 +31,8 @@ public:
 
 	virtual void Render(Graphics& g) = 0;
 
+	virtual void CacheData(Graphics& g) {}
+
 	void AttachChildRenderable(IRenderable* child) {
 		_children.push_back(child);
 	}

@@ -4,8 +4,9 @@
 
 template <class T>
 class CollectiveRenderable : public IRenderable {
+public:
   static std::unordered_map<std::wstring, Bitmap*> _pSpriteRegister;
-  static std::unordered_map<Bitmap*, CachedBitmap*> _pSpriteCacheData;
+  static std::unordered_map<std::wstring, CachedBitmap*> _pSpriteCacheData;
 
  protected:
   // Cache Data
@@ -225,46 +226,51 @@ class CollectiveRenderable : public IRenderable {
    * @param tag ½ºÇÁ¶óÀÌÆ® ÅÂ±×
    */
   void SetCurrentTag(const wchar_t* tag) {
-    _currentTag.assign(tag);
-    auto it = _pSpriteRegister.find(_currentTag);
-    if (it == _pSpriteRegister.end()) {
-      throw std::exception("CollectiveRenderer: Tag not found!");
-    }
+		if (_caching) {
+			// Check if the cached sprite exists
+			if (auto cacheIt = _pSpriteCacheData.find(tag); cacheIt == _pSpriteCacheData.end()) 
+				_currentCachedBitmap = nullptr;  // If not, mark this sprite has no cache.
+			else
+				_currentCachedBitmap = cacheIt->second;
+		} else {
+			auto it = _pSpriteRegister.find(tag);
+			if (it == _pSpriteRegister.end())
+        _currentSprite = nullptr;
+			else 
+				_currentSprite = it->second;
+		}
 
-    //// Cache all necessary information for rendering.
-    // Set the current sprite
-    _currentSprite = it->second;
-    // Set the current cached bitmap
-    if (auto cacheIt = _pSpriteCacheData.find(_currentSprite); 
-        cacheIt == _pSpriteCacheData.end()) // Check if the cached sprite exists
-      _currentCachedBitmap = nullptr;  // If not, mark this sprite has no cache.
-    else
-      _currentCachedBitmap = cacheIt->second;
     // Set the current frame
     _currentSpriteRect = &_spriteRects[_currentSprite];
   }
+
+	void CacheData(Graphics& g) override {
+		if (_caching) {
+			for (auto& it : _pSpriteRegister) {
+        _SpriteCacheData[it.second] = new CachedBitmap(_currentSprite, &g);
+			}
+		}
+	}
 
   /**
    * @brief
    * @param g
    */
   void Render(Gdiplus::Graphics& g) override {
-    if (_caching) {
-      // Check if the cached bitmap of the current sprite exists
-      if (!_currentCachedBitmap) {
-        // If not, create one.
-        _currentCachedBitmap = new CachedBitmap(_currentSprite, &g);
-        _pSpriteCacheData[_currentSprite] = _currentCachedBitmap;
-      }
-      g.DrawCachedBitmap(
-        _currentCachedBitmap, 
-        _currentSpriteRect->X,
-        _currentSpriteRect->Y
-      );
-    } else {
-      // If no caching
-      _currentSprite && g.DrawImage(_currentSprite, *_currentSpriteRect);
-    }
+
+		_caching && 
+		_currentCachedBitmap && 
+		g.DrawCachedBitmap(
+      _currentCachedBitmap, 
+      _currentSpriteRect->X,
+      _currentSpriteRect->Y
+    );
+
+    // If no caching
+    !_caching && 
+		_currentSprite && 
+		g.DrawImage(_currentSprite, *_currentSpriteRect);
+
 
 		// Draw border if enabled
     _border && 
