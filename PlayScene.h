@@ -13,6 +13,7 @@ class PlayScene :public IScene
 /* Systems */
 	class BrickGenSystem* _brickGenSystem;
 
+	class PlayerBricksInteractionSystem* _playerBrickInteractionSystem;
 public:
 	PlayScene();
 	~PlayScene() {};
