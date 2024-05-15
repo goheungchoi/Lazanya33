@@ -23,7 +23,7 @@ public:
 	}
 
 	void Render(Graphics& g) override { 
-		Div::Render();
+		CollectiveRenderable<GridMap>::Render(g);
 		RenderChildren(g); 
 	}
 
