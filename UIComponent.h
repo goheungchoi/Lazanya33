@@ -13,13 +13,30 @@
  * using SingleRenderable or CollectiveRenderable.
  */
 class UIComponent : public IRenderable {
+protected:
+// UIComponent Hierarchy 
+	UIComponent* _parentComponent{nullptr};
+	std::list<UIComponent*> _childComponents;
+
+public:
+	void AddChildComponent(UIComponent* child) {
+		child->_parentComponent = this;
+		_childComponents.push_back(child);
+	}
+
+	void RemoveChildComponent(UIComponent* child) {
+		child->_parentComponent = nullptr;
+		_childComponents.remove(child);
+	}
+	
 // Graphics Utilities
-private:
+protected:
 	// Contains X, Y coordinate, and Width and Height
 	int& _x, _y;
 	int _width, _height;
 
 	Matrix _transform;
+	PointF pivot{0.f, 0.f};
 
 	bool _border{false};
   Pen _pen;
@@ -30,8 +47,32 @@ private:
 	Image* _pImage{nullptr};
 
 public:
-	void SetScale(float x, float y) { 
+// Transform Utilities
+	int GetX() { return _x; }
+	int GetY() { return _y; }
+	int GetWidth() { return _width; }
+	int GetHeight() { return _height; }
+	int GetCenterX() { return _x + _width << 1; }
+	int GetCenterY() { return _y + _height << 1; }
+
+	void Scale(float x, float y) {
 		_transform.Scale(x, y);
+	}
+
+	void SetRotationPivot(float x, float y) {
+		pivot = {x, y};
+	}
+
+	void Rotate(float degree) {
+		_transform.RotateAt(degree, pivot);
+	}
+
+	void Rotate(float degree, PointF pivot) { 
+		_transform.RotateAt(degree, pivot);
+	}
+
+	void Translate(float x, float y) { 
+		_transform.Translate(x, y);
 	}
 
 	/**
@@ -207,6 +248,9 @@ public:
 public:
 	// Render
 	virtual void Render(Graphics& g) override {
+		// Set Transform
+		g.SetTransform(&_transform);
+
     // Draw image if exists
 		_pImage && 
 		g.DrawImage(_pImage, _x, _y, _width, _height);
@@ -229,10 +273,15 @@ public:
 		g.DrawString(_text.c_str(), -1, _pFont, _textPosition, &_textFormat, &_textBrush);
   
 		RenderChildren(g);
+
+		// Reset Transform
+		g.ResetTransform();
 	}
 
 	virtual void RenderChildren(Graphics& g) override {
-		
+		for (UIComponent* pChildComp : _childComponents) {
+			pChildComp->Render(g);
+		}
 	}
 };
 
