@@ -2,11 +2,6 @@
 
 #include "UIComponent.h"
 
-enum class PositionLayout {
-	LAYOUT_STATIC,
-	LAYOUT_ABSOLUTE,
-	LAYOUT_RELATIVE
-};
 
 enum class Display {
 	BLOCK,
@@ -33,94 +28,134 @@ enum class FlexJustifyContent {
 };
 
 class Container : public UIComponent {
-// Div properties
+// Container Display properties
 private:
-	PositionLayout _positionLayout;
 	Display _display;
-	FlexAlignItem _flexAlignItem;
-	FlexJustifyContent _flexJustifyContent;
-
-	Matrix _innerTransform;
+	FlexAlignItem _flexAlignItem{ FlexAlignItem::FLEX_START };
+	FlexJustifyContent _flexJustifyContent{ FlexJustifyContent::FLEX_START };
 
 public:
 	Container() : Container(0, 0, 25, 25) {}
 	Container(int x, int y, int w, int h) : 
 		UIComponent(x, y, w, h), 
-    _positionLayout{PositionLayout::LAYOUT_STATIC},
     _display{Display::BLOCK} {}
+
+	void SetDisplay(Display display) {
+		_display = display;
+	}
+
+	void SetFlexAlignItem(FlexAlignItem flexAlignItem) {
+		_flexAlignItem = flexAlignItem;
+	}
+
+	void SetFlexJustifyContent(FlexJustifyContent flexJustifyContent) {
+		_flexJustifyContent = flexJustifyContent;
+	}
 
 	void Render(Graphics& g) override {
 		if (_display == Display::NONE) return;
-
-		switch (_positionLayout) {
-			case PositionLayout::LAYOUT_STATIC: {
-				// Ignore position of itself, 
-				// but follow the layout of the parent
-				// Draw image if exists
-				_pImage && 
-				g.DrawImage(_pImage, _x, _y, _width, _height);
-
-				// TODO: When drawing borders,
-				// Don't apply scaling
-				// Draw border if enabled
-
-				_border && 
-				//g.DrawRectangle(&_pen, *_currentSpriteRect);
-				g.DrawRectangle(&_pen, _x, _y, _width, _height);
-
-				// Fill Rect if enabled
-				_fill && 
-				//g.FillRectangle(&_brush, *_currentSpriteRect);
-				g.FillRectangle(&_brush, _x, _y, _width, _height);
-
-				// Draw Text
-				!_text.empty() && 
-				g.DrawString(_text.c_str(), -1, _pFont, _textPosition, &_textFormat, &_textBrush);
-  
-				RenderChildren(g);
-
-			} break;
-			case PositionLayout::LAYOUT_ABSOLUTE: {
-				// Use the absolute screen coordinate
-				// Reset the global transformation
-				Matrix tmp;
-				g.GetTransform(&tmp);
-				g.ResetTransform();
-
-				// Draw
-				UIComponent::Render(g);
-
-				// Restore the global transformation
-				g.SetTransform(&tmp);
-
-			} break;
-			case PositionLayout::LAYOUT_RELATIVE: {
-				// Relatively placed x, y 
-				UIComponent::Render(g);
-			} break;
-		}
+		
+		UIComponent::Render(g);
 	}
 
 	void RenderChildren(Graphics& g) override { 
 		switch (_display) {
 		case Display::BLOCK: {
-			int _childYPos = _y;
+			int childYPos = _y;
 			for (UIComponent* pChildComp : _childComponents) {
-				pChildComp->SetPosition(_x, _childYPos);
+				if (pChildComp->GetPositionLayout() == PositionLayout::LAYOUT_FIXED) {
+					g.TranslateTransform(_x, _y);
+					pChildComp->Render(g);
+					g.TranslateTransform(-_x, -_y);
+					continue;
+				}
+					
+				g.TranslateTransform(_x, childYPos);
 				pChildComp->Render(g);
-				_childYPos += pChildComp->GetY();
+				g.TranslateTransform(-_x, -childYPos);
+				childYPos += pChildComp->GetHeight();
 			}
 		} break;
 		case Display::INLINE: {
-			int _childXPos = _x;
+			int childXPos = _x;
 			for (UIComponent* pChildComp : _childComponents) {
-				pChildComp->SetPosition(_childXPos, _y);
+				if (pChildComp->GetPositionLayout() == PositionLayout::LAYOUT_FIXED) {
+					g.TranslateTransform(_x, _y);
+					pChildComp->Render(g);
+					g.TranslateTransform(-_x, -_y);
+					continue;
+				}
+
+				g.TranslateTransform(childXPos, _y);
 				pChildComp->Render(g);
-				_childXPos += pChildComp->GetX();
+				g.TranslateTransform(-childXPos, -_y);
+				childXPos += pChildComp->GetWidth();
 			}
 		} break;
 		case Display::FLEX: {
+			int totalWidth = 0;
+			for (UIComponent* pChildComp : _childComponents) {
+				if (pChildComp->GetPositionLayout() == PositionLayout::LAYOUT_FIXED) {
+					continue;
+				}
+				totalWidth += pChildComp->GetWidth();
+			}
 
+			// Calculate initial X position based on flex justification
+			int startX = _x;
+			int remainingSpace = _width - totalWidth;
+			int spaceBetween = 0;
+			int initialOffset = 0;
+
+			if (_flexJustifyContent == FlexJustifyContent::FLEX_START) {
+				startX = _x;
+			} else if (_flexJustifyContent == FlexJustifyContent::FLEX_END) {
+				startX = _x + remainingSpace;
+			} else if (_flexJustifyContent == FlexJustifyContent::FLEX_CENTER) {
+				startX = _x + (remainingSpace >> 1);
+			} else if (_flexJustifyContent == FlexJustifyContent::SPACE_BETWEEN && 
+				_childComponents.size() > 1) {
+				spaceBetween = remainingSpace / (_childComponents.size() - 1);
+			} else if (_flexJustifyContent == FlexJustifyContent::SPACE_AROUND && 
+				!_childComponents.empty()) {
+				initialOffset = remainingSpace / (_childComponents.size() << 1);
+				startX = _x + initialOffset;
+				spaceBetween = initialOffset << 1;
+			} else if (_flexJustifyContent == FlexJustifyContent::SPACE_EVENLY && 
+				!_childComponents.empty()) {
+				spaceBetween = remainingSpace / (_childComponents.size() + 1);
+				startX = _x + spaceBetween;
+			}
+
+			int currentX = startX;
+
+			for (UIComponent* pChildComp : _childComponents) {
+				if (pChildComp->GetPositionLayout() == PositionLayout::LAYOUT_FIXED) {
+					g.TranslateTransform(_x, _y);
+					pChildComp->Render(g);
+					g.TranslateTransform(-_x, -_y);
+					continue;
+				}
+
+				// Calculate Y position based on flex alignment
+				int childY = _y;
+				if (_flexAlignItem == FlexAlignItem::FLEX_START) {
+					childY = _y;
+				} else if (_flexAlignItem == FlexAlignItem::FLEX_END) {
+					childY = _y + _height - pChildComp->GetHeight();
+				} else if (_flexAlignItem == FlexAlignItem::FLEX_CENTER) {
+					childY = _y + ((_height - pChildComp->GetHeight()) >> 1);
+				} else if (_flexAlignItem == FlexAlignItem::STRETCH) {
+					// Stretch does not modify Y position but changes height, 
+					// not implemented in this snippet
+				}
+
+				g.TranslateTransform(currentX, childY);
+				pChildComp->Render(g);
+				g.TranslateTransform(-currentX, -childY);
+        
+				currentX += pChildComp->GetWidth() + spaceBetween;
+			}
 		} break;
 		}
 	}

@@ -9,7 +9,9 @@ class PlayScene :public IScene
 	class GridMap* _gridMap;
 	class IPlayer* _player;
 	class Wall* _walls;
-	class UIComponent* _ui;
+	class Container* _ui;
+	class Container* _uiChild1;
+	class Container* _uiChild2;
 	//Variables introduced to add walls when pop 3 times
 	int _countWallPop=0;
 

@@ -309,9 +309,12 @@ public:
 		_currentSpriteRect->Width, _currentSpriteRect->Height);
 
     // Draw Text
+		
     !_text.empty() && 
-		g.DrawString(_text.c_str(), -1, _pFont, _textPosition, &_textFormat, &_textBrush);
-  }
+		!g.TranslateTransform(_currentSpriteRect->X, _currentSpriteRect->Y) &&
+		!g.DrawString(_text.c_str(), -1, _pFont, _textPosition, &_textFormat, &_textBrush) &&
+		!g.TranslateTransform(-_currentSpriteRect->X, -_currentSpriteRect->Y);
+	}
 
  private:
   /**

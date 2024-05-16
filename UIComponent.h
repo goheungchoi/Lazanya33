@@ -7,6 +7,14 @@
 
 // UIComponent can inherit from either SingleRenderable or CollectiveRenderable
 
+enum class PositionLayout {
+	LAYOUT_STATIC,
+	LAYOUT_ABSOLUTE,
+	LAYOUT_FIXED,
+	LAYOUT_RELATIVE
+};
+
+
 /**
  * @brief UI component base class. 
  * If you need faster rendering sprites, might consider
@@ -32,17 +40,11 @@ public:
 // Graphics Utilities
 protected:
 	// Contains X, Y coordinate, and Width and Height
-	bool _autoSizing{ false };
-
 	int& _x, _y;
 	int _width, _height;
 
 	Matrix _transform;
-	PointF _pivot{0.f, 0.f};
-
-	// Margin and Padding
-	int _marginTop{0}, _marginRight{0}, _marginDown{0}, _marginLeft{0};
-	int _paddingTop{0}, _paddingRight{0}, _paddingDown{0}, _paddingLeft{0};
+	PointF pivot{0.f, 0.f};
 
 	bool _border{false};
   Pen _pen;
@@ -61,16 +63,18 @@ public:
 	int GetCenterX() { return _x + (_width >> 1); }
 	int GetCenterY() { return _y + (_height >> 1); }
 
+	Matrix& GetTransform() { return _transform; }
+
 	void Scale(float x, float y) {
 		_transform.Scale(x, y);
 	}
 
 	void SetRotationPivot(float x, float y) {
-		_pivot = {x, y};
+		pivot = {x, y};
 	}
 
 	void Rotate(float degree) {
-		_transform.RotateAt(degree, _pivot);
+		_transform.RotateAt(degree, pivot);
 	}
 
 	void Rotate(float degree, PointF pivot) { 
@@ -79,49 +83,6 @@ public:
 
 	void Translate(float x, float y) { 
 		_transform.Translate(x, y);
-	}
-
-// Margin and Padding Utility
-	void SetMargin(int n) {
-		_marginTop = n; 
-		_marginRight = n;
-		_marginDown = n;
-		_marginLeft = n;
-	}
-
-	void SetMargin(int v, int h) {
-		_marginTop = v; 
-		_marginRight = h;
-		_marginDown = v;
-		_marginLeft = h;
-	}
-
-	void SetMargin(int t, int r, int b, int l) {
-		_marginTop = t; 
-		_marginRight = r;
-		_marginDown = b;
-		_marginLeft = l;
-	}
-
-	void SetPadding(int n) {
-		_paddingTop = n; 
-		_paddingRight = n;
-		_paddingDown = n;
-		_paddingLeft = n;
-	}
-
-	void SetPadding(int v, int h) {
-		_paddingTop = v; 
-		_paddingRight = h;
-		_paddingDown = v;
-		_paddingLeft = h;
-	}
-
-	void SetPadding(int t, int r, int b, int l) {
-		_paddingTop = t; 
-		_paddingRight = r;
-		_paddingDown = b;
-		_paddingLeft = l;
 	}
 
 	/**
@@ -262,6 +223,19 @@ public:
     }
   } 
 
+// Position Layout Utilities
+private:
+	PositionLayout _positionLayout{PositionLayout::LAYOUT_STATIC};
+
+public:
+	void SetPositionLayout(PositionLayout posLayout) {
+		_positionLayout = posLayout;
+	}
+
+	PositionLayout GetPositionLayout() {
+		return _positionLayout;
+	}
+
 public:
 	UIComponent(int x, int y, int w, int h) : 
 		IRenderable(x, y), 
@@ -295,12 +269,12 @@ public:
   virtual void OnMouseUp() {};
 
 public:
-	// Render
-	virtual void Render(Graphics& g) override {
+	// Default Render
+	void DefaultRender(Graphics& g) {
 		// Set Transform
-		g.SetTransform(&_transform);
+		g.MultiplyTransform(&_transform);
 
-    // Draw image if exists
+		// Draw image if exists
 		_pImage && 
 		g.DrawImage(_pImage, _x, _y, _width, _height);
 
@@ -308,7 +282,7 @@ public:
 		// Don't apply scaling
 		// Draw border if enabled
 
-    _border && 
+		_border && 
 		//g.DrawRectangle(&_pen, *_currentSpriteRect);
 		g.DrawRectangle(&_pen, _x, _y, _width, _height);
 
@@ -317,19 +291,111 @@ public:
 		//g.FillRectangle(&_brush, *_currentSpriteRect);
 		g.FillRectangle(&_brush, _x, _y, _width, _height);
 
-    // Draw Text
-    !_text.empty() && 
-		g.DrawString(_text.c_str(), -1, _pFont, _textPosition, &_textFormat, &_textBrush);
-  
+		
+		// Draw Text
+		!_text.empty() && 
+		!g.TranslateTransform(_x, _y) &&
+		!g.DrawString(_text.c_str(), -1, _pFont, _textPosition, &_textFormat, &_textBrush) &&
+		!g.TranslateTransform(-_x, -_y);
+
 		RenderChildren(g);
 
 		// Reset Transform
-		g.ResetTransform();
+		Matrix* mClone = _transform.Clone();
+		mClone->Invert();
+		g.MultiplyTransform(mClone);
+	}
+
+	// Render
+	virtual void Render(Graphics& g) override {
+		if (!_parentComponent) {
+			DefaultRender(g);
+			return;
+		}
+
+		switch (_positionLayout) {
+			case PositionLayout::LAYOUT_STATIC: {
+				// Ignore the position of itself, 
+				// but follow the layout of the parent
+				
+				// Draw image if exists
+				_pImage && 
+				g.DrawImage(_pImage, 0, 0, _width, _height);
+
+				// TODO: When drawing borders,
+				// Don't apply scaling
+				// Draw border if enabled
+
+				_border && 
+				//g.DrawRectangle(&_pen, *_currentSpriteRect);
+				g.DrawRectangle(&_pen, 0, 0, _width, _height);
+
+				// Fill Rect if enabled
+				_fill && 
+				//g.FillRectangle(&_brush, *_currentSpriteRect);
+				g.FillRectangle(&_brush, 0, 0, _width, _height);
+
+				// Draw Text
+				!_text.empty() && 
+				g.DrawString(_text.c_str(), -1, _pFont, _textPosition, &_textFormat, &_textBrush);
+  
+				RenderChildren(g);
+
+			} break;
+			case PositionLayout::LAYOUT_ABSOLUTE: {
+				// Use the absolute screen coordinate
+				// Reset the global transformation
+				Matrix tmp;
+				g.GetTransform(&tmp);
+				g.SetTransform(&_transform);
+
+				// Draw
+				// 
+				// Draw image if exists
+				_pImage && 
+				g.DrawImage(_pImage, _x, _y, _width, _height);
+
+				// TODO: When drawing borders,
+				// Don't apply scaling
+				// Draw border if enabled
+
+				_border && 
+				//g.DrawRectangle(&_pen, *_currentSpriteRect);
+				g.DrawRectangle(&_pen, _x, _y, _width, _height);
+
+				// Fill Rect if enabled
+				_fill && 
+				//g.FillRectangle(&_brush, *_currentSpriteRect);
+				g.FillRectangle(&_brush, _x, _y, _width, _height);
+
+				// Draw Text
+				!_text.empty() && 
+				!g.TranslateTransform(_x, _y) &&
+				!g.DrawString(_text.c_str(), -1, _pFont, _textPosition, &_textFormat, &_textBrush) &&
+				!g.TranslateTransform(-_x, -_y);
+
+				RenderChildren(g);
+
+				// Restore the global transformation
+				g.SetTransform(&tmp);
+
+			} break;
+			case PositionLayout::LAYOUT_FIXED: {
+				// Set the relatively fixed position
+				// Will be checked by the parent
+			}
+			case PositionLayout::LAYOUT_RELATIVE: {
+				// Passively relatively placed x, y 
+				DefaultRender(g);
+			} break;
+		}
 	}
 
 	virtual void RenderChildren(Graphics& g) override {
 		for (UIComponent* pChildComp : _childComponents) {
+			g.TranslateTransform(_x, _y);
 			pChildComp->Render(g);
+			g.TranslateTransform(-_x, -_y);
 		}
 	}
 };

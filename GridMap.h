@@ -11,7 +11,7 @@ public:
 	std::size_t nrows, std::size_t ncols, 
 	std::size_t cellWidth, std::size_t cellHeight)
 	: _cellWidth{cellWidth}, _cellHeight{cellHeight},
-		CollectiveRenderable<GridMap>(x, y) {}
+		CollectiveRenderable<GridMap>(x, y, cellWidth*nrows, cellHeight*ncols) {}
 
 	void Render(Graphics& g) override { 
 		CollectiveRenderable<GridMap>::Render(g);

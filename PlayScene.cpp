@@ -6,7 +6,7 @@
 #include "GridMap.h"
 #include "Player.h"
 #include "Wall.h"
-#include "UIComponent.h"
+#include "Container.h"
 
 PlayScene::PlayScene() 
 : _gridMap{new GridMap(
@@ -19,9 +19,22 @@ PlayScene::PlayScene()
 	_playerBrickInteractionSystem{new PlayerBricksInteractionSystem(_player,_walls)},
 	_playerOxySystem { new PlayerOxygenSystem(_player,_player->GetCurrOxyLevel()*0.01)}
 {	
-	_ui = new UIComponent(100, 100, 100, 100);
+	_ui = new Container(100, 100, 100, 100);
+	_ui->SetDisplay(Display::FLEX);
+	_ui->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
+	_ui->SetFlexJustifyContent(FlexJustifyContent::FLEX_START);
+	_uiChild1 = new Container(20, 20, 20, 20);
+	_uiChild1->SetPositionLayout(PositionLayout::LAYOUT_STATIC);
+	_uiChild2 = new Container(60, 60, 20, 20);
+	_ui->AddChildComponent(_uiChild1);
+	_ui->AddChildComponent(_uiChild2);
+	_uiChild1->EnableBorder(true);
+	_uiChild1->SetBorder(0, 255, 0);
+	_uiChild2->EnableBorder(true);
+	_uiChild2->SetBorder(0, 0, 255);
 	_ui->EnableBorder(true);
 	_ui->SetBorder(255, 0, 0);
+	_ui->SetText(L"Hello!");
 	_ui->SetRotationPivot(_ui->GetCenterX(), _ui->GetCenterY());
 	_gridMap->AttachChildRenderable(_walls);
 	_gridMap->AttachChildRenderable(_player);
