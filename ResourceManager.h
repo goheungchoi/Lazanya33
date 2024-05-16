@@ -5,7 +5,7 @@ using namespace Gdiplus;
 class ResourceManager {
   using ImageName = std::wstring;
   std::unordered_map<ImageName, Image*> _images;
-	std::unordered_map<ImageName, CachedBitmap*> _images;
+	std::unordered_map<ImageName, CachedBitmap*> _cachedImages;
 
 	static std::unique_ptr<ResourceManager> _instance;
 
