@@ -24,7 +24,7 @@ PlayScene::PlayScene()
 	_renderSystem->RegisterRenderableObject(_gridMap);
 }
 
-void PlayScene::Update(double DeltaTime)
+void PlayScene::Update(const double DeltaTime)
 {
 	//if Didn't init, init one time
 	if (!DidInit)

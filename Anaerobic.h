@@ -6,7 +6,7 @@ class Anaerobic : public PlayerDecorator {
 public:
   Anaerobic(IPlayer* player) : PlayerDecorator(player) {}
 
-  void AddOxygenFromOxyBlock(float amountOfOxygen) override {
+  void AddOxygenFromOxyBlock(double amountOfOxygen) override {
     PlayerDecorator::AddOxygenFromOxyBlock(amountOfOxygen / 2.0f);
   }
 

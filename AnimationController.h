@@ -15,7 +15,7 @@ public:
     }
   }
 
-  void Update(float deltaTime) {
+  void Update(double deltaTime) {
     if (_currentAnimation) {
       _currentAnimation->Update(deltaTime);
     }

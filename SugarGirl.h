@@ -8,7 +8,7 @@ public:
     player->SetLasgulaDuration(5);
   }
 
-  void AddOxygen(float amountOfOxygen) override {
+  void AddOxygen(double amountOfOxygen) override {
     PlayerDecorator::AddOxygen(amountOfOxygen * 1.25f);
   }
 };

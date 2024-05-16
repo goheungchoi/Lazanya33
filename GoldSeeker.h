@@ -10,11 +10,11 @@ public:
     PlayerDecorator::AddScoreSpecialCase(points + 10);
   }
 
-  void AddOxygenSpecialCase(float amountOfOxygen) override {
+  void AddOxygenSpecialCase(double amountOfOxygen) override {
     PlayerDecorator::AddOxygenSpecialCase(amountOfOxygen + 8.0f);
   }
 
-  void AddOxygen(float amountOfOxygen) override {
+  void AddOxygen(double amountOfOxygen) override {
     PlayerDecorator::AddOxygen(amountOfOxygen * 0.8f);
   }
 };

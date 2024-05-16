@@ -37,7 +37,7 @@ protected:
 public:
 	IScene();
 	~IScene();
-	virtual void Update(double DeltaTime) = 0;
+	virtual void Update(const double DeltaTime) = 0;
 	virtual void Draw() = 0;
 	virtual void InitScene() = 0;
 	virtual void EndScene() = 0;

@@ -19,17 +19,17 @@ class Player : public IPlayer {
 	/* Properties */
 private:
   int _ad;    // Brick Interation
-  float _maxOxygenLevel;
-  float _oxygenLevel;     // OxygenLevelSystem
+  double _maxOxygenLevel;
+  double _oxygenLevel;     // OxygenLevelSystem
   int _maxHP; // N/a
   int _hp;    // N/A
   int _score; // Brick Interation
 
-  float _lasgulaDuration;
-  float _lasgulaElapsedTime;
+  double _lasgulaDuration;
+  double _lasgulaElapsedTime;
 
-  float _comboDuration;
-  float _comboElapsedTime;
+  double _comboDuration;
+  double _comboElapsedTime;
   int _comboNumber;
  public:
 
@@ -52,7 +52,7 @@ private:
   int GetPositionX() { return _position.X; }
   int GetPositionY() { return _position.Y; }
   int GetAttackDamage() override { return _ad; }
-  float GetCurrOxyLevel() override { return _oxygenLevel; }
+  double GetCurrOxyLevel() override { return _oxygenLevel; }
   int GetCurrHP() override { return _hp; }
   int GetCurrScore() override { return _score; }
 
@@ -62,28 +62,28 @@ private:
     IRenderable::_position.Y = y;
 	}
   void SetAttackDamage(int ad) { _ad = ad; };
-  void SetMaxOxygenLevel(float maxOxygenLevel) override {
+  void SetMaxOxygenLevel(double maxOxygenLevel) override {
     _maxOxygenLevel = maxOxygenLevel;
   }
-  void SetOxygenLevel(float oxygenLevel) override { _oxygenLevel = oxygenLevel; }
+  void SetOxygenLevel(double oxygenLevel) override { _oxygenLevel = oxygenLevel; }
 
   void SetMaxHP(int maxHP) override { _maxHP = maxHP; }
   void SetHP(int hp) override { _hp = (hp <= _maxHP) * hp + (hp > _maxHP) *_maxHP; }
 
   //TODO: lasgula
-  void SetLasgulaDuration(float) override { /*TODO*/ }
+  void SetLasgulaDuration(double) override { /*TODO*/ }
   
   //TODO: combo
-  void SetComboDuration(float) override { /*TODO*/ }
+  void SetComboDuration(double) override { /*TODO*/ }
 
   /* Modifiers */
   void AddHP(int hp) override 
   { _hp = ((hp + _hp) <= _maxHP) * (hp + _hp); }
-  void AddOxygen(float amountOfOxygen) override 
+  void AddOxygen(double amountOfOxygen) override 
   { _oxygenLevel += amountOfOxygen; }
-  void AddOxygenFromOxyBlock(float amountOfOxygen) override 
+  void AddOxygenFromOxyBlock(double amountOfOxygen) override 
   { AddOxygen(amountOfOxygen); };
-  void AddOxygenSpecialCase(float amountOfOxygen) override 
+  void AddOxygenSpecialCase(double amountOfOxygen) override 
   { AddOxygen(amountOfOxygen); };
   
   void AddScore(int score) override { _score += score; }
