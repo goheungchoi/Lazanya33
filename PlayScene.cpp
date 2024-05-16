@@ -6,6 +6,7 @@
 #include "GridMap.h"
 #include "Player.h"
 #include "Wall.h"
+#include "UIComponent.h"
 
 PlayScene::PlayScene() 
 : _gridMap{new GridMap(
@@ -18,13 +19,19 @@ PlayScene::PlayScene()
 	_playerBrickInteractionSystem{new PlayerBricksInteractionSystem(_player,_walls)},
 	_playerOxySystem { new PlayerOxygenSystem(_player,_player->GetCurrOxyLevel()*0.01)}
 {	
+	_ui = new UIComponent(100, 100, 100, 100);
+	_ui->EnableBorder(true);
+	_ui->SetBorder(255, 0, 0);
+	_ui->SetRotationPivot(_ui->GetCenterX(), _ui->GetCenterY());
 	_gridMap->AttachChildRenderable(_walls);
 	_gridMap->AttachChildRenderable(_player);
+	_renderSystem->RegisterRenderableObject(_ui);
 	_renderSystem->RegisterRenderableObject(_gridMap);
 }
 
 void PlayScene::Update(const double deltaTime)
 {
+	_ui->Rotate(deltaTime*100);
 	PlayerUpdate(deltaTime);
 
 #ifdef PLAYSCENE

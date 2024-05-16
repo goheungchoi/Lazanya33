@@ -77,27 +77,23 @@ void Engine::Run()
 	//Main loop
 	while (true)
 	{
-		//Update DT
-		currTime = Timer::GetTick();
-		deltaTime = currTime - prevTime;
-		prevTime = currTime;
-
-		 
-		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-		{
-			// WM_QUIT 메시지 확인
+		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+			// WM_QUIT, break the loop
 			if (msg.message == WM_QUIT)
 				break;
 
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		else
-		{
-			Update(deltaTime);
 
-			Render();
-		}
+		//Update dt
+		currTime = Timer::GetTick();
+		deltaTime = currTime - prevTime;
+		prevTime = currTime;
+
+		Update(deltaTime);
+
+		Render();
 	}
 }
 

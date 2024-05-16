@@ -32,11 +32,17 @@ public:
 // Graphics Utilities
 protected:
 	// Contains X, Y coordinate, and Width and Height
+	bool _autoSizing{ false };
+
 	int& _x, _y;
 	int _width, _height;
 
 	Matrix _transform;
-	PointF pivot{0.f, 0.f};
+	PointF _pivot{0.f, 0.f};
+
+	// Margin and Padding
+	int _marginTop{0}, _marginRight{0}, _marginDown{0}, _marginLeft{0};
+	int _paddingTop{0}, _paddingRight{0}, _paddingDown{0}, _paddingLeft{0};
 
 	bool _border{false};
   Pen _pen;
@@ -52,19 +58,19 @@ public:
 	int GetY() { return _y; }
 	int GetWidth() { return _width; }
 	int GetHeight() { return _height; }
-	int GetCenterX() { return _x + _width << 1; }
-	int GetCenterY() { return _y + _height << 1; }
+	int GetCenterX() { return _x + (_width >> 1); }
+	int GetCenterY() { return _y + (_height >> 1); }
 
 	void Scale(float x, float y) {
 		_transform.Scale(x, y);
 	}
 
 	void SetRotationPivot(float x, float y) {
-		pivot = {x, y};
+		_pivot = {x, y};
 	}
 
 	void Rotate(float degree) {
-		_transform.RotateAt(degree, pivot);
+		_transform.RotateAt(degree, _pivot);
 	}
 
 	void Rotate(float degree, PointF pivot) { 
@@ -73,6 +79,49 @@ public:
 
 	void Translate(float x, float y) { 
 		_transform.Translate(x, y);
+	}
+
+// Margin and Padding Utility
+	void SetMargin(int n) {
+		_marginTop = n; 
+		_marginRight = n;
+		_marginDown = n;
+		_marginLeft = n;
+	}
+
+	void SetMargin(int v, int h) {
+		_marginTop = v; 
+		_marginRight = h;
+		_marginDown = v;
+		_marginLeft = h;
+	}
+
+	void SetMargin(int t, int r, int b, int l) {
+		_marginTop = t; 
+		_marginRight = r;
+		_marginDown = b;
+		_marginLeft = l;
+	}
+
+	void SetPadding(int n) {
+		_paddingTop = n; 
+		_paddingRight = n;
+		_paddingDown = n;
+		_paddingLeft = n;
+	}
+
+	void SetPadding(int v, int h) {
+		_paddingTop = v; 
+		_paddingRight = h;
+		_paddingDown = v;
+		_paddingLeft = h;
+	}
+
+	void SetPadding(int t, int r, int b, int l) {
+		_paddingTop = t; 
+		_paddingRight = r;
+		_paddingDown = b;
+		_paddingLeft = l;
 	}
 
 	/**
@@ -108,7 +157,7 @@ public:
 	}
 
 // Text Utilities
-private:
+protected:
 	// Text Data
   std::wstring    _text;
   PointF          _textPosition;

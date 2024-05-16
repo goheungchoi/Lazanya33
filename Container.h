@@ -4,7 +4,6 @@
 
 enum class PositionLayout {
 	LAYOUT_STATIC,
-	LAYOUT_FIXED,
 	LAYOUT_ABSOLUTE,
 	LAYOUT_RELATIVE
 };
@@ -36,11 +35,10 @@ enum class FlexJustifyContent {
 class Container : public UIComponent {
 // Div properties
 private:
-	Rect _margin;
-	Rect _padding;
-
 	PositionLayout _positionLayout;
 	Display _display;
+	FlexAlignItem _flexAlignItem;
+	FlexJustifyContent _flexJustifyContent;
 
 	Matrix _innerTransform;
 
@@ -48,54 +46,82 @@ public:
 	Container() : Container(0, 0, 25, 25) {}
 	Container(int x, int y, int w, int h) : 
 		UIComponent(x, y, w, h), 
-		_margin{0, 0}, 
-		_padding{0, 0},
     _positionLayout{PositionLayout::LAYOUT_STATIC},
     _display{Display::BLOCK} {}
 
-	void SetMargin(int n) {
-		_margin = { n, n };
-	}
-
-	void SetMargin(int h, int v) {
-		_margin = { h, v };
-	}
-
-	void SetPadding(int n) {
-		_padding = { n, n };
-	}
-
-	void SetPadding(int h, int v) {
-		_padding = { h, v };
-	}
-
 	void Render(Graphics& g) override {
-		if (_parentComponent) {
-			int __x = _margin.X;
-			int __y = _margin.Y;
+		if (_display == Display::NONE) return;
 
-		}
 		switch (_positionLayout) {
 			case PositionLayout::LAYOUT_STATIC: {
-				// Ignore x, y
+				// Ignore position of itself, 
+				// but follow the layout of the parent
+				// Draw image if exists
+				_pImage && 
+				g.DrawImage(_pImage, _x, _y, _width, _height);
+
+				// TODO: When drawing borders,
+				// Don't apply scaling
+				// Draw border if enabled
+
+				_border && 
+				//g.DrawRectangle(&_pen, *_currentSpriteRect);
+				g.DrawRectangle(&_pen, _x, _y, _width, _height);
+
+				// Fill Rect if enabled
+				_fill && 
+				//g.FillRectangle(&_brush, *_currentSpriteRect);
+				g.FillRectangle(&_brush, _x, _y, _width, _height);
+
+				// Draw Text
+				!_text.empty() && 
+				g.DrawString(_text.c_str(), -1, _pFont, _textPosition, &_textFormat, &_textBrush);
+  
+				RenderChildren(g);
+
 			} break;
-			case PositionLayout::LAYOUT_FIXED: {
-				// Fix the position on the screen
-				g.ResetTransform();
-			} break; 
 			case PositionLayout::LAYOUT_ABSOLUTE: {
 				// Use the absolute screen coordinate
+				// Reset the global transformation
+				Matrix tmp;
+				g.GetTransform(&tmp);
+				g.ResetTransform();
+
+				// Draw
+				UIComponent::Render(g);
+
+				// Restore the global transformation
+				g.SetTransform(&tmp);
+
 			} break;
 			case PositionLayout::LAYOUT_RELATIVE: {
 				// Relatively placed x, y 
+				UIComponent::Render(g);
 			} break;
 		}
 	}
 
 	void RenderChildren(Graphics& g) override { 
-		g.TranslateTransform(_padding.X, _padding.Y);
+		switch (_display) {
+		case Display::BLOCK: {
+			int _childYPos = _y;
+			for (UIComponent* pChildComp : _childComponents) {
+				pChildComp->SetPosition(_x, _childYPos);
+				pChildComp->Render(g);
+				_childYPos += pChildComp->GetY();
+			}
+		} break;
+		case Display::INLINE: {
+			int _childXPos = _x;
+			for (UIComponent* pChildComp : _childComponents) {
+				pChildComp->SetPosition(_childXPos, _y);
+				pChildComp->Render(g);
+				_childXPos += pChildComp->GetX();
+			}
+		} break;
+		case Display::FLEX: {
 
-
-		g.ResetTransform();
+		} break;
+		}
 	}
 };
