@@ -16,36 +16,61 @@ public:
 		Wall* wall
 	) :_player{ player }, _wall{wall} {}
 
-	void ApplyDamageToBrickByPlayer(int row, int col) {
-		// 플레이어가 벽돌에 데미지 입힘
+	void ApplyDamageToBrickByPlayer(int row, int col,BYTE key,int& count) {
+		//player damage to birck
 		_wall->DamageBrick(row, col, _player->GetAttackDamage());
 		
-		// 만약 벽돌이 파괴 되면
-		if (_wall->GetBrick(row, col).block_health <= 0)
+		// if brick destory
+		if (_wall->GetBrick(row, col).blockHealth <= 0)
 		{
 			RewardPlayer(row, col);
 			_wall->DestroyBrick(row, col);
-			if (_player->GetPositionY() < 4)
+			_player->SetPosition(col, 4);
+			if (key == VK_DOWN)
 			{
-				_player->SetPosition(col, row);
-			}
-			else
-			{
-				_player->SetPosition(col, 4);
+				_wall->PopFrontBricks();
+				count++;
 			}
 		}
 		// RewardPlayer(int row, int col);
     // DestoryBrick(row, col);
-		// If y < _yCap: MovePlayerTo(row,col);
 	}
 
 	void RewardPlayer(int row, int col) {
-		// 파괴될 벽돌 데이터 수집
-		_player->AddScore(_wall->GetBrick(row, col).block_score);
-		
-		if (_player->GetPositionY() != row)
+		// Collect brick data to be destroyed
+		Brick& currBrickData = _wall->GetBrick(row, col);
+
+		//If the broken brick is gold
+		if (currBrickData.type == BrickType::GOLD)
 		{
-			_player->AddOxygen(_wall->GetBrick(row, col).block_downAir);
+			_player->AddScoreSpecialCase(currBrickData.blockScore);
+
+			if (_player->GetPositionY() != row)
+			{
+				_player->AddOxygenSpecialCase(currBrickData.blockDownAir);
+			}
+		}
+
+		//If the broken brick is OxyBrick
+		else if (currBrickData.type == BrickType::OXYGEN)
+		{
+			_player->AddScoreFromOxyBlock(currBrickData.blockScore);
+
+			if (_player->GetPositionY() != row)
+			{
+				_player->AddOxygenFromOxyBlock(currBrickData.blockDownAir);
+			}
+		}
+
+		//If the broken brick is else thing
+		else
+		{
+			_player->AddScore(_wall->GetBrick(row, col).blockScore);
+			
+			if (_player->GetPositionY() != row)
+			{
+				_player->AddOxygen(_wall->GetBrick(row, col).blockDownAir);
+			}
 		}
 		// 플레이어의 양옆 벽돌이 파괴됐으면 (player.y == brick.y) 
 		// 플레이어 점수 o

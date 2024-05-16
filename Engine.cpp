@@ -5,6 +5,7 @@
 #include "SceneGraph.h"
 #include "InputSystem.h"
 #include "CSound.h"
+#include "DebugConsole.h"
 
 // Rendering Libraries
 #include "RenderSystem.h"
@@ -39,15 +40,15 @@ void Engine::Initialize()
 {
 	//add Sound 11:00
 	Music::soundManager->InitMusic();
+	Music::soundManager->SetVolume(0.1f);
 	Timer::InitTimer();
 	Input::inputManager->InitInput();
 	
-	_sceneGraph->InitScene();
+	_sceneGraph->RegisterScene();
 
-	// TODO: Drawing Test
 }
 
-void Engine::Update(double deltaTime)
+void Engine::Update(const double deltaTime)
 {
 	Input::inputManager->Update();
 	_sceneGraph->GetCurrentScene()->Update(deltaTime);

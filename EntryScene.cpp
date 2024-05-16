@@ -6,7 +6,7 @@ EntryScene::EntryScene()
 {
 }
 
-void EntryScene::Update(double DeltaTime)
+void EntryScene::Update(const double DeltaTime)
 {
 	
 }
@@ -14,4 +14,12 @@ void EntryScene::Update(double DeltaTime)
 void EntryScene::Draw()
 {
 	_renderSystem->Render();
+}
+
+void EntryScene::InitScene()
+{
+}
+
+void EntryScene::EndScene()
+{
 }

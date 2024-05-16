@@ -3,7 +3,7 @@
 #include "GridDeque.h"
 #include "Brick.h"
 
-constexpr std::size_t wallNumRows = 15;
+constexpr std::size_t wallNumRows = 14;
 constexpr std::size_t wallNumCols = 5;
 
 class Wall :public IRenderable
@@ -24,6 +24,7 @@ public:
 	void PopFrontBricks()
 	{
 		_bricks.PopFront();
+		_brickSquares.PopFront();
 	}
 	void PushBackBricks(std::initializer_list<Brick> ilist)
 	{
@@ -42,12 +43,17 @@ public:
 
 	void DamageBrick(int row, int col, int dmg)
 	{
-		_bricks.At(row, col).block_health -= dmg;
+		_bricks.At(row, col).blockHealth -= dmg;
 		// 브릭 현재 HP에 따라 스프라이트를 바꿔줌
 		// _brickSprites.At(row, col) = GetBrickSprite(BrickType, tag);
 	}
 
-	Brick GetBrick(int row, int col)
+	BrickType GetBirckType(int row, int col)
+	{
+		return _bricks.At(row, col).type;
+	}
+
+	Brick& GetBrick(int row, int col)
 	{
 		return _bricks.At(row, col);
 	}
@@ -55,6 +61,7 @@ public:
 	void DestroyBrick(int row, int col) {
 		// 벽돌 부수면 렌더링만 안해버림.
 		//_brickSprites.At(row, col) = nullptr;
+		_bricks.At(row, col).type = BrickType::NONE;
 		_brickSquares.At(row, col) = nullptr;
 	}
 

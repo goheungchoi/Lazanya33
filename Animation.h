@@ -5,14 +5,14 @@
 class Animation : public IRenderable {
   std::vector<Rect> _frames;  // Frames in the sprite sheet
   Image* _spriteSheet;
-  float _frameDuration;
-  float _currentFrameTime;
+  double _frameDuration;
+  double _currentFrameTime;
   int _currentFrameIndex;
 
   bool _isLoop;
 
 public:
-  void Update(float dt) {
+  void Update(double dt) {
     _currentFrameTime += dt;
     if (_currentFrameTime >= _frameDuration) {
       _currentFrameTime = (_currentFrameIndex + 1) % _frames.size();

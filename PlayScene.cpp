@@ -11,7 +11,7 @@ PlayScene::PlayScene()
 : _gridMap{new GridMap(
 		GRID_MAP_POSITION_X, 
 		GRID_MAP_POSITION_Y, 
-		15, 5, 120, 120)}, 
+		wallNumRows, wallNumCols, 120, 120)}, 
 	_player{new Player()}, 
 	_walls{new Wall()},
 	_brickGenSystem{new BrickGenSystem(_walls)}, 
@@ -23,37 +23,58 @@ PlayScene::PlayScene()
 	_gridMap->AttachChildRenderable(_player);
 	_renderSystem->RegisterRenderableObject(_gridMap);
 	_player->SetPosition(2, 1);
-  /*_brickGenSystem->GenerateNextRows();
+  _brickGenSystem->GenerateNextRows();
 	_brickGenSystem->GenerateNextRows();
-	_brickGenSystem->GenerateNextRows();*/
+	_brickGenSystem->GenerateNextRows();
 	//가족력 선택 이전에 필요한 RenderableObject 등록하기.
 
 	//TestSound:
 	Music::soundManager->PlayMusic(Music::eSoundList::TEST, Music::eSoundChannel::BGM);
 }
 
-void PlayScene::Update(double DeltaTime)
+void PlayScene::Update(const double DeltaTime)
 {
-	//for test, if turn down space, gen brick
-	if (Input::inputManager->IsTurnDn(VK_SPACE))
+	//if Didn't init, init one time
+	if (!DidInit)
 	{
-		_brickGenSystem->GenerateNextRows();
+		InitScene();
+		DidInit = true;
 	}
+	//for test, if turn down space, gen brick
 
+	//if getkey Down, MoveDown.
 	if (Input::inputManager->IsTurnDn(VK_DOWN))
 	{
 		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
-		(_player->GetPositionY()+1,_player->GetPositionX());
-	}
-	if (Input::inputManager->IsTurnDn(VK_LEFT))
+		(_player->GetPositionY() + 1,_player->GetPositionX(),
+			VK_DOWN,_countWallPop);
+		
+	} 
+	//if getkey Left and it's in the play screen and if brick type is not NONE, MoveLeft
+	if (Input::inputManager->IsTurnDn(VK_LEFT)
+		&&_player->GetPositionX() > 0
+		&& _walls->GetBrick(_player->GetPositionY(), _player->GetPositionX() - 1).type
+		!= BrickType::NONE)
 	{
 		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
-		(_player->GetPositionY(), _player->GetPositionX()-1);
+		(_player->GetPositionY(), _player->GetPositionX() - 1,
+			VK_LEFT, _countWallPop);
 	}
-	if (Input::inputManager->IsTurnDn(VK_RIGHT))
+	//if getkey Right and it's in the play screen and if brick type is not NONE, MoveRight
+	if (Input::inputManager->IsTurnDn(VK_RIGHT)
+		&&_player->GetPositionX() < 4
+		&& _walls->GetBrick(_player->GetPositionY(), _player->GetPositionX() + 1).type
+		!= BrickType::NONE)
 	{
 		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
-		(_player->GetPositionY(), _player->GetPositionX()+1);
+		(_player->GetPositionY(), _player->GetPositionX() + 1,
+			VK_RIGHT, _countWallPop);
+	}
+	//if pop wall three time
+	if (_countWallPop==3)
+	{
+		_brickGenSystem->GenerateNextRows();
+		_countWallPop = 0;
 	}
 #ifdef PLAYSCENE
 	if (/*!가족력을 선택했는가?*/)
@@ -95,4 +116,17 @@ void PlayScene::Draw()
 		//TODO: 실제 게임 렌더
 	}
 #endif
+}
+
+void PlayScene::InitScene()
+{
+	_player->SetPosition(2, 4);
+	_brickGenSystem->BrickGenInit();
+	//가족력 선택 이전에 필요한 RenderableObject 등록하기.
+	//TestSound:
+	Music::soundManager->PlayMusic(Music::eSoundList::TEST, Music::eSoundChannel::BGM);
+}
+
+void PlayScene::EndScene()
+{
 }

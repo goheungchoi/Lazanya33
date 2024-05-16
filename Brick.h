@@ -12,20 +12,23 @@ GOLD,
 OXYGEN,
 RASGULLA,
 GULAB_JAMUN,
-END = 8
+NONE,
+END = 9
 };
 
 // Brick 구조체 정의
 struct Brick
 {
-  int block_score = 0; // 브릭의 점수
-  int block_downAir = 0; // 브릭을 부수면 공기의 감소 또는 증가
-  int block_health = 0;
-  
+  int blockScore = 0; // 브릭의 점수
+  int blockDownAir = 0; // 브릭을 부수면 공기의 감소 또는 증가
+  int blockHealth = 0;
+	BrickType type;
+
 	Brick() {
-		block_score = 1;
-    block_downAir = 4; 
-    block_health = 10;
+		blockScore = 0; 
+    blockDownAir = 0; 
+    blockHealth = 0;
+		type = BrickType::NONE;
 	}
 
   Brick(BrickType type)
@@ -33,41 +36,56 @@ struct Brick
     switch (type)
     {
     case BrickType::DEFAULT:
-    block_score = 1;
-    block_downAir = 4; 
-    block_health = 10;
-          break;
-    case BrickType::STONE:
-    block_score = 1;
-    block_downAir = 4;
-    block_health = 30;
-          break;
-    case BrickType::ROCK:
-    block_score = 1;
-    block_downAir = 4;
-    block_health = 60;
-          break;
-    case BrickType::BOMB:
+    blockScore = 1;
+    blockDownAir = 4; 
+    blockHealth = 10;
+		type = BrickType::DEFAULT;
     break;
+
+    case BrickType::STONE:
+    blockScore = 1;
+    blockDownAir = 4;
+    blockHealth = 30;
+		type = BrickType::STONE;
+		break;
+			
+    case BrickType::ROCK:
+    blockScore = 1;
+    blockDownAir = 4;
+    blockHealth = 60;
+		type = BrickType::ROCK;
+    break;
+
+    case BrickType::BOMB:
+		type = BrickType::BOMB;
+    break;
+
     case BrickType::GOLD:
-    block_score = 10;
-    block_health = 20;
-          break;
+    blockScore = 10;
+    blockHealth = 20;
+		type = BrickType::GOLD;
+    break;
+
     case BrickType::OXYGEN:
-    block_score = 1;
-    block_downAir = 0;
-    block_health = 20;
-          break;
+    blockScore = 1;
+    blockDownAir = 0;
+    blockHealth = 20;
+		type = BrickType::OXYGEN;
+    break;
+
     case BrickType::RASGULLA:
-    block_score = 1;
-    block_downAir = 4;
-    block_health = 1;
-          break;
+    blockScore = 1;
+    blockDownAir = 4;
+    blockHealth = 1;
+		type = BrickType::RASGULLA;
+    break;
+
     case BrickType::GULAB_JAMUN:
-    block_score = 1;
-    block_downAir = 10;
-    block_health = 1;
-          break;
+    blockScore = 1;
+    blockDownAir = 10;
+    blockHealth = 1;
+		type = BrickType::GULAB_JAMUN;
+    break;
     }
   }
 };
