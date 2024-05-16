@@ -125,14 +125,14 @@ public:
     }
   }
 
-	void SetBorder(char r, char g, char b, char a = 255, int width = 1) {
+	void SetBorder(char r, char g, char b, char a = 255, float width = 0.01) {
 		_border = true;
 		_pen.SetColor(Color(a, r, g, b));
     _pen.SetWidth(width);
 	}
 
 	void SetFillColor(char r, char g, char b, char a = 255U) {
-		_border = true;
+		_fill = true;
 		_brush.SetColor(Color(a, r, g, b));
 	}
 

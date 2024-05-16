@@ -17,7 +17,6 @@ enum class V_DIRECTION {
 class IRenderable {
 protected:
 	Point _position;
-	Matrix _translate;
 	std::vector<IRenderable*> _children;
 
 public:

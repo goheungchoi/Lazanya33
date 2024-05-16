@@ -86,7 +86,6 @@ public:
 	BrickGraphics() 
     : CollectiveRenderable<T>(0, 0, 1, 1) {
     CollectiveRenderable<T>::SetBorder(255, 0, 0);
-    CollectiveRenderable<T>::SetFillColor(255, 255, 255);
 	}
 #endif
 
