@@ -8,6 +8,7 @@ EntryScene::EntryScene()
 
 void EntryScene::Update(double DeltaTime)
 {
+	
 }
  
 void EntryScene::Draw()

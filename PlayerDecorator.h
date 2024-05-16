@@ -10,12 +10,15 @@ public:
   PlayerDecorator(IPlayer* player) : _player{player} {}
 
   /* Getters */
+	virtual int GetPositionX() override { return _player->GetPositionX(); }
+	virtual int GetPositionY() override { return _player->GetPositionY(); }
   virtual int GetAttackDamage() override { return _player->GetAttackDamage(); }
-  virtual int GetCurrOxyLevel() override { return _player->GetCurrOxyLevel(); }
+  virtual float GetCurrOxyLevel() override { return _player->GetCurrOxyLevel(); }
   virtual int GetCurrHP() override { return _player->GetCurrHP(); }
   virtual int GetCurrScore() override { return _player->GetCurrScore(); }
 
   /* Setters */
+  void SetPosition(int x, int y) { _player->SetPosition(x, y); }
   virtual void SetAttackDamage(int ad) override 
   { _player->SetAttackDamage(ad); };
 
@@ -53,4 +56,6 @@ public:
   bool IsDead() override { return _player->IsDead(); }
 
   virtual void Move(int x, int y) override { _player->Move(x, y); }
+
+	virtual void Render(Gdiplus::Graphics& g) override { _player->Render(g); }
 };

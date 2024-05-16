@@ -3,6 +3,7 @@
 #include "InputSystem.h"
 #include "WinApp.h"
 #include "RenderSystem.h"
+#include "CSound.h"
 
 class IScene;
 

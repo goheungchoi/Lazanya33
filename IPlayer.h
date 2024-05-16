@@ -1,14 +1,28 @@
 #pragma once
 
-class IPlayer {
+#include "CollectiveRenderable.h"
+
+class IPlayer : public CollectiveRenderable<IPlayer> {
 public:
-  /* Setters */
+	IPlayer() = delete;
+	IPlayer(int x, int y, int w, int h, bool caching)
+		: CollectiveRenderable<IPlayer>(x, y, w, h, caching) {
+			SetBorder(0, 255, 0);
+			SetFillColor(0, 0, 0);
+		}
+	~IPlayer() {}
+
+  /* Getters */
+	virtual int GetPositionX() = 0;
+	virtual int GetPositionY() = 0;
   virtual int GetAttackDamage() = 0;
-  virtual int GetCurrOxyLevel() = 0;
+  virtual float GetCurrOxyLevel() = 0;
   virtual int GetCurrHP() = 0;
   virtual int GetCurrScore() = 0;
 
-  /* Getters */
+  /* Setters */
+	virtual void SetPosition(int x, int y) = 0;
+
   virtual void SetAttackDamage(int) = 0;
 
   virtual void SetMaxOxygenLevel(float) = 0;

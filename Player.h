@@ -1,10 +1,10 @@
 #pragma once
 
 #include "IPlayer.h"
-#include "IRenderable.h"
+#include "CollectiveRenderable.h"
 #include "AnimationController.h"
 
-constexpr int PLAYER_DEFAULT_AD = 0;
+constexpr int PLAYER_DEFAULT_AD = 10;
 constexpr int PLAYER_DEFAULT_MAX_OXYGEN_LEVEL = 0;
 constexpr int PLAYER_DEFAULT_MAX_HP = 0;
 constexpr int PLAYER_DEFAULT_LASGULA_DURATION = 0;
@@ -13,8 +13,8 @@ constexpr int PLAYER_DEFAULT_COMBO_DURATION = 0;
 /**
  * @brief Example use of AnimationController
  */
-class Player : public IPlayer, public IRenderable {
-	AnimationController* _animationController;
+class Player : public IPlayer {
+	AnimationController* _animationController{nullptr};
 
 	/* Properties */
 private:
@@ -34,7 +34,8 @@ private:
  public:
 
 	Player()
-  : _ad{PLAYER_DEFAULT_AD},
+  : IPlayer(2, 2, 1, 1, true),
+		_ad{PLAYER_DEFAULT_AD},
     _maxOxygenLevel{PLAYER_DEFAULT_MAX_OXYGEN_LEVEL},
     _oxygenLevel{PLAYER_DEFAULT_MAX_OXYGEN_LEVEL},
     _maxHP{PLAYER_DEFAULT_MAX_HP},
@@ -48,12 +49,18 @@ private:
     _score{0} {}
 
   /* Getters */
+  int GetPositionX() { return _position.X; }
+  int GetPositionY() { return _position.Y; }
   int GetAttackDamage() override { return _ad; }
-  int GetCurrOxyLevel() override { return _oxygenLevel; }
+  float GetCurrOxyLevel() override { return _oxygenLevel; }
   int GetCurrHP() override { return _hp; }
   int GetCurrScore() override { return _score; }
 
   /* Setters */
+	void SetPosition(int x, int y) {
+		IRenderable::_position.X = x;
+    IRenderable::_position.Y = y;
+	}
   void SetAttackDamage(int ad) { _ad = ad; };
   void SetMaxOxygenLevel(float maxOxygenLevel) override {
     _maxOxygenLevel = maxOxygenLevel;
@@ -89,13 +96,4 @@ private:
     IRenderable::_position.X += x;
     IRenderable::_position.Y += y;
   }
-
-	void Render(Graphics& g) override {	// TODO: Need to remove const
-    // _animationController->GetCurrentFrame()->Render(g);
-
-#ifndef NDEBUG	// 디버깅일 때, 디버그용 사각형을 그림.
-		Pen debuggingPen(Color::Red, 5.f);
-		g.DrawRectangle(&debuggingPen, Rect(900, 900, 950, 950));
-#endif
-	}
 };

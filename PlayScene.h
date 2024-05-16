@@ -1,10 +1,19 @@
 #pragma once
 #include "SceneGraph.h"
-#include "Player.h"
+
+constexpr int GRID_MAP_POSITION_X = 720;
+constexpr int GRID_MAP_POSITION_Y = -120;
+
 class PlayScene :public IScene
 {
-	class IRenderable* _drawableObject;
-	IPlayer* player = new Player();
+	class GridMap* _gridMap;
+	class IPlayer* _player;
+	class Wall* _walls;
+
+/* Systems */
+	class BrickGenSystem* _brickGenSystem;
+
+	class PlayerBricksInteractionSystem* _playerBrickInteractionSystem;
 public:
 	PlayScene();
 	~PlayScene() {};

@@ -70,6 +70,21 @@
     <Filter Include="Source Files\Game\GameObjects\Wall\Brick">
       <UniqueIdentifier>{7ea8bfcf-625f-453c-919f-e3ff503e3e00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\Systems\Game">
+      <UniqueIdentifier>{370338f3-3441-4bb1-b3e5-38ed328da652}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Components\UI">
+      <UniqueIdentifier>{33d0c462-2d65-4916-acd4-db009a52192d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Components\Render">
+      <UniqueIdentifier>{62182454-0ebc-4335-b174-36b674ee9e2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Components\UI\Grid">
+      <UniqueIdentifier>{a44f453b-5e5a-4a75-8209-c656e78219e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Systems\Sound">
+      <UniqueIdentifier>{22a04084-5729-4260-9bad-0d38f50ad424}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -104,15 +119,6 @@
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Source Files\Game\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="IRenderable.h">
-      <Filter>Source Files\Game\Systems\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="SingleRenderable.h">
-      <Filter>Source Files\Game\Systems\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="CollectiveRenderable.h">
-      <Filter>Source Files\Game\Systems\Render</Filter>
     </ClInclude>
     <ClInclude Include="EntryScene.h">
       <Filter>Source Files\Game\SceneGraph\Scene\Entry</Filter>
@@ -165,17 +171,44 @@
     <ClInclude Include="BrickPattern.h">
       <Filter>Source Files\Game\Components</Filter>
     </ClInclude>
-    <ClInclude Include="BrickHealthComponent.h">
-      <Filter>Source Files\Game\Components</Filter>
-    </ClInclude>
     <ClInclude Include="GridDeque.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Brick.h">
       <Filter>Source Files\Game\GameObjects\Wall\Brick</Filter>
     </ClInclude>
-    <ClInclude Include="BlockGenerationSystem.h">
-      <Filter>Source Files\Game\GameObjects\Wall</Filter>
+    <ClInclude Include="UIComponent.h">
+      <Filter>Source Files\Game\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerOxygenSystem.h">
+      <Filter>Source Files\Game\Systems\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleRenderable.h">
+      <Filter>Source Files\Game\Components\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderable.h">
+      <Filter>Source Files\Game\Components\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="CollectiveRenderable.h">
+      <Filter>Source Files\Game\Components\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBricksInteractionSystem.h">
+      <Filter>Source Files\Game\Systems\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickGenerationSystem.h">
+      <Filter>Source Files\Game\Systems\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Div.h">
+      <Filter>Source Files\Game\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Source Files\Game\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GridMap.h">
+      <Filter>Source Files\Game\Components\UI\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="CSound.h">
+      <Filter>Source Files\Game\Systems\Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -239,11 +272,14 @@
     <ClCompile Include="PlayScene.cpp">
       <Filter>Source Files\Game\SceneGraph\Scene\Play</Filter>
     </ClCompile>
-    <ClCompile Include="BlockGenerationSystem.cpp">
-      <Filter>Source Files\Game\GameObjects\Wall</Filter>
-    </ClCompile>
     <ClCompile Include="Wall.cpp">
       <Filter>Source Files\Game\GameObjects\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickGenerationSystem.cpp">
+      <Filter>Source Files\Game\Systems\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="CSound.cpp">
+      <Filter>Source Files\Game\Systems\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
