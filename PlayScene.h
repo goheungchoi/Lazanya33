@@ -9,6 +9,8 @@ class PlayScene :public IScene
 	class GridMap* _gridMap;
 	class IPlayer* _player;
 	class Wall* _walls;
+	//Variables introduced to add walls when pop 3 times
+	int _countWallPop=0;
 
 /* Systems */
 	class BrickGenSystem* _brickGenSystem;
@@ -20,5 +22,7 @@ public:
 	
 	void Update(double DeltaTime)override;
 	void Draw()override;
+	void InitScene()override;
+	void EndScene()override;
 };
 

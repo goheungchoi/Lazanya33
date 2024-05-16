@@ -6,6 +6,7 @@ constexpr std::size_t patternNCols = 5;
 
 struct BrickPattern
 {
+
 	BrickType patterns[15]
 	{
 		BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,

@@ -24,7 +24,7 @@ IScene* SceneGraph::GetCurrentScene()
 
 
 
-void SceneGraph::InitScene()
+void SceneGraph::RegisterScene()
 {
 	_sceneRegistry["Entry"] = new EntryScene;
 	_sceneRegistry["Play"] = new PlayScene;

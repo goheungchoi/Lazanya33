@@ -19,10 +19,10 @@ public:
 
 	IScene* GetCurrentScene();
 	
-	void InitScene();
 	void ChangeScene(IScene* newScene);
 	void Update(double DeltaTime);
 	void Draw();
+	void RegisterScene();
 
 };
 
@@ -32,12 +32,16 @@ class IScene
 protected:
 	std::unordered_map<std::string, IScene*>_sceneDependencies;
 	static SceneGraph* _sceneManager;
+	bool DidInit = false;
 
 public:
 	IScene();
 	~IScene();
 	virtual void Update(double DeltaTime) = 0;
 	virtual void Draw() = 0;
+	virtual void InitScene() = 0;
+	virtual void EndScene() = 0;
+
 	void AddSceneDependency(IScene* scene, std::string sceneName);
 
 	static class RenderSystem* _renderSystem;

@@ -27,6 +27,35 @@ public:
 	}
 	~BrickGenSystem(){}
 
+	void BrickGenInit()
+	{
+		//pushBack none block
+		for (int i = 0; i < 5; ++i)
+		{
+			_wall->PushBackBricks({
+			BrickType::NONE,
+			BrickType::NONE,
+			BrickType::NONE,
+			BrickType::NONE,
+			BrickType::NONE
+				});
+
+			_wall->PushBackBrickSprites({
+				nullptr, 
+				nullptr, 
+				nullptr,
+				nullptr, 
+				nullptr
+			});
+		}
+
+
+		for (int i = 0; i < 3; ++i)
+		{
+			GenerateNextRows();
+		}
+	}
+
 	void ReadNextPattern() {
 		// TODO: 레벨에 따라 랜덤으로 다음 패턴 뽑아와야됨.
 		_pNextPattern = &_patterns[0];

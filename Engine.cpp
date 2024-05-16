@@ -31,10 +31,11 @@ void Engine::Initialize()
 {
 	//add Sound 11:00
 	Music::soundManager->InitMusic();
+	Music::soundManager->SetVolume(0.1f);
 	Timer::InitTimer();
 	Input::inputManager->InitInput();
 	
-	_sceneGraph->InitScene();
+	_sceneGraph->RegisterScene();
 
 	// TODO: Drawing Test
 }

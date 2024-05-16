@@ -15,3 +15,11 @@ void EntryScene::Draw()
 {
 	_renderSystem->Render();
 }
+
+void EntryScene::InitScene()
+{
+}
+
+void EntryScene::EndScene()
+{
+}

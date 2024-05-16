@@ -10,5 +10,7 @@ public:
 	~EntryScene() {};
 	void Update(double DeltaTime)override;
 	void Draw()override;
+	void InitScene()override;
+	void EndScene()override;
 };
 
