@@ -20,7 +20,7 @@ public:
 	IScene* GetCurrentScene();
 	
 	void ChangeScene(IScene* newScene);
-	void Update(double DeltaTime);
+	void Update(double deltaTime);
 	void Draw();
 	void RegisterScene();
 
@@ -37,7 +37,7 @@ protected:
 public:
 	IScene();
 	~IScene();
-	virtual void Update(const double DeltaTime) = 0;
+	virtual void Update(const double deltaTime) = 0;
 	virtual void Draw() = 0;
 	virtual void InitScene() = 0;
 	virtual void EndScene() = 0;

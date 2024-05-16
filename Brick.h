@@ -20,7 +20,7 @@ END = 9
 struct Brick
 {
   int blockScore = 0; // 브릭의 점수
-  int blockDownAir = 0; // 브릭을 부수면 공기의 감소 또는 증가
+  double blockDownAir = 0; // 브릭을 부수면 공기의 감소 또는 증가
   int blockHealth = 0;
 	BrickType type;
 
