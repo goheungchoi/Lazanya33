@@ -8,7 +8,7 @@ class EntryScene: public IScene
 public:
 	EntryScene();
 	~EntryScene() {};
-	void Update(double DeltaTime)override;
+	void Update(double deltaTime)override;
 	void Draw()override;
 	void InitScene()override;
 	void EndScene()override;

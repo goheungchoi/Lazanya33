@@ -14,15 +14,16 @@ class PlayScene :public IScene
 
 /* Systems */
 	class BrickGenSystem* _brickGenSystem;
-
+	class PlayerOxygenSystem* _playerOxySystem;
 	class PlayerBricksInteractionSystem* _playerBrickInteractionSystem;
 public:
 	PlayScene();
 	~PlayScene() {};
 	
-	void Update(double DeltaTime)override;
+	void Update(double deltaTime)override;
 	void Draw()override;
 	void InitScene()override;
 	void EndScene()override;
+	void PlayerUpdate(const double deltaTime);
 };
 

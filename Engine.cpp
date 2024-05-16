@@ -38,7 +38,6 @@ Engine::~Engine()
 
 void Engine::Initialize()
 {
-	//add Sound 11:00
 	Music::soundManager->InitMusic();
 	Music::soundManager->SetVolume(0.1f);
 	Timer::InitTimer();
@@ -46,6 +45,8 @@ void Engine::Initialize()
 	
 	_sceneGraph->RegisterScene();
 
+	//Doing Debug:
+	Debug.Get_Console();
 }
 
 void Engine::Update(const double deltaTime)
@@ -61,6 +62,8 @@ void Engine::Render()
 
 void Engine::Finalize()
 {
+	//Doing Debug:
+	Debug.Close_Console();
 }
 
 void Engine::Run()

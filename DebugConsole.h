@@ -56,5 +56,24 @@ struct {
 			return true;
 		}
 	}
+
+	//콘솔창에 int,double,float값을 출력합니다.
+	bool Log(double _log)
+	{
+		if (printf_s("%f\n", _log) <= 0) return false;
+		return true;
+	}
+
+	bool Log(int _log)
+	{
+		if (printf_s("%d\n", _log) <= 0) return false;
+		return true;
+	}
+
+	bool Log(float _log)
+	{
+		if (printf_s("%f\n", _log) <= 0) return false;
+		return true;
+	}
 }Debug;
 

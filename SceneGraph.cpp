@@ -44,9 +44,9 @@ void SceneGraph::ChangeScene(IScene* newScene)
 	_currScenePtr = newScene;
 }
 
-void SceneGraph::Update(double DeltaTime)
+void SceneGraph::Update(double deltaTime)
 {
-	_currScenePtr->Update(DeltaTime);
+	_currScenePtr->Update(deltaTime);
 }
 
 void SceneGraph::Draw()

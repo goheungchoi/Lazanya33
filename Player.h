@@ -5,7 +5,7 @@
 #include "AnimationController.h"
 
 constexpr int PLAYER_DEFAULT_AD = 10;
-constexpr int PLAYER_DEFAULT_MAX_OXYGEN_LEVEL = 0;
+constexpr double PLAYER_DEFAULT_MAX_OXYGEN_LEVEL = 100;
 constexpr int PLAYER_DEFAULT_MAX_HP = 0;
 constexpr int PLAYER_DEFAULT_LASGULA_DURATION = 0;
 constexpr int PLAYER_DEFAULT_COMBO_DURATION = 0;
@@ -78,9 +78,17 @@ private:
 
   /* Modifiers */
   void AddHP(int hp) override 
-  { _hp = ((hp + _hp) <= _maxHP) * (hp + _hp); }
+  { 
+    int newHP = hp + _hp;
+    _hp = (newHP <= _maxHP) * newHP + (newHP > _maxHP) * _maxHP; 
+  }
   void AddOxygen(double amountOfOxygen) override 
-  { _oxygenLevel += amountOfOxygen; }
+  {
+    double newOxygen = amountOfOxygen + _oxygenLevel;
+    _oxygenLevel = 
+      (newOxygen <= _maxOxygenLevel) * newOxygen + (newOxygen > _maxOxygenLevel)*_maxOxygenLevel;
+   
+  }
   void AddOxygenFromOxyBlock(double amountOfOxygen) override 
   { AddOxygen(amountOfOxygen); };
   void AddOxygenSpecialCase(double amountOfOxygen) override 
