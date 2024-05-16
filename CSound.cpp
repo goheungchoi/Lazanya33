@@ -20,7 +20,7 @@ namespace Music
 
     void SoundManager::InitMusic()
     {
-      LoadMusic(eSoundList::TEST, true, "sound//Tunak_Tunak_Tun_-_.mp3");
+      LoadMusic(eSoundList::TEST, true, "sound//Oh_Ho_Ho_Ho_Remix_Lyrical_Video_Irrfan_Khan_Saba_Qamar_Sukhbir_Ikka_cut_225sec.mp3");
         LoadMusic(eSoundList::MainBGM, true, "sound//playBGM.mp3");
         LoadMusic(eSoundList::death, false, "sound//death.mp3");
     }

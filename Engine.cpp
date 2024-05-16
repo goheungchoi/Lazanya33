@@ -31,7 +31,6 @@ void Engine::Initialize()
 {
 	//add Sound 11:00
 	Music::soundManager->InitMusic();
-
 	Timer::InitTimer();
 	Input::inputManager->InitInput();
 	
