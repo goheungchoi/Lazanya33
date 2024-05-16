@@ -82,6 +82,9 @@
     <Filter Include="Source Files\Game\Components\UI\Grid">
       <UniqueIdentifier>{a44f453b-5e5a-4a75-8209-c656e78219e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\Systems\Sound">
+      <UniqueIdentifier>{22a04084-5729-4260-9bad-0d38f50ad424}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -204,6 +207,9 @@
     <ClInclude Include="GridMap.h">
       <Filter>Source Files\Game\Components\UI\Grid</Filter>
     </ClInclude>
+    <ClInclude Include="CSound.h">
+      <Filter>Source Files\Game\Systems\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -271,6 +277,9 @@
     </ClCompile>
     <ClCompile Include="BrickGenerationSystem.cpp">
       <Filter>Source Files\Game\Systems\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="CSound.cpp">
+      <Filter>Source Files\Game\Systems\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -27,6 +27,9 @@ PlayScene::PlayScene()
 	_brickGenSystem->GenerateNextRows();
 	_brickGenSystem->GenerateNextRows();
 	//가족력 선택 이전에 필요한 RenderableObject 등록하기.
+
+	//TestSound:
+	Music::soundManager->PlayMusic(Music::eSoundList::TEST, Music::eSoundChannel::BGM);
 }
 
 void PlayScene::Update(double DeltaTime)

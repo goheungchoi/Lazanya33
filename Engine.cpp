@@ -4,6 +4,7 @@
 #include "Timer.h"
 #include "SceneGraph.h"
 #include "InputSystem.h"
+#include "CSound.h"
 
 // Rendering Libraries
 #include "RenderSystem.h"
@@ -28,8 +29,12 @@ Engine::~Engine()
 
 void Engine::Initialize()
 {
+	//add Sound 11:00
+	Music::soundManager->InitMusic();
+
 	Timer::InitTimer();
 	Input::inputManager->InitInput();
+	
 	_sceneGraph->InitScene();
 
 	// TODO: Drawing Test

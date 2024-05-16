@@ -143,6 +143,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="CSound.h" />
     <ClInclude Include="Div.h" />
     <ClInclude Include="GridDeque.h" />
     <ClInclude Include="GridMap.h" />
@@ -186,6 +187,7 @@
   <ItemGroup>
     <ClCompile Include="Anaerobic.cpp" />
     <ClCompile Include="AnimationController.h" />
+    <ClCompile Include="CSound.cpp" />
     <ClCompile Include="Naughty.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Pummeler.cpp" />
