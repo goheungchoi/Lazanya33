@@ -53,7 +53,7 @@ public:
 		return _bricks.At(row, col).type;
 	}
 
-	Brick GetBrick(int row, int col)
+	Brick& GetBrick(int row, int col)
 	{
 		return _bricks.At(row, col);
 	}

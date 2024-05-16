@@ -42,22 +42,27 @@ void PlayScene::Update(double DeltaTime)
 			VK_DOWN,_countWallPop);
 		
 	} 
-	//if getkey Left and it's in the play screen, MoveLeft
-	if (Input::inputManager->IsTurnDn(VK_LEFT)&&_player->GetPositionX() > 0)
+	//if getkey Left and it's in the play screen and if brick type is not NONE, MoveLeft
+	if (Input::inputManager->IsTurnDn(VK_LEFT)
+		&&_player->GetPositionX() > 0
+		&& _walls->GetBrick(_player->GetPositionY(), _player->GetPositionX() - 1).type
+		!= BrickType::NONE)
 	{
 		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
 		(_player->GetPositionY(), _player->GetPositionX() - 1,
 			VK_LEFT, _countWallPop);
 	}
-	//if getkey Right and it's in the play screen, MoveRight
-	if (Input::inputManager->IsTurnDn(VK_RIGHT)&&_player->GetPositionX() < 4)
+	//if getkey Right and it's in the play screen and if brick type is not NONE, MoveRight
+	if (Input::inputManager->IsTurnDn(VK_RIGHT)
+		&&_player->GetPositionX() < 4
+		&& _walls->GetBrick(_player->GetPositionY(), _player->GetPositionX() + 1).type
+		!= BrickType::NONE)
 	{
 		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
 		(_player->GetPositionY(), _player->GetPositionX() + 1,
 			VK_RIGHT, _countWallPop);
 	}
-
-
+	//if pop wall three time
 	if (_countWallPop==3)
 	{
 		_brickGenSystem->GenerateNextRows();

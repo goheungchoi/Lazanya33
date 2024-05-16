@@ -37,12 +37,40 @@ public:
 	}
 
 	void RewardPlayer(int row, int col) {
-		// 파괴될 벽돌 데이터 수집
-		_player->AddScore(_wall->GetBrick(row, col).blockScore);
-		
-		if (_player->GetPositionY() != row)
+		// Collect brick data to be destroyed
+		Brick& currBrickData = _wall->GetBrick(row, col);
+
+		//If the broken brick is gold
+		if (currBrickData.type == BrickType::GOLD)
 		{
-			_player->AddOxygen(_wall->GetBrick(row, col).blockDownAir);
+			_player->AddScoreSpecialCase(currBrickData.blockScore);
+
+			if (_player->GetPositionY() != row)
+			{
+				_player->AddOxygenSpecialCase(currBrickData.blockDownAir);
+			}
+		}
+
+		//If the broken brick is OxyBrick
+		else if (currBrickData.type == BrickType::OXYGEN)
+		{
+			_player->AddScoreFromOxyBlock(currBrickData.blockScore);
+
+			if (_player->GetPositionY() != row)
+			{
+				_player->AddOxygenFromOxyBlock(currBrickData.blockDownAir);
+			}
+		}
+
+		//If the broken brick is else thing
+		else
+		{
+			_player->AddScore(_wall->GetBrick(row, col).blockScore);
+			
+			if (_player->GetPositionY() != row)
+			{
+				_player->AddOxygen(_wall->GetBrick(row, col).blockDownAir);
+			}
 		}
 		// 플레이어의 양옆 벽돌이 파괴됐으면 (player.y == brick.y) 
 		// 플레이어 점수 o
