@@ -7,12 +7,12 @@
 5/13
 
 고흥: Renderer, RenderSystem, IRenderable
-성우: SceneGraph, IScene, EntryScene, LetterScene
+성우: SceneGraph, IScene, EntryScene
 호영: Deque2D, Timer
 
 5/14
 
 고흥: Player, PlayerDecorator, SingleRenderable, CollectiveRenderable
-성우: input,  `Render`랑 `Scenes` 디버깅하고 QA, GameScene
+성우: Input,  `Render`랑 `Scenes` 디버깅하고 QA, GameScene, Wall 구조 구상
 호영: GridDeque 완성 및 디버깅, Brick Struct, Wall
 
