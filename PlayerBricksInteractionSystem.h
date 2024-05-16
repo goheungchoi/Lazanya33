@@ -31,7 +31,7 @@ public:
 			}
 			else
 			{
-				_player->SetPosition(4, row);
+				_player->SetPosition(col, 4);
 			}
 		}
 		// RewardPlayer(int row, int col);
