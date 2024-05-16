@@ -17,7 +17,8 @@ enum class V_DIRECTION {
 class IRenderable {
 protected:
 	Point _position;
-	std::vector<IRenderable*> _children;
+	IRenderable* _parent{nullptr};
+	std::list<IRenderable*> _children;
 
 public:
 	IRenderable() : _position{ 0, 0 } {}
@@ -34,7 +35,13 @@ public:
 	virtual void CacheData(Graphics& g) {}
 
 	void AttachChildRenderable(IRenderable* child) {
+    child->_parent = this;
 		_children.push_back(child);
+	}
+
+	void RemoveChildRenderable(IRenderable* child) { 
+		child->_parent = nullptr;
+		_children.remove(child);
 	}
 
 	virtual void RenderChildren(Graphics& g) {

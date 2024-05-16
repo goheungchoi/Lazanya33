@@ -152,6 +152,7 @@
     <ClInclude Include="PlayerOxygenSystem.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Pummeler.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SugarGirl.h" />
     <ClInclude Include="BrickRenderComponent.h" />
     <ClInclude Include="BrickGenerationSystem.h" />

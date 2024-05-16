@@ -1,45 +1,38 @@
-#pragma once
+#include "ResourceManager.h"
 
-#include <unordered_map>
+std::unique_ptr<ResourceManager> ResourceManager::_instance(nullptr);
 
+ResourceManager& ResourceManager::Create() { 
+	if (_instance) 
+		throw std::runtime_error("Recreation of ResourceManager detected!");
 
+	_instance.reset(new ResourceManager());
+	return *_instance;
+}
 
-namespace lz {
+void ResourceManager::Destory() { 
+	if (!_instance) 
+		throw std::runtime_error("Destruction of uninitialized ResourceManager detected!");
 
-using namespace Gdiplus;
+	_instance.release(); 
+}
 
-class ResourceManager {
-  using ImageName = std::wstring;
-  std::unordered_map<ImageName, Image*> _images;
+ResourceManager& ResourceManager::Get() { 
+	if (!_instance) 
+		throw std::runtime_error("Access of uninitialized ResourceManager detected!");
 
-	static ResourceManager* _instance;
+	return *_instance; 
+}
 
-public:
-  ResourceManager() {}
-	ResourceManager(const ResourceManager&) = delete;
-  ResourceManager(ResourceManager&&) noexcept = delete;
-  ResourceManager& operator=(const ResourceManager&) = delete;
-  ResourceManager& operator=(ResourceManager&&) noexcept = delete;
-  ~ResourceManager() {}
+bool ResourceManager::LoadImageFromFile(const wchar_t* path, const ImageName& name) {
+  Image* pImage = Image::FromFile(path); 
+	if (!pImage) return false;
+	_images[name] = pImage;
+	return true;
+}
 
-
-  bool LoadImageFromFile(const wchar_t* path, const ImageName& name) {
-    Image* pImage = Image::FromFile(path); 
-
-		if (!pImage) return false;
-		
-		_images[name] = pImage;
-
-		return true;
-  }
-
-  Image* GetImage(const ImageName& name) { 
-    auto it = _images.find(name);
-    if (it == _images.end()) return nullptr;
-    return it->second;
-  }
-};
-
-
-
+Image* ResourceManager::GetImage(const ImageName& name) { 
+  auto it = _images.find(name);
+  if (it == _images.end()) return nullptr;
+  return it->second;
 }

@@ -32,8 +32,8 @@ public:
   // Text Data
   std::wstring    _text;
   PointF          _textPosition;
-  FontFamily      _fontFamily;
-  Font            _font;
+  FontFamily*     _pFontFamily;
+  Font*           _pFont;
   StringFormat    _textFormat;  // Text alignment
   SolidBrush      _textBrush;  // Color of the text
 
@@ -51,8 +51,8 @@ public:
 
 		// Text Data
     _textPosition(0.0f, 0.0f),
-    _fontFamily(L"Arial"), 
-    _font(&_fontFamily, 12, FontStyleRegular, UnitPixel),
+    _pFontFamily(new FontFamily(L"Arial")), 
+    _pFont(new Font(_pFontFamily, 12, FontStyleRegular, UnitPixel)),
     _textBrush(Color(255, 0, 0, 0)) {}
 
   CollectiveRenderable(int x, int y, bool caching = true)
@@ -125,12 +125,27 @@ public:
     }
   }
 
+	/**
+	 * @brief Set border of this sprite.
+	 * @param r Red value from 0~255
+	 * @param g Green value from 0~255
+	 * @param b Blue value from 0~255
+	 * @param a Alpha value from 0~255. Default is 255.
+	 * @param width Width of the border. Default is 0.01.
+	 */
 	void SetBorder(char r, char g, char b, char a = 255, float width = 0.01) {
 		_border = true;
 		_pen.SetColor(Color(a, r, g, b));
     _pen.SetWidth(width);
 	}
 
+	/**
+	 * @brief Set fill color of this sprite
+	 * @param r Red value from 0~255
+	 * @param g Green value from 0~255
+	 * @param b Blue value from 0~255
+	 * @param a Alpha value from 0~255. Default is 255.
+	 */
 	void SetFillColor(char r, char g, char b, char a = 255U) {
 		_fill = true;
 		_brush.SetColor(Color(a, r, g, b));
@@ -162,8 +177,8 @@ public:
    * @brief ÆùÆ® ÆÐ¹Ð¸®¸¦ ¼³Á¤ÇÕ´Ï´Ù.
    * @param fontFamily ÆùÆ® ÆÐ¹Ð¸®, ¿¹½Ã) L"Arial"
    */
-  void SetFontFamily(const char* fontFamily) {
-    _fontFamily = FontFamily(fontFamily);
+  void SetFontFamily(const wchar_t* fontFamily) {
+    _pFontFamily = new FontFamily(fontFamily);
   }
 
   /**
@@ -174,7 +189,7 @@ public:
    */
   void SetFont(int fontSize, FontStyle fontStyle = FontStyleRegular,
                Unit unit = UnitPixel) {
-    _font = Font(&_fontFamily, fontSize, fontStyle, unit);
+    _pFont = new Font(_pFontFamily, fontSize, fontStyle, unit);
   }
 
   /**
@@ -210,15 +225,15 @@ public:
    * @brief ÆùÆ® ¼öÁ÷ Á¤·ÄÀ» ¼³Á¤ÇÑ´Ù.
    * @param textVJustification TOP, CENTER, or BOTTOM
    */
-  void SetTextVerticalJustify(H_DIRECTION textVJustification) {
+  void SetTextVerticalJustify(V_DIRECTION textVJustification) {
     switch (textVJustification) {
-      case H_DIRECTION::TOP: {
+      case V_DIRECTION::TOP: {
         _textFormat.SetAlignment(StringAlignmentNear);
       } break;
-      case H_DIRECTION::CENTER: {
+      case V_DIRECTION::CENTER: {
         _textFormat.SetAlignment(StringAlignmentCenter);
       } break;
-      case H_DIRECTION::BOTTOM: {
+      case V_DIRECTION::BOTTOM: {
         _textFormat.SetAlignment(StringAlignmentFar);
       } break;
     }
@@ -294,7 +309,8 @@ public:
 		_currentSpriteRect->Width, _currentSpriteRect->Height);
 
     // Draw Text
-    !_text.empty() && g.DrawString(_text.c_str(), -1, &_font, _textPosition, &_textFormat, &_textBrush);
+    !_text.empty() && 
+		g.DrawString(_text.c_str(), -1, _pFont, _textPosition, &_textFormat, &_textBrush);
   }
 
  private:
@@ -346,3 +362,7 @@ std::unordered_map<std::wstring, Bitmap*>
 template <class T>
 std::unordered_map<std::wstring, CachedBitmap*>
     CollectiveRenderable<T>::_pSpriteCacheData;
+
+#ifndef NDEBUG
+inline CollectiveRenderable<int> CollectiveRenderableDebugTrigger;
+#endif

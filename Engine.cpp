@@ -9,9 +9,13 @@
 // Rendering Libraries
 #include "RenderSystem.h"
 #include "SingleRenderable.h"
+#include "ResourceManager.h"
 
 Engine::Engine()
 {
+	// Initialize ResourceManager Singleton
+  ResourceManager::Create();
+
 	_sceneGraph = new SceneGraph;
 
 	// TODO: Drawing Test
@@ -19,11 +23,15 @@ Engine::Engine()
 															{global::GetWinApp().GetWidth(), 
 															 global::GetWinApp().GetHeight()});
 	_renderSystem = new RenderSystem(_renderer);
+	// Pass the render system to IScene
+	// So that IScene can handle draw calls from IRenderable objects
 	IScene::_renderSystem = _renderSystem;
 }
 
 Engine::~Engine()
 {
+	// Destroy ResourceManager Singleton
+	ResourceManager::Destory();
 	delete _sceneGraph;
 }
 

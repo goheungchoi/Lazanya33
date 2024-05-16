@@ -23,9 +23,9 @@ PlayScene::PlayScene()
 	_gridMap->AttachChildRenderable(_player);
 	_renderSystem->RegisterRenderableObject(_gridMap);
 	_player->SetPosition(2, 1);
-  _brickGenSystem->GenerateNextRows();
+  /*_brickGenSystem->GenerateNextRows();
 	_brickGenSystem->GenerateNextRows();
-	_brickGenSystem->GenerateNextRows();
+	_brickGenSystem->GenerateNextRows();*/
 	//가족력 선택 이전에 필요한 RenderableObject 등록하기.
 
 	//TestSound:
