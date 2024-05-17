@@ -6,7 +6,7 @@ using namespace Gdiplus;
 
 template <class T>
 class MultiSpriteRenderable : public IRenderable {
-private:
+public:
   static std::unordered_map<std::wstring, Bitmap*> _pSpriteRegister;
   static std::unordered_map<std::wstring, CachedBitmap*> _pSpriteCacheData;
 
