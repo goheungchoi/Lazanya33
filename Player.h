@@ -78,7 +78,7 @@ private:
 
   //SeoungWoo Change
   void SetCombo(int combo)override { _comboNumber = combo; }
-  void SetComboDuration(double ChangeDuration)override { _comboDuration = ChangeDuration; }
+  void SetComboDuration(double comboDuration)override { _comboDuration = comboDuration; }
   void SetDownMeter(int meter)override { _downMeter = meter; }
 
   //TODO: lasgula
