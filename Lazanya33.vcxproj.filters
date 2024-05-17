@@ -219,6 +219,9 @@
     <ClInclude Include="Container.h">
       <Filter>Source Files\Game\Components\UI</Filter>
     </ClInclude>
+    <ClInclude Include="GridItem.h">
+      <Filter>Source Files\Game\Components\UI\Grid</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
