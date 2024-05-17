@@ -5,10 +5,10 @@
 #include "AnimationController.h"
 
 constexpr int PLAYER_DEFAULT_AD = 10;
-constexpr double PLAYER_DEFAULT_MAX_OXYGEN_LEVEL = 100;
+constexpr double PLAYER_DEFAULT_MAX_OXYGEN_LEVEL = 60;
 constexpr int PLAYER_DEFAULT_MAX_HP = 0;
 constexpr int PLAYER_DEFAULT_LASGULA_DURATION = 0;
-constexpr int PLAYER_DEFAULT_COMBO_DURATION = 0;
+constexpr int PLAYER_DEFAULT_COMBO_DURATION = 1;
 
 /**
  * @brief Example use of AnimationController
@@ -24,6 +24,7 @@ private:
   int _maxHP; // N/a
   int _hp;    // N/A
   int _score; // Brick Interation
+  int _downMeter;//OxygenLevelSystem
 
   double _lasgulaDuration;
   double _lasgulaElapsedTime;
@@ -45,7 +46,7 @@ private:
     _comboDuration {PLAYER_DEFAULT_COMBO_DURATION},
     _comboElapsedTime {0.0f},
     _comboNumber {0},
-
+    _downMeter{0},
     _score{0} {}
 
   /* Getters */
@@ -55,6 +56,11 @@ private:
   double GetCurrOxyLevel() override { return _oxygenLevel; }
   int GetCurrHP() override { return _hp; }
   int GetCurrScore() override { return _score; }
+  //SeoungWoo Change
+  int GetCurrCombo() override { return _comboNumber; }
+  double GetComboElapsedTime() override { return _comboElapsedTime; }
+  double GetComboDuration() override { return _comboDuration; }
+  int GetDownMeter()override { return _downMeter; }
 
   /* Setters */
 	void SetPosition(int x, int y) {
@@ -70,13 +76,22 @@ private:
   void SetMaxHP(int maxHP) override { _maxHP = maxHP; }
   void SetHP(int hp) override { _hp = (hp <= _maxHP) * hp + (hp > _maxHP) *_maxHP; }
 
+  //SeoungWoo Change
+  void SetCombo(int combo)override { _comboNumber = combo; }
+  void SetComboDuration(double ChangeDuration)override { _comboDuration = ChangeDuration; }
+  void SetDownMeter(int meter)override { _downMeter = meter; }
+
   //TODO: lasgula
   void SetLasgulaDuration(double) override { /*TODO*/ }
   
   //TODO: combo
-  void SetComboDuration(double) override { /*TODO*/ }
-
+  void SetComboElapsedTime(double comboElapsedTime) override { _comboElapsedTime = comboElapsedTime; }
   /* Modifiers */
+  //SeoungWoo Change
+  void AddCombo()override { _comboNumber++; }
+  void AddComboElapsedTime(const double& deltaTime) override{ _comboElapsedTime += deltaTime; }
+  void AddDownMeter()override { _downMeter++; }
+
   void AddHP(int hp) override 
   { 
     int newHP = hp + _hp;

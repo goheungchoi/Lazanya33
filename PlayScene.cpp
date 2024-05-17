@@ -10,16 +10,18 @@
 
 #include "ResourceManager.h"
 
-PlayScene::PlayScene() 
-: _gridMap{new GridMap(
-		GRID_MAP_POSITION_X, 
-		GRID_MAP_POSITION_Y, 
-		wallNumRows, wallNumCols, 120, 120)}, 
-	_player{new Player()}, 
-	_walls{new Wall()},
-	_brickGenSystem{new BrickGenSystem(_walls)}, 
-	_playerBrickInteractionSystem{new PlayerBricksInteractionSystem(_player,_walls)},
-	_playerOxySystem { new PlayerOxygenSystem(_player,_player->GetCurrOxyLevel()*0.01)}
+constexpr double PLAYER_OXYGEN_REDUCE_INITAL_VALUE = 10.0;
+
+PlayScene::PlayScene()
+	: _gridMap{ new GridMap(
+			GRID_MAP_POSITION_X,
+			GRID_MAP_POSITION_Y,
+			wallNumRows, wallNumCols, 120, 120) },
+	_player{ new Player() },
+	_walls{ new Wall() },
+	_brickGenSystem{ new BrickGenSystem(_walls) },
+	_playerOxySystem{ new PlayerOxygenSystem(_player,PLAYER_OXYGEN_REDUCE_INITAL_VALUE) },
+	_playerBrickInteractionSystem{ new PlayerBricksInteractionSystem(_player,_walls,_playerOxySystem)}
 {	
 	_player->BindSpriteWithTag(
 		ResourceManager::Get().GetImage(L"test_asset"),
@@ -54,8 +56,16 @@ PlayScene::PlayScene()
 
 void PlayScene::Update(const double deltaTime)
 {
+	//if Didn't init, init one time
+	if (!DidInit)
+	{
+		InitScene();
+		DidInit = true;
+	}
+
 	_ui->Rotate(deltaTime*100);
 	PlayerUpdate(deltaTime);
+	
 
 #ifdef PLAYSCENE
 	if (/*!가족력을 선택했는가?*/)
@@ -109,21 +119,21 @@ void PlayScene::EndScene()
 
 void PlayScene::PlayerUpdate(const double deltaTime)
 {
-	//if Didn't init, init one time
-	if (!DidInit)
-	{
-		InitScene();
-		DidInit = true;
-	}
-	//for test, if turn down space, gen brick
+	//comboDuration++
+	_player->AddComboElapsedTime(deltaTime);
 
+	//Set to combo 0 every ComboDuration second
+	if (_player->GetComboElapsedTime() >= _player->GetComboDuration())
+	{
+		_player->SetCombo(0);
+		_player->AddComboElapsedTime(-1);
+	}
 	//if getkey Down, MoveDown.
 	if (Input::inputManager->IsTurnDn(VK_DOWN))
 	{
 		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
 		(_player->GetPositionY() + 1, _player->GetPositionX(),
-			VK_DOWN, _countWallPop);
-
+			VK_DOWN, _countWallPop,deltaTime);
 	}
 	//if getkey Left and it's in the play screen and if brick type is not NONE, MoveLeft
 	if (Input::inputManager->IsTurnDn(VK_LEFT)
@@ -133,7 +143,7 @@ void PlayScene::PlayerUpdate(const double deltaTime)
 	{
 		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
 		(_player->GetPositionY(), _player->GetPositionX() - 1,
-			VK_LEFT, _countWallPop);
+			VK_LEFT, _countWallPop,deltaTime);
 	}
 	//if getkey Right and it's in the play screen and if brick type is not NONE, MoveRight
 	if (Input::inputManager->IsTurnDn(VK_RIGHT)
@@ -143,7 +153,7 @@ void PlayScene::PlayerUpdate(const double deltaTime)
 	{
 		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
 		(_player->GetPositionY(), _player->GetPositionX() + 1,
-			VK_RIGHT, _countWallPop);
+			VK_RIGHT, _countWallPop,deltaTime);
 	}
 	//if pop wall three time
 	if (_countWallPop == 3)
@@ -153,4 +163,7 @@ void PlayScene::PlayerUpdate(const double deltaTime)
 	}
 	//player oxygen system
 	_playerOxySystem->ReduceOxygen(deltaTime);
+
+	//Doing Debug:
+	Debug.Log(_playerOxySystem->GetAmountOfReduceOxy());
 }
