@@ -2,6 +2,8 @@
 
 #include "IRenderable.h"
 
+using namespace Gdiplus;
+
 // TODO: Need to handle some player interaction (button - mouse hover)
 // TODO: Might need some loop animations
 

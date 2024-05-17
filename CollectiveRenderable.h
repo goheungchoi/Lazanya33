@@ -2,6 +2,8 @@
 
 #include "IRenderable.h"
 
+using namespace Gdiplus;
+
 template <class T>
 class CollectiveRenderable : public IRenderable {
 public:
@@ -77,7 +79,7 @@ public:
    * @param h 
    * @param caching 
    */
-  CollectiveRenderable(int x, int y, int w, int h, bool caching = false) 
+  CollectiveRenderable(int x, int y, int w, int h, bool caching = true) 
 		: CollectiveRenderable(caching) {
 		SetPosition(x, y);
     _spriteRects[nullptr] = Rect(x, y, w, h);
@@ -95,7 +97,11 @@ public:
    * @param pSprite ¹ÙÀÎµù ÇÒ ½ºÇÁ¶óÀÌÆ® Æ÷ÀÎÅÍ
    */
   void BindSpriteWithTag(Bitmap* pSprite, const std::wstring& tag) {
-    _pSpriteRegister[tag] = pSprite;
+		if (!pSprite) {
+			throw std::invalid_argument("CollectiveRenderable: Sprite is nullptr!");
+		}
+		
+		_pSpriteRegister[tag] = pSprite;
 
     Rect spriteRect(  // Create the destination rect
       _position.X, 
@@ -272,7 +278,11 @@ public:
 	void CacheData(Graphics& g) override {
 		if (_caching) {
 			for (auto& it : _pSpriteRegister) {
-        _pSpriteCacheData[it.first] = new CachedBitmap(_currentSprite, &g);
+        _pSpriteCacheData[it.first] = new CachedBitmap(it.second, &g);
+			}
+
+			for (auto pChild : _children) {
+				pChild->CacheData(g);
 			}
 		}
 	}

@@ -2,6 +2,7 @@
 
 #include "UIComponent.h"
 
+using namespace Gdiplus;
 
 enum class Display {
 	BLOCK,

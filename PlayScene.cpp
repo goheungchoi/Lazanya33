@@ -8,6 +8,8 @@
 #include "Wall.h"
 #include "Container.h"
 
+#include "ResourceManager.h"
+
 PlayScene::PlayScene() 
 : _gridMap{new GridMap(
 		GRID_MAP_POSITION_X, 
@@ -19,6 +21,11 @@ PlayScene::PlayScene()
 	_playerBrickInteractionSystem{new PlayerBricksInteractionSystem(_player,_walls)},
 	_playerOxySystem { new PlayerOxygenSystem(_player,_player->GetCurrOxyLevel()*0.01)}
 {	
+	_player->BindSpriteWithTag(
+		ResourceManager::Get().GetImage(L"test_asset"),
+		L"player"
+	);
+	
 	_ui = new Container(100, 100, 100, 100);
 	_ui->SetDisplay(Display::FLEX);
 	_ui->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
@@ -40,6 +47,9 @@ PlayScene::PlayScene()
 	_gridMap->AttachChildRenderable(_player);
 	_renderSystem->RegisterRenderableObject(_ui);
 	_renderSystem->RegisterRenderableObject(_gridMap);
+	_renderSystem->CacheDataInRegistry();
+
+	_player->SetCurrentTag(L"player");
 }
 
 void PlayScene::Update(const double deltaTime)

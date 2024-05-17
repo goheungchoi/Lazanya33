@@ -189,6 +189,7 @@
   <ItemGroup>
     <ClCompile Include="Anaerobic.cpp" />
     <ClCompile Include="AnimationController.h" />
+    <ClCompile Include="AssetParser.cpp" />
     <ClCompile Include="CSound.cpp" />
     <ClCompile Include="Naughty.cpp" />
     <ClCompile Include="PlayScene.cpp" />

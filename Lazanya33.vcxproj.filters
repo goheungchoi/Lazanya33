@@ -85,6 +85,9 @@
     <Filter Include="Source Files\Game\Systems\Sound">
       <UniqueIdentifier>{22a04084-5729-4260-9bad-0d38f50ad424}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\Utility">
+      <UniqueIdentifier>{d11dba1f-fb5f-432e-b78c-6b21e151eb14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -198,9 +201,6 @@
     <ClInclude Include="BrickGenerationSystem.h">
       <Filter>Source Files\Game\Systems\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Div.h">
-      <Filter>Source Files\Game\Components\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Source Files\Game\Components\UI</Filter>
     </ClInclude>
@@ -212,6 +212,12 @@
     </ClInclude>
     <ClInclude Include="DebugConsole.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Source Files\Game\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Container.h">
+      <Filter>Source Files\Game\Components\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +289,9 @@
     </ClCompile>
     <ClCompile Include="CSound.cpp">
       <Filter>Source Files\Game\Systems\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetParser.cpp">
+      <Filter>Source Files\Game\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

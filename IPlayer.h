@@ -8,7 +8,7 @@ public:
 	IPlayer(int x, int y, int w, int h, bool caching)
 		: CollectiveRenderable<IPlayer>(x, y, w, h, caching) {
 		SetBorder(0, 255, 0);
-		SetFillColor(0, 0, 0);
+		//SetFillColor(0, 0, 0);
 	}
 	~IPlayer() {}
 

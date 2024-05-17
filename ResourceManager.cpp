@@ -1,5 +1,7 @@
 #include "ResourceManager.h"
 
+using namespace Gdiplus;
+
 std::unique_ptr<ResourceManager> ResourceManager::_instance(nullptr);
 
 ResourceManager& ResourceManager::Create() { 
@@ -25,13 +27,13 @@ ResourceManager& ResourceManager::Get() {
 }
 
 bool ResourceManager::LoadImageFromFile(const wchar_t* path, const ImageName& name) {
-  Image* pImage = Image::FromFile(path); 
+  Bitmap* pImage = Bitmap::FromFile(path); 
 	if (!pImage) return false;
 	_images[name] = pImage;
 	return true;
 }
 
-Image* ResourceManager::GetImage(const ImageName& name) { 
+Bitmap* ResourceManager::GetImage(const ImageName& name) { 
   auto it = _images.find(name);
   if (it == _images.end()) return nullptr;
   return it->second;

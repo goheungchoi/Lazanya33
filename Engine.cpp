@@ -38,6 +38,11 @@ Engine::~Engine()
 
 void Engine::Initialize()
 {
+	ResourceManager::Get().LoadImageFromFile(
+		L"Assets/test_asset.png", 
+		L"test_asset"
+	);
+
 	Music::soundManager->InitMusic();
 	Music::soundManager->SetVolume(0.1f);
 	Timer::InitTimer();
