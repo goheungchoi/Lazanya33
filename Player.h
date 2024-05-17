@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IPlayer.h"
+// Need to be GridItem!
 #include "CollectiveRenderable.h"
 #include "AnimationController.h"
 

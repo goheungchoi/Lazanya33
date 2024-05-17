@@ -111,16 +111,7 @@ public:
 
 };
 
-class BDefault : public BrickGraphics<BDefault> {
-
-public:
-	BDefault() : BrickGraphics<BDefault>() {
-		BindSpriteWithTag(
-			ResourceManager::Get().GetImage(L"brick_can_00"),
-			L"brick_can_00"
-		);
-	};
-};
+class BDefault : public BrickGraphics<BDefault> {};
 
 class BStone : public BrickGraphics<BStone> {};
 

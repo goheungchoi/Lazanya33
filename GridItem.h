@@ -5,16 +5,39 @@
 using namespace Gdiplus;
 
 class GridItem : public IRenderable {
+protected:
+	using Tag = std::wstring;
+
+  std::unordered_map<Tag, Bitmap*> _pSpriteRegister;
+	// 
+  std::unordered_map<Tag, CachedBitmap*> _pSpriteCacheData;
+	// Rect that contain the size of the image. X and Y are 0s.
+	std::unordered_map<Tag, Rect> _spriteRects;
+
 public:
-  std::unordered_map<std::wstring, Bitmap*> _pSpriteRegister;
-  std::unordered_map<std::wstring, CachedBitmap*> _pSpriteCacheData;
 
-private:
-	// frames where the graphics are drawn actually.
-	std::unordered_map<Bitmap*, Rect> _spriteFrames;
+	/**
+	 * @brief Bind the image pointer to this Renderable object.
+	 * In order to cache the images, the image pointers must be bound first.
+	 * @param bitmap 
+	 * @param tag 
+	 */
+	void BindImage(Bitmap* bitmap, const Tag& tag) {
+		if (!bitmap) throw std::invalid_argument("GridItem: bitmap is null!");
+		_pSpriteRegister[tag] = bitmap;
+	}
 
-	Matrix _gridTransform;
-	Point _gridPos;
+protected:
+	// Cache Data
+  bool          _caching;
+  Bitmap*       _currentSprite;
+  CachedBitmap* _currentCachedBitmap;
+  Rect*         _currentSpriteRect;
+  std::wstring  _currentTag;
+
+	// _position is the actual position on the window screen
+	Matrix _gridTransform;	// GridMap will apply its position and scale.
+	Point _gridPos;	// Must be 0 ~ gridSize. Set individually.
 
 	// Graphics
 	bool _border{false};
@@ -27,44 +50,145 @@ private:
   V_DIRECTION _vertical{V_DIRECTION::TOP};
 
 public:
-	std::unordered_map<Bitmap*, Rect> _spriteRects;
+	GridItem() : 
+		// Cache Data
+    _caching{true}, 
+    _currentSprite{nullptr}, 
+    _currentCachedBitmap{nullptr},
+    _currentSpriteRect{nullptr},
+		// Graphics
+		_pen(Color(0, 0, 0)),
+		_brush(Color(0, 0, 0)) {}
 
-	//GridItem() {}
+	void GridScale(float x, float y) {
+		_gridTransform.Scale(x, y);
+	}
+
+	void GridTranslate(float x, float y) { 
+		_gridTransform.Translate(x, y);
+	}
 
 	void SetGridPos(int x, int y) {
 		_gridPos.X = x;
 		_gridPos.Y = y;
 	}
 
+	void ResetGridTransform() {
+		_gridTransform.Reset();
+	}
+
+// Graphics
+	/**
+	 * @brief Set border of this sprite.
+	 * @param r Red value from 0~255
+	 * @param g Green value from 0~255
+	 * @param b Blue value from 0~255
+	 * @param a Alpha value from 0~255. Default is 255.
+	 * @param width Width of the border. Default is 0.01.
+	 */
+	void SetBorder(char r, char g, char b, char a = 255, float width = 0.01) {
+		_pen.SetColor(Color(a, r, g, b));
+    _pen.SetWidth(width);
+	}
+	void EnableBorder(bool enable) { _border = enable; }
+	void DisableBorder(bool disable) { _border = disable; }
+
+	/**
+	 * @brief Set fill color of this sprite
+	 * @param r Red value from 0~255
+	 * @param g Green value from 0~255
+	 * @param b Blue value from 0~255
+	 * @param a Alpha value from 0~255. Default is 255.
+	 */
+	void SetFillColor(char r, char g, char b, char a = 255U) {
+		_brush.SetColor(Color(a, r, g, b));
+	}
+	void EnableFill(bool enable) { _fill = enable; }
+	void DisableFill(bool disable) { _fill = disable; }
+
+	void ChangeTag(const wchar_t* tag) {
+		if (_caching) {
+			// Check if the cached sprite exists
+			auto cacheIt = _pSpriteCacheData.find(tag);
+			if ( cacheIt == _pSpriteCacheData.end()) 
+				_currentCachedBitmap = nullptr; 
+			else
+				_currentCachedBitmap = cacheIt->second;
+		} 
+		
+		auto it = _pSpriteRegister.find(tag);
+		if (it == _pSpriteRegister.end())
+      _currentSprite = nullptr;
+		else 
+			_currentSprite = it->second;
+
+    // Set the current frame
+    _currentSpriteRect = &_spriteRects[tag];
+  }
+
+// Render
 	virtual void Render(Graphics& g) {
 		Matrix t;
 		g.GetTransform(&t);
 		g.ResetTransform();
 
+		// Transform the cell's upper left corner
+		_position = _gridPos;
+		_gridTransform.TransformVectors(&_position);
 
+		__SetSpriteRectPosition(_position, _currentSpriteRect);
 
+		_caching && 
+		_currentCachedBitmap && 
+		g.DrawCachedBitmap(
+      _currentCachedBitmap, 
+      _currentSpriteRect->X, _currentSpriteRect->Y
+    );
 
+		!_caching && 
+		_currentSprite && 
+		g.DrawImage(_currentSprite, *_currentSpriteRect);
+
+		_border && 
+		g.DrawRectangle(&_pen, *_currentSpriteRect);
+
+		_fill && 
+		g.FillRectangle(&_brush, *_currentSpriteRect);
 
 		g.SetTransform(&t);
 	}
 
-private:
+// Rendering Utilities
+
+	Bitmap* GetCurrentSprite() { return _currentSprite; }
+
+	/**
+	 * @brief Cache the image data bound to this Renderable object.
+	 */
+	void CacheData(Graphics& g) override {
+		if (_caching) {
+			for (auto& it : _pSpriteRegister) {
+        _pSpriteCacheData[it.first] = new CachedBitmap(it.second, &g);
+			}
+		}
+	}
+
+protected:
   /**
-   * @brief Adjust a sprite frame based on 
+   * @brief Set a sprite Rect position based on 
 	 *	the Renderable position.
    * @param sprite
    * @param spriteRect
    */
-  void __AdjustSpriteRect(Bitmap* sprite, Rect& spriteRect) {
-		if (!sprite) return;
-		
-		unsigned int width = sprite->GetWidth();
-    unsigned int height = sprite->GetHeight();
-    unsigned int halfW = width / 2;
-    unsigned int halfH = height / 2;
+  void __SetSpriteRectPosition(const Point& cellULCorner, Rect* spriteRect) {
 
-    unsigned int frameX = _position.X;
-    unsigned int frameY = _position.Y;
+		int width = spriteRect->Width;
+    int height = spriteRect->Height;
+    int halfW = width >> 1;
+    int halfH = height >> 1;
+
+    int frameX = cellULCorner.X;
+    int frameY = cellULCorner.Y;
 
     switch (_horizontal) {
       case H_DIRECTION::LEFT: {
@@ -88,7 +212,7 @@ private:
       } break;
     }
 
-    spriteRect.X = frameX;
-    spriteRect.Y = frameY;
+    spriteRect->X = frameX;
+    spriteRect->Y = frameY;
   }
 };

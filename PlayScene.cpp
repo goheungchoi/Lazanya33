@@ -44,13 +44,13 @@ PlayScene::PlayScene()
 	_ui->SetBorder(255, 0, 0);
 	_ui->SetText(L"Hello!");
 	_ui->SetRotationPivot(_ui->GetCenterX(), _ui->GetCenterY());
-	_gridMap->AttachChildRenderable(_walls);
+	_gridMap->AddGridItem(_walls);
 	_gridMap->AttachChildRenderable(_player);
 	_renderSystem->RegisterRenderableObject(_ui);
 	_renderSystem->RegisterRenderableObject(_gridMap);
 	_renderSystem->CacheDataInRegistry();
 
-	_player->SetCurrentTag(L"lazanya_02");
+	_player->ChangeTag(L"lazanya_02");
 }
 
 void PlayScene::Update(const double deltaTime)

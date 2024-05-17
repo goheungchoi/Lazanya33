@@ -8,12 +8,14 @@ class GridMap : public UIComponent {
 	std::list<GridItem*> _gridItems;
 
 public:
-	
 	void AddGridItem(GridItem* item) {
+		item->GridTranslate(_position.X, _position.Y);
+		item->GridScale(_cellWidth, _cellHeight);
 		_gridItems.push_back(item);
 	}
 
 	void RemoveGridItem(GridItem* item) {
+		item->ResetGridTransform();
 		_gridItems.remove(item);
 	}
 
@@ -34,16 +36,8 @@ public:
 	}
 
 	void RenderChildren(Graphics& g) override {
-		/*g.TranslateTransform(_position.X, _position.Y);
-		g.ScaleTransform(_cellWidth, _cellHeight);*/
-
-
 		for (GridItem* pGridItem : _gridItems) { 
 			pGridItem->Render(g);
 		}
-
-
-		//g.ResetTransform();
-    //g.ResetTransform();
 	}
 };

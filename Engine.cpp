@@ -12,6 +12,11 @@
 #include "SingleRenderable.h"
 #include "ResourceManager.h"
 
+// Attach images to the brick types
+#ifndef NDEBUG
+#include "Brick.h"
+#endif
+
 Engine::Engine()
 {
 	// Initialize ResourceManager Singleton
@@ -46,6 +51,14 @@ void Engine::Initialize()
 		L"Assets\\lazanya_02.png", 
 		L"lazanya_02"
 	);
+
+	// DEBUG
+	BDefault bd;
+	bd.BindSpriteWithTag(
+		ResourceManager::Get().GetImage(L"brick_can_00"),
+		L"brick_can_00"
+	);
+	_renderSystem->CachingHelper(&bd);
 
 	Music::soundManager->InitMusic();
 	Music::soundManager->SetVolume(0.1f);

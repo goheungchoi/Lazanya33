@@ -156,7 +156,7 @@ protected:
    * ÀÌ ÇÔ¼ö´Â ´Ù¸¥ ÇÔ¼öµé¿¡ ºñ¿¡ »ó´ëÀûÀ¸·Î ´À¸± ¼ö ÀÖ½À´Ï´Ù.
    * @param tag ½ºÇÁ¶óÀÌÆ® ÅÂ±×
    */
-  void SetCurrentTag(const wchar_t* tag) {
+  void ChangeTag(const wchar_t* tag) {
 		if (_caching) {
 			// Check if the cached sprite exists
 			if (auto cacheIt = _pSpriteCacheData.find(tag); cacheIt == _pSpriteCacheData.end()) 

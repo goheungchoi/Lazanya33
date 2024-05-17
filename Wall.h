@@ -1,12 +1,12 @@
 #pragma once
-#include "IRenderable.h"
+#include "GridItem.h"
 #include "GridDeque.h"
 #include "Brick.h"
 
 constexpr std::size_t wallNumRows = 14;
 constexpr std::size_t wallNumCols = 5;
 
-class Wall :public IRenderable
+class Wall :public GridItem
 {
 private:
 	GridDeque<Brick> _bricks;
@@ -66,16 +66,23 @@ public:
 	}
 
 	void Render(Graphics& g) override {
+		Matrix t;
+		g.GetTransform(&t);
+		g.ResetTransform();
+
 		for (int i=1; i < 10; ++i) {
 			for (int j=0; j < wallNumCols; ++j) {
+				Rect spriteRect;
+				Point gridPos{ j, i };
+				_gridTransform.TransformPoints(&gridPos);
+				__SetSpriteRectPosition(gridPos, &spriteRect);
+
 				Gdiplus::CachedBitmap* pBitmap = _brickSprites.At(i, j);
-				pBitmap && g.DrawCachedBitmap(pBitmap, i, j);
-				/*if (_brickSquares.At(i, j)) {
-					_brickSquares.At(i, j)->SetPosition(j, i);
-					_brickSquares.At(i, j)->Render(g);
-				}*/
+				pBitmap && g.DrawCachedBitmap(pBitmap, spriteRect.X, spriteRect.Y);
 			}
 		}
+
+		g.SetTransform(&t);
 	}
   
 };

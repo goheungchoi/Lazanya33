@@ -1,5 +1,6 @@
 #pragma once
 
+// TODO: Need to be GridItem!
 #include "CollectiveRenderable.h"
 
 class IPlayer : public MultiSpriteRenderable<IPlayer> {
