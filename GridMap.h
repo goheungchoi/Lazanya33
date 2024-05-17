@@ -2,7 +2,16 @@
 
 #include "CollectiveRenderable.h"
 
-class GridMap : public CollectiveRenderable<GridMap> {
+template<class T>
+class GridItem : public MultiSpriteRenderable<T> {
+	Point _gridPos;
+
+public:
+		
+
+};
+
+class GridMap : public MultiSpriteRenderable<GridMap> {
 	std::size_t _cellWidth;
 	std::size_t _cellHeight;
 
@@ -11,10 +20,10 @@ public:
 	std::size_t nrows, std::size_t ncols, 
 	std::size_t cellWidth, std::size_t cellHeight)
 	: _cellWidth{cellWidth}, _cellHeight{cellHeight},
-		CollectiveRenderable<GridMap>(x, y, cellWidth*nrows, cellHeight*ncols) {}
+		MultiSpriteRenderable<GridMap>(x, y, cellWidth*nrows, cellHeight*ncols) {}
 
 	void Render(Graphics& g) override { 
-		CollectiveRenderable<GridMap>::Render(g);
+		MultiSpriteRenderable<GridMap>::Render(g);
 		RenderChildren(g); 
 	}
 

@@ -2,13 +2,14 @@
 
 #include "CollectiveRenderable.h"
 
-class IPlayer : public CollectiveRenderable<IPlayer> {
+class IPlayer : public MultiSpriteRenderable<IPlayer> {
 public:
 	IPlayer() = delete;
 	IPlayer(int x, int y, int w, int h, bool caching)
-		: CollectiveRenderable<IPlayer>(x, y, w, h, caching) {
+		: MultiSpriteRenderable<IPlayer>(x, y, w, h, caching) {
+#ifndef NDEBUG
 		SetBorder(0, 255, 0);
-		//SetFillColor(0, 0, 0);
+#endif // !NDEBUG
 	}
 	~IPlayer() {}
 

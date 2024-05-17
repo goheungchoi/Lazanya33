@@ -1,5 +1,7 @@
 #pragma once
+
 #include "CollectiveRenderable.h"
+#include "ResourceManager.h"
 //add
 // BrickType 열거형 정의
 enum class BrickType
@@ -21,7 +23,7 @@ struct Brick
 {
   int blockScore = 0; // 브릭의 점수
   double blockDownAir = 0; // 브릭을 부수면 공기의 감소 또는 증가
-  int blockHealth = 0;
+  int blockHealth = 0;		
 	BrickType type;
 
 	Brick() {
@@ -97,13 +99,13 @@ struct Brick
 // 이친구들은 스프라이트 데이터만 가지고 있고,
 // 브릭 제너레이션 시스템에서는 이 친구들 스프라이트 포인터들만 가지고 옴.
 template<class T>
-class BrickGraphics : public CollectiveRenderable<T> {
+class BrickGraphics : public MultiSpriteRenderable<T> {
 
 public:
 #ifndef NDEBUG
 	BrickGraphics() 
-    : CollectiveRenderable<T>(0, 0, 1, 1) {
-    CollectiveRenderable<T>::SetBorder(255, 0, 0);
+    : MultiSpriteRenderable<T>(0, 0, 1, 1) {
+    MultiSpriteRenderable<T>::SetBorder(255, 0, 0);
 	}
 #endif
 
@@ -112,8 +114,12 @@ public:
 class BDefault : public BrickGraphics<BDefault> {
 
 public:
-	BDefault() : BrickGraphics<BDefault>() {};
-
+	BDefault() : BrickGraphics<BDefault>() {
+		BindSpriteWithTag(
+			ResourceManager::Get().GetImage(L"brick_can_00"),
+			L"brick_can_00"
+		);
+	};
 };
 
 class BStone : public BrickGraphics<BStone> {};

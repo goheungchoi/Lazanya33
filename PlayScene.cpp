@@ -21,10 +21,9 @@ PlayScene::PlayScene()
 	_playerBrickInteractionSystem{new PlayerBricksInteractionSystem(_player,_walls)},
 	_playerOxySystem { new PlayerOxygenSystem(_player,_player->GetCurrOxyLevel()*0.01)}
 {	
-	_player->BindSpriteWithTag(
-		ResourceManager::Get().GetImage(L"test_asset"),
-		L"player"
-	);
+	Bitmap* bitmap = ResourceManager::Get().GetImage(L"lazanya_02");
+	_player->BindSpriteWithTag(bitmap, L"lazanya_02");
+	_player->UpdateSpritePivotPosition(H_DIRECTION::CENTER, V_DIRECTION::BOTTOM);
 	
 	_ui = new Container(100, 100, 100, 100);
 	_ui->SetDisplay(Display::FLEX);
@@ -49,7 +48,7 @@ PlayScene::PlayScene()
 	_renderSystem->RegisterRenderableObject(_gridMap);
 	_renderSystem->CacheDataInRegistry();
 
-	_player->SetCurrentTag(L"player");
+	_player->SetCurrentTag(L"lazanya_02");
 }
 
 void PlayScene::Update(const double deltaTime)
