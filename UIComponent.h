@@ -7,7 +7,7 @@ using namespace Gdiplus;
 // TODO: Need to handle some player interaction (button - mouse hover)
 // TODO: Might need some loop animations
 
-// UIComponent can inherit from either SingleRenderable or CollectiveRenderable
+// UIComponent can inherit from either SingleRenderable or MultiSpriteRenderable
 
 enum class PositionLayout {
 	LAYOUT_STATIC,
@@ -20,7 +20,7 @@ enum class PositionLayout {
 /**
  * @brief UI component base class. 
  * If you need faster rendering sprites, might consider
- * using SingleRenderable or CollectiveRenderable.
+ * using SingleRenderable or MultiSpriteRenderable.
  */
 class UIComponent : public IRenderable {
 protected:

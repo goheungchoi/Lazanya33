@@ -39,8 +39,12 @@ Engine::~Engine()
 void Engine::Initialize()
 {
 	ResourceManager::Get().LoadImageFromFile(
-		L"Assets/test_asset.png", 
-		L"test_asset"
+		L"Assets\\brick_can_00.png", 
+		L"brick_can_00"
+	);
+	ResourceManager::Get().LoadImageFromFile(
+		L"Assets\\lazanya_02.png", 
+		L"lazanya_02"
 	);
 
 	Music::soundManager->InitMusic();

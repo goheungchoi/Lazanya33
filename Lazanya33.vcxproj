@@ -147,6 +147,7 @@
     <ClInclude Include="DebugConsole.h" />
     <ClInclude Include="Container.h" />
     <ClInclude Include="GridDeque.h" />
+    <ClInclude Include="GridItem.h" />
     <ClInclude Include="GridMap.h" />
     <ClInclude Include="Naughty.h" />
     <ClInclude Include="PlayerBricksInteractionSystem.h" />

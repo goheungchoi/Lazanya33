@@ -3,6 +3,10 @@
 #include "Renderer.h"
 #include "IRenderable.h"
 
+#include "ResourceManager.h"
+
+using namespace Gdiplus;
+
 /**
  * @brief 랜더링 시스템. 
  * 사용방법) 렌더러블 오브젝트를 시스템에 등록후 Render() 함수를

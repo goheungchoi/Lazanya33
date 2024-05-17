@@ -34,10 +34,9 @@ PlayScene::PlayScene()
 	_playerOxySystem{ new PlayerOxygenSystem(_player,PLAYER_OXYGEN_REDUCE_INITAL_VALUE) },
 	_playerBrickInteractionSystem{ new PlayerBricksInteractionSystem(_player,_walls,_playerOxySystem)}
 {	
-	_player->BindSpriteWithTag(
-		ResourceManager::Get().GetImage(L"test_asset"),
-		L"player"
-	);
+	Bitmap* bitmap = ResourceManager::Get().GetImage(L"lazanya_02");
+	_player->BindSpriteWithTag(bitmap, L"lazanya_02");
+	_player->UpdateSpritePivotPosition(H_DIRECTION::CENTER, V_DIRECTION::BOTTOM);
 	
 	_ui = new Container(100, 100, 100, 100);
 	_ui->SetDisplay(Display::FLEX);
@@ -62,6 +61,7 @@ PlayScene::PlayScene()
 	_renderSystem->RegisterRenderableObject(_gridMap);
 	_renderSystem->CacheDataInRegistry();
 
+	_player->SetCurrentTag(L"lazanya_02");
 	_player->SetCurrentTag(L"player");
 	_player = new GoldSeeker(_player);
 }
