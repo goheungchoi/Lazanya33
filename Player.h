@@ -36,8 +36,7 @@ private:
  public:
 
 	Player()
-  : IPlayer(2, 2, 1, 1, true),
-		_ad{PLAYER_DEFAULT_AD},
+  : _ad{PLAYER_DEFAULT_AD},
     _maxOxygenLevel{PLAYER_DEFAULT_MAX_OXYGEN_LEVEL},
     _oxygenLevel{PLAYER_DEFAULT_MAX_OXYGEN_LEVEL},
     _maxHP{PLAYER_DEFAULT_MAX_HP},
@@ -79,7 +78,7 @@ private:
 
   //SeoungWoo Change
   void SetCombo(int combo)override { _comboNumber = combo; }
-  void SetComboDuration(double ChangeDuration)override { _comboDuration = ChangeDuration; }
+  void SetComboDuration(double comboDuration)override { _comboDuration = comboDuration; }
   void SetDownMeter(int meter)override { _downMeter = meter; }
 
   //TODO: lasgula

@@ -1,12 +1,23 @@
 #include "pch.h"
 #include "PlayScene.h"
-#include "BrickGenerationSystem.h"
-#include "PlayerBricksInteractionSystem.h"
-#include "PlayerOxygenSystem.h"
 #include "GridMap.h"
 #include "Player.h"
 #include "Wall.h"
 #include "Container.h"
+
+//decorator
+#include "TenaciousDwarf.h"
+#include "Wimp.h"
+#include "Pummeler.h"
+#include "SugarGirl.h"
+#include "Anaerobic.h"
+#include "Naughty.h"
+#include "GoldSeeker.h"
+
+//system
+#include "BrickGenerationSystem.h"
+#include "PlayerBricksInteractionSystem.h"
+#include "PlayerOxygenSystem.h"
 
 #include "ResourceManager.h"
 
@@ -50,7 +61,9 @@ PlayScene::PlayScene()
 	_renderSystem->RegisterRenderableObject(_gridMap);
 	_renderSystem->CacheDataInRegistry();
 
-	_player->ChangeTag(L"lazanya_02");
+	_player->SetCurrentTag(L"lazanya_02");
+	_player->SetCurrentTag(L"player");
+	_player = new GoldSeeker(_player);
 }
 
 void PlayScene::Update(const double deltaTime)
