@@ -134,8 +134,7 @@ public:
 
 		// Transform the cell's upper left corner
 		_position = _gridPos;
-		_gridTransform.TransformVectors(&_position);
-
+		_gridTransform.TransformPoints(&_position);
 		__SetSpriteRectPosition(_position, _currentSpriteRect);
 
 		_caching && 

@@ -35,8 +35,9 @@ PlayScene::PlayScene()
 	_playerBrickInteractionSystem{ new PlayerBricksInteractionSystem(_player,_walls,_playerOxySystem)}
 {	
 	Bitmap* bitmap = ResourceManager::Get().GetImage(L"lazanya_02");
-	_player->BindSpriteWithTag(bitmap, L"lazanya_02");
-	_player->UpdateSpritePivotPosition(H_DIRECTION::CENTER, V_DIRECTION::BOTTOM);
+	_player->BindImage(bitmap, L"lazanya_02");
+	_renderSystem->CachingHelper(_player);
+	//_player->UpdateSpritePivotPosition(H_DIRECTION::CENTER, V_DIRECTION::BOTTOM);
 	
 	_ui = new Container(100, 100, 100, 100);
 	_ui->SetDisplay(Display::FLEX);
@@ -56,13 +57,13 @@ PlayScene::PlayScene()
 	_ui->SetText(L"Hello!");
 	_ui->SetRotationPivot(_ui->GetCenterX(), _ui->GetCenterY());
 	_gridMap->AddGridItem(_walls);
-	_gridMap->AttachChildRenderable(_player);
+	_gridMap->AddGridItem(_player);
 	_renderSystem->RegisterRenderableObject(_ui);
 	_renderSystem->RegisterRenderableObject(_gridMap);
 	_renderSystem->CacheDataInRegistry();
 
-	_player->SetCurrentTag(L"lazanya_02");
-	_player->SetCurrentTag(L"player");
+	_player->ChangeTag(L"lazanya_02");
+	//_player->ChangeTag(L"player");
 	_player = new GoldSeeker(_player);
 }
 

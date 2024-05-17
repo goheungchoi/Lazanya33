@@ -50,8 +50,8 @@ private:
     _score{0} {}
 
   /* Getters */
-  int GetPositionX() { return _position.X; }
-  int GetPositionY() { return _position.Y; }
+  int GetPositionX() { return _gridPos.X; }
+  int GetPositionY() { return _gridPos.Y; }
   int GetAttackDamage() override { return _ad; }
   double GetCurrOxyLevel() override { return _oxygenLevel; }
   int GetCurrHP() override { return _hp; }
@@ -64,8 +64,7 @@ private:
 
   /* Setters */
 	void SetPosition(int x, int y) {
-		IRenderable::_position.X = x;
-    IRenderable::_position.Y = y;
+		SetGridPos(x, y);
 	}
   void SetAttackDamage(int ad) { _ad = ad; };
   void SetMaxOxygenLevel(double maxOxygenLevel) override {
@@ -116,7 +115,7 @@ private:
   bool IsDead() override { return _hp <= 0 || _oxygenLevel <= 0; }
 
   void Move(int x, int y) override { 
-    IRenderable::_position.X += x;
-    IRenderable::_position.Y += y;
+    _gridPos.X += x;
+    _gridPos.Y += y;
   }
 };
