@@ -15,23 +15,23 @@ namespace global
 
 
 //center the screen
-void PlaceInCenterOfScreen(HWND window, DWORD style, DWORD exStyle)
-{
-	int screenWidth = GetSystemMetrics(SM_CXSCREEN);
-	int screenHeight = GetSystemMetrics(SM_CYSCREEN);
-
-	RECT clientRect;
-	GetClientRect(window, &clientRect);
-
-	int clientWidth = clientRect.right - clientRect.left;
-	int clientHeight = clientRect.bottom - clientRect.top;
-
-	SetWindowPos(window, NULL,
-		screenWidth / 2 - clientWidth / 2,
-		screenHeight / 2 - clientHeight / 2,
-		clientWidth, clientHeight, 0
-	);
-}
+//void PlaceInCenterOfScreen(HWND window, DWORD style, DWORD exStyle)
+//{
+//	int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+//	int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+//
+//	RECT clientRect;
+//	GetClientRect(window, &clientRect);
+//
+//	int clientWidth = clientRect.right - clientRect.left;
+//	int clientHeight = clientRect.bottom - clientRect.top;
+//
+//	SetWindowPos(window, NULL,
+//		screenWidth / 2 - clientWidth / 2,
+//		screenHeight / 2 - clientHeight / 2,
+//		clientWidth, clientHeight, 0
+//	);
+//}
 
 void WinApp::Initialize(HINSTANCE hInstance)
 {
@@ -66,7 +66,7 @@ void WinApp::Initialize(HINSTANCE hInstance)
 	_hWnd = CreateWindow(appName, appName, WS_OVERLAPPED | WS_SYSMENU,
 		10,10, width, height, NULL, NULL, hInstance, NULL);
 
-	ShowWindow(_hWnd, SW_SHOWNORMAL);
+	ShowWindow(_hWnd, /*SW_MAXIMIZE*/SW_SHOWNORMAL);
 	UpdateWindow(_hWnd);
 
 	Engine::GetInstance()->Initialize();
@@ -89,7 +89,7 @@ LRESULT WinApp::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_CREATE:
 	{
-		PlaceInCenterOfScreen(hWnd, WS_OVERLAPPEDWINDOW, WS_EX_APPWINDOW | WS_EX_WINDOWEDGE);
+		/*PlaceInCenterOfScreen(hWnd, WS_OVERLAPPEDWINDOW, WS_EX_APPWINDOW | WS_EX_WINDOWEDGE);*/
 	}
 	break;
 
