@@ -20,6 +20,11 @@ public:
   virtual double GetCurrOxyLevel() = 0;
   virtual int GetCurrHP() = 0;
   virtual int GetCurrScore() = 0;
+  //SeoungWoo Change
+  virtual int GetCurrCombo() = 0;
+  virtual double GetComboElapsedTime() = 0;
+  virtual double GetComboDuration() = 0;
+  virtual int GetDownMeter() = 0;
 
   /* Setters */
 	virtual void SetPosition(int x, int y) = 0;
@@ -32,10 +37,21 @@ public:
   virtual void SetMaxHP(int) = 0;
   virtual void SetHP(int) = 0;
 
-  virtual void SetLasgulaDuration(double) = 0;
+  //SeoungWoo Change
+  virtual void SetCombo(int) = 0;
   virtual void SetComboDuration(double) = 0;
+  virtual void SetDownMeter(int) = 0;
+
+
+  virtual void SetLasgulaDuration(double) = 0;
+  virtual void SetComboElapsedTime(double) = 0;
 
   /* Modifiers */
+  //SeoungWoo Change
+  virtual void AddCombo() = 0;
+  virtual void AddComboElapsedTime(const double&) = 0;
+  virtual void AddDownMeter() = 0;
+
   virtual void AddHP(int hp) = 0;
 
   virtual void AddOxygen(double amountOfOxygen) = 0;

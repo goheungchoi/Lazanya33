@@ -3,20 +3,24 @@
 #include "IPlayer.h"
 #include "Wall.h"
 #include "Player.h"
+#include "PlayerOxygenSystem.h"
+//Doing Debug:
+#include "DebugConsole.h"
 
 class PlayerBricksInteractionSystem {
 // Player*
 // Wall*
 	IPlayer* _player;
 	Wall* _wall;
+	PlayerOxygenSystem* _playerOxySystem;
 public:
-	
 	PlayerBricksInteractionSystem(
 		IPlayer* player,
-		Wall* wall
-	) :_player{ player }, _wall{wall} {}
+		Wall* wall,
+		PlayerOxygenSystem* playerOxySystem
+	) :_player{ player }, _wall{ wall }, _playerOxySystem{ playerOxySystem } {}
 
-	void ApplyDamageToBrickByPlayer(int row, int col,BYTE key,int& count) {
+	void ApplyDamageToBrickByPlayer(int row, int col,BYTE key,int& count, const double& deltaTime) {
 		//player damage to birck
 		_wall->DamageBrick(row, col, _player->GetAttackDamage());
 		
@@ -28,6 +32,7 @@ public:
 			_player->SetPosition(col, 4);
 			if (key == VK_DOWN)
 			{
+				_playerOxySystem->UpdateAmountOfRedeuceOxy();
 				_wall->PopFrontBricks();
 				count++;
 			}
@@ -48,6 +53,10 @@ public:
 			if (_player->GetPositionY() != row)
 			{
 				_player->AddOxygenSpecialCase(currBrickData.blockDownAir);
+				//SeoungWoo Change
+				_player->AddCombo();
+				_player->SetComboElapsedTime(0);
+				_player->AddDownMeter();
 			}
 		}
 
@@ -59,6 +68,10 @@ public:
 			if (_player->GetPositionY() != row)
 			{
 				_player->AddOxygenFromOxyBlock(currBrickData.blockDownAir);
+				//SeoungWoo Change
+				_player->AddCombo();
+				_player->SetComboElapsedTime(0);
+				_player->AddDownMeter();
 			}
 		}
 
@@ -70,6 +83,10 @@ public:
 			if (_player->GetPositionY() != row)
 			{
 				_player->AddOxygen(_wall->GetBrick(row, col).blockDownAir);
+				//SeoungWoo Change
+				_player->AddCombo();
+				_player->SetComboElapsedTime(0);
+				_player->AddDownMeter();
 			}
 		}
 		// 플레이어의 양옆 벽돌이 파괴됐으면 (player.y == brick.y) 
