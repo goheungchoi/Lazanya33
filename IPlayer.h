@@ -4,13 +4,7 @@
 
 class IPlayer : public MultiSpriteRenderable<IPlayer> {
 public:
-	IPlayer() = delete;
-	IPlayer(int x, int y, int w, int h, bool caching)
-		: MultiSpriteRenderable<IPlayer>(x, y, w, h, caching) {
-#ifndef NDEBUG
-		SetBorder(0, 255, 0);
-#endif // !NDEBUG
-	}
+	
 	~IPlayer() {}
 
   /* Getters */

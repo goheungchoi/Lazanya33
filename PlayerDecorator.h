@@ -7,7 +7,7 @@ protected:
   IPlayer* _player;
 
 public:
-  PlayerDecorator(IPlayer* player) :IPlayer(2, 2, 1, 1, true), _player{ player } {}
+  PlayerDecorator(IPlayer* player) :_player{ player } {}
 
   /* Getters */
   virtual int GetPositionX() override { return _player->GetPositionX(); }
