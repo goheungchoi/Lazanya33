@@ -5,10 +5,11 @@
 using namespace Gdiplus;
 
 class GridItem : public IRenderable {
-protected:
-  static std::unordered_map<std::wstring, Bitmap*> _pSpriteRegister;
-  static std::unordered_map<std::wstring, CachedBitmap*> _pSpriteCacheData;
-	
+public:
+  std::unordered_map<std::wstring, Bitmap*> _pSpriteRegister;
+  std::unordered_map<std::wstring, CachedBitmap*> _pSpriteCacheData;
+
+private:
 	// frames where the graphics are drawn actually.
 	std::unordered_map<Bitmap*, Rect> _spriteFrames;
 
@@ -28,7 +29,7 @@ protected:
 public:
 	std::unordered_map<Bitmap*, Rect> _spriteRects;
 
-	GridItem() {}
+	//GridItem() {}
 
 	void SetGridPos(int x, int y) {
 		_gridPos.X = x;
@@ -91,15 +92,3 @@ private:
     spriteRect.Y = frameY;
   }
 };
-
-template <class T>
-std::unordered_map<std::wstring, Bitmap*>
-    GridItem<T>::_pSpriteRegister;
-
-template <class T>
-std::unordered_map<std::wstring, CachedBitmap*>
-    GridItem<T>::_pSpriteCacheData;
-
-#ifndef NDEBUG
-inline GridItem<int> GridItemDebugTrigger;
-#endif
