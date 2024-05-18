@@ -63,10 +63,10 @@ void WinApp::Initialize(HINSTANCE hInstance)
 	int width = rect.right - rect.left;
 	int height = rect.bottom - rect.top;
 
-	_hWnd = CreateWindow(appName, appName, WS_OVERLAPPED | WS_SYSMENU,
+	_hWnd = CreateWindow(appName, appName, WS_POPUP/*WS_OVERLAPPED*/ | WS_SYSMENU,
 		10,10, width, height, NULL, NULL, hInstance, NULL);
 
-	ShowWindow(_hWnd, /*SW_MAXIMIZE*/SW_SHOWNORMAL);
+	ShowWindow(_hWnd, SW_MAXIMIZE/*SW_SHOWNORMAL*/);
 	UpdateWindow(_hWnd);
 
 	Engine::GetInstance()->Initialize();

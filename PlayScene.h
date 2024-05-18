@@ -1,33 +1,77 @@
-#pragma once
+﻿#pragma once
 #include "SceneGraph.h"
 
 constexpr int GRID_MAP_POSITION_X = 720;
 constexpr int GRID_MAP_POSITION_Y = -120;
+constexpr int GRID_ITEM_WIDTH = 120;
+constexpr int GRID_ITEM_HEIGHT = 120;
 
 template<class T>
 class SingleSpriteRenderable;
 class Container;
+class BlessingContainer;
 
 class PlayScene :public IScene
 {
-	class GridMap* _gridMap;
-	class IPlayer* _player;
-	class Wall* _walls;
+#ifndef NDEBUG
+	Container* _fpsBox;
+	double _elapsedTime{ 0.0 };
+	std::size_t _frames{ 0 };
+	std::size_t _frameRate{ 0 };
+#endif
 
+/* Scene Graphics Components */
+	
+	// Letter Scene Components
 	class Container* _letterContainer;
 	struct LetterComponents {
 		SingleSpriteRenderable<LetterComponents>* background;
-		class Container* letter;
-
-		class Container* diagrams;
-		class Container* leftArrowDiagram;
-		class Container* downArrowDiagram;
-		class Container* rightArrowDiagram;
 		
+		Container* _leftBox;
+		Container* letter;
+		Container* diagrams;
+		Container* leftArrowDiagram;
+		Container* downArrowDiagram;
+		Container* rightArrowDiagram;
 
-		/*class Container* blessOfGod;
-		class Container* firstBlessOfGod;*/
+		Container* _rightBox;
+		Container* text1;
+		Container* blessingsOfGod;
+		Container* firstBlessingOfGod;
+		Container* secondBlessingOfGod;
+		Container* thirdBlessingOfGod;
+		Container* text2;
+
 	} _letterComponents;
+
+	// Game Play Scene Components
+	Container* _gamePlayUIContainer;
+	struct GamePlayComponents {
+		Container* _leftBox;
+		// TODO: Might need to be animated
+		Container* daughter;
+		Container* husband;
+		Container* mother;
+		Container* dancingTownspeople;
+		Container* ancestors;
+
+		Container* _centerBox;
+		Container* oxygenMeter;
+		Container* meterBackground;
+		Container* oxygenLevel;
+
+		Container* _rightBox;
+		Container* scoreBoard;
+		Container* gloryOfFamily;
+		Container* honorOfAncestor;
+		Container* currentHonor;
+		Container* currentState;
+	} _gamePlayUIComponents;
+
+	SingleSpriteRenderable<class GridMap>* _gridMapBackground;
+	class GridMap* _gridMap;
+	class IPlayer* _player;
+	class Wall* _wall;
 
 	Container* _ui;
 	Container* _uiChild1;
@@ -39,14 +83,49 @@ class PlayScene :public IScene
 	class BrickGenSystem* _brickGenSystem;
 	class PlayerOxygenSystem* _playerOxySystem;
 	class PlayerBricksInteractionSystem* _playerBrickInteractionSystem;
+
 public:
 	PlayScene();
 	~PlayScene() {};
 	
 	void Update(double deltaTime)override;
-	void Draw()override;
 	void InitScene()override;
+	void Draw()override;
 	void EndScene()override;
 	void PlayerUpdate(const double deltaTime);
+
+private:
+	void __InitLetterScene();
+	void __InitGamePlayScene();
+
+	std::wstring __WStringifyGloryHall(int glory) {
+		wchar_t buffer[30];
+		// L"가문의 영광:       10"
+		swprintf_s(buffer, L"가문의 영광: %8d", glory);
+		return std::wstring(buffer);
+	}
+
+	std::wstring __WStringifyMothersHonor(int mother) {
+		wchar_t buffer[30];
+		// L"어머니:                 10"
+		swprintf_s(buffer, L"어머니: %18d", mother);
+		return std::wstring(buffer);
+	}
+
+	std::wstring __WStringifyCurrentHonor(int currentHonor) {
+		wchar_t buffer[30];
+		// L"나의 명예:            10"
+		swprintf_s(buffer, L"명예: %22d", currentHonor);
+		return std::wstring(buffer);
+	}
+#ifndef NDEBUG
+	std::wstring StringifyFrameRate(std::size_t fps) {
+		wchar_t buffer[12];
+		swprintf_s(buffer, L"fps: %4llu", fps);
+		return std::wstring(buffer);
+	}
+#endif // !NDEBUG
+
+	
 };
 

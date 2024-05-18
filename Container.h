@@ -145,7 +145,7 @@ public:
 				} else if (_flexAlignItem == FlexAlignItem::FLEX_END) {
 					childY = _y + _height - pChildComp->GetHeight();
 				} else if (_flexAlignItem == FlexAlignItem::FLEX_CENTER) {
-					childY = _y + (_height - (pChildComp->GetHeight() >> 1));
+					childY = _y + ((_height - pChildComp->GetHeight()) >> 1);
 				} else if (_flexAlignItem == FlexAlignItem::STRETCH) {
 					// Stretch does not modify Y position but changes height, 
 					// not implemented in this snippet

@@ -27,6 +27,7 @@ public:
 	static Engine* GetInstance();
 
 	static void DestroyInstance();
+
 };
 
 inline Engine* Engine::_instance = nullptr;

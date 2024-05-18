@@ -3,8 +3,8 @@
 #include "GridDeque.h"
 #include "Brick.h"
 
-constexpr std::size_t wallNumRows = 14;
-constexpr std::size_t wallNumCols = 5;
+constexpr std::size_t WALL_NUM_ROWS = 14;
+constexpr std::size_t WALL_NUM_COLS = 5;
 
 class Wall :public GridItem
 {
@@ -15,9 +15,9 @@ private:
 
 public:
 	Wall() :
-		_bricks(wallNumRows, wallNumCols),
-		_brickSprites(wallNumRows, wallNumCols) {}
-		///_brickSprites(wallNumRows, wallNumCols){}
+		_bricks(WALL_NUM_ROWS, WALL_NUM_COLS),
+		_brickSprites(WALL_NUM_ROWS, WALL_NUM_COLS) {}
+		///_brickSprites(WALL_NUM_ROWS, WALL_NUM_COLS){}
 	~Wall(){}	
 
 
@@ -73,7 +73,7 @@ public:
 		g.ResetTransform();
 
 		for (int i=1; i < 10; ++i) {
-			for (int j=0; j < wallNumCols; ++j) {
+			for (int j=0; j < WALL_NUM_COLS; ++j) {
 				Rect spriteRect;
 				Point gridPos{ j, i };
 				_gridTransform.TransformPoints(&gridPos);

@@ -50,8 +50,8 @@ protected:
   SolidBrush _brush;
 
 	// Pivot Position
-  H_DIRECTION _horizontal{H_DIRECTION::CENTER};
-  V_DIRECTION _vertical{V_DIRECTION::CENTER};
+  H_DIRECTION _horizontal{H_DIRECTION::LEFT};
+  V_DIRECTION _vertical{V_DIRECTION::TOP};
 
 public:
 	GridItem() : 

@@ -27,30 +27,27 @@ constexpr double PLAYER_OXYGEN_REDUCE_INITAL_VALUE = 10.0;
 
 using namespace Gdiplus;
 
-PlayScene::PlayScene()
-	: _gridMap{ new GridMap(
-			GRID_MAP_POSITION_X,
-			GRID_MAP_POSITION_Y,
-			wallNumRows, wallNumCols, 120, 120) },
-	_player{ new Player() },
-	_walls{ new Wall() },
-	_brickGenSystem{ new BrickGenSystem(_walls) },
-	_playerOxySystem{ new PlayerOxygenSystem(_player,PLAYER_OXYGEN_REDUCE_INITAL_VALUE) },
-	_playerBrickInteractionSystem{ new PlayerBricksInteractionSystem(_player,_walls,_playerOxySystem)}
-{	
+PlayScene::PlayScene() {	
+	InitScene();
+
+
+// System Creations
+	_brickGenSystem = new BrickGenSystem(_wall);
+	_playerOxySystem = new PlayerOxygenSystem(
+		_player, PLAYER_OXYGEN_REDUCE_INITAL_VALUE
+	);
+	_playerBrickInteractionSystem = new PlayerBricksInteractionSystem(
+		_player, _wall, _playerOxySystem
+	);
+
+// RenderSystem Registration
+	_renderSystem->RegisterRenderableObject(_gridMapBackground);
+	_renderSystem->RegisterRenderableObject(_gridMap);
+	_renderSystem->RegisterRenderableObject(_gamePlayUIContainer);
 	
-	//_player->UpdateSpritePivotPosition(H_DIRECTION::CENTER, V_DIRECTION::BOTTOM);
-	
-	_letterContainer = new Container(0, 0, screenWidth, screenHeight);
 
-	_letterComponents.background = new SingleSpriteRenderable<LetterComponents>();
-	_letterComponents.letter = new Container(160, 160, 800, 500);
-
-	_letterComponents.diagrams = new Container(120, 400, 800, 300);
-	_letterComponents.leftArrowDiagram = new Container(0, 0, 144, 175);
-	_letterComponents.downArrowDiagram = new Container(0, 0, 205, 232);
-	_letterComponents.rightArrowDiagram = new Container(0, 0, 142, 188);
-
+#ifndef NDEBUG
+	// A spinning square for performance measure
 	_ui = new Container(100, 100, 100, 100);
 	_ui->SetDisplay(Display::FLEX);
 	_ui->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
@@ -68,24 +65,405 @@ PlayScene::PlayScene()
 	_ui->SetBorder(255, 0, 0);
 	_ui->SetText(L"Hello!");
 	_ui->SetRotationPivot(_ui->GetCenterX(), _ui->GetCenterY());
+
+	_fpsBox = new Container(5, 5, 100, 50);
+	_fpsBox->SetFont(24, FontStyleBold);
+	_fpsBox->SetText(StringifyFrameRate(0).c_str());
+
+	_renderSystem->RegisterRenderableObject(_ui);
+	_renderSystem->RegisterRenderableObject(_fpsBox);
+#endif
+
+// Game Play Initialization
+	_player->SetPosition(2, 4);
+	_brickGenSystem->BrickGenInit();
+}
+
+void PlayScene::InitScene()
+{
+	__InitLetterScene();
+	__InitGamePlayScene();
+
+	// Render the letter scene first
+	// _renderSystem->RegisterRenderableObject(_letterComponents.background);
+	// _renderSystem->RegisterRenderableObject(_letterContainer);
 	
-	/*_renderSystem->RegisterRenderableObject(_ui);
-	_renderSystem->RegisterRenderableObject(_gridMap);*/
+	// Rendering order of the GamePlay scene
+	// 1. Background
+	// 2. Grid Map
+	// 2. GamePlay UI components
+	
 	
 
+	//TestSound:
+	Music::soundManager->PlayMusic(Music::eSoundList::TEST, Music::eSoundChannel::BGM);
+}
+
+void PlayScene::__InitLetterScene() {
+/* Allocate Memory */
+	_letterContainer = new Container(0, 0, screenWidth, screenHeight);
+
+	_letterComponents.background = new SingleSpriteRenderable<LetterComponents>();
+	
+	// LeftBox Elements
+	_letterComponents._leftBox = new Container(
+		100, 100, screenWidth * 0.50, screenHeight - 100
+	);
+	_letterComponents.letter = new Container(0, 0, 800, 500);
+
+	_letterComponents.diagrams = new Container(0, 0, 800, 300);
+	_letterComponents.leftArrowDiagram = new Container();
+	_letterComponents.downArrowDiagram = new Container();
+	_letterComponents.rightArrowDiagram = new Container();
+
+	// RightBox Elemenst
+	_letterComponents._rightBox = new Container(
+		60, 100, screenWidth * 0.50, screenHeight - 100
+	);
+	_letterComponents.text1 = new Container(0, 0, 800, 50);
+	_letterComponents.blessingsOfGod = new Container(0, 0, 800, 600);
+	_letterComponents.firstBlessingOfGod = new Container(0, 0, 800, 200);
+	_letterComponents.secondBlessingOfGod = new Container(0, 0, 800, 200);
+	_letterComponents.thirdBlessingOfGod = new Container(0, 0, 800, 200);
+	_letterComponents.text2 = new Container(0, 0, 800, 50);
+
+/* Load Sprites */
+	// Letter Scene Sprite Bindings
+	_letterComponents.background->BindSprite(
+		ResourceManager::Get().GetImage(L"letter_background")
+	);
+	_letterComponents.background->BindCachedSprite(
+		ResourceManager::Get().GetCachedImage(L"letter_background")
+	);
+	_letterComponents.leftArrowDiagram->SetSizeFitImage(true);
+	_letterComponents.leftArrowDiagram->SetImage(
+		ResourceManager::Get().GetImage(L"left_arrow_diagram")
+	);
+	_letterComponents.downArrowDiagram->SetSizeFitImage(true);
+	_letterComponents.downArrowDiagram->SetImage(
+		ResourceManager::Get().GetImage(L"down_arrow_diagram")
+	);
+	_letterComponents.rightArrowDiagram->SetSizeFitImage(true);
+	_letterComponents.rightArrowDiagram->SetImage(
+		ResourceManager::Get().GetImage(L"right_arrow_diagram")
+	);
+	
+	// Other Sprite Bindings
+	
+/* Set UI Component Properties */
+	//// Left Box Components
+	// TODO: Need a script file seperate.
+	// letter scripts
+	_letterComponents.letter->SetPositionLayout(PositionLayout::LAYOUT_STATIC);
+	_letterComponents.letter->SetText(
+		L"자랑스러운 라자브 가문의 장녀 라자냐 33세여,\n"
+		L"폭탄산 무크티니로 가거라.\n\n"
+
+		L"라자냐의 여전사로서 누구보다 폭탄산 무크티니를 깊게 파\n"
+		L"라자브 가문의 전설이 되거라\n\n"
+
+		L"학교를 안 가는걸 명예로 여겨온\n"
+		L"라자브 가문의 여자답게 글을 모르겠지.\n"
+		L"그림으로 설명하마.");
+	_letterComponents.letter->SetFont(24, FontStyleBold);
+	// diagrams
+	_letterComponents.diagrams->SetPositionLayout(PositionLayout::LAYOUT_STATIC);
+	// diagrams flexbox settings
+	_letterComponents.diagrams->SetDisplay(Display::FLEX);
+	_letterComponents.diagrams->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
+	_letterComponents.diagrams->SetFlexJustifyContent(FlexJustifyContent::SPACE_EVENLY);
+	
+	//// Right Box Components
+	// text1
+	_letterComponents.text1->SetFont(24, FontStyleBold);
+	_letterComponents.text1->SetText(L"아, 그리고 니 신의 축복이 뭐였지?");
+	// blessings of God
+	_letterComponents.blessingsOfGod->SetDisplay(Display::BLOCK);
+	// first blessing
+
+	// second blessing
+
+	// third blessing
+
+	// text2
+	_letterComponents.text2->SetFont(24, FontStyleBold);
+	_letterComponents.text2->SetText(L"별 탈 없겠지. 건투를 빈다.");
+
+	// UI Container property
+	_letterContainer->SetDisplay(Display::INLINE);
+
+/* Build UI Hierarchy */
+
+	_letterComponents.diagrams->AddChildComponent(
+		_letterComponents.leftArrowDiagram
+	);
+	_letterComponents.diagrams->AddChildComponent(
+		_letterComponents.downArrowDiagram
+	);
+	_letterComponents.diagrams->AddChildComponent(
+		_letterComponents.rightArrowDiagram
+	);
+
+	// Attach letter to the left box
+	_letterComponents._leftBox->AddChildComponent(_letterComponents.letter);
+	// Attach diagrams to the left box
+	_letterComponents._leftBox->AddChildComponent(_letterComponents.diagrams);
+
+#ifndef NDEBUG	// _leftBox debugging borders
+	_letterComponents._leftBox->EnableBorder(true);
+	_letterComponents._leftBox->SetBorder(255, 0, 0);
+	_letterComponents.letter->EnableBorder(true);
+	_letterComponents.letter->SetBorder(255, 0, 0);
+	_letterComponents.diagrams->EnableBorder(true);
+	_letterComponents.diagrams->SetBorder(255, 0, 0);
+	_letterComponents.leftArrowDiagram->EnableBorder(true);
+	_letterComponents.leftArrowDiagram->SetBorder(255, 0, 0);
+	_letterComponents.downArrowDiagram->EnableBorder(true);
+	_letterComponents.downArrowDiagram->SetBorder(255, 0, 0);
+	_letterComponents.rightArrowDiagram->EnableBorder(true);
+	_letterComponents.rightArrowDiagram->SetBorder(255, 0, 0);
+#endif // !NDEBUG
+
+	// Attach blessings
+	_letterComponents.blessingsOfGod->AddChildComponent(_letterComponents.firstBlessingOfGod);
+	_letterComponents.blessingsOfGod->AddChildComponent(_letterComponents.secondBlessingOfGod);
+	_letterComponents.blessingsOfGod->AddChildComponent(_letterComponents.thirdBlessingOfGod);
+
+	// Attach right box contents to the right box
+	_letterComponents._rightBox->AddChildComponent(_letterComponents.text1);
+	_letterComponents._rightBox->AddChildComponent(_letterComponents.blessingsOfGod);
+	_letterComponents._rightBox->AddChildComponent(_letterComponents.text2);
+
+#ifndef NDEBUG	// _rightbox debugging borders
+	_letterComponents._rightBox->EnableBorder(true);
+	_letterComponents._rightBox->SetBorder(255, 0, 0);
+	_letterComponents.text1->EnableBorder(true);
+	_letterComponents.text1->SetBorder(255, 0, 0);
+	_letterComponents.blessingsOfGod->EnableBorder(true);
+	_letterComponents.blessingsOfGod->SetBorder(255, 0, 0);
+	_letterComponents.firstBlessingOfGod->EnableBorder(true);
+	_letterComponents.firstBlessingOfGod->SetBorder(0, 255, 0);
+	_letterComponents.secondBlessingOfGod->EnableBorder(true);
+	_letterComponents.secondBlessingOfGod->SetBorder(0, 255, 255);
+	_letterComponents.thirdBlessingOfGod->EnableBorder(true);
+	_letterComponents.thirdBlessingOfGod->SetBorder(0, 0, 255);
+	_letterComponents.text2->EnableBorder(true);
+	_letterComponents.text2->SetBorder(255, 0, 0);
+#endif // !NDEBUG
+
+	// Attach both left box and right box;
+	_letterContainer->AddChildComponent(_letterComponents._leftBox);
+	_letterContainer->AddChildComponent(_letterComponents._rightBox);
+}
+
+void PlayScene::__InitGamePlayScene() {
+/* Allocate Memory */
+	_gamePlayUIContainer = new Container(0, 0, screenWidth, screenHeight);
+
+	// Left Box Components Allocation
+	_gamePlayUIComponents._leftBox = new Container(
+		0, 0, (screenWidth - 600) * 0.5 + 58, screenHeight
+	);
+	// TODO: Might need to be animated
+	_gamePlayUIComponents.daughter = new Container(0, 0, 300, 300);
+	_gamePlayUIComponents.husband = new Container(0, 0, 340, 400);
+	_gamePlayUIComponents.mother = new Container(0, 0, 300, 440);;
+	_gamePlayUIComponents.dancingTownspeople = new Container(0, 0, 720, 500);
+	_gamePlayUIComponents.ancestors = new Container(0, 0, 600, 400);
+
+	// Center Box Components Allocation
+	_gamePlayUIComponents._centerBox = new Container(0, 0, 660, screenHeight);
+	_gamePlayUIComponents.oxygenMeter = new Container(0, 0, 58, screenHeight);
+	_gamePlayUIComponents.meterBackground = new Container(0, 0, 58, screenHeight);
+	_gamePlayUIComponents.oxygenLevel = new Container(0, 0, 58, screenHeight - 300);
+
+	// Right Box Components Allocation
+	_gamePlayUIComponents._rightBox= new Container(
+		0, 0, 540, screenHeight
+	);
+	_gamePlayUIComponents.scoreBoard = new Container(
+		0, 50, 540, 360
+	);
+	_gamePlayUIComponents.gloryOfFamily = new Container(5, 5, 530, 110);
+	_gamePlayUIComponents.honorOfAncestor = new Container(5, 10, 530, 110);
+	_gamePlayUIComponents.currentHonor = new Container(5, 15, 530, 110);
+	_gamePlayUIComponents.currentState = new Container(0, 300, 540, 580);
+
+	// Grid Map Background
+	_gridMapBackground = new SingleSpriteRenderable<GridMap>();
+
+	_gridMap = new GridMap(
+		GRID_MAP_POSITION_X, GRID_MAP_POSITION_Y,
+		WALL_NUM_ROWS, WALL_NUM_COLS, 
+		GRID_ITEM_WIDTH, GRID_ITEM_HEIGHT
+	);
+	_player = new Player();
+	_wall = new Wall();
+
+/* Load Sprites */
+
+	_gridMapBackground->BindSprite(
+		ResourceManager::Get().GetImage(L"grid_map_background")
+	);
+	_gridMapBackground->BindCachedSprite(
+		ResourceManager::Get().GetCachedImage(L"grid_map_background")
+	);
+
+	// Player Sprite Bindings
+	_player->BindImage(
+		ResourceManager::Get().GetImage(L"lazanya_02"),
+		L"lazanya_02"
+	);
+	_renderSystem->CachingHelper(_player);
+	
+
+/* Set UI Component Properties */
+
+#ifndef NDEBUG	// _leftBox debugging borders
+	_gamePlayUIComponents._leftBox->EnableFill(true);
+	_gamePlayUIComponents._leftBox->SetFillColor(255, 255, 255);
+	_gamePlayUIComponents._leftBox->EnableBorder(true);
+	_gamePlayUIComponents._leftBox->SetBorder(255, 0, 0);
+	_gamePlayUIComponents._centerBox->EnableBorder(true);
+	_gamePlayUIComponents._centerBox->SetBorder(0, 255, 0);
+	_gamePlayUIComponents._rightBox->EnableFill(true);
+	_gamePlayUIComponents._rightBox->SetFillColor(255, 255, 255);
+	_gamePlayUIComponents._rightBox->EnableBorder(true);
+	_gamePlayUIComponents._rightBox->SetBorder(0, 0, 255);
+
+	_gamePlayUIComponents.daughter->EnableFill(true);
+	_gamePlayUIComponents.daughter->SetFillColor(145, 25, 90);
+	_gamePlayUIComponents.husband->EnableFill(true);
+	_gamePlayUIComponents.husband->SetFillColor(25, 240, 170);
+	_gamePlayUIComponents.mother->EnableFill(true);
+	_gamePlayUIComponents.mother->SetFillColor(180, 100, 10);
+	_gamePlayUIComponents.dancingTownspeople->EnableFill(true);
+	_gamePlayUIComponents.dancingTownspeople->SetFillColor(46, 25, 250);
+	_gamePlayUIComponents.ancestors->EnableFill(true);
+	_gamePlayUIComponents.ancestors->SetFillColor(200, 120, 150);
+
+
+	_gamePlayUIComponents.scoreBoard->EnableBorder(true);
+	_gamePlayUIComponents.scoreBoard->SetBorder(0, 0, 0, 255, 5);
+	_gamePlayUIComponents.gloryOfFamily->EnableFill(true);
+	_gamePlayUIComponents.gloryOfFamily->SetFillColor(0, 220, 10);
+	_gamePlayUIComponents.honorOfAncestor->EnableFill(true);
+	_gamePlayUIComponents.honorOfAncestor->SetFillColor(0, 220, 90);
+	_gamePlayUIComponents.currentHonor->EnableFill(true);
+	_gamePlayUIComponents.currentHonor->SetFillColor(0, 220, 170);
+	_gamePlayUIComponents.currentState->EnableFill(true);
+	_gamePlayUIComponents.currentState->SetFillColor(0, 220, 250);
+
+	_gridMap->EnableFill(true);
+	_gridMap->SetFillColor(125, 125, 255, 125);
+#endif // !NDEBUG
+
+	// Left Box Components properties
+	_gamePlayUIComponents.daughter->SetZValue(10);
+	_gamePlayUIComponents.daughter->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_gamePlayUIComponents.daughter->SetPosition(20, screenHeight - 320);
+	_gamePlayUIComponents.husband->SetZValue(8);
+	_gamePlayUIComponents.husband->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_gamePlayUIComponents.husband->SetPosition(360, screenHeight - 500);
+	_gamePlayUIComponents.mother->SetZValue(6);
+	_gamePlayUIComponents.mother->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_gamePlayUIComponents.mother->SetPosition(10, screenHeight - 600);
+	_gamePlayUIComponents.dancingTownspeople->SetZValue(4);
+	_gamePlayUIComponents.dancingTownspeople->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_gamePlayUIComponents.dancingTownspeople->SetPosition(0, screenHeight - 800);
+	_gamePlayUIComponents.ancestors->SetZValue(2);
+	_gamePlayUIComponents.ancestors->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_gamePlayUIComponents.ancestors->SetPosition(20, 20);
+
+	// Center Box Components properties
+	_gamePlayUIComponents._centerBox->SetDisplay(Display::BLOCK);
+	_gamePlayUIComponents.oxygenMeter->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_gamePlayUIComponents.oxygenMeter->SetPosition(600, 0);
+	_gamePlayUIComponents.oxygenMeter->EnableBorder(true);
+	_gamePlayUIComponents.oxygenMeter->SetBorder(0, 0, 0, -1, 5.f);
+	_gamePlayUIComponents.oxygenMeter->SetZValue(10);
+	_gamePlayUIComponents.meterBackground->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_gamePlayUIComponents.meterBackground->SetPosition(600, 0);
+	_gamePlayUIComponents.meterBackground->EnableFill(true);
+	_gamePlayUIComponents.meterBackground->SetFillColor(255, 255, 255);
+	_gamePlayUIComponents.oxygenLevel->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_gamePlayUIComponents.oxygenLevel->SetPosition(600, 0);
+	_gamePlayUIComponents.oxygenLevel->SetZValue(5);
+	_gamePlayUIComponents.oxygenLevel->SetY(300);
+	_gamePlayUIComponents.oxygenLevel->EnableFill(true);
+	_gamePlayUIComponents.oxygenLevel->SetFillColor(0, 120, 240);
+
+	// Right Box Components properties
+	_gamePlayUIComponents._rightBox->SetDisplay(Display::BLOCK);
+	_gamePlayUIComponents.scoreBoard->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
+	_gamePlayUIComponents.gloryOfFamily->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
+	_gamePlayUIComponents.gloryOfFamily->SetText(__WStringifyGloryHall(10).c_str());
+	_gamePlayUIComponents.gloryOfFamily->SetFont(52, FontStyleBold);
+	_gamePlayUIComponents.gloryOfFamily->SetTextPosition(5, 25);
+	_gamePlayUIComponents.honorOfAncestor->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
+	_gamePlayUIComponents.honorOfAncestor->SetText(__WStringifyMothersHonor(10).c_str());
+	_gamePlayUIComponents.honorOfAncestor->SetFont(52, FontStyleBold);
+	_gamePlayUIComponents.honorOfAncestor->SetTextPosition(5, 25);
+	_gamePlayUIComponents.currentHonor->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
+	_gamePlayUIComponents.currentHonor->SetText(__WStringifyCurrentHonor(10).c_str());
+	_gamePlayUIComponents.currentHonor->SetFont(52, FontStyleBold);
+	_gamePlayUIComponents.currentHonor->SetTextPosition(5, 25);
+	_gamePlayUIComponents.currentState->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
+
+
+	// The UI Container
+	_gamePlayUIContainer->SetDisplay(Display::FLEX);
+	_gamePlayUIContainer->SetFlexJustifyContent(FlexJustifyContent::FLEX_START);
+
+
+	_gridMapBackground->SetPosition(screenWidth >> 1, screenHeight >> 1);
+	_gridMapBackground->UpdateSpritePivotPosition(H_DIRECTION::CENTER, V_DIRECTION::CENTER);
+
 	_player->ChangeTag(L"lazanya_02");
-	//_player->ChangeTag(L"player");
-	_player = new GoldSeeker(_player);
+
+/* Build UI Hierarchy */
+	// Left Box Components
+	_gamePlayUIComponents._leftBox->AddChildComponent(_gamePlayUIComponents.daughter);
+	_gamePlayUIComponents._leftBox->AddChildComponent(_gamePlayUIComponents.husband);
+	_gamePlayUIComponents._leftBox->AddChildComponent(_gamePlayUIComponents.mother);
+	_gamePlayUIComponents._leftBox->AddChildComponent(_gamePlayUIComponents.dancingTownspeople);
+	_gamePlayUIComponents._leftBox->AddChildComponent(_gamePlayUIComponents.ancestors);
+
+	// Center Box Components
+	_gamePlayUIComponents._centerBox->AddChildComponent(_gamePlayUIComponents.oxygenMeter);
+	_gamePlayUIComponents._centerBox->AddChildComponent(_gamePlayUIComponents.meterBackground);
+	_gamePlayUIComponents._centerBox->AddChildComponent(_gamePlayUIComponents.oxygenLevel);
+
+	// Right Box Components
+	_gamePlayUIComponents.scoreBoard->AddChildComponent(_gamePlayUIComponents.gloryOfFamily);
+	_gamePlayUIComponents.scoreBoard->AddChildComponent(_gamePlayUIComponents.honorOfAncestor);
+	_gamePlayUIComponents.scoreBoard->AddChildComponent(_gamePlayUIComponents.currentHonor);
+	_gamePlayUIComponents._rightBox->AddChildComponent(_gamePlayUIComponents.scoreBoard);
+	_gamePlayUIComponents._rightBox->AddChildComponent(_gamePlayUIComponents.currentState);
+
+	// Bind Player and Wall to GridMap
+	_gridMap->AddGridItem(_wall);
+	_gridMap->AddGridItem(_player);
+
+	// UI Container binding
+	_gamePlayUIContainer->AddChildComponent(_gamePlayUIComponents._leftBox);
+	_gamePlayUIContainer->AddChildComponent(_gamePlayUIComponents._centerBox);
+	_gamePlayUIContainer->AddChildComponent(_gamePlayUIComponents._rightBox);
+
 }
 
 void PlayScene::Update(const double deltaTime)
 {
-	//if Didn't init, init one time
-	if (!DidInit)
-	{
-		InitScene();
-		DidInit = true;
+	
+#ifndef NDEBUG
+	_elapsedTime += deltaTime;
+	_frames += 1;
+	if (_elapsedTime >= 1.0) {
+		_fpsBox->SetText(StringifyFrameRate(_frames).c_str());
+		_elapsedTime -= 1.0;
+		_frames = 0;
 	}
+#endif
 
 	_ui->Rotate(deltaTime*100);
 	PlayerUpdate(deltaTime);
@@ -127,80 +505,7 @@ void PlayScene::Draw()
 #endif
 }
 
-void PlayScene::InitScene()
-{
-/* Load Sprites */
-	// Letter Scene Sprite Bindings
-	_letterComponents.background->BindSprite(
-		ResourceManager::Get().GetImage(L"letter_background")
-	);
-	_letterComponents.background->BindCachedSprite(
-		ResourceManager::Get().GetCachedImage(L"letter_background")
-	);
-	_letterComponents.leftArrowDiagram->SetImage(
-		ResourceManager::Get().GetImage(L"left_arrow_diagram")
-	);
-	_letterComponents.downArrowDiagram->SetImage(
-		ResourceManager::Get().GetImage(L"down_arrow_diagram")
-	);
-	_letterComponents.rightArrowDiagram->SetImage(
-		ResourceManager::Get().GetImage(L"right_arrow_diagram")
-	);
 
-
-	// Player Sprite Bindings
-	Bitmap* bitmap = ResourceManager::Get().GetImage(L"lazanya_02");
-	_player->BindImage(bitmap, L"lazanya_02");
-	_renderSystem->CachingHelper(_player);
-
-	// Bind Player and Wall to GridMap
-	_gridMap->AddGridItem(_walls);
-	_gridMap->AddGridItem(_player);
-
-/* Build UI Hierarchy */
-	// UI Settings
-	// TODO: Need a script file seperate.
-	_letterComponents.letter->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
-	_letterComponents.letter->SetText(
-		L"자랑스러운 라자브 가문의 장녀 라자냐 33세여,\n"
-		L"폭탄산 무크티니로 가거라.\n\n"
-
-		L"라자냐의 여전사로서 누구보다 폭탄산 무크티니를 깊게 파\n"
-		L"라자브 가문의 전설이 되거라\n\n"
-
-		L"학교를 안 가는걸 명예로 여겨온\n"
-		L"라자브 가문의 여자답게 글을 모르겠지.\n"
-		L"그림으로 설명하마.");
-	_letterComponents.letter->SetFont(24, FontStyleBold);
-
-	_letterComponents.diagrams->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
-	_letterComponents.diagrams->SetDisplay(Display::FLEX);
-	_letterComponents.diagrams->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
-	_letterComponents.diagrams->SetFlexJustifyContent(FlexJustifyContent::SPACE_EVENLY);
-	_letterComponents.diagrams->AddChildComponent(
-		_letterComponents.leftArrowDiagram
-	);
-	_letterComponents.diagrams->AddChildComponent(
-		_letterComponents.downArrowDiagram
-	);
-	_letterComponents.diagrams->AddChildComponent(
-		_letterComponents.rightArrowDiagram
-	);
-
-	_letterContainer->AddChildComponent(_letterComponents.letter);
-	_letterContainer->AddChildComponent(_letterComponents.diagrams);
-
-	_renderSystem->RegisterRenderableObject(_letterComponents.background);
-	_renderSystem->RegisterRenderableObject(_letterContainer);
-	//_renderSystem->CacheDataInRegistry();
-
-	// Game Play Initialization
-	_player->SetPosition(2, 4);
-	_brickGenSystem->BrickGenInit();
-	//°¡Á··Â ¼±ÅÃ ÀÌÀü¿¡ ÇÊ¿äÇÑ RenderableObject µî·ÏÇÏ±â.
-	//TestSound:
-	Music::soundManager->PlayMusic(Music::eSoundList::TEST, Music::eSoundChannel::BGM);
-}
 
 void PlayScene::EndScene()
 {
@@ -228,7 +533,7 @@ void PlayScene::PlayerUpdate(const double deltaTime)
 	//if getkey Left and it's in the play screen and if brick type is not NONE, MoveLeft
 	if (Input::inputManager->IsTurnDn(VK_LEFT)
 		&& _player->GetPositionX() > 0
-		&& _walls->GetBrick(_player->GetPositionY(), _player->GetPositionX() - 1).type
+		&& _wall->GetBrick(_player->GetPositionY(), _player->GetPositionX() - 1).type
 		!= BrickType::NONE)
 	{
 		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
@@ -238,7 +543,7 @@ void PlayScene::PlayerUpdate(const double deltaTime)
 	//if getkey Right and it's in the play screen and if brick type is not NONE, MoveRight
 	if (Input::inputManager->IsTurnDn(VK_RIGHT)
 		&& _player->GetPositionX() < 4
-		&& _walls->GetBrick(_player->GetPositionY(), _player->GetPositionX() + 1).type
+		&& _wall->GetBrick(_player->GetPositionY(), _player->GetPositionX() + 1).type
 		!= BrickType::NONE)
 	{
 		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
@@ -255,5 +560,5 @@ void PlayScene::PlayerUpdate(const double deltaTime)
 	_playerOxySystem->ReduceOxygen(deltaTime);
 
 	//Doing Debug:
-	Debug.Log(_playerOxySystem->GetAmountOfReduceOxy());
+	//Debug.Log(_playerOxySystem->GetAmountOfReduceOxy());
 }

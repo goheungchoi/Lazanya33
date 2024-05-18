@@ -28,7 +28,7 @@ public:
 	std::size_t nrows, std::size_t ncols, 
 	std::size_t cellWidth, std::size_t cellHeight)
 	: _cellWidth{cellWidth}, _cellHeight{cellHeight},
-		UIComponent(x, y, cellWidth*nrows, cellHeight*ncols) {}
+		UIComponent(x, y, cellWidth*ncols, cellHeight*nrows) {}
 
 	void Render(Graphics& g) override { 
 		UIComponent::Render(g);

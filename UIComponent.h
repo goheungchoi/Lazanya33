@@ -36,11 +36,13 @@ protected:
 
 public:
 	void AddChildComponent(UIComponent* child) {
+		if (!child) return;
 		child->_parentComponent = this;
 		_childComponents.insert(child);
 	}
 
 	void RemoveChildComponent(UIComponent* child) {
+		if (!child) return;
 		child->_parentComponent = nullptr;
 		_childComponents.erase(child);
 	}
@@ -51,7 +53,8 @@ protected:
 	int _z{ 0 };
 
 	// Contains X, Y coordinate, and Width and Height
-	int& _x, _y;
+	int& _x;
+	int& _y;
 	int _width, _height;
 
 	Matrix _transform;
@@ -63,6 +66,7 @@ protected:
   bool _fill{false};
   SolidBrush _brush;
 
+	bool _sizeFitImage{ false };
 	Image* _pImage{nullptr};
 
 public:
@@ -85,9 +89,13 @@ public:
 
 // Transform Utilities
 	int GetX() { return _x; }
+	void SetX(int x) { _x = x; }
 	int GetY() { return _y; }
+	void SetY(int y) { _y = y; }
 	int GetWidth() { return _width; }
+	void SetWidth(int width) { _width = width; }
 	int GetHeight() { return _height; }
+	void SetHeight(int height) { _height = height; }
 	int GetCenterX() { return _x + (_width >> 1); }
 	int GetCenterY() { return _y + (_height >> 1); }
 
@@ -141,9 +149,8 @@ public:
 	void EnableFill(bool enable) { _fill = enable; }
 	void DisableFill(bool disable) { _fill = disable; }
 
-	void SetImage(Image* image) {
-		_pImage = image;
-	}
+	void SetSizeFitImage(bool fit) { _sizeFitImage = fit; }
+	void SetImage(Image* image) { _pImage = image; }
 
 // Text Utilities
 protected:
@@ -336,6 +343,10 @@ public:
 
 	// Render
 	virtual void Render(Graphics& g) override {
+		// Size adjusting to fit the image
+		_sizeFitImage && _pImage && (_width = _pImage->GetWidth());
+		_sizeFitImage && _pImage && (_height = _pImage->GetHeight());
+
 		if (!_parentComponent) {
 			DefaultRender(g);
 			return;
@@ -365,8 +376,10 @@ public:
 
 				// Draw Text
 				!_text.empty() && 
-				g.DrawString(_text.c_str(), -1, _pFont, _textPosition, &_textFormat, &_textBrush);
-  
+				!g.TranslateTransform(_x, _y) &&
+				!g.DrawString(_text.c_str(), -1, _pFont, _textPosition, &_textFormat, &_textBrush) &&
+				!g.TranslateTransform(-_x, -_y);
+
 				RenderChildren(g);
 
 			} break;
