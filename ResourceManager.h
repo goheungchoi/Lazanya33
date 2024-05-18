@@ -18,7 +18,7 @@ public:
   ~ResourceManager() {}
 
   bool LoadImageFromFile(const wchar_t* path, const ImageName& name);
-  bool LoadTexture(const wchar_t* szPath);
+  bool LoadImages(const wchar_t* szPath);
 
   Bitmap* GetImage(const ImageName& name);
 

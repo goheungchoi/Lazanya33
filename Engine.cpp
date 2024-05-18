@@ -43,14 +43,15 @@ Engine::~Engine()
 
 void Engine::Initialize()
 {
-	ResourceManager::Get().LoadImageFromFile(
+	/*ResourceManager::Get().LoadImageFromFile(
 		L"Assets\\brick_can_00.png", 
 		L"brick_can_00"
 	);
 	ResourceManager::Get().LoadImageFromFile(
 		L"Assets\\lazanya_02.png", 
 		L"lazanya_02"
-	);
+	);*/
+	ResourceManager::Get().LoadImages(L"Assets");
 
 	// TODO: Sprite pack binding must be done at advance
 	BDefault::AddSprite(

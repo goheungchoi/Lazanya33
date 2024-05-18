@@ -1,4 +1,5 @@
 #include "ResourceManager.h"
+#include <filesystem>
 
 using namespace Gdiplus;
 
@@ -33,69 +34,35 @@ bool ResourceManager::LoadImageFromFile(const wchar_t* path, const ImageName& na
 	return true;
 }
 
-bool ResourceManager::LoadTexture(const wchar_t* szPath)
+bool ResourceManager::LoadImages(const wchar_t* szPath)
 {
-	//A structure used to store file information during directory traversal.
-	_wfinddata_t fd;
-	//A handle used by _wfindfirst and _wfindnext to iterate over files.
-	intptr_t handle;
-	// A variable to store the result of _wfindnext.
-	int result = 0;
-	//An array to store the root path of the directory to search.
-	wchar_t rootPath[256] = L"";
+  std::wstring path = szPath;
 
-	lstrcpy(rootPath, szPath);
-	lstrcpy(rootPath, L"/*");
+  // Tour all files in that path
+  for (const auto& entry : std::filesystem::directory_iterator(path)) {
+    if (entry.path().extension() == L".png") {
+      // Extract File Name
+      std::wstring filename = entry.path().filename().wstring();
 
-	//This initializes the search and returns a handle to be used in subsequent searches.
-	handle = _wfindfirst(rootPath, &fd);
+      // Create Bitmap Object and Add to _images Map
+      Bitmap* bitmap = Bitmap::FromFile(entry.path().c_str());
 
-	//If result is - 1, it breaks the loop, indicating no more files.
-	if (-1 != handle)
-	{
-		int count = 0;
-		while (true)
-		{
-			result = _wfindnext(handle, &fd);
+      //Clear .png from string to save to map
+      //  -> so that only names can be retrieved from outside
+      size_t extensionPos = filename.find(L".png");
+      if (extensionPos != std::wstring::npos) {
+        filename.erase(extensionPos, 4); 
+      }
 
-			if (-1 == result)
-				break;
-			
-			if (!lstrcmp(L".", fd.name) || !lstrcmp(L"..", fd.name))
-				continue;
+      if (bitmap) {
+        _images[filename] = bitmap;
+      }
+    }
+  }
 
-			if (0 == result && 16 == fd.attrib)
-			{
-				int index = 0;
-				wchar_t currPath[256] = L"";
-
-				while ('*' != rootPath[index])
-				{
-					currPath[index] = rootPath[index];
-					index++;
-				}
-
-				lstrcat(currPath, fd.name);
-				LoadTexture(currPath);
-				continue;
-			}
-
-			wchar_t textureTag[64] = L"";
-			wchar_t filePath[256] = L"";
-			
-			lstrcpy(filePath, szPath);
-			lstrcat(filePath, L"/");
-			lstrcat(filePath, fd.name);
-
-			int index = 0;
-			int offset = 0;
-			int length = lstrlen(szPath);
-
-
-		}
-	}
-	return true;
+  return !_images.empty();
 }
+
 
 Bitmap* ResourceManager::GetImage(const ImageName& name) { 
   auto it = _images.find(name);
