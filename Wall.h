@@ -44,7 +44,8 @@ public:
 	void DamageBrick(int row, int col, int dmg)
 	{
 		_bricks.At(row, col).blockHealth -= dmg;
-		// 브릭 현재 HP에 따라 스프라이트를 바꿔줌
+
+		// TODO: Need to update sprites when the brick is in low HP.
 		// _brickSprites.At(row, col) = GetBrickSprite(BrickType, tag);
 	}
 
@@ -66,6 +67,7 @@ public:
 	}
 
 	void Render(Graphics& g) override {
+		// Grid items don't get applied global transformation.
 		Matrix t;
 		g.GetTransform(&t);
 		g.ResetTransform();
@@ -82,6 +84,7 @@ public:
 			}
 		}
 
+		// Reset the global transformation.
 		g.SetTransform(&t);
 	}
   

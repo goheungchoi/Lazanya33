@@ -196,6 +196,7 @@ protected:
 		g.GetTransform(&t);
 		g.ResetTransform();
 
+		__AdjustSpriteRect(_currentSprite, *_currentSpriteRect);
 		Point xy{ _currentSpriteRect->X, _currentSpriteRect->Y };
 		t.TransformPoints(&xy);
 
@@ -203,7 +204,7 @@ protected:
 		_currentCachedBitmap && 
 		g.DrawCachedBitmap(
       _currentCachedBitmap, 
-      xy.X, xy.Y
+      _currentSpriteRect->X, _currentSpriteRect->Y
     );
 
 		/*if (_caching) {
@@ -226,10 +227,7 @@ protected:
     // If no caching
     !_caching && 
 		_currentSprite && 
-		g.DrawImage(_currentSprite, 
-			xy.X, xy.Y,
-			_currentSpriteRect->Width,
-			_currentSpriteRect->Height);
+		g.DrawImage(_currentSprite, *_currentSpriteRect);
 
 		/*if (_caching) {
 			if (_currentCachedBitmap) {
@@ -244,19 +242,13 @@ protected:
 
 		// Draw border if enabled
     _border && 
-		g.DrawRectangle(&_pen, 
-			xy.X, xy.Y,
-			_currentSpriteRect->Width,
-			_currentSpriteRect->Height);
+		g.DrawRectangle(&_pen, *_currentSpriteRect);
 		/*g.DrawRectangle(&_pen, _position.X, _position.Y,
 		_currentSpriteRect->Width, _currentSpriteRect->Height);*/
 
 		// Fill Rect if enabled
 		_fill && 
-		g.FillRectangle(&_brush, 
-			xy.X, xy.Y,
-			_currentSpriteRect->Width,
-			_currentSpriteRect->Height);
+		g.FillRectangle(&_brush, *_currentSpriteRect);
 		/*g.FillRectangle(&_brush, _position.X, _position.Y,
 		_currentSpriteRect->Width, _currentSpriteRect->Height);*/
 	
@@ -318,3 +310,5 @@ std::unordered_map<std::wstring, CachedBitmap*>
 #ifndef NDEBUG
 inline MultiSpriteRenderable<int> CollectiveRenderableDebugTrigger;
 #endif
+
+

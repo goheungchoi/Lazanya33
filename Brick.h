@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CollectiveRenderable.h"
+#include "SpritePack.h"
 #include "ResourceManager.h"
 //add
 // BrickType 열거형 정의
@@ -96,20 +96,10 @@ struct Brick
 //brick 생성자에 enum넘겨 받고 생성자로 각각의 객체 변수 값초기화
 //ex) brick(BrickType tyep){switch(type)case BrickType::Defalut..
 
-// 이친구들은 스프라이트 데이터만 가지고 있고,
-// 브릭 제너레이션 시스템에서는 이 친구들 스프라이트 포인터들만 가지고 옴.
+// Need to do something with these brick graphics things...
+// The sprite register code is at Engine.cc line 55.
 template<class T>
-class BrickGraphics : public MultiSpriteRenderable<T> {
-
-public:
-#ifndef NDEBUG
-	BrickGraphics() 
-    : MultiSpriteRenderable<T>(0, 0, 1, 1) {
-    MultiSpriteRenderable<T>::SetBorder(255, 0, 0);
-	}
-#endif
-
-};
+class BrickGraphics : public SpritePack<T> {};
 
 class BDefault : public BrickGraphics<BDefault> {};
 
@@ -127,52 +117,36 @@ inline Gdiplus::CachedBitmap* GetBrickSprite(BrickType brickType, const std::wst
 	switch (brickType)
 	{
 	case BrickType::DEFAULT:
-		{
-			auto it = BDefault::_pSpriteCacheData.find(tag);
-			if (it == BDefault::_pSpriteCacheData.end()) return nullptr;
-			return it->second;
-		}
+	{
+		return BDefault::GetCachedSprite(tag);
+	}
 	case BrickType::STONE:
-		{
-			auto it = BStone::_pSpriteCacheData.find(tag);
-			if (it == BStone::_pSpriteCacheData.end()) return nullptr;
-			return it->second;
-		}
+	{
+		return BStone::GetCachedSprite(tag);
+	}
 	case BrickType::ROCK:
-		{
-			auto it = BRock::_pSpriteCacheData.find(tag);
-			if (it == BRock::_pSpriteCacheData.end()) return nullptr;
-			return it->second;
-		}
+	{
+		return BRock::GetCachedSprite(tag);
+	}
 	case BrickType::BOMB:
-		{
-			auto it = BBomb::_pSpriteCacheData.find(tag);
-			if (it == BBomb::_pSpriteCacheData.end()) return nullptr;
-			return it->second;
-		}
+	{
+		return BRock::GetCachedSprite(tag);
+	}
 	case BrickType::GOLD:
-		{
-			auto it = BGold::_pSpriteCacheData.find(tag);
-			if (it == BGold::_pSpriteCacheData.end()) return nullptr;
-			return it->second;
-		}
+	{
+		return BGold::GetCachedSprite(tag);
+	}
 	case BrickType::OXYGEN:
-		{
-			auto it = BOxygen::_pSpriteCacheData.find(tag);
-			if (it == BOxygen::_pSpriteCacheData.end()) return nullptr;
-			return it->second;
-		}
+	{
+		return BOxygen::GetCachedSprite(tag);
+	}
 	case BrickType::RASGULLA:
-		{
-			auto it = BDefault::_pSpriteCacheData.find(tag);
-			if (it == BDefault::_pSpriteCacheData.end()) return nullptr;
-			return it->second;
-		}
+	{
+		return BDefault::GetCachedSprite(tag);
+	}
 	case BrickType::GULAB_JAMUN:
-		{
-			auto it = BDefault::_pSpriteCacheData.find(tag);
-			if (it == BDefault::_pSpriteCacheData.end()) return nullptr;
-			return it->second;
-		}
+	{
+		return BDefault::GetCachedSprite(tag);
+	}
 	}
 }

@@ -395,6 +395,7 @@ public:
 
 	virtual void RenderChildren(Graphics& g) override {
 		for (UIComponent* pChildComp : _childComponents) {
+			// Default behavior is LAYOUT_FIXED
 			g.TranslateTransform(_x, _y);
 			pChildComp->Render(g);
 			g.TranslateTransform(-_x, -_y);

@@ -52,13 +52,12 @@ void Engine::Initialize()
 		L"lazanya_02"
 	);
 
-	// DEBUG
-	BDefault bd;
-	bd.BindSpriteWithTag(
+	// TODO: Sprite pack binding must be done at advance
+	BDefault::AddSprite(
 		ResourceManager::Get().GetImage(L"brick_can_00"),
-		L"brick_can_00"
+		L"brick_can_00",
+		_renderer->GetGraphics()	// Enable Caching
 	);
-	_renderSystem->CachingHelper(&bd);
 
 	Music::soundManager->InitMusic();
 	Music::soundManager->SetVolume(0.1f);
