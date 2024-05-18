@@ -7,7 +7,7 @@ using namespace Gdiplus;
 // TODO: Need to handle some player interaction (button - mouse hover)
 // TODO: Might need some loop animations
 
-// UIComponent can inherit from either SingleRenderable or MultiSpriteRenderable
+// UIComponent can inherit from either SingleSpriteRenderable or MultiSpriteRenderable
 
 enum class PositionLayout {
 	LAYOUT_STATIC,
@@ -20,27 +20,36 @@ enum class PositionLayout {
 /**
  * @brief UI component base class. 
  * If you need faster rendering sprites, might consider
- * using SingleRenderable or MultiSpriteRenderable.
+ * using SingleSpriteRenderable or MultiSpriteRenderable.
  */
 class UIComponent : public IRenderable {
+	// Z value comparison function
+	struct ZCompare {
+		bool operator()(UIComponent* l, UIComponent* r) const {
+			return l->_z < r->_z;
+		}
+	};
 protected:
 // UIComponent Hierarchy 
 	UIComponent* _parentComponent{nullptr};
-	std::list<UIComponent*> _childComponents;
+	std::multiset<UIComponent*, ZCompare> _childComponents;
 
 public:
 	void AddChildComponent(UIComponent* child) {
 		child->_parentComponent = this;
-		_childComponents.push_back(child);
+		_childComponents.insert(child);
 	}
 
 	void RemoveChildComponent(UIComponent* child) {
 		child->_parentComponent = nullptr;
-		_childComponents.remove(child);
+		_childComponents.erase(child);
 	}
 	
 // Graphics Utilities
 protected:
+	// The z-value of the layer
+	int _z{ 0 };
+
 	// Contains X, Y coordinate, and Width and Height
 	int& _x, _y;
 	int _width, _height;
@@ -57,6 +66,23 @@ protected:
 	Image* _pImage{nullptr};
 
 public:
+	// Z-value
+	int GetZValue() { return _z; }
+	/**
+	 * @brief Change the layer height, z-value. 
+	 * It notifies the change of z-value to the parent component.
+	 * It is recommended not operating this function during a rendering phase,
+	 * since this function is slow.
+	 */
+	void SetZValue(int z) {
+		_z = z;
+
+		if (_parentComponent) {
+			_parentComponent->_childComponents.erase(this);
+			_parentComponent->_childComponents.insert(this);
+		}
+	}
+
 // Transform Utilities
 	int GetX() { return _x; }
 	int GetY() { return _y; }

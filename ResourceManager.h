@@ -21,6 +21,9 @@ public:
   bool LoadImages(const wchar_t* szPath);
 
   Bitmap* GetImage(const ImageName& name);
+	CachedBitmap* GetCachedImage(const ImageName& name);
+
+	bool CacheAllImages(Graphics* g);
 
 public:
 	static ResourceManager& Create();

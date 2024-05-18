@@ -197,8 +197,6 @@ protected:
 		g.ResetTransform();
 
 		__AdjustSpriteRect(_currentSprite, *_currentSpriteRect);
-		Point xy{ _currentSpriteRect->X, _currentSpriteRect->Y };
-		t.TransformPoints(&xy);
 
 		_caching && 
 		_currentCachedBitmap && 

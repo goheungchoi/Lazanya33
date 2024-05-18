@@ -4,6 +4,7 @@
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 // Windows Header Files
 #include <windows.h>
+#include <intsafe.h>
 #include <objidl.h>
 #include <gdiplus.h>
 // C RunTime Header Files
@@ -28,4 +29,8 @@ using namespace std::literals;
 #include <system_error>
 #include <vector>
 #include <list>
+#include <set>
 #include <unordered_map>
+
+constexpr int screenWidth = 1920;
+constexpr int screenHeight = 1080;

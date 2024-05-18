@@ -25,6 +25,10 @@ public:
 	void BindImage(Bitmap* bitmap, const Tag& tag) {
 		if (!bitmap) throw std::invalid_argument("GridItem: bitmap is null!");
 		_pSpriteRegister[tag] = bitmap;
+		INT width, height;
+		UIntToInt(bitmap->GetWidth(), &width);
+		UIntToInt(bitmap->GetHeight(), &height);
+		_spriteRects[tag] = Rect{0, 0, width, height};
 	}
 
 protected:
@@ -46,8 +50,8 @@ protected:
   SolidBrush _brush;
 
 	// Pivot Position
-  H_DIRECTION _horizontal{H_DIRECTION::LEFT};
-  V_DIRECTION _vertical{V_DIRECTION::TOP};
+  H_DIRECTION _horizontal{H_DIRECTION::CENTER};
+  V_DIRECTION _vertical{V_DIRECTION::CENTER};
 
 public:
 	GridItem() : 
@@ -78,6 +82,16 @@ public:
 	}
 
 // Graphics
+	/**
+   * @brief Update the sprite pivot point. Default is LEFT, TOP.
+   * @param horizontal Horizontal position of the pivot e.i. LEFT, CENTER, RIGHT
+   * @param vertical Vertical position of the pivot e.i. TOP, CENTER, BOTTOM
+   */
+  void SetSpritePivotPosition(H_DIRECTION horizontal, V_DIRECTION vertical) {
+    _horizontal = horizontal;
+    _vertical = vertical;
+  }
+
 	/**
 	 * @brief Set border of this sprite.
 	 * @param r Red value from 0~255
@@ -132,8 +146,9 @@ public:
 		g.GetTransform(&t);
 		g.ResetTransform();
 
-		// Transform the cell's upper left corner
+		// Adjust the sprite frame position
 		_position = _gridPos;
+		// Transform the cell's upper left corner position on the screen
 		_gridTransform.TransformPoints(&_position);
 		__SetSpriteRectPosition(_position, _currentSpriteRect);
 

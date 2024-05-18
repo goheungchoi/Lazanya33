@@ -1,9 +1,11 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "PlayScene.h"
 #include "GridMap.h"
 #include "Player.h"
 #include "Wall.h"
 #include "Container.h"
+
+#include "SingleRenderable.h"
 
 //decorator
 #include "TenaciousDwarf.h"
@@ -23,6 +25,8 @@
 
 constexpr double PLAYER_OXYGEN_REDUCE_INITAL_VALUE = 10.0;
 
+using namespace Gdiplus;
+
 PlayScene::PlayScene()
 	: _gridMap{ new GridMap(
 			GRID_MAP_POSITION_X,
@@ -34,11 +38,19 @@ PlayScene::PlayScene()
 	_playerOxySystem{ new PlayerOxygenSystem(_player,PLAYER_OXYGEN_REDUCE_INITAL_VALUE) },
 	_playerBrickInteractionSystem{ new PlayerBricksInteractionSystem(_player,_walls,_playerOxySystem)}
 {	
-	Bitmap* bitmap = ResourceManager::Get().GetImage(L"lazanya_02");
-	_player->BindImage(bitmap, L"lazanya_02");
-	_renderSystem->CachingHelper(_player);
+	
 	//_player->UpdateSpritePivotPosition(H_DIRECTION::CENTER, V_DIRECTION::BOTTOM);
 	
+	_letterContainer = new Container(0, 0, screenWidth, screenHeight);
+
+	_letterComponents.background = new SingleSpriteRenderable<LetterComponents>();
+	_letterComponents.letter = new Container(160, 160, 800, 500);
+
+	_letterComponents.diagrams = new Container(120, 400, 800, 300);
+	_letterComponents.leftArrowDiagram = new Container(0, 0, 144, 175);
+	_letterComponents.downArrowDiagram = new Container(0, 0, 205, 232);
+	_letterComponents.rightArrowDiagram = new Container(0, 0, 142, 188);
+
 	_ui = new Container(100, 100, 100, 100);
 	_ui->SetDisplay(Display::FLEX);
 	_ui->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
@@ -56,11 +68,10 @@ PlayScene::PlayScene()
 	_ui->SetBorder(255, 0, 0);
 	_ui->SetText(L"Hello!");
 	_ui->SetRotationPivot(_ui->GetCenterX(), _ui->GetCenterY());
-	_gridMap->AddGridItem(_walls);
-	_gridMap->AddGridItem(_player);
-	_renderSystem->RegisterRenderableObject(_ui);
-	_renderSystem->RegisterRenderableObject(_gridMap);
-	_renderSystem->CacheDataInRegistry();
+	
+	/*_renderSystem->RegisterRenderableObject(_ui);
+	_renderSystem->RegisterRenderableObject(_gridMap);*/
+	
 
 	_player->ChangeTag(L"lazanya_02");
 	//_player->ChangeTag(L"player");
@@ -81,19 +92,19 @@ void PlayScene::Update(const double deltaTime)
 	
 
 #ifdef PLAYSCENE
-	if (/*!°¡Á··ÂÀ» ¼±ÅÃÇß´Â°¡?*/)
+	if (/*!Â°Â¡ÃÂ·Â·Ã‚Ã€Â» Â¼Â±Ã…ÃƒÃ‡ÃŸÂ´Ã‚Â°Â¡?*/)
 	{
-		//TODO: °¡Á··Â ¼±ÅÃ ÀÌÀüÀÇ ¾÷µ¥ÀÌÆ®.
+		//TODO: Â°Â¡ÃÂ·Â·Ã‚ Â¼Â±Ã…Ãƒ Ã€ÃŒÃ€Ã¼Ã€Ã‡ Â¾Ã·ÂµÂ¥Ã€ÃŒÃ†Â®.
 
 		_renderSystem->ClearRenderableRegistry();
 
-		//°ÔÀÓ ½ÃÀÛ½Ã ÇÊ¿äÇÑrendererµî·Ï
+		//Â°Ã”Ã€Ã“ Â½ÃƒÃ€Ã›Â½Ãƒ Ã‡ÃŠÂ¿Ã¤Ã‡Ã‘rendererÂµÃ®Â·Ã
 		_renderSystem->RegisterRenderableObject(dynamic_cast<IRenderable*>(player));
 	}
-	else//°¡Á··ÂÀ» °ñ¶ú´Ù¸é
+	else//Â°Â¡ÃÂ·Â·Ã‚Ã€Â» Â°Ã±Â¶ÃºÂ´Ã™Â¸Ã©
 	{
 		/*player=new Decorators*/
-		//TODO: ½ÇÁ¦ °ÔÀÓ ¾÷µ¥ÀÌÆ®
+		//TODO: Â½Ã‡ÃÂ¦ Â°Ã”Ã€Ã“ Â¾Ã·ÂµÂ¥Ã€ÃŒÃ†Â®
 	}
 #endif
 }
@@ -102,25 +113,91 @@ void PlayScene::Draw()
 {
 	_renderSystem->Render();
 #ifdef PLAYSCENE
-	if (/*!°¡Á··ÂÀ» ¼±ÅÃÇß´Â°¡?*/)
+	if (/*!Â°Â¡ÃÂ·Â·Ã‚Ã€Â» Â¼Â±Ã…ÃƒÃ‡ÃŸÂ´Ã‚Â°Â¡?*/)
 	{
 
 		_renderSystem->Render();
-		//TODO: °¡Á··Â ¼±ÅÃ ÀÌÀüÀÇ ¾÷µ¥ÀÌÆ®.
+		//TODO: Â°Â¡ÃÂ·Â·Ã‚ Â¼Â±Ã…Ãƒ Ã€ÃŒÃ€Ã¼Ã€Ã‡ Â¾Ã·ÂµÂ¥Ã€ÃŒÃ†Â®.
 	}
-	else//°¡Á··ÂÀ» °ñ¶ú´Ù¸é
+	else//Â°Â¡ÃÂ·Â·Ã‚Ã€Â» Â°Ã±Â¶ÃºÂ´Ã™Â¸Ã©
 	{
 		_renderSystem->Render();
-		//TODO: ½ÇÁ¦ °ÔÀÓ ·»´õ
+		//TODO: Â½Ã‡ÃÂ¦ Â°Ã”Ã€Ã“ Â·Â»Â´Ãµ
 	}
 #endif
 }
 
 void PlayScene::InitScene()
 {
+/* Load Sprites */
+	// Letter Scene Sprite Bindings
+	_letterComponents.background->BindSprite(
+		ResourceManager::Get().GetImage(L"letter_background")
+	);
+	_letterComponents.background->BindCachedSprite(
+		ResourceManager::Get().GetCachedImage(L"letter_background")
+	);
+	_letterComponents.leftArrowDiagram->SetImage(
+		ResourceManager::Get().GetImage(L"left_arrow_diagram")
+	);
+	_letterComponents.downArrowDiagram->SetImage(
+		ResourceManager::Get().GetImage(L"down_arrow_diagram")
+	);
+	_letterComponents.rightArrowDiagram->SetImage(
+		ResourceManager::Get().GetImage(L"right_arrow_diagram")
+	);
+
+
+	// Player Sprite Bindings
+	Bitmap* bitmap = ResourceManager::Get().GetImage(L"lazanya_02");
+	_player->BindImage(bitmap, L"lazanya_02");
+	_renderSystem->CachingHelper(_player);
+
+	// Bind Player and Wall to GridMap
+	_gridMap->AddGridItem(_walls);
+	_gridMap->AddGridItem(_player);
+
+/* Build UI Hierarchy */
+	// UI Settings
+	// TODO: Need a script file seperate.
+	_letterComponents.letter->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_letterComponents.letter->SetText(
+		L"ìžëž‘ìŠ¤ëŸ¬ìš´ ë¼ìžë¸Œ ê°€ë¬¸ì˜ ìž¥ë…€ ë¼ìžëƒ 33ì„¸ì—¬,\n"
+		L"í­íƒ„ì‚° ë¬´í¬í‹°ë‹ˆë¡œ ê°€ê±°ë¼.\n\n"
+
+		L"ë¼ìžëƒì˜ ì—¬ì „ì‚¬ë¡œì„œ ëˆ„êµ¬ë³´ë‹¤ í­íƒ„ì‚° ë¬´í¬í‹°ë‹ˆë¥¼ ê¹Šê²Œ íŒŒ\n"
+		L"ë¼ìžë¸Œ ê°€ë¬¸ì˜ ì „ì„¤ì´ ë˜ê±°ë¼\n\n"
+
+		L"í•™êµë¥¼ ì•ˆ ê°€ëŠ”ê±¸ ëª…ì˜ˆë¡œ ì—¬ê²¨ì˜¨\n"
+		L"ë¼ìžë¸Œ ê°€ë¬¸ì˜ ì—¬ìžë‹µê²Œ ê¸€ì„ ëª¨ë¥´ê² ì§€.\n"
+		L"ê·¸ë¦¼ìœ¼ë¡œ ì„¤ëª…í•˜ë§ˆ.");
+	_letterComponents.letter->SetFont(24, FontStyleBold);
+
+	_letterComponents.diagrams->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_letterComponents.diagrams->SetDisplay(Display::FLEX);
+	_letterComponents.diagrams->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
+	_letterComponents.diagrams->SetFlexJustifyContent(FlexJustifyContent::SPACE_EVENLY);
+	_letterComponents.diagrams->AddChildComponent(
+		_letterComponents.leftArrowDiagram
+	);
+	_letterComponents.diagrams->AddChildComponent(
+		_letterComponents.downArrowDiagram
+	);
+	_letterComponents.diagrams->AddChildComponent(
+		_letterComponents.rightArrowDiagram
+	);
+
+	_letterContainer->AddChildComponent(_letterComponents.letter);
+	_letterContainer->AddChildComponent(_letterComponents.diagrams);
+
+	_renderSystem->RegisterRenderableObject(_letterComponents.background);
+	_renderSystem->RegisterRenderableObject(_letterContainer);
+	//_renderSystem->CacheDataInRegistry();
+
+	// Game Play Initialization
 	_player->SetPosition(2, 4);
 	_brickGenSystem->BrickGenInit();
-	//°¡Á··Â ¼±ÅÃ ÀÌÀü¿¡ ÇÊ¿äÇÑ RenderableObject µî·ÏÇÏ±â.
+	//Â°Â¡ÃÂ·Â·Ã‚ Â¼Â±Ã…Ãƒ Ã€ÃŒÃ€Ã¼Â¿Â¡ Ã‡ÃŠÂ¿Ã¤Ã‡Ã‘ RenderableObject ÂµÃ®Â·ÃÃ‡ÃÂ±Ã¢.
 	//TestSound:
 	Music::soundManager->PlayMusic(Music::eSoundList::TEST, Music::eSoundChannel::BGM);
 }

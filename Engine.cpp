@@ -52,6 +52,7 @@ void Engine::Initialize()
 		L"lazanya_02"
 	);*/
 	ResourceManager::Get().LoadImages(L"Assets");
+	ResourceManager::Get().CacheAllImages(_renderer->GetGraphics());
 
 	// TODO: Sprite pack binding must be done at advance
 	BDefault::AddSprite(

@@ -69,3 +69,16 @@ Bitmap* ResourceManager::GetImage(const ImageName& name) {
   if (it == _images.end()) return nullptr;
   return it->second;
 }
+
+CachedBitmap* ResourceManager::GetCachedImage(const ImageName& name) {
+	auto it = _cachedImages.find(name);
+  if (it == _cachedImages.end()) return nullptr;
+  return it->second;
+}
+
+bool ResourceManager::CacheAllImages(Graphics* g) {
+	for (auto& p : _images) {
+		_cachedImages[p.first] = new CachedBitmap(p.second, g);
+	}
+	return true;
+}
