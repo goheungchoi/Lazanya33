@@ -100,21 +100,18 @@ private:
 
 	std::wstring __WStringifyGloryHall(int glory) {
 		wchar_t buffer[30];
-		// L"가문의 영광:       10"
 		swprintf_s(buffer, L"가문의 영광: %8d", glory);
 		return std::wstring(buffer);
 	}
 
 	std::wstring __WStringifyMothersHonor(int mother) {
 		wchar_t buffer[30];
-		// L"어머니:                 10"
 		swprintf_s(buffer, L"어머니: %18d", mother);
 		return std::wstring(buffer);
 	}
 
 	std::wstring __WStringifyCurrentHonor(int currentHonor) {
 		wchar_t buffer[30];
-		// L"나의 명예:            10"
 		swprintf_s(buffer, L"명예: %22d", currentHonor);
 		return std::wstring(buffer);
 	}

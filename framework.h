@@ -26,6 +26,7 @@ using namespace std::literals;
 #include <utility>
 #include <memory>
 #include <optional>
+#include <functional>
 #include <system_error>
 #include <vector>
 #include <list>

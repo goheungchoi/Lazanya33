@@ -133,6 +133,9 @@ public:
 		_pen.SetColor(Color(a, r, g, b));
     _pen.SetWidth(width);
 	}
+	void SetBorderLineJoin(LineJoin lineJoin) {
+		_pen.SetLineJoin(lineJoin);
+	}
 	void EnableBorder(bool enable) { _border = enable; }
 	void DisableBorder(bool disable) { _border = disable; }
 
@@ -289,7 +292,9 @@ public:
     _pFontFamily(new FontFamily(L"Arial")), 
     _pFont(new Font(_pFontFamily, 12, FontStyleRegular, UnitPixel)),
     // _textFormat(StringAlignmentNear, StringAlignmentNear)
-		_textBrush(Color(255, 0, 0, 0)) {}
+		_textBrush(Color(255, 0, 0, 0)) { 
+		_pen.SetLineJoin(LineJoinRound); 
+	}
 	
 	// Change appearance, e.g., highlight
 	virtual void OnMouseEnter() {};
