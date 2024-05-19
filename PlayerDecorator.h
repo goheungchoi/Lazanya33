@@ -73,5 +73,7 @@ public:
 
   virtual void Move(int x, int y) override { _player->Move(x, y); }
 
+	virtual void Update(double deltaTime) { _player->Update(deltaTime); }
+
 	virtual void Render(Gdiplus::Graphics& g) override { _player->Render(g); }
 };

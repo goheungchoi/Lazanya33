@@ -84,6 +84,9 @@ class PlayScene :public IScene
 	class PlayerOxygenSystem* _playerOxySystem;
 	class PlayerBricksInteractionSystem* _playerBrickInteractionSystem;
 
+// TODO: Test Animation
+	class Animation* _testAnimation;
+
 public:
 	PlayScene();
 	~PlayScene() {};

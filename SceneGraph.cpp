@@ -36,8 +36,6 @@ void SceneGraph::RegisterScene()
 	_currScenePtr = _sceneRegistry.find("Play")->second;
 }
 
-
-
 void SceneGraph::ChangeScene(IScene* newScene)
 {
 	
