@@ -96,8 +96,8 @@ EntryScene::EntryScene()
 	);
 	_mainComs.playbutton->Rotate(-7);
 	_mainComs.playbutton->AddEventLister("mouseClick", []() {
-		_sceneManager->ChangeScene("Letter"); 
 		Music::soundManager->PlayMusic(Music::eSoundList::Button, Music::eSoundChannel::Effect);
+		_sceneManager->ChangeScene("Letter"); 
 		});
 
 	_buttonEventHandler->AddButton(_mainComs.playbutton);
@@ -111,8 +111,8 @@ EntryScene::EntryScene()
 	);
 	_mainComs.decoratorButton->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
 	_mainComs.decoratorButton->AddEventLister("mouseClick", []() {
-		_sceneManager->ChangeScene("Decorator");
 		Music::soundManager->PlayMusic(Music::eSoundList::Button, Music::eSoundChannel::Effect);
+		_sceneManager->ChangeScene("Decorator");
 		});
 
 	_buttonEventHandler->AddButton(_mainComs.decoratorButton);
@@ -126,8 +126,8 @@ EntryScene::EntryScene()
 	);
 	_mainComs.developerButton->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
 	_mainComs.developerButton->AddEventLister("mouseClick", []() {
-		_sceneManager->ChangeScene("Developer");
 		Music::soundManager->PlayMusic(Music::eSoundList::Button, Music::eSoundChannel::Effect);
+		_sceneManager->ChangeScene("Developer");
 		});
 
 	_buttonEventHandler->AddButton(_mainComs.developerButton);
@@ -141,8 +141,8 @@ EntryScene::EntryScene()
 	);
 	_mainComs.artWorkButton->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
 	_mainComs.artWorkButton->AddEventLister("mouseClick", []() {
-		_sceneManager->ChangeScene("ArtWork");
 		Music::soundManager->PlayMusic(Music::eSoundList::Button, Music::eSoundChannel::Effect);
+		_sceneManager->ChangeScene("ArtWork");
 		});
 
 	_buttonEventHandler->AddButton(_mainComs.artWorkButton);
