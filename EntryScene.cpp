@@ -33,21 +33,25 @@ EntryScene::EntryScene()
 
 void EntryScene::Update(const double deltaTime)
 {
-	if (!DidInit)
-	{
-		InitScene();
-		DidInit = true;
-	}
-
 	if (button->HitTest(
 		Input::inputManager->GetMouseClient().x,
 		Input::inputManager->GetMouseClient().y)
 		&&
-		Input::inputManager->IsCurrDn(VK_LBUTTON)
+		Input::inputManager->IsTurnDn(VK_LBUTTON)
+		)
+	{
+		//button-> image change
+		Music::soundManager->PlayMusic(Music::eSoundList::Button, Music::eSoundChannel::Effect);
+	}
+	if (button->HitTest(
+		Input::inputManager->GetMouseClient().x,
+		Input::inputManager->GetMouseClient().y)
+		&&
+		Input::inputManager->IsTurnUp(VK_LBUTTON)
 		
 		)
 	{
-		_sceneManager->ChangeScene("Play");
+		
 	}
 
 	
@@ -63,13 +67,16 @@ void EntryScene::InitScene()
 	_renderSystem->RegisterRenderableObject(_mainMenuComponents.background);
 	_renderSystem->RegisterRenderableObject(button);
 	_renderSystem->RegisterRenderableObject(_mainMenuComponents.lazanya);
+	Music::soundManager->PlayMusic(Music::eSoundList::background01, Music::eSoundChannel::BGM);
 }
 
 void EntryScene::EndScene()
 {
+	_renderSystem->ClearRenderableRegistry();
 }
 
 void EntryScene::GoToGameScene()
 {
-	//게임씬으로가는로직,.
+	//게임씬으로가는로직.
+	_sceneManager->ChangeScene("Play");
 }
