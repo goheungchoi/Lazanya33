@@ -31,7 +31,8 @@ public:
 		_onMouseClickColor{ 180, 180, 180, 255 }{
     SetText(text);  // 커스텀 텍스트
 
-		EnableFill(true);
+		EnableFill(false);
+    SetImageAlpha(255);
 
     ++numButtons;
   }
@@ -100,6 +101,7 @@ public:
 
   void OnMouseEnter() {
     // Change appearance, e.g., highlight
+    SetImageAlpha(230);
     _mouseEnterFill && SetFillColor(
 			std::get<0>(_onMouseEnterColor), 
 			std::get<1>(_onMouseEnterColor),
@@ -115,6 +117,7 @@ public:
   // 마우스 좌표가 버튼을 벗어남
   void OnMouseLeave() {
     // Revert appearance
+    SetImageAlpha(255);
     _defaultFill && SetFillColor(
 			std::get<0>(_defaultColor), 
 			std::get<1>(_defaultColor),
@@ -125,12 +128,14 @@ public:
       it != _eventHandlers.end()) {
       it->second();
     }
+    _isPressed = false;
   }
 
   // 마우스 버튼 다운
   void OnMouseDown() {
     // Maybe shown as pressed
     _isPressed = true;
+    SetImageAlpha(200);
     _mouseDownFill && SetFillColor(
 			std::get<0>(_onMouseDownColor), 
 			std::get<1>(_onMouseDownColor),
@@ -147,6 +152,7 @@ public:
   void OnMouseUp() {
     // Perform action
     if (_isPressed) {
+      SetImageAlpha(255);
 			_mouseClickFill && SetFillColor(
 				std::get<0>(_onMouseClickColor), 
 				std::get<1>(_onMouseClickColor),
