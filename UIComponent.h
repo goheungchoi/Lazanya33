@@ -355,7 +355,7 @@ public:
 		g.DrawImage(
 			_pImage,
 			Rect(_x, _y, _width, _height),
-			_x, _y, 
+			0, 0, 
 			_width, _height, 
 			UnitPixel, 
 			&_imageAtt
