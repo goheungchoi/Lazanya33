@@ -8,6 +8,7 @@ class ResourceManager {
 	std::unordered_map<ImageName, CachedBitmap*> _cachedImages;
 
 	static std::unique_ptr<ResourceManager> _instance;
+  PrivateFontCollection _fontCollection;
 
 public:
   ResourceManager() {}
@@ -19,7 +20,9 @@ public:
 
   bool LoadImageFromFile(const wchar_t* path, const ImageName& name);
   bool LoadImages(const wchar_t* szPath);
+  void InitFont();
 
+  Status GetFont();
   Bitmap* GetImage(const ImageName& name);
 	CachedBitmap* GetCachedImage(const ImageName& name);
 

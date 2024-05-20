@@ -101,7 +101,7 @@ public:
 
   void OnMouseEnter() {
     // Change appearance, e.g., highlight
-    SetImageAlpha(230);
+    SetImageAlpha(210);
     _mouseEnterFill && SetFillColor(
 			std::get<0>(_onMouseEnterColor), 
 			std::get<1>(_onMouseEnterColor),
@@ -135,7 +135,7 @@ public:
   void OnMouseDown() {
     // Maybe shown as pressed
     _isPressed = true;
-    SetImageAlpha(200);
+    SetImageAlpha(180);
     _mouseDownFill && SetFillColor(
 			std::get<0>(_onMouseDownColor), 
 			std::get<1>(_onMouseDownColor),

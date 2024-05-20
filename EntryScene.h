@@ -19,13 +19,18 @@ class EntryScene: public IScene
 		Container* lazanya;
 		Container* title;
 		Container* highScore;
+
+		Container* age;
+		Container* ageChildTextIndex;
+		Container* ageChildText;
+
 		Button* playbutton;
 		Button* decoratorButton;
 		Button* developerButton;
 		Button* artWorkButton;
 
 	}_mainComs;
-
+	int testIndex = 90;
 public:
 	EntryScene();
 	~EntryScene() {};
@@ -33,5 +38,12 @@ public:
 	void Draw()override;
 	void InitScene()override;
 	void EndScene()override;
+
+private:
+	std::wstring _WStringAgeIndex(int age) {
+		wchar_t buffer[30];
+		swprintf_s(buffer, L"%2d", age);
+		return std::wstring(buffer);
+	}
 };
 
