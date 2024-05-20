@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "LetterScene.h"
 
+#include "DebugConsole.h"
 
 // Graphics
 #include "Button.h"
@@ -11,7 +12,10 @@
 #include "ResourceManager.h"
 
 LetterScene::LetterScene() {
+	
 	__InitComponents();
+	
+	
 }
 
 LetterScene::~LetterScene() {
@@ -25,7 +29,10 @@ void LetterScene::__InitComponents() {
 	_buttonEventHandler = new ButtonEventHandler();
 
 	// Button
-	_playButton = new Button(screenWidth - 600, screenHeight - 200, 300, 100, L"가자, 무스티니로!");
+	_playButton = new Button(
+		1080, 660, 
+		515, 210, 
+		L"무스티니로!");
 
 	// Letter Container
 	_letterContainer = new Container(0, 0, screenWidth, screenHeight);
@@ -35,25 +42,24 @@ void LetterScene::__InitComponents() {
 	
 	// LeftBox Elements
 	_comps._leftBox = new Container(
-		100, 100, screenWidth * 0.50, screenHeight - 100
+		340, 185, screenWidth * 0.55, screenHeight
 	);
-	_comps.letter = new Container(0, 0, 800, 500);
+	_comps.letter = new Container(0, 0, 700, 300);
 
-	_comps.diagrams = new Container(0, 0, 800, 300);
+	_comps.diagrams = new Container(0, 100, 700, 300);
 	_comps.leftArrowDiagram = new Container();
 	_comps.downArrowDiagram = new Container();
 	_comps.rightArrowDiagram = new Container();
 
 	// RightBox Elemenst
 	_comps._rightBox = new Container(
-		60, 100, screenWidth * 0.50, screenHeight - 100
+		20, 100, screenWidth * 0.45, screenHeight - 100
 	);
-	_comps.text1 = new Container(0, 0, 800, 50);
-	_comps.blessingsOfGod = new Container(0, 0, 800, 600);
-	_comps.firstBlessingOfGod = new Container(0, 0, 800, 200);
-	_comps.secondBlessingOfGod = new Container(0, 0, 800, 200);
-	_comps.thirdBlessingOfGod = new Container(0, 0, 800, 200);
-	_comps.text2 = new Container(0, 0, 800, 50);
+	_comps.text1 = new Container(0, 0, 550, 50);
+	_comps.blessingsOfGod = new Container(0, 0, 550, 500);
+	_comps.firstBlessingOfGod = new Container(0, 20, 550, 140);
+	_comps.secondBlessingOfGod = new Container(0, 40, 550, 140);
+	_comps.thirdBlessingOfGod = new Container(0, 60, 550, 140);
 
 /********** Load Sprites **********/
 
@@ -83,13 +89,14 @@ void LetterScene::__InitComponents() {
 
 	// Buttons
 	_playButton->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_playButton->SetFontFamily(L"Segoe UI");
 	_playButton->SetFont(48, FontStyleBold);
-	_playButton->SetTextPosition(50, 50);
+	_playButton->SetTextPosition(10, 10);
 	_playButton->SetRotationPivot(
 		_playButton->GetCenterX(), 
 		_playButton->GetCenterY()
 	);
-	_playButton->Rotate(-20);
+	//_playButton->Rotate(-20);
 	_playButton->AddEventLister("mouseClick", []() {
 		_sceneManager->ChangeScene("Play");
 	});
@@ -98,39 +105,40 @@ void LetterScene::__InitComponents() {
 	// TODO: Need a script file seperate.
 	// letter scripts
 	_comps.letter->SetPositionLayout(PositionLayout::LAYOUT_STATIC);
+	_comps.letter->SetFontFamily(L"Segoe UI");
 	_comps.letter->SetText(
-		L"자랑스러운 라자브 가문의 장녀 라자냐 33세여,\n"
+		L"자랑스러운 라자브 가문의 장녀\n" L"라자냐 33세여, "
 		L"폭탄산 무크티니로 가거라.\n\n"
 
-		L"라자냐의 여전사로서 누구보다 폭탄산 무크티니를 깊게 파\n"
-		L"라자브 가문의 전설이 되거라\n\n"
+		L"누구보다 폭탄산 무크티니를 깊게 파\n"
+		L"라자브 가문의 영광이 되거라\n\n"
 
 		L"학교를 안 가는걸 명예로 여겨온\n"
-		L"라자브 가문의 여자답게 글을 모르겠지.\n"
+		L"라자브 가문의 후손답게 글을 모르겠지.\n"
 		L"그림으로 설명하마.");
 	_comps.letter->SetFont(24, FontStyleBold);
 	// diagrams
-	_comps.diagrams->SetPositionLayout(PositionLayout::LAYOUT_STATIC);
+	_comps.diagrams->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
 	// diagrams flexbox settings
 	_comps.diagrams->SetDisplay(Display::FLEX);
-	_comps.diagrams->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
+	_comps.diagrams->SetFlexAlignItem(FlexAlignItem::FLEX_START);
 	_comps.diagrams->SetFlexJustifyContent(FlexJustifyContent::SPACE_EVENLY);
 	
 	//// Right Box Components
 	// text1
+	_comps.text1->SetFontFamily(L"Segoe UI");
 	_comps.text1->SetFont(24, FontStyleBold);
-	_comps.text1->SetText(L"아, 그리고 니 신의 축복이 뭐였지?");
+	_comps.text1->SetText(L"아, 그리고 너 가족력이 뭐였지?");
 	// blessings of God
 	_comps.blessingsOfGod->SetDisplay(Display::BLOCK);
 	// first blessing
-
+	_comps.firstBlessingOfGod->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
+	_comps.secondBlessingOfGod->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
+	_comps.thirdBlessingOfGod->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
 	// second blessing
 
 	// third blessing
 
-	// text2
-	_comps.text2->SetFont(24, FontStyleBold);
-	_comps.text2->SetText(L"별 탈 없겠지. 건투를 빈다.");
 
 	// UI Container property
 	_letterContainer->SetDisplay(Display::INLINE);
@@ -179,7 +187,6 @@ void LetterScene::__InitComponents() {
 	// Attach right box contents to the right box
 	_comps._rightBox->AddChildComponent(_comps.text1);
 	_comps._rightBox->AddChildComponent(_comps.blessingsOfGod);
-	_comps._rightBox->AddChildComponent(_comps.text2);
 
 #ifndef NDEBUG	// _rightbox debugging borders
 	_comps._rightBox->EnableBorder(true);
@@ -194,14 +201,14 @@ void LetterScene::__InitComponents() {
 	_comps.secondBlessingOfGod->SetBorder(0, 255, 255);
 	_comps.thirdBlessingOfGod->EnableBorder(true);
 	_comps.thirdBlessingOfGod->SetBorder(0, 0, 255);
-	_comps.text2->EnableBorder(true);
-	_comps.text2->SetBorder(255, 0, 0);
+	_playButton->EnableBorder(true);
+	_playButton->SetBorder(0, 255, 0);
 #endif // !NDEBUG
 
 	// Attach both left box and right box;
-	_letterContainer->AddChildComponent(_playButton);
 	_letterContainer->AddChildComponent(_comps._leftBox);
 	_letterContainer->AddChildComponent(_comps._rightBox);
+	_letterContainer->AddChildComponent(_playButton);
 }
 
 

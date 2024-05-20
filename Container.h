@@ -53,7 +53,7 @@ public:
 		_flexJustifyContent = flexJustifyContent;
 	}
 
-	void Render(Graphics& g) override {
+	virtual void Render(Graphics& g) override {
 		if (_display == Display::NONE) return;
 		
 		UIComponent::Render(g);

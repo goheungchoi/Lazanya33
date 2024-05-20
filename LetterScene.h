@@ -12,6 +12,7 @@ class LetterScene : public IScene
 	// Button Handler
 	ButtonEventHandler* _buttonEventHandler;
 	Button* _playButton;
+
 	// Letter Scene Components
 	class Container* _letterContainer;
 	struct LetterComponents {
@@ -30,7 +31,6 @@ class LetterScene : public IScene
 		Container* firstBlessingOfGod;
 		Container* secondBlessingOfGod;
 		Container* thirdBlessingOfGod;
-		Container* text2;
 
 	} _comps;
 

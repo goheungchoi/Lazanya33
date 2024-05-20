@@ -70,6 +70,41 @@ void Engine::Initialize()
 
 	//Doing Debug:
 	Debug.Get_Console();
+#ifndef NDEBUG
+	
+	INT          count = 0;
+	INT          found = 0;
+	WCHAR        familyName[LF_FACESIZE];  // enough space for one family name
+	WCHAR*       familyList = NULL;
+	FontFamily*  pFontFamily = NULL;
+
+	InstalledFontCollection installedFontCollection;
+
+	// How many font families are installed?
+	count = installedFontCollection.GetFamilyCount();
+
+	// Allocate a buffer to hold the array of FontFamily
+	// objects returned by GetFamilies.
+	pFontFamily = new FontFamily[count];
+
+	// Get the array of FontFamily objects.
+	installedFontCollection.GetFamilies(count, pFontFamily, &found);
+	Debug.Log(found);
+	// The loop below creates a large string that is a comma-separated
+	// list of all font family names.
+	// Allocate a buffer large enough to hold that string.
+	familyList = new WCHAR[count*(sizeof(familyName)+ 3)];
+
+	for(INT j = 0; j < count; ++j)
+	{
+		 pFontFamily[j].GetFamilyName(familyName);  
+		 Debug.Log(familyName);
+	}
+
+	delete [] pFontFamily;
+	delete [] familyList;
+#endif // !NDEBUG
+
 }
 
 void Engine::Update(const double deltaTime)

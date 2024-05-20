@@ -149,8 +149,8 @@ public:
 	 * @param b Blue value from 0~255
 	 * @param a Alpha value from 0~255. Default is 255.
 	 */
-	void SetFillColor(char r, char g, char b, char a = 255U) {
-		_brush.SetColor(Color(a, r, g, b));
+	bool SetFillColor(char r, char g, char b, char a = 255U) {
+		return _brush.SetColor(Color(a, r, g, b));
 	}
 	void EnableFill(bool enable) { _fill = enable; }
 	void DisableFill(bool disable) { _fill = disable; }

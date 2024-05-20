@@ -150,6 +150,7 @@
     <ClInclude Include="Anaerobic.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BlendedAnimationPack.h" />
+    <ClInclude Include="BlessingContainer.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="CSound.h" />
