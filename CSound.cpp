@@ -20,10 +20,12 @@ namespace Music
 
     void SoundManager::InitMusic()
     {
-      LoadMusic(eSoundList::TEST, true, "sound//Oh_Ho_Ho_Ho_Remix_Lyrical_Video_Irrfan_Khan_Saba_Qamar_Sukhbir_Ikka_cut_225sec.mp3");
-        LoadMusic(eSoundList::MainBGM, true, "sound//playBGM.mp3");
-        LoadMusic(eSoundList::death, false, "sound//death.mp3");
+      LoadMusic(eSoundList::background01, true, "sound//21_background01.mp3");
+    
+      LoadMusic(eSoundList::BackGround02, true, "sound//22_BackGround02.mp3");
+
     }
+
 
     void SoundManager::LoadMusic(eSoundList soundlist, bool loopcheck, const char* music)
     {

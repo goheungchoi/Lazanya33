@@ -28,10 +28,63 @@ constexpr double PLAYER_OXYGEN_REDUCE_INITAL_VALUE = 10.0;
 using namespace Gdiplus;
 
 PlayScene::PlayScene() {	
-	InitScene();
+	//InitScene();
 
 
-// System Creations
+//// System Creations
+//	_brickGenSystem = new BrickGenSystem(_wall);
+//	_playerOxySystem = new PlayerOxygenSystem(
+//		_player, PLAYER_OXYGEN_REDUCE_INITAL_VALUE
+//	);
+//	_playerBrickInteractionSystem = new PlayerBricksInteractionSystem(
+//		_player, _wall, _playerOxySystem
+//	);
+//
+//// RenderSystem Registration
+//	_renderSystem->RegisterRenderableObject(_gridMapBackground);
+//	_renderSystem->RegisterRenderableObject(_gridMap);
+//	_renderSystem->RegisterRenderableObject(_gamePlayUIContainer);
+//	
+//
+//#ifndef NDEBUG
+//	// A spinning square for performance measure
+//	_ui = new Container(100, 100, 100, 100);
+//	_ui->SetDisplay(Display::FLEX);
+//	_ui->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
+//	_ui->SetFlexJustifyContent(FlexJustifyContent::FLEX_START);
+//	_uiChild1 = new Container(20, 20, 20, 20);
+//	_uiChild1->SetPositionLayout(PositionLayout::LAYOUT_STATIC);
+//	_uiChild2 = new Container(60, 60, 20, 20);
+//	_ui->AddChildComponent(_uiChild1);
+//	_ui->AddChildComponent(_uiChild2);
+//	_uiChild1->EnableBorder(true);
+//	_uiChild1->SetBorder(0, 255, 0);
+//	_uiChild2->EnableBorder(true);
+//	_uiChild2->SetBorder(0, 0, 255);
+//	_ui->EnableBorder(true);
+//	_ui->SetBorder(255, 0, 0);
+//	_ui->SetText(L"Hello!");
+//	_ui->SetRotationPivot(_ui->GetCenterX(), _ui->GetCenterY());
+//
+//	_fpsBox = new Container(5, 5, 100, 50);
+//	_fpsBox->SetFont(24, FontStyleBold);
+//	_fpsBox->SetText(StringifyFrameRate(0).c_str());
+//
+//	_renderSystem->RegisterRenderableObject(_ui);
+//	_renderSystem->RegisterRenderableObject(_fpsBox);
+//#endif
+//
+//// Game Play Initialization
+//	_player->SetPosition(2, 4);
+//	_brickGenSystem->BrickGenInit();
+}
+
+void PlayScene::InitScene()
+{
+	__InitLetterScene();
+	__InitGamePlayScene();
+
+	// System Creations
 	_brickGenSystem = new BrickGenSystem(_wall);
 	_playerOxySystem = new PlayerOxygenSystem(
 		_player, PLAYER_OXYGEN_REDUCE_INITAL_VALUE
@@ -40,11 +93,11 @@ PlayScene::PlayScene() {
 		_player, _wall, _playerOxySystem
 	);
 
-// RenderSystem Registration
+	// RenderSystem Registration
 	_renderSystem->RegisterRenderableObject(_gridMapBackground);
 	_renderSystem->RegisterRenderableObject(_gridMap);
 	_renderSystem->RegisterRenderableObject(_gamePlayUIContainer);
-	
+
 
 #ifndef NDEBUG
 	// A spinning square for performance measure
@@ -74,15 +127,9 @@ PlayScene::PlayScene() {
 	_renderSystem->RegisterRenderableObject(_fpsBox);
 #endif
 
-// Game Play Initialization
+	// Game Play Initialization
 	_player->SetPosition(2, 4);
 	_brickGenSystem->BrickGenInit();
-}
-
-void PlayScene::InitScene()
-{
-	__InitLetterScene();
-	__InitGamePlayScene();
 
 	// Render the letter scene first
 	// _renderSystem->RegisterRenderableObject(_letterComponents.background);
@@ -96,7 +143,7 @@ void PlayScene::InitScene()
 	
 
 	//TestSound:
-	Music::soundManager->PlayMusic(Music::eSoundList::TEST, Music::eSoundChannel::BGM);
+	Music::soundManager->PlayMusic(Music::eSoundList::BackGround02, Music::eSoundChannel::BGM);
 }
 
 void PlayScene::__InitLetterScene() {
@@ -454,7 +501,13 @@ void PlayScene::__InitGamePlayScene() {
 
 void PlayScene::Update(const double deltaTime)
 {
-	
+	if (!DidInit)
+	{
+		InitScene();
+		DidInit = true;
+	}
+
+
 #ifndef NDEBUG
 	_elapsedTime += deltaTime;
 	_frames += 1;

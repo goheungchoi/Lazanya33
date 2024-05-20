@@ -62,7 +62,7 @@ void Engine::Initialize()
 	);
 
 	Music::soundManager->InitMusic();
-	Music::soundManager->SetVolume(0.1f);
+	Music::soundManager->SetVolume(0.5f);
 	Timer::InitTimer();
 	Input::inputManager->InitInput();
 	

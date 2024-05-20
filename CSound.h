@@ -23,10 +23,26 @@ namespace Music
 
     enum class eSoundList
     {
-        TEST,
-        MainBGM,
+        Button,
+        BackSound,
+        PaperTeraing,
+        Attack,
+        blockDamage,
+        block00_destroy_Malang,
+        block01_destroy_Dan,
+        block02_destroy_DDak,
+        Block04_Destroy,
+        Block05_destroy_gold,
+        Block06_destroy_air,
+        rasgula,
+        rasgula_shorts,
         death,
-        Size,
+        mother,
+        bestScore,
+        background01,
+        BackGround02,
+        LevelUP,
+        Size
     };
     class SoundManager;  // 클래스 전방 선언
     extern SoundManager* soundManager;  // extern을 사용하여 외부에서 접근 가능하도록 선언

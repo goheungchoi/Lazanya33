@@ -2,9 +2,24 @@
 #include "SceneGraph.h"
 #include "Wall.h"
 
+template<class T>
+class SingleSpriteRenderable;
+class Container;
+class Button;
+
+
+
 class EntryScene: public IScene
 {
-	class IRenderable* _drawableObject;
+	class Container* _mainMenuContainer;
+	struct MainMenuComponents
+	{
+		SingleSpriteRenderable<MainMenuComponents>* background;
+		Container* lazanya;
+
+	}_mainMenuComponents;
+
+	Button* button;
 public:
 	EntryScene();
 	~EntryScene() {};
@@ -12,5 +27,6 @@ public:
 	void Draw()override;
 	void InitScene()override;
 	void EndScene()override;
+	void GoToGameScene();
 };
 

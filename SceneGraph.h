@@ -19,7 +19,7 @@ public:
 
 	IScene* GetCurrentScene();
 	
-	void ChangeScene(IScene* newScene);
+	void ChangeScene(const std::string &sceneName);
 	void Update(double deltaTime);
 	void Draw();
 	void RegisterScene();

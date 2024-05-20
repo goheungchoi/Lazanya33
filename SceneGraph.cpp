@@ -33,14 +33,14 @@ void SceneGraph::RegisterScene()
 	_sceneRegistry["Entry"]->AddSceneDependency(_sceneRegistry["Play"], "Play");
 	//첫 씬
 	//TODO: 데모버젼 ->첫 씬 play 나중에 Entry로 바꾸기
-	_currScenePtr = _sceneRegistry.find("Play")->second;
+	_currScenePtr = _sceneRegistry.find("Entry")->second;
 }
 
 
 
-void SceneGraph::ChangeScene(IScene* newScene)
+void SceneGraph::ChangeScene(const std::string& sceneName)
 {
-	
+	IScene* newScene = _currScenePtr->_sceneDependencies.find(sceneName)->second;
 	_currScenePtr = newScene;
 }
 
