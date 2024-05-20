@@ -71,6 +71,7 @@ protected:
 
 	bool _sizeFitImage{ false };
 	Image* _pImage{nullptr};
+	ImageAttributes _imageAtt;
 
 public:
 	// Z-value
@@ -157,6 +158,19 @@ public:
 
 	void SetSizeFitImage(bool fit) { _sizeFitImage = fit; }
 	void SetImage(Image* image) { _pImage = image; }
+	void SetImageAlpha(unsigned char alpha) {
+		float a = alpha / 255.0f;
+		ColorMatrix m = {1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+                    0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+                    0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+                    0.0f, 0.0f, 0.0f,		 a, 0.0f,
+                    0.0f, 0.0f, 0.0f, 0.0f, 1.0f};
+		_imageAtt.SetColorMatrix(
+			&m, 
+			ColorMatrixFlagsDefault, 
+			ColorAdjustTypeBitmap
+		);
+	}
 
 // Text Utilities
 protected:
@@ -338,7 +352,14 @@ public:
 
 		// Draw image if exists
 		_pImage && 
-		g.DrawImage(_pImage, _x, _y, _width, _height);
+		g.DrawImage(
+			_pImage,
+			Rect(_x, _y, _width, _height),
+			_x, _y, 
+			_width, _height, 
+			UnitPixel, 
+			&_imageAtt
+		);
 
 		// TODO: When drawing borders,
 		// Don't apply scaling
@@ -388,7 +409,14 @@ public:
 				
 				// Draw image if exists
 				_pImage && 
-				g.DrawImage(_pImage, 0, 0, _width, _height);
+				g.DrawImage(
+					_pImage,
+					Rect(0, 0, _width, _height),
+					0, 0, 
+					_width, _height, 
+					UnitPixel, 
+					&_imageAtt
+				);
 
 				// TODO: When drawing borders,
 				// Don't apply scaling
@@ -423,7 +451,14 @@ public:
 				// 
 				// Draw image if exists
 				_pImage && 
-				g.DrawImage(_pImage, _x, _y, _width, _height);
+				g.DrawImage(
+					_pImage,
+					Rect(_x, _y, _width, _height),
+					_x, _y, 
+					_width, _height, 
+					UnitPixel, 
+					&_imageAtt
+				);
 
 				// TODO: When drawing borders,
 				// Don't apply scaling

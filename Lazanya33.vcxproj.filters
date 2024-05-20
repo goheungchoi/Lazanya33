@@ -234,9 +234,6 @@
     <ClInclude Include="GridItem.h">
       <Filter>Source Files\Game\Components\UI\Grid</Filter>
     </ClInclude>
-    <ClInclude Include="SpritePack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Source Files\Game\Components\Animation</Filter>
     </ClInclude>
@@ -245,9 +242,6 @@
     </ClInclude>
     <ClInclude Include="BlendedAnimationPack.h">
       <Filter>Source Files\Game\Components\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="BlessingContainer.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DecoratorScene.h">
       <Filter>Source Files\Game\SceneGraph\Scene\Decorator</Filter>
@@ -260,6 +254,12 @@
     </ClInclude>
     <ClInclude Include="ArtWorkScene.h">
       <Filter>Source Files\Game\SceneGraph\Scene\ArtWork</Filter>
+    </ClInclude>
+    <ClInclude Include="BlessingContainer.h">
+      <Filter>Source Files\Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SpritePack.h">
+      <Filter>Source Files\Game\Components\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
