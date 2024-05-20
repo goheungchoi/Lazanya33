@@ -91,6 +91,18 @@
     <Filter Include="Source Files\Game\Components\Animation">
       <UniqueIdentifier>{ec508851-2379-4f62-803a-c16b58ad5749}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\SceneGraph\Scene\Letter">
+      <UniqueIdentifier>{f790d0ba-efaf-4a7f-835b-dc00adcd764d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\SceneGraph\Scene\Developer">
+      <UniqueIdentifier>{af54f0cf-4010-4485-b0a7-9f3e0ee97cc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\SceneGraph\Scene\Decorator">
+      <UniqueIdentifier>{f87285e8-c3a5-4fb3-af2a-84f42a83fda9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\SceneGraph\Scene\ArtWork">
+      <UniqueIdentifier>{3c61bf94-591f-477c-83ef-5cde5b564e16}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -234,6 +246,21 @@
     <ClInclude Include="BlendedAnimationPack.h">
       <Filter>Source Files\Game\Components\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="BlessingContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DecoratorScene.h">
+      <Filter>Source Files\Game\SceneGraph\Scene\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="DeveloperScene.h">
+      <Filter>Source Files\Game\SceneGraph\Scene\Developer</Filter>
+    </ClInclude>
+    <ClInclude Include="LetterScene.h">
+      <Filter>Source Files\Game\SceneGraph\Scene\Letter</Filter>
+    </ClInclude>
+    <ClInclude Include="ArtWorkScene.h">
+      <Filter>Source Files\Game\SceneGraph\Scene\ArtWork</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -310,6 +337,18 @@
     </ClCompile>
     <ClCompile Include="AnimationController.h">
       <Filter>Source Files\Game\Components\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="ArtWorkScene.cpp">
+      <Filter>Source Files\Game\SceneGraph\Scene\ArtWork</Filter>
+    </ClCompile>
+    <ClCompile Include="DecoratorScene.cpp">
+      <Filter>Source Files\Game\SceneGraph\Scene\Decorator</Filter>
+    </ClCompile>
+    <ClCompile Include="DeveloperScene.cpp">
+      <Filter>Source Files\Game\SceneGraph\Scene\Developer</Filter>
+    </ClCompile>
+    <ClCompile Include="LetterScene.cpp">
+      <Filter>Source Files\Game\SceneGraph\Scene\Letter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
