@@ -58,14 +58,42 @@ public:
 			// Sprite Sheet
 			ResourceManager::Get().GetImage(L"motion_sheet"),
 		// X, Y, loop
-			0, 0, true
+			0, 120, false
 		);
 		downAttackAnimation->SliceSpriteSheet(32, 32, 0, 0, 32, 32);
 		downAttackAnimation->SetFrameDurations({ 0.08 });
 
+		Animation* leftAttackAnimation = new Animation(
+			// Sprite Sheet
+			ResourceManager::Get().GetImage(L"motion_sheet"),
+		// X, Y, loop
+			-50, 0, false
+		);
+		leftAttackAnimation->SliceSpriteSheet(32, 32, 0, 0, 32, 32);
+		leftAttackAnimation->SetFrameDurations({ 0.08 });
+
+		Animation* rightAttackAnimation = new Animation(
+			// Sprite Sheet
+			ResourceManager::Get().GetImage(L"motion_sheet"),
+		// X, Y, loop
+			150, 0, false
+		);
+		rightAttackAnimation->SliceSpriteSheet(32, 32, 0, 0, 32, 32);
+		rightAttackAnimation->SetFrameDurations({ 0.08 });
+
 		_effectController = new AnimationController();
-		_effectController->AddAnimation(0, downAttackAnimation);
-		_effectController->SetState(0);
+		_effectController->AddAnimation(
+			PlayerEffect::DOWN_ATTACK, 
+			downAttackAnimation
+		);
+		_effectController->AddAnimation(
+			PlayerEffect::LEFT_ATTACK, 
+			leftAttackAnimation
+		);
+		_effectController->AddAnimation(
+			PlayerEffect::RIGHT_ATTACK, 
+			rightAttackAnimation
+		);
 	}
 
   /* Getters */
@@ -149,8 +177,9 @@ public:
 	void Render(Graphics& g) {
 		IPlayer::Render(g);
 
+		auto* effect = _effectController->GetCurrentAnimation();
 		g.TranslateTransform(_position.X, _position.Y);
-		_effectController->GetCurrentAnimation()->Render(g);
+		effect ? effect->Render(g) : []() {}();
 		g.TranslateTransform(-_position.X, -_position.Y);
 	}
 };

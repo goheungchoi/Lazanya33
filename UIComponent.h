@@ -71,6 +71,15 @@ protected:
 
 	bool _sizeFitImage{ false };
 	Image* _pImage{nullptr};
+	bool _stretch{ true };
+	H_DIRECTION _imageHPos{H_DIRECTION::LEFT};
+	V_DIRECTION _imageVPos{V_DIRECTION::TOP};
+	ColorMatrix _imageColorMat 
+		{1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+    0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+    0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+    0.0f, 0.0f, 0.0f,	1.0f, 0.0f,
+    0.0f, 0.0f, 0.0f, 0.0f, 1.0f};
 	ImageAttributes _imageAtt;
 
 public:
@@ -158,15 +167,44 @@ public:
 
 	void SetSizeFitImage(bool fit) { _sizeFitImage = fit; }
 	void SetImage(Image* image) { _pImage = image; }
+	void SetImageAlignment(H_DIRECTION hdir, V_DIRECTION vdir) {
+		_imageHPos = hdir;
+		_imageVPos = vdir;
+	}
+	void SetImageStrecth(bool stretch) {
+		_stretch = stretch;
+	}
+	void DecreaseImageIntensity(float i) {
+		ColorMatrix mat = {
+				 i, 0.0f, 0.0f, 0.0f, 0.0f,
+			0.0f,    i, 0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f,    i, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f,	1.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 0.0f, 1.0f
+		};
+		multiplyColorMatrices(_imageColorMat, mat);
+		_imageAtt.SetColorMatrix(
+			&_imageColorMat, 
+			ColorMatrixFlagsDefault, 
+			ColorAdjustTypeBitmap
+		);
+	}
+
+	void SetImageIntensity(float i) {
+		_imageColorMat.m[0][0] = i;
+		_imageColorMat.m[1][1] = i;
+		_imageColorMat.m[2][2] = i;
+		_imageAtt.SetColorMatrix(
+			&_imageColorMat, 
+			ColorMatrixFlagsDefault, 
+			ColorAdjustTypeBitmap
+		);
+	}
 	void SetImageAlpha(unsigned char alpha) {
 		float a = alpha / 255.0f;
-		ColorMatrix m = {1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-                    0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-                    0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-                    0.0f, 0.0f, 0.0f,		 a, 0.0f,
-                    0.0f, 0.0f, 0.0f, 0.0f, 1.0f};
+		_imageColorMat.m[3][3] = a;
 		_imageAtt.SetColorMatrix(
-			&m, 
+			&_imageColorMat, 
 			ColorMatrixFlagsDefault, 
 			ColorAdjustTypeBitmap
 		);
@@ -311,6 +349,11 @@ public:
     // _textFormat(StringAlignmentNear, StringAlignmentNear)
 		_textBrush(Color(255, 0, 0, 0)) { 
 		_pen.SetLineJoin(LineJoinRound); 
+		_imageAtt.SetColorMatrix(
+			&_imageColorMat, 
+			ColorMatrixFlagsDefault, 
+			ColorAdjustTypeBitmap
+		);
 	}
 	
 	// Change appearance, e.g., highlight
@@ -351,12 +394,32 @@ public:
 		g.MultiplyTransform(&_transform);
 
 		// Draw image if exists
-		_pImage && 
+		Rect imageRect;
+		_stretch ? 
+		(imageRect = { 0, 0, _width, _height}) :
+		(imageRect = {0, 0, (int)_pImage->GetWidth(), (int)_pImage->GetHeight()});
+		!_stretch && __SetImagePosition(_position, &imageRect);
+
+		_pImage && _stretch &&
 		g.DrawImage(
 			_pImage,
 			Rect(_x, _y, _width, _height),
 			0, 0, 
 			_width, _height, 
+			UnitPixel, 
+			&_imageAtt
+		);
+
+		// No stretch
+		_pImage && !_stretch &&
+		g.DrawImage(
+			_pImage,
+			Rect(
+				imageRect.X, imageRect.Y, 
+				imageRect.Width, imageRect.Height
+			),
+			0, 0, 
+			imageRect.Width, imageRect.Height,
 			UnitPixel, 
 			&_imageAtt
 		);
@@ -407,13 +470,35 @@ public:
 				// Ignore the position of itself, 
 				// but follow the layout of the parent
 				
+				
+
 				// Draw image if exists
-				_pImage && 
+				Rect imageRect;
+				_stretch ? 
+				(imageRect = { 0, 0, _width, _height}) :
+				(imageRect = {0, 0, (int)_pImage->GetWidth(), (int)_pImage->GetHeight()});
+				!_stretch && __SetImagePosition({0, 0}, &imageRect);
+
+				_pImage && _stretch &&
 				g.DrawImage(
 					_pImage,
 					Rect(0, 0, _width, _height),
 					0, 0, 
 					_width, _height, 
+					UnitPixel, 
+					&_imageAtt
+				);
+
+				// No stretch
+				_pImage && !_stretch &&
+				g.DrawImage(
+					_pImage,
+					Rect(
+						imageRect.X, imageRect.Y, 
+						imageRect.Width, imageRect.Height
+					),
+					0, 0, 
+					imageRect.Width, imageRect.Height,
 					UnitPixel, 
 					&_imageAtt
 				);
@@ -450,12 +535,33 @@ public:
 				// Draw
 				// 
 				// Draw image if exists
-				_pImage && 
+
+				Rect imageRect;
+				_stretch ? 
+				(imageRect = { 0, 0, _width, _height}) :
+				(imageRect = {0, 0, (int)_pImage->GetWidth(), (int)_pImage->GetHeight()});
+				!_stretch && __SetImagePosition(_position, &imageRect);
+
+				_pImage && _stretch &&
 				g.DrawImage(
 					_pImage,
 					Rect(_x, _y, _width, _height),
-					_x, _y, 
+					0, 0, 
 					_width, _height, 
+					UnitPixel, 
+					&_imageAtt
+				);
+
+				// No stretch
+				_pImage && !_stretch &&
+				g.DrawImage(
+					_pImage,
+					Rect(
+						imageRect.X, imageRect.Y, 
+						imageRect.Width, imageRect.Height
+					),
+					0, 0, 
+					imageRect.Width, imageRect.Height,
 					UnitPixel, 
 					&_imageAtt
 				);
@@ -503,6 +609,61 @@ public:
 			pChildComp->Render(g);
 			g.TranslateTransform(-_x, -_y);
 		}
+	}
+
+protected:
+	/**
+   * @brief Set a sprite Rect position based on 
+	 *	the Renderable position.
+   * @param sprite
+   * @param spriteRect
+   */
+  bool __SetImagePosition(const Point& cellULCorner, Rect* imageRect) {
+		
+		int imageWidth = imageRect->Width;
+    int imageHeight = imageRect->Height;
+
+    int frameX = cellULCorner.X;
+    int frameY = cellULCorner.Y;
+
+    switch (_imageHPos) {
+      case H_DIRECTION::LEFT: {
+      } break;
+      case H_DIRECTION::CENTER: {
+				frameX += (_width - imageWidth) >> 1;
+      } break;
+      case H_DIRECTION::RIGHT: {
+        frameX += (_width - imageWidth);
+      } break;
+    }
+
+    switch (_imageVPos) {
+      case V_DIRECTION::TOP: {
+      } break;
+      case V_DIRECTION::CENTER: {
+        frameY += (_height - imageHeight) >> 1;
+      } break;
+      case V_DIRECTION::BOTTOM: {
+        frameY += (_height - imageHeight);
+      } break;
+    }
+
+    imageRect->X = frameX;
+    imageRect->Y = frameY;
+
+		return true;
+  }
+
+private:
+	void multiplyColorMatrices(
+		ColorMatrix& multiplicant, 
+		const ColorMatrix& multiplier) {
+
+		multiplicant.m[0][0] *= multiplier.m[0][0];
+		multiplicant.m[1][1] *= multiplier.m[1][1];
+		multiplicant.m[2][2] *= multiplier.m[2][2];
+		multiplicant.m[3][3] *= multiplier.m[3][3];
+		multiplicant.m[4][4] *= multiplier.m[4][4];
 	}
 };
 

@@ -6,7 +6,7 @@ using namespace Gdiplus;
 
 class AnimationController {
   std::unordered_map<int, IAnimation*> _animations;
-  IAnimation* _currentAnimation;
+	IAnimation* _currentAnimation{ nullptr };
 
 public:
   void AddAnimation(int state, IAnimation* animation) {

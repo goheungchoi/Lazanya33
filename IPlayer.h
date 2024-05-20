@@ -4,7 +4,9 @@
 #include "GridItem.h"
 
 enum PlayerEffect {
-
+	DOWN_ATTACK,
+	LEFT_ATTACK,
+	RIGHT_ATTACK
 };
 
 class IPlayer : public GridItem {

@@ -203,11 +203,11 @@ void PlayScene::__InitComponents() {
 	);
 	IAnimation* daughter_moveup = new TranslateTransition(
 		_gamePlayUIComponents.daughter,
-		30, 810, 30, 500, 0.3, bezier::ease_out
+		30, 810, 30, 600, 0.3, bezier::ease_out
 	);
 	IAnimation* daughter_movedown = new TranslateTransition(
 		_gamePlayUIComponents.daughter,
-		30, 500, 30, 810, 0.3, bezier::ease_in
+		30, 600, 30, 810, 0.3, bezier::ease_in
 	);
 	SequentialAnimationPack* daughter_animationPack = new SequentialAnimationPack();
 	daughter_animationPack->PushBackAnimation(
@@ -233,11 +233,11 @@ void PlayScene::__InitComponents() {
 	);
 	IAnimation* husband_moveup = new TranslateTransition(
 		_gamePlayUIComponents.husband,
-		320, 615, 320, 300, 0.3, bezier::ease_out
+		320, 615, 320, 400, 0.3, bezier::ease_out
 	);
 	IAnimation* husband_movedown = new TranslateTransition(
 		_gamePlayUIComponents.husband,
-		320, 300, 320, 615, 0.3, bezier::ease_in
+		320, 400, 320, 615, 0.3, bezier::ease_in
 	);
 	SequentialAnimationPack* husband_animationPack = new SequentialAnimationPack();
 	husband_animationPack->PushBackAnimation(
@@ -263,11 +263,11 @@ void PlayScene::__InitComponents() {
 	);
 	IAnimation* mother_moveup = new TranslateTransition(
 		_gamePlayUIComponents.mother,
-		0, 580, 0, 280, 0.3, bezier::ease_out
+		0, 580, 0, 380, 0.3, bezier::ease_out
 	);
 	IAnimation* mother_movedown = new TranslateTransition(
 		_gamePlayUIComponents.mother,
-		0, 280, 0, 580, 0.3, bezier::ease_in
+		0, 380, 0, 580, 0.3, bezier::ease_in
 	);
 	SequentialAnimationPack* mother_animationPack = new SequentialAnimationPack();
 	mother_animationPack->PushBackAnimation(
@@ -293,11 +293,11 @@ void PlayScene::__InitComponents() {
 	);
 	IAnimation* dancingTownspeople_moveup = new TranslateTransition(
 		_gamePlayUIComponents.dancingTownspeople,
-		0, 345, 0, 145, 0.3, bezier::ease_out
+		0, 345, 0, 195, 0.3, bezier::ease_out
 	);
 	IAnimation* dancingTownspeople_movedown = new TranslateTransition(
 		_gamePlayUIComponents.dancingTownspeople,
-		0, 145, 0, 345, 0.3, bezier::ease_in
+		0, 195, 0, 345, 0.3, bezier::ease_in
 	);
 	SequentialAnimationPack* dancingTownspeople_animationPack = new SequentialAnimationPack();
 	dancingTownspeople_animationPack->PushBackAnimation(
@@ -455,40 +455,11 @@ void PlayScene::Update(const double deltaTime)
 	//Update Score
 	_gamePlayUIComponents.currentHonor->SetText(__WStringifyCurrentHonor(_player->GetCurrScore()).c_str());
 
-#ifdef PLAYSCENE
-	if (/*!°¡Á··ÂÀ» ¼±ÅÃÇß´Â°¡?*/)
-	{
-		//TODO: °¡Á··Â ¼±ÅÃ ÀÌÀüÀÇ ¾÷µ¥ÀÌÆ®.
-
-		_renderSystem->ClearRenderableRegistry();
-
-		//°ÔÀÓ ½ÃÀÛ½Ã ÇÊ¿äÇÑrendererµî·Ï
-		_renderSystem->RegisterRenderableObject(dynamic_cast<IRenderable*>(player));
-	}
-	else//°¡Á··ÂÀ» °ñ¶ú´Ù¸é
-	{
-		/*player=new Decorators*/
-		//TODO: ½ÇÁ¦ °ÔÀÓ ¾÷µ¥ÀÌÆ®
-	}
-#endif
 }
 
 void PlayScene::Draw()
 {
 	_renderSystem->Render();
-#ifdef PLAYSCENE
-	if (/*!°¡Á··ÂÀ» ¼±ÅÃÇß´Â°¡?*/)
-	{
-
-		_renderSystem->Render();
-		//TODO: °¡Á··Â ¼±ÅÃ ÀÌÀüÀÇ ¾÷µ¥ÀÌÆ®.
-	}
-	else//°¡Á··ÂÀ» °ñ¶ú´Ù¸é
-	{
-		_renderSystem->Render();
-		//TODO: ½ÇÁ¦ °ÔÀÓ ·»´õ
-	}
-#endif
 }
 
 void PlayScene::InitScene()
@@ -537,26 +508,32 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 	//if getkey Down, MoveDown.
 	if (Input::inputManager->IsTurnDn(VK_DOWN))
 	{
-		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
-		(_player->GetPositionY() + 1, _player->GetPositionX(),
-			VK_DOWN, _countWallPop,deltaTime);
+		_player->TriggerEffect(PlayerEffect::DOWN_ATTACK);
+		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer(
+			_player->GetPositionY() + 1, _player->GetPositionX(),
+			VK_DOWN, _countWallPop, deltaTime
+		);
 	}
 	//if getkey Left and it's in the play screen and if brick type is not NONE, MoveLeft
-	if (Input::inputManager->IsTurnDn(VK_LEFT)
-		&& _player->GetPositionX() > 0
-		&& _wall->GetBrick(_player->GetPositionY(), _player->GetPositionX() - 1).type
+	if (Input::inputManager->IsTurnDn(VK_LEFT) && 
+		_player->GetPositionX() > 0 && 
+		_wall->GetBrick(_player->GetPositionY(), _player->GetPositionX() - 1).type
 		!= BrickType::NONE)
 	{
+		_player->TriggerEffect(PlayerEffect::LEFT_ATTACK);
 		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
 		(_player->GetPositionY(), _player->GetPositionX() - 1,
 			VK_LEFT, _countWallPop,deltaTime);
 	}
 	//if getkey Right and it's in the play screen and if brick type is not NONE, MoveRight
-	if (Input::inputManager->IsTurnDn(VK_RIGHT)
-		&& _player->GetPositionX() < 4
-		&& _wall->GetBrick(_player->GetPositionY(), _player->GetPositionX() + 1).type
-		!= BrickType::NONE)
+	if (Input::inputManager->IsTurnDn(VK_RIGHT) && 
+		_player->GetPositionX() < 4 && 
+		_wall->GetBrick(
+			_player->GetPositionY(), 
+			_player->GetPositionX() + 1
+		).type != BrickType::NONE)
 	{
+		_player->TriggerEffect(PlayerEffect::RIGHT_ATTACK);
 		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
 		(_player->GetPositionY(), _player->GetPositionX() + 1,
 			VK_RIGHT, _countWallPop,deltaTime);

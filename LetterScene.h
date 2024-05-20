@@ -21,9 +21,6 @@ class LetterScene : public IScene
 		Container* _leftBox;
 		Container* letter;
 		Container* diagrams;
-		Container* leftArrowDiagram;
-		Container* downArrowDiagram;
-		Container* rightArrowDiagram;
 
 		Container* _rightBox;
 		Container* text1;

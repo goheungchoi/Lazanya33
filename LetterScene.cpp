@@ -29,10 +29,7 @@ void LetterScene::__InitComponents() {
 	_buttonEventHandler = new ButtonEventHandler();
 
 	// Button
-	_playButton = new Button(
-		1080, 660, 
-		515, 210, 
-		L"무스티니로!");
+	_playButton = new Button(1080, 660, 515, 210);
 
 	// Letter Container
 	_letterContainer = new Container(0, 0, screenWidth, screenHeight);
@@ -47,9 +44,6 @@ void LetterScene::__InitComponents() {
 	_comps.letter = new Container(0, 0, 700, 300);
 
 	_comps.diagrams = new Container(0, 100, 700, 300);
-	_comps.leftArrowDiagram = new Container();
-	_comps.downArrowDiagram = new Container();
-	_comps.rightArrowDiagram = new Container();
 
 	// RightBox Elemenst
 	_comps._rightBox = new Container(
@@ -64,23 +58,17 @@ void LetterScene::__InitComponents() {
 /********** Load Sprites **********/
 
 	// Letter Scene Sprite Bindings
+	_playButton->SetImage(
+		ResourceManager::Get().GetImage(L"play_button")
+	);
 	_comps.background->BindSprite(
 		ResourceManager::Get().GetImage(L"letter_background")
 	);
 	_comps.background->BindCachedSprite(
 		ResourceManager::Get().GetCachedImage(L"letter_background")
 	);
-	_comps.leftArrowDiagram->SetSizeFitImage(true);
-	_comps.leftArrowDiagram->SetImage(
-		ResourceManager::Get().GetImage(L"left_arrow_diagram")
-	);
-	_comps.downArrowDiagram->SetSizeFitImage(true);
-	_comps.downArrowDiagram->SetImage(
-		ResourceManager::Get().GetImage(L"down_arrow_diagram")
-	);
-	_comps.rightArrowDiagram->SetSizeFitImage(true);
-	_comps.rightArrowDiagram->SetImage(
-		ResourceManager::Get().GetImage(L"right_arrow_diagram")
+	_comps.diagrams->SetImage(
+		ResourceManager::Get().GetImage(L"tutorial_diagram")
 	);
 	
 	// Other Sprite Bindings
@@ -89,15 +77,19 @@ void LetterScene::__InitComponents() {
 
 	// Buttons
 	_playButton->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
-	_playButton->SetFontFamily(L"Segoe UI");
-	_playButton->SetFont(48, FontStyleBold);
-	_playButton->SetTextPosition(10, 10);
-	_playButton->SetRotationPivot(
-		_playButton->GetCenterX(), 
-		_playButton->GetCenterY()
-	);
-	//_playButton->Rotate(-20);
+	_playButton->SetImageStrecth(false);
+	_playButton->SetImageAlignment(H_DIRECTION::CENTER, V_DIRECTION::CENTER);
+	
+	_playButton->AddEventLister("mouseEnter", [this]() {
+		_playButton->SetImageIntensity(2.0f);
+	});
+	_playButton->AddEventLister("mouseLeave", [this]() {
+		_playButton->SetImageIntensity(1/2.0f);
+	});
 	_playButton->AddEventLister("mouseClick", []() {
+		Music::soundManager->PlayMusic(
+			Music::eSoundList::Button, Music::eSoundChannel::Effect
+		);
 		_sceneManager->ChangeScene("Play");
 	});
 
@@ -149,15 +141,7 @@ void LetterScene::__InitComponents() {
 	_buttonEventHandler->AddButton(_playButton);
 
 	// Diagrams
-	_comps.diagrams->AddChildComponent(
-		_comps.leftArrowDiagram
-	);
-	_comps.diagrams->AddChildComponent(
-		_comps.downArrowDiagram
-	);
-	_comps.diagrams->AddChildComponent(
-		_comps.rightArrowDiagram
-	);
+	_comps.diagrams->SetSizeFitImage(true);
 
 	// Attach letter to the left box
 	_comps._leftBox->AddChildComponent(_comps.letter);
@@ -171,12 +155,6 @@ void LetterScene::__InitComponents() {
 	_comps.letter->SetBorder(255, 0, 0);
 	_comps.diagrams->EnableBorder(true);
 	_comps.diagrams->SetBorder(255, 0, 0);
-	_comps.leftArrowDiagram->EnableBorder(true);
-	_comps.leftArrowDiagram->SetBorder(255, 0, 0);
-	_comps.downArrowDiagram->EnableBorder(true);
-	_comps.downArrowDiagram->SetBorder(255, 0, 0);
-	_comps.rightArrowDiagram->EnableBorder(true);
-	_comps.rightArrowDiagram->SetBorder(255, 0, 0);
 #endif // !NDEBUG
 
 	// Attach blessings
