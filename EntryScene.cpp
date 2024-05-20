@@ -47,6 +47,40 @@ EntryScene::EntryScene()
 	;
 	_mainComs.lazanya->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
 
+	//age
+	_mainComs.age = new Container(500, 40, 100, 100);
+	_mainComs.age->SetSizeFitImage(true);
+	_mainComs.age->SetImage(
+	ResourceManager::Get().GetImage(L"Age")
+	);
+	_mainComs.age->SetRotationPivot(
+		_mainComs.age->GetCenterX(),
+		_mainComs.age->GetCenterY()
+	);
+	_mainComs.age->Rotate(10);
+	_mainComs.age->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+
+	_mainComs.ageChildText = new Container(225, 20, 700, 300);
+	_mainComs.ageChildText->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_mainComs.ageChildText->SetFontFamily(L"Her-Leeoksun");
+	_mainComs.ageChildText->SetFontColor(0, 0, 0, 255);
+	_mainComs.ageChildText->SetFont(150, FontStyleRegular);
+	_mainComs.ageChildText->SetText(
+	L"¼¼"
+	);
+	_mainComs.age->AddChildComponent(_mainComs.ageChildText);
+
+	_mainComs.ageChildTextIndex = new Container(20, 5, 100, 100);
+	_mainComs.ageChildTextIndex->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_mainComs.ageChildTextIndex->SetFontFamily(L"Her-Leeoksun");
+	_mainComs.ageChildTextIndex->SetFontColor(255, 255, 255, 255);
+	_mainComs.ageChildTextIndex->SetFont(170, FontStyleRegular);
+	_mainComs.ageChildTextIndex->SetText(
+		_WStringAgeIndex(testIndex).c_str()
+	);
+	_mainComs.age->AddChildComponent(_mainComs.ageChildTextIndex);
+
+
 
 
 	//playbutton
@@ -121,6 +155,7 @@ EntryScene::EntryScene()
 	_mainMenuContainer->AddChildComponent(_mainComs.developerButton);
 	_mainMenuContainer->AddChildComponent(_mainComs.artWorkButton);
 	_mainMenuContainer->AddChildComponent(_mainComs.highScore);
+	_mainMenuContainer->AddChildComponent(_mainComs.age);
 
 
 	//NDEBUG
@@ -145,6 +180,14 @@ void EntryScene::Update(const double deltaTime)
 		Input::inputManager->IsCurrDn(VK_LBUTTON),
 		Input::inputManager->IsCurrUp(VK_LBUTTON)
 	);
+
+	if (Input::inputManager->IsTurnDn(VK_SPACE))
+	{
+		testIndex++;
+		_mainComs.ageChildTextIndex->SetText(
+			_WStringAgeIndex(testIndex).c_str()
+		);
+	}
 }
  
 void EntryScene::Draw()

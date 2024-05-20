@@ -1,6 +1,6 @@
 #include "ResourceManager.h"
 #include <filesystem>
-
+#include <atlstr.h>
 using namespace Gdiplus;
 
 std::unique_ptr<ResourceManager> ResourceManager::_instance(nullptr);
@@ -63,8 +63,7 @@ bool ResourceManager::LoadImages(const wchar_t* szPath)
   return !_images.empty();
 }
 
-
-Bitmap* ResourceManager::GetImage(const ImageName& name) { 
+Bitmap* ResourceManager::GetImage(const ImageName& name) {
   auto it = _images.find(name);
   if (it == _images.end()) return nullptr;
   return it->second;
