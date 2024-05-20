@@ -20,7 +20,7 @@ public:
     SetBorder(0, 0, 0);
     // 채우기 약간 회색
     EnableFill(true); // <- 색 테스트용. 지워도 됨
-    SetFillColor(180, 180, 180); // <- 색 테스트용. 지워도 됨
+    SetFillColor(120, 120, 120); // <- 색 테스트용. 지워도 됨
 
     ++numButtons;
   }
@@ -33,7 +33,7 @@ public:
     SetBorder(0, 0, 0);
     // 채우기 약간 회색
     EnableFill(true); // <- 색 테스트용. 지워도 됨
-    SetFillColor(180, 180, 180); // <- 색 테스트용. 지워도 됨
+    SetFillColor(120, 120, 120); // <- 색 테스트용. 지워도 됨
     ++numButtons;
   }
 
@@ -69,7 +69,7 @@ public:
 
   void OnMouseEnter() {
     // Change appearance, e.g., highlight
-    SetFillColor(220, 220, 220); // <- 색 테스트용. 지워도 됨
+    SetFillColor(250, 250, 250); // <- 색 테스트용. 지워도 됨
     if (auto it = _eventHandlers.find("mouseEnter");
       it != _eventHandlers.end()) {
       it->second();
@@ -104,8 +104,10 @@ public:
       if (_eventHandlers.find("mouseClick") != _eventHandlers.end()) {
         _eventHandlers["mouseClick"]();
       }
-    }
-    _isPressed = false;
+			_isPressed = false;
+		} else {
+			OnMouseEnter();
+		}
   }
 
   // 혹시 몰라서 만들어 놓은 렌더링 오버라이딩 함수
@@ -118,7 +120,7 @@ public:
   }
 };
 
-std::size_t Button::numButtons{ 0 };
+inline std::size_t Button::numButtons{ 0 };
 
 // 버튼 쓰려면 밑에 있는거 같은 시스템이나 핸들러가 필요함.
 // 밑에 있는건 예시. 그대로 가져다가 파일로 분리해서 써도 상관 없음.
@@ -135,17 +137,15 @@ public:
     buttons.push_back(button);
   }
 
-  void HandleMouseEvent(int mouseX, int mouseY, bool isClick) {
+  void HandleMouseEvent(int mouseX, int mouseY, bool isDown, bool isUp) {
     for (auto* button : buttons) {
       if (button->HitTest(mouseX, mouseY)) {
-        if (isClick) {
+        if (isDown) {
           button->OnMouseDown();
-        }
-        else {
-          button->OnMouseEnter();
-        }
-      }
-      else {
+				} else if (isUp) {
+					button->OnMouseUp();
+				}
+      } else {
         button->OnMouseLeave();
       }
     }

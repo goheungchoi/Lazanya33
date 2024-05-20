@@ -1,15 +1,17 @@
-﻿#include "pch.h"
-#include "PlayScene.h"
+﻿#include "PlayScene.h"
+
+// Game Components
 #include "GridMap.h"
 #include "Player.h"
 #include "Wall.h"
-#include "Container.h"
 
+// Graphics
 #include "SingleRenderable.h"
+#include "Container.h"
 #include "Animation.h"
 #include "SequentialAnimationPack.h"
 
-//decorator
+// Decorators
 #include "TenaciousDwarf.h"
 #include "Wimp.h"
 #include "Pummeler.h"
@@ -18,11 +20,12 @@
 #include "Naughty.h"
 #include "GoldSeeker.h"
 
-//system
+// System
 #include "BrickGenerationSystem.h"
 #include "PlayerBricksInteractionSystem.h"
 #include "PlayerOxygenSystem.h"
 
+// Resource
 #include "ResourceManager.h"
 
 constexpr double PLAYER_OXYGEN_REDUCE_INITAL_VALUE = 10.0;
@@ -30,300 +33,18 @@ constexpr double PLAYER_OXYGEN_REDUCE_INITAL_VALUE = 10.0;
 using namespace Gdiplus;
 
 PlayScene::PlayScene() {	
-	//InitScene();
-
-
-//// System Creations
-//	_brickGenSystem = new BrickGenSystem(_wall);
-//	_playerOxySystem = new PlayerOxygenSystem(
-//		_player, PLAYER_OXYGEN_REDUCE_INITAL_VALUE
-//	);
-//	_playerBrickInteractionSystem = new PlayerBricksInteractionSystem(
-//		_player, _wall, _playerOxySystem
-//	);
-//
-//// RenderSystem Registration
-//	_renderSystem->RegisterRenderableObject(_gridMapBackground);
-//	_renderSystem->RegisterRenderableObject(_gridMap);
-//	_renderSystem->RegisterRenderableObject(_gamePlayUIContainer);
-//	
-//
-//#ifndef NDEBUG
-//	// A spinning square for performance measure
-//	_ui = new Container(100, 100, 100, 100);
-//	_ui->SetDisplay(Display::FLEX);
-//	_ui->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
-//	_ui->SetFlexJustifyContent(FlexJustifyContent::FLEX_START);
-//	_uiChild1 = new Container(20, 20, 20, 20);
-//	_uiChild1->SetPositionLayout(PositionLayout::LAYOUT_STATIC);
-//	_uiChild2 = new Container(60, 60, 20, 20);
-//	_ui->AddChildComponent(_uiChild1);
-//	_ui->AddChildComponent(_uiChild2);
-//	_uiChild1->EnableBorder(true);
-//	_uiChild1->SetBorder(0, 255, 0);
-//	_uiChild2->EnableBorder(true);
-//	_uiChild2->SetBorder(0, 0, 255);
-//	_ui->EnableBorder(true);
-//	_ui->SetBorder(255, 0, 0);
-//	_ui->SetText(L"Hello!");
-//	_ui->SetRotationPivot(_ui->GetCenterX(), _ui->GetCenterY());
-//
-//	_fpsBox = new Container(5, 5, 100, 50);
-//	_fpsBox->SetFont(24, FontStyleBold);
-//	_fpsBox->SetText(StringifyFrameRate(0).c_str());
-//
-//	_renderSystem->RegisterRenderableObject(_ui);
-//	_renderSystem->RegisterRenderableObject(_fpsBox);
-//#endif
-//
-//// Game Play Initialization
-//	_player->SetPosition(2, 4);
-//	_brickGenSystem->BrickGenInit();
+	__InitComponents();
+	__InitSystems();
 }
 
-void PlayScene::InitScene()
-{
-	__InitLetterScene();
-	__InitGamePlayScene();
+PlayScene::~PlayScene() {
 
-	// System Creations
-	_brickGenSystem = new BrickGenSystem(_wall);
-	_playerOxySystem = new PlayerOxygenSystem(
-		_player, PLAYER_OXYGEN_REDUCE_INITAL_VALUE
-	);
-	_playerBrickInteractionSystem = new PlayerBricksInteractionSystem(
-		_player, _wall, _playerOxySystem
-	);
-
-	// RenderSystem Registration
-	_renderSystem->RegisterRenderableObject(_gridMapBackground);
-	_renderSystem->RegisterRenderableObject(_gridMap);
-	_renderSystem->RegisterRenderableObject(_gamePlayUIContainer);
-
-
-#ifndef NDEBUG
-	// A spinning square for performance measure
-	_ui = new Container(100, 100, 100, 100);
-	_ui->SetDisplay(Display::FLEX);
-	_ui->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
-	_ui->SetFlexJustifyContent(FlexJustifyContent::FLEX_START);
-	_uiChild1 = new Container(20, 20, 20, 20);
-	_uiChild1->SetPositionLayout(PositionLayout::LAYOUT_STATIC);
-	_uiChild2 = new Container(60, 60, 20, 20);
-	_ui->AddChildComponent(_uiChild1);
-	_ui->AddChildComponent(_uiChild2);
-	_uiChild1->EnableBorder(true);
-	_uiChild1->SetBorder(0, 255, 0);
-	_uiChild2->EnableBorder(true);
-	_uiChild2->SetBorder(0, 0, 255);
-	_ui->EnableBorder(true);
-	_ui->SetBorder(255, 0, 0);
-	_ui->SetText(L"Hello!");
-	_ui->SetRotationPivot(_ui->GetCenterX(), _ui->GetCenterY());
-	TranslateTransition* _transitionTest = 
-		new TranslateTransition(
-			_ui, 
-			_ui->GetX(), _ui->GetY(), 500, 100, 
-			3.0, bezier::ease_in_out, 0.0, true
-		);
-	_ui->AddAnimation(0, _transitionTest);
-	_ui->SetState(0);
-
-	_fpsBox = new Container(5, 5, 100, 50);
-	_fpsBox->SetFont(24, FontStyleBold);
-	_fpsBox->SetText(StringifyFrameRate(0).c_str());
-
-	_testAnimation = new Animation(
-		ResourceManager::Get().GetImage(L"motion_sheet"),
-		500, 500, true
-	);
-	_testAnimation->SliceSpriteSheet(32, 32, 0, 0, 32, 32);
-	_testAnimation->SetFrameDurations({ 0.2 });
-	_testAnimation->Trigger();
-
-	_renderSystem->RegisterRenderableObject(_ui);
-	_renderSystem->RegisterRenderableObject(_fpsBox);
-	_renderSystem->RegisterRenderableObject(_testAnimation);
-#endif
-
-	// Game Play Initialization
-	_player->SetPosition(2, 4);
-	_brickGenSystem->BrickGenInit();
-
-	// Render the letter scene first
-	// _renderSystem->RegisterRenderableObject(_letterComponents.background);
-	// _renderSystem->RegisterRenderableObject(_letterContainer);
-	
-	// Rendering order of the GamePlay scene
-	// 1. Background
-	// 2. Grid Map
-	// 2. GamePlay UI components
-	
-	
-
-	//TestSound:
-	Music::soundManager->PlayMusic(Music::eSoundList::BackGround02, Music::eSoundChannel::BGM);
 }
 
-void PlayScene::__InitLetterScene() {
-/* Allocate Memory */
-	_letterContainer = new Container(0, 0, screenWidth, screenHeight);
+void PlayScene::__InitComponents() {
 
-	_letterComponents.background = new SingleSpriteRenderable<LetterComponents>();
-	
-	// LeftBox Elements
-	_letterComponents._leftBox = new Container(
-		100, 100, screenWidth * 0.50, screenHeight - 100
-	);
-	_letterComponents.letter = new Container(0, 0, 800, 500);
+/********** Allocate Memory **********/
 
-	_letterComponents.diagrams = new Container(0, 0, 800, 300);
-	_letterComponents.leftArrowDiagram = new Container();
-	_letterComponents.downArrowDiagram = new Container();
-	_letterComponents.rightArrowDiagram = new Container();
-
-	// RightBox Elemenst
-	_letterComponents._rightBox = new Container(
-		60, 100, screenWidth * 0.50, screenHeight - 100
-	);
-	_letterComponents.text1 = new Container(0, 0, 800, 50);
-	_letterComponents.blessingsOfGod = new Container(0, 0, 800, 600);
-	_letterComponents.firstBlessingOfGod = new Container(0, 0, 800, 200);
-	_letterComponents.secondBlessingOfGod = new Container(0, 0, 800, 200);
-	_letterComponents.thirdBlessingOfGod = new Container(0, 0, 800, 200);
-	_letterComponents.text2 = new Container(0, 0, 800, 50);
-
-/* Load Sprites */
-	// Letter Scene Sprite Bindings
-	_letterComponents.background->BindSprite(
-		ResourceManager::Get().GetImage(L"letter_background")
-	);
-	_letterComponents.background->BindCachedSprite(
-		ResourceManager::Get().GetCachedImage(L"letter_background")
-	);
-	_letterComponents.leftArrowDiagram->SetSizeFitImage(true);
-	_letterComponents.leftArrowDiagram->SetImage(
-		ResourceManager::Get().GetImage(L"left_arrow_diagram")
-	);
-	_letterComponents.downArrowDiagram->SetSizeFitImage(true);
-	_letterComponents.downArrowDiagram->SetImage(
-		ResourceManager::Get().GetImage(L"down_arrow_diagram")
-	);
-	_letterComponents.rightArrowDiagram->SetSizeFitImage(true);
-	_letterComponents.rightArrowDiagram->SetImage(
-		ResourceManager::Get().GetImage(L"right_arrow_diagram")
-	);
-	
-	// Other Sprite Bindings
-	
-/* Set UI Component Properties */
-	//// Left Box Components
-	// TODO: Need a script file seperate.
-	// letter scripts
-	_letterComponents.letter->SetPositionLayout(PositionLayout::LAYOUT_STATIC);
-	_letterComponents.letter->SetText(
-		L"자랑스러운 라자브 가문의 장녀 라자냐 33세여,\n"
-		L"폭탄산 무크티니로 가거라.\n\n"
-
-		L"라자냐의 여전사로서 누구보다 폭탄산 무크티니를 깊게 파\n"
-		L"라자브 가문의 전설이 되거라\n\n"
-
-		L"학교를 안 가는걸 명예로 여겨온\n"
-		L"라자브 가문의 여자답게 글을 모르겠지.\n"
-		L"그림으로 설명하마.");
-	_letterComponents.letter->SetFont(24, FontStyleBold);
-	// diagrams
-	_letterComponents.diagrams->SetPositionLayout(PositionLayout::LAYOUT_STATIC);
-	// diagrams flexbox settings
-	_letterComponents.diagrams->SetDisplay(Display::FLEX);
-	_letterComponents.diagrams->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
-	_letterComponents.diagrams->SetFlexJustifyContent(FlexJustifyContent::SPACE_EVENLY);
-	
-	//// Right Box Components
-	// text1
-	_letterComponents.text1->SetFont(24, FontStyleBold);
-	_letterComponents.text1->SetText(L"아, 그리고 니 신의 축복이 뭐였지?");
-	// blessings of God
-	_letterComponents.blessingsOfGod->SetDisplay(Display::BLOCK);
-	// first blessing
-
-	// second blessing
-
-	// third blessing
-
-	// text2
-	_letterComponents.text2->SetFont(24, FontStyleBold);
-	_letterComponents.text2->SetText(L"별 탈 없겠지. 건투를 빈다.");
-
-	// UI Container property
-	_letterContainer->SetDisplay(Display::INLINE);
-
-/* Build UI Hierarchy */
-
-	_letterComponents.diagrams->AddChildComponent(
-		_letterComponents.leftArrowDiagram
-	);
-	_letterComponents.diagrams->AddChildComponent(
-		_letterComponents.downArrowDiagram
-	);
-	_letterComponents.diagrams->AddChildComponent(
-		_letterComponents.rightArrowDiagram
-	);
-
-	// Attach letter to the left box
-	_letterComponents._leftBox->AddChildComponent(_letterComponents.letter);
-	// Attach diagrams to the left box
-	_letterComponents._leftBox->AddChildComponent(_letterComponents.diagrams);
-
-#ifndef NDEBUG	// _leftBox debugging borders
-	_letterComponents._leftBox->EnableBorder(true);
-	_letterComponents._leftBox->SetBorder(255, 0, 0);
-	_letterComponents.letter->EnableBorder(true);
-	_letterComponents.letter->SetBorder(255, 0, 0);
-	_letterComponents.diagrams->EnableBorder(true);
-	_letterComponents.diagrams->SetBorder(255, 0, 0);
-	_letterComponents.leftArrowDiagram->EnableBorder(true);
-	_letterComponents.leftArrowDiagram->SetBorder(255, 0, 0);
-	_letterComponents.downArrowDiagram->EnableBorder(true);
-	_letterComponents.downArrowDiagram->SetBorder(255, 0, 0);
-	_letterComponents.rightArrowDiagram->EnableBorder(true);
-	_letterComponents.rightArrowDiagram->SetBorder(255, 0, 0);
-#endif // !NDEBUG
-
-	// Attach blessings
-	_letterComponents.blessingsOfGod->AddChildComponent(_letterComponents.firstBlessingOfGod);
-	_letterComponents.blessingsOfGod->AddChildComponent(_letterComponents.secondBlessingOfGod);
-	_letterComponents.blessingsOfGod->AddChildComponent(_letterComponents.thirdBlessingOfGod);
-
-	// Attach right box contents to the right box
-	_letterComponents._rightBox->AddChildComponent(_letterComponents.text1);
-	_letterComponents._rightBox->AddChildComponent(_letterComponents.blessingsOfGod);
-	_letterComponents._rightBox->AddChildComponent(_letterComponents.text2);
-
-#ifndef NDEBUG	// _rightbox debugging borders
-	_letterComponents._rightBox->EnableBorder(true);
-	_letterComponents._rightBox->SetBorder(255, 0, 0);
-	_letterComponents.text1->EnableBorder(true);
-	_letterComponents.text1->SetBorder(255, 0, 0);
-	_letterComponents.blessingsOfGod->EnableBorder(true);
-	_letterComponents.blessingsOfGod->SetBorder(255, 0, 0);
-	_letterComponents.firstBlessingOfGod->EnableBorder(true);
-	_letterComponents.firstBlessingOfGod->SetBorder(0, 255, 0);
-	_letterComponents.secondBlessingOfGod->EnableBorder(true);
-	_letterComponents.secondBlessingOfGod->SetBorder(0, 255, 255);
-	_letterComponents.thirdBlessingOfGod->EnableBorder(true);
-	_letterComponents.thirdBlessingOfGod->SetBorder(0, 0, 255);
-	_letterComponents.text2->EnableBorder(true);
-	_letterComponents.text2->SetBorder(255, 0, 0);
-#endif // !NDEBUG
-
-	// Attach both left box and right box;
-	_letterContainer->AddChildComponent(_letterComponents._leftBox);
-	_letterContainer->AddChildComponent(_letterComponents._rightBox);
-}
-
-void PlayScene::__InitGamePlayScene() {
-	/* Allocate Memory */
 	_gamePlayUIContainer = new Container(0, 0, screenWidth, screenHeight);
 
 	// Left Box Components Allocation
@@ -366,7 +87,7 @@ void PlayScene::__InitGamePlayScene() {
 	_player = new Player();
 	_wall = new Wall();
 
-	/* Load Sprites */
+/********** Load Sprites **********/
 
 	_gridMapBackground->BindSprite(
 		ResourceManager::Get().GetImage(L"grid_map_background")
@@ -383,7 +104,48 @@ void PlayScene::__InitGamePlayScene() {
 	_renderSystem->CachingHelper(_player);
 
 
-	/* Set UI Component Properties */
+/********** Set UI Component Properties **********/
+
+#ifndef NDEBUG	// Performance measure
+	// A spinning square for performance measure
+	_ui = new Container(100, 100, 100, 100);
+	_ui->SetDisplay(Display::FLEX);
+	_ui->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
+	_ui->SetFlexJustifyContent(FlexJustifyContent::FLEX_START);
+	_uiChild1 = new Container(20, 20, 20, 20);
+	_uiChild1->SetPositionLayout(PositionLayout::LAYOUT_STATIC);
+	_uiChild2 = new Container(60, 60, 20, 20);
+	_ui->AddChildComponent(_uiChild1);
+	_ui->AddChildComponent(_uiChild2);
+	_uiChild1->EnableBorder(true);
+	_uiChild1->SetBorder(0, 255, 0);
+	_uiChild2->EnableBorder(true);
+	_uiChild2->SetBorder(0, 0, 255);
+	_ui->EnableBorder(true);
+	_ui->SetBorder(255, 0, 0);
+	_ui->SetText(L"Hello!");
+	_ui->SetRotationPivot(_ui->GetCenterX(), _ui->GetCenterY());
+	TranslateTransition* _transitionTest = 
+		new TranslateTransition(
+			_ui, 
+			_ui->GetX(), _ui->GetY(), 500, 100, 
+			3.0, bezier::ease_in_out, 0.0, true
+		);
+	_ui->AddAnimation(0, _transitionTest);
+	_ui->SetState(0);
+
+	_fpsBox = new Container(5, 5, 100, 50);
+	_fpsBox->SetFont(24, FontStyleBold);
+	_fpsBox->SetText(StringifyFrameRate(0).c_str());
+
+	_testAnimation = new Animation(
+		ResourceManager::Get().GetImage(L"motion_sheet"),
+		500, 500, true
+	);
+	_testAnimation->SliceSpriteSheet(32, 32, 0, 0, 32, 32);
+	_testAnimation->SetFrameDurations({ 0.2 });
+	_testAnimation->Trigger();
+#endif
 
 #ifndef NDEBUG	// _leftBox debugging borders
 	_gamePlayUIComponents._leftBox->EnableFill(true);
@@ -423,6 +185,7 @@ void PlayScene::__InitGamePlayScene() {
 	_gridMap->EnableFill(true);
 	_gridMap->SetFillColor(125, 125, 255, 125);
 #endif // !NDEBUG
+
 
 	// Left Box Components properties
 	// Daughter
@@ -622,7 +385,8 @@ void PlayScene::__InitGamePlayScene() {
 
 	_player->ChangeTag(L"lazanya_02");
 
-/* Build UI Hierarchy */
+/********** Build UI Hierarchy **********/
+
 	// Left Box Components
 	_gamePlayUIComponents._leftBox->AddChildComponent(_gamePlayUIComponents.daughter);
 	_gamePlayUIComponents._leftBox->AddChildComponent(_gamePlayUIComponents.husband);
@@ -653,14 +417,18 @@ void PlayScene::__InitGamePlayScene() {
 
 }
 
+void PlayScene::__InitSystems() {
+	_brickGenSystem = new BrickGenSystem(_wall);
+	_playerOxySystem = new PlayerOxygenSystem(
+		_player, PLAYER_OXYGEN_REDUCE_INITAL_VALUE
+	);
+	_playerBrickInteractionSystem = new PlayerBricksInteractionSystem(
+		_player, _wall, _playerOxySystem
+	);
+}
+
 void PlayScene::Update(const double deltaTime)
 {
-	if (!DidInit)
-	{
-		InitScene();
-		DidInit = true;
-	}
-
 
 #ifndef NDEBUG
 	_elapsedTime += deltaTime;
@@ -675,12 +443,15 @@ void PlayScene::Update(const double deltaTime)
 
 	//_ui->Rotate(deltaTime*100);
 	_ui->Update(deltaTime);
-	PlayerUpdate(deltaTime);
+	__PlayerUpdate(deltaTime);
 	_gamePlayUIComponents.daughter->Update(deltaTime);
 	_gamePlayUIComponents.husband->Update(deltaTime);
 	_gamePlayUIComponents.mother->Update(deltaTime);
 	_gamePlayUIComponents.dancingTownspeople->Update(deltaTime);
 	_gamePlayUIComponents.ancestors->Update(deltaTime);
+
+	// Update Scores
+	_gamePlayUIComponents.currentHonor->SetText(__WStringifyCurrentHonor(_player->GetCurrScore()).c_str());
 	
 
 #ifdef PLAYSCENE
@@ -719,14 +490,38 @@ void PlayScene::Draw()
 #endif
 }
 
+void PlayScene::InitScene()
+{
+	// RenderSystem Registration
+	_renderSystem->RegisterRenderableObject(_gridMapBackground);
+	_renderSystem->RegisterRenderableObject(_gridMap);
+	_renderSystem->RegisterRenderableObject(_gamePlayUIContainer);
 
+#ifndef NDEBUG	// Performance measure
+	_renderSystem->RegisterRenderableObject(_ui);
+	_renderSystem->RegisterRenderableObject(_fpsBox);
+	_renderSystem->RegisterRenderableObject(_testAnimation);
+#endif
+
+	// Game Play Initialization
+	_player->SetPosition(2, 4);
+	_brickGenSystem->BrickGenInit();
+	
+	// Rendering order of the GamePlay scene
+	// 1. Background
+	// 2. Grid Map
+	// 2. GamePlay UI components
+	
+	//TestSound:
+	Music::soundManager->PlayMusic(Music::eSoundList::BackGround02, Music::eSoundChannel::BGM);
+}
 
 void PlayScene::EndScene()
 {
-
+	_renderSystem->ClearRenderableRegistry();
 }
 
-void PlayScene::PlayerUpdate(const double deltaTime)
+void PlayScene::__PlayerUpdate(const double deltaTime)
 {
 	_player->Update(deltaTime);
 	//comboDuration++

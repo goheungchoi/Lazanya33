@@ -22,28 +22,6 @@ class PlayScene :public IScene
 
 /* Scene Graphics Components */
 	
-	// Letter Scene Components
-	class Container* _letterContainer;
-	struct LetterComponents {
-		SingleSpriteRenderable<LetterComponents>* background;
-		
-		Container* _leftBox;
-		Container* letter;
-		Container* diagrams;
-		Container* leftArrowDiagram;
-		Container* downArrowDiagram;
-		Container* rightArrowDiagram;
-
-		Container* _rightBox;
-		Container* text1;
-		Container* blessingsOfGod;
-		Container* firstBlessingOfGod;
-		Container* secondBlessingOfGod;
-		Container* thirdBlessingOfGod;
-		Container* text2;
-
-	} _letterComponents;
-
 	// Game Play Scene Components
 	Container* _gamePlayUIContainer;
 	struct GamePlayComponents {
@@ -89,17 +67,18 @@ class PlayScene :public IScene
 
 public:
 	PlayScene();
-	~PlayScene() {};
+	~PlayScene();
 	
-	void Update(double deltaTime)override;
-	void InitScene()override;
-	void Draw()override;
-	void EndScene()override;
-	void PlayerUpdate(const double deltaTime);
+	void Update(double deltaTime) override;
+	void Draw() override;
+	void InitScene() override;
+	void EndScene() override;
 
 private:
-	void __InitLetterScene();
-	void __InitGamePlayScene();
+	void __InitComponents();
+	void __InitSystems();
+
+	void __PlayerUpdate(const double deltaTime);
 
 	std::wstring __WStringifyGloryHall(int glory) {
 		wchar_t buffer[30];
@@ -118,6 +97,7 @@ private:
 		swprintf_s(buffer, L"명예: %22d", currentHonor);
 		return std::wstring(buffer);
 	}
+
 #ifndef NDEBUG
 	std::wstring StringifyFrameRate(std::size_t fps) {
 		wchar_t buffer[12];
@@ -125,7 +105,5 @@ private:
 		return std::wstring(buffer);
 	}
 #endif // !NDEBUG
-
-	
 };
 

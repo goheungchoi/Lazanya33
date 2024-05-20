@@ -1,10 +1,49 @@
 #pragma once
 #include "SceneGraph.h"
 
-class LetterScene:public IScene
+template<class T>
+class SingleSpriteRenderable;
+class Container;
+class Button;
+class ButtonEventHandler;
+
+class LetterScene : public IScene
 {
+	// Button Handler
+	ButtonEventHandler* _buttonEventHandler;
+	Button* _playButton;
+	// Letter Scene Components
+	class Container* _letterContainer;
+	struct LetterComponents {
+		SingleSpriteRenderable<LetterComponents>* background;
+		
+		Container* _leftBox;
+		Container* letter;
+		Container* diagrams;
+		Container* leftArrowDiagram;
+		Container* downArrowDiagram;
+		Container* rightArrowDiagram;
+
+		Container* _rightBox;
+		Container* text1;
+		Container* blessingsOfGod;
+		Container* firstBlessingOfGod;
+		Container* secondBlessingOfGod;
+		Container* thirdBlessingOfGod;
+		Container* text2;
+
+	} _comps;
+
 public:
-	void Update(double DeltaTime)override;
-	void Draw()override;
+	LetterScene();
+	~LetterScene();
+	
+	void Update(double deltaTime) override;
+	void Draw() override;
+	void InitScene() override;
+	void EndScene() override;
+
+private:
+	void __InitComponents();
 };
 

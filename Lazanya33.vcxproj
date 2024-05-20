@@ -150,6 +150,7 @@
     <ClInclude Include="GridDeque.h" />
     <ClInclude Include="GridItem.h" />
     <ClInclude Include="GridMap.h" />
+    <ClInclude Include="LetterScene.h" />
     <ClInclude Include="Naughty.h" />
     <ClInclude Include="PlayerBricksInteractionSystem.h" />
     <ClInclude Include="PlayerOxygenSystem.h" />
@@ -196,6 +197,7 @@
     <ClCompile Include="AnimationController.h" />
     <ClCompile Include="AssetParser.cpp" />
     <ClCompile Include="CSound.cpp" />
+    <ClCompile Include="LetterScene.cpp" />
     <ClCompile Include="Naughty.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Pummeler.cpp" />
