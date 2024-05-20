@@ -32,6 +32,7 @@ class IScene
 protected:
 	std::unordered_map<std::string, IScene*>_sceneDependencies;
 	static SceneGraph* _sceneManager;
+	
 	bool DidInit = false;
 
 public:

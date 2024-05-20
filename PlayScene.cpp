@@ -606,7 +606,6 @@ void PlayScene::__InitGamePlayScene() {
 	_gamePlayUIComponents.honorOfAncestor->SetFont(52, FontStyleBold);
 	_gamePlayUIComponents.honorOfAncestor->SetTextPosition(5, 25);
 	_gamePlayUIComponents.currentHonor->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
-	_gamePlayUIComponents.currentHonor->SetText(__WStringifyCurrentHonor(10).c_str());
 	_gamePlayUIComponents.currentHonor->SetFont(52, FontStyleBold);
 	_gamePlayUIComponents.currentHonor->SetTextPosition(5, 25);
 	_gamePlayUIComponents.currentState->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
@@ -682,6 +681,8 @@ void PlayScene::Update(const double deltaTime)
 	_gamePlayUIComponents.dancingTownspeople->Update(deltaTime);
 	_gamePlayUIComponents.ancestors->Update(deltaTime);
 	
+	//Update Score
+	_gamePlayUIComponents.currentHonor->SetText(__WStringifyCurrentHonor(_player->GetCurrScore()).c_str());
 
 #ifdef PLAYSCENE
 	if (/*!°¡Á··ÂÀ» ¼±ÅÃÇß´Â°¡?*/)
