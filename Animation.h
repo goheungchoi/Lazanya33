@@ -2,36 +2,167 @@
 
 #include "IRenderable.h"
 
-class Animation : public IRenderable {
+class IAnimation : public IRenderable {
+public:
+	IAnimation(int x, int y) : IRenderable(x, y) {}
+	virtual ~IAnimation() {}
+	virtual void Trigger() = 0;
+	virtual void Reset() = 0;
+	virtual bool IsPlaying() = 0;
+	virtual void Update(double) = 0;
+};
+
+class Animation : public IAnimation {
+	int& _x;
+	int& _y;
 	int _totalWidth, _totalHeight;
+
+	bool _border{false};
+  Pen _pen;
+
+  bool _fill{false};
+  SolidBrush _brush;
 
   Bitmap* _spriteSheet;
 	std::vector<Rect> _frames;  // Frames in the sprite sheet
+	std::vector<double> _frameDurations;
 
-  double _frameDuration;
-  double _currentFrameTime;
-  int _currentFrameIndex;
+	double _currentFrameTime{ 0 };
+	int _currentFrameIndex{ 0 };
 
+	bool _isActive{ false };
   bool _isLoop;
 
 public:
-	Animation(Bitmap* spriteSheet)
-		: _spriteSheet{ spriteSheet } {
+	Animation(Bitmap* spriteSheet, int x, int y, bool isLoop = false)
+		: IAnimation(x, y), 
+		_x{_position.X},
+    _y{_position.Y},
+		_spriteSheet{ spriteSheet }, _isLoop{ isLoop },
+		// Graphics
+		_pen(Color(0, 0, 0)),
+		_brush(Color(0, 0, 0)) {
 		_totalWidth = spriteSheet->GetWidth();
 		_totalHeight = spriteSheet->GetHeight();
-
-
 	}
 
-  void Update(double dt) {
+	int GetX() { return _x; }
+	void SetX(int x) { _x = x; }
+	int GetY() { return _y; }
+	void SetY(int y) { _y = y; }
+
+	/**
+	 * @brief Set border of this sprite.
+	 * @param r Red value from 0~255
+	 * @param g Green value from 0~255
+	 * @param b Blue value from 0~255
+	 * @param a Alpha value from 0~255. Default is 255.
+	 * @param width Width of the border. Default is 0.01.
+	 */
+	void SetBorder(char r, char g, char b, char a = 255, float width = 0.01) {
+		_pen.SetColor(Color(a, r, g, b));
+    _pen.SetWidth(width);
+	}
+	void SetBorderLineJoin(LineJoin lineJoin) {
+		_pen.SetLineJoin(lineJoin);
+	}
+	void EnableBorder(bool enable) { _border = enable; }
+	void DisableBorder(bool disable) { _border = disable; }
+
+	/**
+	 * @brief Set fill color of this sprite
+	 * @param r Red value from 0~255
+	 * @param g Green value from 0~255
+	 * @param b Blue value from 0~255
+	 * @param a Alpha value from 0~255. Default is 255.
+	 */
+	void SetFillColor(char r, char g, char b, char a = 255U) {
+		_brush.SetColor(Color(a, r, g, b));
+	}
+	void EnableFill(bool enable) { _fill = enable; }
+	void DisableFill(bool disable) { _fill = disable; }
+
+	/**
+	 * @brief Slice the sprite sheet, and set frame durations to be 1 sec.
+	 * @param pixelSizeX 
+	 * @param pixelSizeY 
+	 * @param offsetX Slicing start point offset-x from the upper left corner.
+	 * @param offsetY Slicing start point offset-y from the upper left corner.
+	 * @param paddingX 
+	 * @param paddingY 
+	 */
+	void SliceSpriteSheet(
+		int pixelSizeX, int pixelSizeY,
+		int offsetX, int offsetY,
+		int paddingX, int paddingY
+	) {
+		int newTotalWidth = _totalWidth - offsetX;
+		int newTotalHeight = _totalHeight - offsetY;
+
+		int nrows = newTotalHeight / (pixelSizeY + paddingY);
+		int ncols = newTotalWidth / (pixelSizeX + paddingX);
+
+		_frames.resize(nrows * ncols);
+		_frameDurations.resize(nrows * ncols, 1.0);
+
+		auto idx = [&ncols](int row, int col) -> int {
+			return col + row * ncols;
+		};
+
+		for (int i = 0; i < nrows; ++i) {
+			for (int j = 0; j < ncols; ++j) {
+				_frames[idx(i, j)] = Rect{
+					offsetX + (pixelSizeX + paddingX) * j, // X
+					offsetY + (pixelSizeY + paddingY) * i, // Y
+					// Width    // Height
+					pixelSizeX, pixelSizeY
+				};
+			}
+		}
+	}
+
+	void SetFrameDurations(std::initializer_list<double> durations) {
+		auto it = durations.begin();
+		for (double& duration : _frameDurations) {
+			if (it == durations.end()) --it;
+			duration = *it;
+			++it;
+		}
+	}
+
+	void Trigger() override {
+		_isActive = true;
+		_currentFrameIndex = 0;
+	}
+
+	void Reset() override {
+		_isActive = false;
+		_currentFrameIndex = 0;
+	}
+
+	bool IsPlaying() override { return _isActive; }
+
+  void Update(double dt) override {
+		if (!_isActive) return;
+
     _currentFrameTime += dt;
-    if (_currentFrameTime >= _frameDuration) {
-      _currentFrameTime = (_currentFrameIndex + 1) % _frames.size();
-      _currentFrameTime = 0;
+    if (_currentFrameTime >= _frameDurations[_currentFrameIndex]) {
+			_currentFrameTime -= _frameDurations[_currentFrameIndex];
+			
+			_currentFrameIndex++;
+			if (_currentFrameIndex >= _frames.size()) {
+				if (_isLoop) {
+					_currentFrameIndex = 0;
+				} else {
+					_currentFrameIndex -= 1;
+					_isActive = false;
+				}
+			}
     }
   }
 
 	void Render(Graphics& g) override {
+		if (!_isActive || !_spriteSheet) return;
 		// Render the current frame from the sprite sheet;
 
 		//Image image(L"Apple.gif");
@@ -52,5 +183,107 @@ public:
 		//	 0.75 * height,     // height of source rectangle
 		//	 UnitPixel);
 		//}
+
+		Rect& srcRect = _frames[_currentFrameIndex];
+
+		Rect destRect = { _x, _y, srcRect.Width, srcRect.Height };
+
+		g.DrawImage(
+			_spriteSheet,
+			destRect,
+			srcRect.X,
+			srcRect.Y,
+			srcRect.Width,
+			srcRect.Height,
+			UnitPixel
+		);
+	}
+};
+
+class CubicBezier {
+	double _x1, _y1;
+	double _x2, _y2;
+public:
+	CubicBezier(double x1, double y1, double x2, double y2)
+		: _x1{ x1 }, _y1{ y1 }, _x2{ x2 }, _y2{ y2 } {
+		if (!((0 <= x1 && x1 <= 1) && (0 <= x2 && x2 <= 1)))
+			throw std::invalid_argument("x1 and x2 should be between 0 and 1!");
+	}
+
+	/**
+	 * @brief 
+	 * @param t Interpolated time t from 0 to 1
+	 * @return 
+	 */
+	double operator()(double t) {
+		double s = 1.0 - t;
+		double s_squared = s * s;
+
+		double t_squared = t * t;
+		double t_cubed = t_squared * t;
+
+		double res1 = 3.0 * s_squared * t					* _y1;
+		double res2 = 3.0 * s					* t_squared * _y2;
+
+		return res1 + res2 + t_cubed;
+	}
+};
+
+namespace bezier {
+	static const CubicBezier linear{ 0.0, 0.0, 1.0, 1.0 };
+	static const CubicBezier ease{ 0.25, 0.1, 0.25, 1.0 };
+	static const CubicBezier ease_in{ 0.42, 0, 1.0, 1.0 };
+	static const CubicBezier ease_out{ 0, 0, 0.58, 1.0 };
+	static const CubicBezier ease_in_out{ 0.42, 0, 0.58, 1.0 };
+};
+
+class UIComponent;
+
+class TranslateTransition : public IAnimation {
+	UIComponent* _this;
+
+	int _startX, _startY;
+	int _currX, _currY;
+	int _targetX, _targetY;
+	double _duration;
+	
+	CubicBezier _easingFunc;
+	double _delay;
+
+	bool _loop;
+
+	double _elapsedTime{ 0.0 };
+	double _delayTimer{ 0.0 };
+	bool _isActive{ false };
+
+public:
+	TranslateTransition(
+		UIComponent* thisComponent,
+		int startX, int startY,
+		int targetX, int targetY,
+		double duration,
+		const CubicBezier& easingFunc,
+		double delay = 0.0,
+		bool loop = false
+	);
+
+	~TranslateTransition() {}
+
+	void Trigger() override {
+		_isActive = true;
+		_elapsedTime = 0.0;
+	}
+
+	void Reset() override {
+		_isActive = false;
+		_elapsedTime = 0.0;
+	}
+
+	bool IsPlaying() override { return _isActive; }
+
+	void Update(double dt) override;
+
+	void Render(Graphics& g) override {
+
 	}
 };

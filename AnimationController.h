@@ -2,9 +2,14 @@
 
 #include "Animation.h"
 
+using namespace Gdiplus;
+
 class AnimationController {
+  std::unordered_map<int, IAnimation*> _animations;
+  IAnimation* _currentAnimation;
+
 public:
-  void AddAnimation(int state, Animation* animation) {
+  void AddAnimation(int state, IAnimation* animation) {
     _animations[state] = animation;
   }
 
@@ -12,20 +17,25 @@ public:
     auto it = _animations.find(newState);
     if (it != _animations.end()) {
       _currentAnimation = it->second;
+			_currentAnimation->Trigger();
     }
   }
+
+	void Reset() {
+		_currentAnimation = nullptr;
+	}
 
   void Update(double deltaTime) {
-    if (_currentAnimation) {
-      _currentAnimation->Update(deltaTime);
-    }
+		if (!_currentAnimation) return;
+    _currentAnimation->Update(deltaTime);
   }
 
-  IRenderable* GetCurrentFrame() const {
+  IRenderable* GetCurrentAnimation() const {
     return _currentAnimation;
   }
 
- private:
-  std::unordered_map<int, Animation*> _animations;
-  Animation* _currentAnimation;
+	void Render(Graphics& g) {
+		if (!_currentAnimation) return;
+		_currentAnimation->Render(g);
+	}
 };

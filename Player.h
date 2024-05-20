@@ -3,7 +3,12 @@
 #include "IPlayer.h"
 // Need to be GridItem!
 #include "CollectiveRenderable.h"
+
+// Animations
 #include "AnimationController.h"
+#include "Animation.h"
+
+#include "ResourceManager.h"
 
 constexpr int PLAYER_DEFAULT_AD = 10;
 constexpr double PLAYER_DEFAULT_MAX_OXYGEN_LEVEL = 60;
@@ -15,7 +20,7 @@ constexpr int PLAYER_DEFAULT_COMBO_DURATION = 1;
  * @brief Example use of AnimationController
  */
 class Player : public IPlayer {
-	AnimationController* _animationController{nullptr};
+	AnimationController* _animationController;
 
 	/* Properties */
 private:
@@ -47,7 +52,21 @@ private:
     _comboElapsedTime {0.0f},
     _comboNumber {0},
     _downMeter{0},
-    _score{0} {}
+    _score{0} {
+		
+		Animation* downAttackAnimation = new Animation(
+			// Sprite Sheet
+			ResourceManager::Get().GetImage(L"motion_sheet"),
+		// X, Y, loop
+			0, 0, true
+		);
+		downAttackAnimation->SliceSpriteSheet(32, 32, 0, 0, 32, 32);
+		downAttackAnimation->SetFrameDurations({ 0.08 });
+
+		_animationController = new AnimationController();
+		_animationController->AddAnimation(0, downAttackAnimation);
+		_animationController->SetState(0);
+	}
 
   /* Getters */
   int GetPositionX() { return _gridPos.X; }
@@ -118,4 +137,16 @@ private:
     _gridPos.X += x;
     _gridPos.Y += y;
   }
+
+	void Update(double deltaTime) {
+		_animationController->Update(deltaTime);
+	}
+
+	void Render(Graphics& g) {
+		IPlayer::Render(g);
+
+		g.TranslateTransform(_position.X, _position.Y);
+		_animationController->GetCurrentAnimation()->Render(g);
+		g.TranslateTransform(-_position.X, -_position.Y);
+	}
 };

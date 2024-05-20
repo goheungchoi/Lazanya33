@@ -2,6 +2,9 @@
 
 #include "IRenderable.h"
 
+#include "AnimationController.h"
+#include "Animation.h"
+
 using namespace Gdiplus;
 
 // TODO: Need to handle some player interaction (button - mouse hover)
@@ -308,6 +311,25 @@ public:
 	// Perform action
   virtual void OnMouseUp() {};
 
+// TODO: Animation Utilities
+private:
+	bool _show{ false };
+	AnimationController* _animationController{ new AnimationController()};
+
+public:
+	void AddAnimation(int state, IAnimation* animation) {
+		_animationController->AddAnimation(state, animation);
+	}
+
+	void SetState(int state) {
+		_animationController->SetState(state);
+	}
+
+	// State Update 
+	virtual void Update(double dt) {
+		_animationController->Update(dt);
+	}
+
 public:
 	// Default Render
 	void DefaultRender(Graphics& g) {
@@ -337,6 +359,8 @@ public:
 		!g.TranslateTransform(_x, _y) &&
 		!g.DrawString(_text.c_str(), -1, _pFont, _textPosition, &_textFormat, &_textBrush) &&
 		!g.TranslateTransform(-_x, -_y);
+
+		_animationController->Render(g);
 
 		RenderChildren(g);
 

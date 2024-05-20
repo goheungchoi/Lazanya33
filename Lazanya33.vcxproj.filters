@@ -88,6 +88,9 @@
     <Filter Include="Source Files\Game\Utility">
       <UniqueIdentifier>{d11dba1f-fb5f-432e-b78c-6b21e151eb14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\Components\Animation">
+      <UniqueIdentifier>{ec508851-2379-4f62-803a-c16b58ad5749}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -119,9 +122,6 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Source Files\Game\Systems\Timer</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Source Files\Game\Components</Filter>
     </ClInclude>
     <ClInclude Include="EntryScene.h">
       <Filter>Source Files\Game\SceneGraph\Scene\Entry</Filter>
@@ -222,6 +222,18 @@
     <ClInclude Include="GridItem.h">
       <Filter>Source Files\Game\Components\UI\Grid</Filter>
     </ClInclude>
+    <ClInclude Include="SpritePack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Source Files\Game\Components\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="SequentialAnimationPack.h">
+      <Filter>Source Files\Game\Components\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="BlendedAnimationPack.h">
+      <Filter>Source Files\Game\Components\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -247,9 +259,6 @@
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Source Files\Game\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimationController.h">
-      <Filter>Source Files\Game\Components</Filter>
     </ClCompile>
     <ClCompile Include="EntryScene.cpp">
       <Filter>Source Files\Game\SceneGraph\Scene\Entry</Filter>
@@ -295,6 +304,12 @@
     </ClCompile>
     <ClCompile Include="AssetParser.cpp">
       <Filter>Source Files\Game\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files\Game\Components\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationController.h">
+      <Filter>Source Files\Game\Components\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
