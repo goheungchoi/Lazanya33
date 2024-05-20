@@ -11,7 +11,7 @@ EntryScene::EntryScene()
 {
 	_buttonEventHandler = new ButtonEventHandler();
 
-	_mainMenuContainer=new Container(0, 0, screenWidth, screenHeight);
+	_mainMenuContainer = new Container(0, 0, screenWidth, screenHeight);
 
 	//title
 	_mainComs.title = new Container(30, 30, 100, 100);
@@ -19,7 +19,7 @@ EntryScene::EntryScene()
 	_mainComs.title->SetImage(
 		ResourceManager::Get().GetImage(L"Razanya Title")
 	);
-	_mainComs.title->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_mainComs.title->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 
 	//Highst honor
 	_mainComs.highScore = new Container(30, 300, 100, 100);
@@ -27,7 +27,7 @@ EntryScene::EntryScene()
 	_mainComs.highScore->SetImage(
 		ResourceManager::Get().GetImage(L"Main_Game_Honor")
 	);
-	_mainComs.highScore->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_mainComs.highScore->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 
 	//background
 	_mainComs.background = new SingleSpriteRenderable<MainMenuComponents>();
@@ -45,7 +45,7 @@ EntryScene::EntryScene()
 		ResourceManager::Get().GetImage(L"Main_character.razanya.original.001")
 	);
 	;
-	_mainComs.lazanya->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_mainComs.lazanya->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 
 	//age
 	_mainComs.age = new Container(500, 40, 100, 100);
@@ -58,7 +58,7 @@ EntryScene::EntryScene()
 		_mainComs.age->GetCenterY()
 	);
 	_mainComs.age->Rotate(10);
-	_mainComs.age->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_mainComs.age->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 
 	_mainComs.ageChildText = new Container(225, 20, 700, 300);
 	_mainComs.ageChildText->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
@@ -109,7 +109,7 @@ EntryScene::EntryScene()
 	_mainComs.decoratorButton->SetImage(
 		ResourceManager::Get().GetImage(L"Main_Game_Character_Select")
 	);
-	_mainComs.decoratorButton->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_mainComs.decoratorButton->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 	_mainComs.decoratorButton->AddEventLister("mouseClick", []() {
 		Music::soundManager->PlayMusic(Music::eSoundList::Button, Music::eSoundChannel::Effect);
 		_sceneManager->ChangeScene("Decorator");

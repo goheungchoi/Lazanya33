@@ -19,6 +19,7 @@ public:
 	virtual int GetPositionY() = 0;
   virtual int GetAttackDamage() = 0;
   virtual double GetCurrOxyLevel() = 0;
+	virtual double GetMaxOxyLevel() = 0;
   virtual int GetCurrHP() = 0;
   virtual int GetCurrScore() = 0;
   //SeoungWoo Change

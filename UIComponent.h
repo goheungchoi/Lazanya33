@@ -190,6 +190,10 @@ public:
 		);
 	}
 
+	float GetImageIntensity() {
+		return _imageColorMat.m[0][0];
+	}
+
 	void SetImageIntensity(float i) {
 		_imageColorMat.m[0][0] = i;
 		_imageColorMat.m[1][1] = i;
@@ -200,6 +204,11 @@ public:
 			ColorAdjustTypeBitmap
 		);
 	}
+
+	float GetImageAlpha() {
+		return _imageColorMat.m[3][3];
+	}
+
 	void SetImageAlpha(unsigned char alpha) {
 		float a = alpha / 255.0f;
 		_imageColorMat.m[3][3] = a;
@@ -470,8 +479,6 @@ public:
 				// Ignore the position of itself, 
 				// but follow the layout of the parent
 				
-				
-
 				// Draw image if exists
 				Rect imageRect;
 				_stretch ? 
@@ -503,10 +510,7 @@ public:
 					&_imageAtt
 				);
 
-				// TODO: When drawing borders,
-				// Don't apply scaling
 				// Draw border if enabled
-
 				_border && 
 				//g.DrawRectangle(&_pen, *_currentSpriteRect);
 				g.DrawRectangle(&_pen, 0, 0, _width, _height);

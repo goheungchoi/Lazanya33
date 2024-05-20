@@ -283,7 +283,104 @@ public:
 
 	void Update(double dt) override;
 
-	void Render(Graphics& g) override {
+	void Render(Graphics& g) override {}
+};
 
+class ColorTransition : public IAnimation {
+	using _uchar = unsigned char;
+
+	UIComponent* _this;
+
+	_uchar _startR, _startG, _startB, _startA;
+	_uchar _currR, _currG, _currB, _currA;
+	_uchar _targetR, _targetG, _targetB, _targetA;
+	double _duration;
+	
+	CubicBezier _easingFunc;
+	double _delay;
+
+	bool _loop;
+
+	double _elapsedTime{ 0.0 };
+	double _delayTimer{ 0.0 };
+	bool _isActive{ false };
+
+public:
+	ColorTransition(
+		UIComponent* thisComponent,
+		std::initializer_list<_uchar> startColor,
+		std::initializer_list<_uchar> targetColor,
+		double duration,
+		const CubicBezier& easingFunc,
+		double delay = 0.0,
+		bool loop = false
+	);
+
+	~ColorTransition() {}
+
+	void Trigger() override {
+		_isActive = true;
+		_elapsedTime = 0.0;
 	}
+
+	void Reset() override {
+		_isActive = false;
+		_elapsedTime = 0.0;
+	}
+
+	bool IsPlaying() override { return _isActive; }
+
+	void Update(double dt) override;
+
+	void Render(Graphics& g) override {}
+};
+
+class ImageTransition : public IAnimation {
+	using _uchar = unsigned char;
+
+	UIComponent* _this;
+
+	float _startIntensity, _startAlpha;
+	float _currIntensity, _currAlpha;
+	float _targetIntensity, _targetAlpha;
+	double _duration;
+
+	CubicBezier _easingFunc;
+	double _delay;
+
+	bool _loop;
+
+	double _elapsedTime{ 0.0 };
+	double _delayTimer{ 0.0 };
+	bool _isActive{ false };
+
+public:
+	ImageTransition(
+		UIComponent* thisComponent,
+		std::initializer_list<float> startValues,
+		std::initializer_list<float> targetValues,
+		double duration,
+		const CubicBezier& easingFunc,
+		double delay = 0.0,
+		bool loop = false
+	);
+
+	~ImageTransition() {}
+
+	void Trigger() override {
+		_isActive = true;
+		_elapsedTime = 0.0;
+	}
+
+	void Reset() override {
+		_isActive = false;
+		_elapsedTime = 0.0;
+	}
+
+	bool IsPlaying() override { return _isActive; }
+
+	void Update(double dt) override;
+
+	void Render(Graphics& g) override {}
+
 };

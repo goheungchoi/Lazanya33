@@ -69,6 +69,9 @@ public:
 					pChildComp->Render(g);
 					g.TranslateTransform(-_x, -_y);
 					continue;
+				} else if (pChildComp->GetPositionLayout() == PositionLayout::LAYOUT_ABSOLUTE) {
+					pChildComp->Render(g);
+					continue;
 				}
 					
 				g.TranslateTransform(_x, childYPos);
@@ -85,6 +88,9 @@ public:
 					pChildComp->Render(g);
 					g.TranslateTransform(-_x, -_y);
 					continue;
+				} else if (pChildComp->GetPositionLayout() == PositionLayout::LAYOUT_ABSOLUTE) {
+					pChildComp->Render(g);
+					continue;
 				}
 
 				g.TranslateTransform(childXPos, _y);
@@ -97,6 +103,8 @@ public:
 			int totalWidth = 0;
 			for (UIComponent* pChildComp : _childComponents) {
 				if (pChildComp->GetPositionLayout() == PositionLayout::LAYOUT_FIXED) {
+					continue;
+				} else if (pChildComp->GetPositionLayout() == PositionLayout::LAYOUT_ABSOLUTE) {
 					continue;
 				}
 				totalWidth += pChildComp->GetWidth();
