@@ -3,6 +3,10 @@
 // TODO: Need to be GridItem!
 #include "GridItem.h"
 
+enum PlayerEffect {
+
+};
+
 class IPlayer : public GridItem {
 public:
 	
@@ -60,6 +64,8 @@ public:
   virtual bool IsDead() = 0;
 
   virtual void Move(int x, int y) = 0;
+
+	virtual void TriggerEffect(PlayerEffect) = 0;
 
 	virtual void Update(double deltaTime) = 0;
 };

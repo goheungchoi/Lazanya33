@@ -75,5 +75,9 @@ public:
 
 	virtual void Update(double deltaTime) { _player->Update(deltaTime); }
 
+	virtual void TriggerEffect(PlayerEffect effect) {
+		_player->TriggerEffect(effect);
+	};
+
 	virtual void Render(Gdiplus::Graphics& g) override { _player->Render(g); }
 };

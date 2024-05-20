@@ -20,7 +20,7 @@ constexpr int PLAYER_DEFAULT_COMBO_DURATION = 1;
  * @brief Example use of AnimationController
  */
 class Player : public IPlayer {
-	AnimationController* _animationController;
+	AnimationController* _effectController;
 
 	/* Properties */
 private:
@@ -38,8 +38,8 @@ private:
   double _comboDuration;
   double _comboElapsedTime;
   int _comboNumber;
- public:
 
+public:
 	Player()
   : _ad{PLAYER_DEFAULT_AD},
     _maxOxygenLevel{PLAYER_DEFAULT_MAX_OXYGEN_LEVEL},
@@ -63,9 +63,9 @@ private:
 		downAttackAnimation->SliceSpriteSheet(32, 32, 0, 0, 32, 32);
 		downAttackAnimation->SetFrameDurations({ 0.08 });
 
-		_animationController = new AnimationController();
-		_animationController->AddAnimation(0, downAttackAnimation);
-		_animationController->SetState(0);
+		_effectController = new AnimationController();
+		_effectController->AddAnimation(0, downAttackAnimation);
+		_effectController->SetState(0);
 	}
 
   /* Getters */
@@ -139,14 +139,18 @@ private:
   }
 
 	void Update(double deltaTime) {
-		_animationController->Update(deltaTime);
+		_effectController->Update(deltaTime);
+	}
+
+	void TriggerEffect(PlayerEffect effect){
+		_effectController->SetState(effect);
 	}
 
 	void Render(Graphics& g) {
 		IPlayer::Render(g);
 
 		g.TranslateTransform(_position.X, _position.Y);
-		_animationController->GetCurrentAnimation()->Render(g);
+		_effectController->GetCurrentAnimation()->Render(g);
 		g.TranslateTransform(-_position.X, -_position.Y);
 	}
 };

@@ -34,8 +34,6 @@ public:
 		g.MultiplyTransform(&_transform);
 
 
-
-
 		// Reset Transform
 		Matrix* mClone = _transform.Clone();
 		mClone->Invert();
