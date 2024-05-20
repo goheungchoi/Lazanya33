@@ -12,15 +12,15 @@ public:
   Button(int x, int y, int w, int h)
     : UIComponent(x, y, w, h) {
     // Default Construct 는 함수 텍스트에 "Button{numButtons}" 이라고 프린팅
-    wchar_t buf[25];
+    /*wchar_t buf[25];
     swprintf_s(buf, L"Button%llu", numButtons);
-    SetText(buf);
-    // 보더 검은색
-    EnableBorder(true);
-    SetBorder(0, 0, 0);
-    // 채우기 약간 회색
-    EnableFill(true); // <- 색 테스트용. 지워도 됨
-    SetFillColor(120, 120, 120); // <- 색 테스트용. 지워도 됨
+    SetText(buf);*/
+    //// 보더 검은색
+    //EnableBorder(true);
+    //SetBorder(0, 0, 0);
+    //// 채우기 약간 회색
+    //EnableFill(true); // <- 색 테스트용. 지워도 됨
+    //SetFillColor(120, 120, 120); // <- 색 테스트용. 지워도 됨
 
     ++numButtons;
   }

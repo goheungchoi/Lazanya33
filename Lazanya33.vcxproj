@@ -149,12 +149,15 @@
   <ItemGroup>
     <ClInclude Include="Anaerobic.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="ArtWorkScene.h" />
     <ClInclude Include="BlendedAnimationPack.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="CSound.h" />
     <ClInclude Include="DebugConsole.h" />
     <ClInclude Include="Container.h" />
+    <ClInclude Include="DecoratorScene.h" />
+    <ClInclude Include="DeveloperScene.h" />
     <ClInclude Include="GridDeque.h" />
     <ClInclude Include="GridItem.h" />
     <ClInclude Include="GridMap.h" />
@@ -203,8 +206,11 @@
     <ClCompile Include="Anaerobic.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationController.h" />
+    <ClCompile Include="ArtWorkScene.cpp" />
     <ClCompile Include="AssetParser.cpp" />
     <ClCompile Include="CSound.cpp" />
+    <ClCompile Include="DecoratorScene.cpp" />
+    <ClCompile Include="DeveloperScene.cpp" />
     <ClCompile Include="LetterScene.cpp" />
     <ClCompile Include="Naughty.cpp" />
     <ClCompile Include="PlayScene.cpp" />
