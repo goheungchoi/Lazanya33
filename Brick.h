@@ -41,52 +41,52 @@ struct Brick
     blockScore = 1;
     blockDownAir = 4; 
     blockHealth = 10;
-		type = BrickType::DEFAULT;
+		this->type = BrickType::DEFAULT;
     break;
 
     case BrickType::STONE:
     blockScore = 1;
     blockDownAir = 4;
     blockHealth = 30;
-		type = BrickType::STONE;
+		this->type = BrickType::STONE;
 		break;
 			
     case BrickType::ROCK:
     blockScore = 1;
     blockDownAir = 4;
     blockHealth = 60;
-		type = BrickType::ROCK;
+		this->type = BrickType::ROCK;
     break;
 
     case BrickType::BOMB:
-		type = BrickType::BOMB;
+		this->type = BrickType::BOMB;
     break;
 
     case BrickType::GOLD:
     blockScore = 10;
     blockHealth = 20;
-		type = BrickType::GOLD;
+		this->type = BrickType::GOLD;
     break;
 
     case BrickType::OXYGEN:
     blockScore = 1;
     blockDownAir = 0;
     blockHealth = 20;
-		type = BrickType::OXYGEN;
+		this->type = BrickType::OXYGEN;
     break;
 
     case BrickType::RASGULLA:
     blockScore = 1;
     blockDownAir = 4;
     blockHealth = 1;
-		type = BrickType::RASGULLA;
+		this->type = BrickType::RASGULLA;
     break;
 
     case BrickType::GULAB_JAMUN:
     blockScore = 1;
     blockDownAir = 10;
     blockHealth = 1;
-		type = BrickType::GULAB_JAMUN;
+		this->type = BrickType::GULAB_JAMUN;
     break;
     }
   }
@@ -112,6 +112,8 @@ class BBomb : public BrickGraphics<BBomb> {};
 class BGold : public BrickGraphics<BGold> {};
 
 class BOxygen : public BrickGraphics<BOxygen> {};
+
+class BRasgulla :public BrickGraphics<BRasgulla> {};
 
 inline Gdiplus::CachedBitmap* GetBrickSprite(BrickType brickType, const std::wstring& tag) {
 	switch (brickType)
@@ -142,7 +144,7 @@ inline Gdiplus::CachedBitmap* GetBrickSprite(BrickType brickType, const std::wst
 	}
 	case BrickType::RASGULLA:
 	{
-		return BDefault::GetCachedSprite(tag);
+		return BRasgulla::GetCachedSprite(tag);
 	}
 	case BrickType::GULAB_JAMUN:
 	{

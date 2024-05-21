@@ -27,6 +27,7 @@ public:
 		// if brick destory
 		if (_wall->GetBrick(row, col).blockHealth <= 0)
 		{
+			PlayBrickDestroySound(_wall->GetBirckType(row, col));
 			RewardPlayer(row, col);
 			_wall->DestroyBrick(row, col);
 			_player->SetPosition(col, 4);
@@ -37,8 +38,8 @@ public:
 				count++;
 			}
 		}
-		// RewardPlayer(int row, int col);
-    // DestoryBrick(row, col);
+		else
+			Music::soundManager->PlayMusic(Music::eSoundList::blockDamage, Music::eSoundChannel::BrickDamage);
 	}
 
 	void RewardPlayer(int row, int col) {
@@ -95,4 +96,11 @@ public:
 		// 산소 x
 	}
 
+	//TODO: bircktype sound play
+	void PlayBrickDestroySound(BrickType type){
+		switch (type) {
+		case BrickType::DEFAULT:
+			Music::soundManager->PlayMusic(Music::eSoundList::block00_destroy_Malang, Music::eSoundChannel::BrickDestory);
+		}
+	}
 };

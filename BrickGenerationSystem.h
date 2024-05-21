@@ -1,7 +1,7 @@
 #pragma once
-#include"BrickPattern.h"
+//#include"BrickPattern.h"
 #include"Wall.h"
-
+#include "IPlayer.h"
 // 블락 컴포넌트랑 블락 패턴 이용해서 블락 계속해서 생성
 #define BRICKS 15
 
@@ -13,17 +13,18 @@ constexpr std::size_t TOTAL_NUM_PATTERNS = 1;
 class BrickGenSystem
 {
 private:
-	BrickPattern _patterns[TOTAL_NUM_PATTERNS];
-	BrickPattern* _pNextPattern;
+	/*BrickPattern _patterns[TOTAL_NUM_PATTERNS];
+	BrickPattern* _pNextPattern;*/
 	Wall* _wall;
+  IPlayer* _player;
 public:
-	BrickGenSystem(Wall* wall) : _wall(wall) { 
-		_patterns[0] ={
+	BrickGenSystem(Wall* wall,IPlayer*player) : _wall(wall),_player(player) { 
+		/*_patterns[0] ={
 			BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,
 			BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,
 			BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT,BrickType::DEFAULT
 		};
-		_pNextPattern = &_patterns[0];
+		_pNextPattern = &_patterns[0];*/
 	}
 	~BrickGenSystem(){}
 
@@ -56,14 +57,40 @@ public:
 		}
 	}
 
-	void ReadNextPattern() {
-		// TODO: 레벨에 따라 랜덤으로 다음 패턴 뽑아와야됨.
-		_pNextPattern = &_patterns[0];
-	}
+	//void ReadNextPattern() {
+	//	// TODO: 레벨에 따라 랜덤으로 다음 패턴 뽑아와야됨.
+	//	_pNextPattern = &_patterns[0];
+	//}
 
 	void GenerateNextRows()
 	{
-		BrickPattern& p = *_pNextPattern;
+    std::string filename = ChangeTilePattern();
+    std::vector<std::vector<std::string>> data= LoadPatternFromCSV(filename);
+    
+		for (std::size_t i = 0; i < 3; ++i)
+		{
+			_wall->PushBackBricks({
+					Brick((BrickType)std::stoi(data[i][0])),
+				Brick((BrickType)std::stoi(data[i][1])),
+				Brick((BrickType)std::stoi(data[i][2])),
+				Brick((BrickType)std::stoi(data[i][3])),
+				Brick((BrickType)std::stoi(data[i][4]))
+				});
+			_wall->PushBackBrickSprites({
+				GetBrickSprite((BrickType)std::stoi(data[i][0]),TypeToTag((BrickType)std::stoi(data[i][0]))),
+				GetBrickSprite((BrickType)std::stoi(data[i][1]),TypeToTag((BrickType)std::stoi(data[i][1]))),
+				GetBrickSprite((BrickType)std::stoi(data[i][2]),TypeToTag((BrickType)std::stoi(data[i][2]))),
+				GetBrickSprite((BrickType)std::stoi(data[i][3]),TypeToTag((BrickType)std::stoi(data[i][3]))),
+				GetBrickSprite((BrickType)std::stoi(data[i][4]),TypeToTag((BrickType)std::stoi(data[i][4]))),
+			});
+      Debug.Log(data[i][0]);
+      Debug.Log(data[i][1]);
+        Debug.Log(data[i][2]);
+        Debug.Log(data[i][3]);
+        Debug.Log(data[i][4]);
+		}
+
+		/*BrickPattern& p = *_pNextPattern;
 		for (std::size_t i = 0; i < patternNRows; ++i) {
 			_wall->PushBackBricks({
 				Brick(p[i][0]),
@@ -71,14 +98,7 @@ public:
 				Brick(p[i][2]),
 				Brick(p[i][3]),
 				Brick(p[i][4])
-			});
-			_wall->PushBackBrickSprites({
-				GetBrickSprite(p[i][0], L"brick_rasgulla"),
-				GetBrickSprite(p[i][1], L"brick_rasgulla"),
-				GetBrickSprite(p[i][2], L"brick_rasgulla"),
-				GetBrickSprite(p[i][3], L"brick_rasgulla"),
-				GetBrickSprite(p[i][4], L"brick_rasgulla"),
-			});
+			});*/
 
 			/*_wall->PushBackBrickSprites({
 				new BDefault(),
@@ -87,6 +107,188 @@ public:
 				new BDefault(),
 				new BDefault()
 			});*/
-		}
+		//}
 	}
+  std::vector<std::vector<std::string>> LoadPatternFromCSV(
+    const std::string& fileName) {
+ 
+    std::ifstream file(fileName);
+    if (!file.is_open()) {
+      throw std::runtime_error("Error! File not found: " + fileName);
+      return {};
+    }
+
+    std::vector<std::vector<std::string>> data;
+    std::string line;
+    while (std::getline(file, line)) {
+      std::stringstream ss(line);
+      std::string item;
+      std::vector<std::string> parsedRow;
+
+      while (std::getline(ss, item, ',')) {
+        parsedRow.push_back(item);
+      }
+      data.push_back(parsedRow);
+    }
+    file.close();
+    return data;
+  }
+
+  std::string ChangeTilePattern() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dis(1, 100);
+    int blockLevel;
+    int tileLayer;
+    int numberOfLayers;
+    std::string nameOfCSV;
+   
+    int score = _player->GetCurrScore();
+    // 스코어 60이하 일때
+    if (score <= 60) {
+      int randomValue = dis(gen);
+
+      // 1에서 100 사이의 숫자를 생성하여 확률 결정
+      if (randomValue <= 40) {
+        blockLevel = 1;  // 40% 확률
+      }
+      else {
+        blockLevel = 2;  // 60% 확률
+      }
+    }
+    else if (score <= 100) {
+      {
+        int randomValue = dis(gen);
+
+        if (randomValue <= 40) {
+          blockLevel = 1;
+        }
+        else
+          blockLevel = 2;
+      }
+    }
+    else if (score <= 150) {
+      {
+        int randomValue = dis(gen);
+
+        if (randomValue <= 30) {
+          blockLevel = 1;
+        }
+        else if (randomValue <= 60) {
+          blockLevel = 2;
+        }
+        else
+          blockLevel = 3;
+      }
+    }
+    else if (score <= 200) {
+      int randomValue = dis(gen);
+
+      if (randomValue <= 30) {
+        blockLevel = 1;
+      }
+      else if (randomValue <= 40) {
+        blockLevel = 2;
+      }
+      else
+        blockLevel = 3;
+    }
+    else if (score <= 300) {
+      int randomValue = dis(gen);
+
+      if (randomValue <= 20) {
+        blockLevel = 1;
+      }
+      else if (randomValue <= 50) {
+        blockLevel = 2;
+      }
+      if (randomValue <= 80) {
+        blockLevel = 3;
+      }
+      else {
+        blockLevel = 4;
+      }
+    }
+    else if (score <= 400) {
+      int randomValue = dis(gen);
+
+      if (randomValue <= 10) {
+        blockLevel = 1;
+      }
+      else if (randomValue <= 30) {
+        blockLevel = 2;
+      }
+      else if (randomValue <= 60) {
+        blockLevel = 3;
+      }
+      else if (randomValue <= 90) {
+        blockLevel = 4;
+      }
+      else {
+        blockLevel = 5;
+      }
+    }
+    else {
+      int randomValue = dis(gen);
+
+      if (randomValue <= 10) {
+        blockLevel = 2;
+      }
+      else if (randomValue <= 50) {
+        blockLevel = 3;
+      }
+      else if (randomValue <= 80) {
+        blockLevel = 4;
+      }
+      else
+        blockLevel = 5;
+    }
+
+    switch (blockLevel) {
+    case 1:
+      numberOfLayers = 14;
+      break;
+    case 2:
+      numberOfLayers = 10;
+      break;
+    case 3:
+      numberOfLayers = 12;
+      break;
+    case 4:
+      numberOfLayers = 13;
+      break;
+    case 5:
+      numberOfLayers = 13;
+      break;
+    }
+    std::uniform_int_distribution<int> layerRand(1, numberOfLayers);
+    tileLayer = layerRand(gen);
+
+    nameOfCSV = "Dirty//block_Lv" + std::to_string(blockLevel) +
+      "_Tile Layer " + std::to_string(tileLayer)+".csv";
+    return nameOfCSV;
+  }
+
+  std::wstring TypeToTag(BrickType type)
+  {
+    switch(type)
+    {
+    case BrickType::DEFAULT:
+      return L"default";
+    case BrickType::STONE:
+      return L"stone";
+    case BrickType::ROCK:
+      return L"rock";
+    case BrickType::BOMB:
+      return L"bombY";
+    case BrickType::GOLD:
+      return L"gold";
+    case BrickType::OXYGEN:
+      return L"air";
+    case BrickType::RASGULLA:
+      return L"rasgulla";
+    case BrickType::GULAB_JAMUN:
+      return L"gulabjamun";
+    }
+  }
 };

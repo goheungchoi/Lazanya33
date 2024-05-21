@@ -50,24 +50,11 @@ Engine::~Engine()
 
 void Engine::Initialize()
 {
-
-	/*ResourceManager::Get().LoadImageFromFile(
-		L"Assets\\brick_can_00.png", 
-		L"brick_can_00"
-	);
-	ResourceManager::Get().LoadImageFromFile(
-		L"Assets\\lazanya_02.png", 
-		L"lazanya_02"
-	);*/
 	ResourceManager::Get().LoadImages(L"Assets");
 	ResourceManager::Get().CacheAllImages(_renderer->GetGraphics());
 
 	// TODO: Sprite pack binding must be done at advance
-	BDefault::AddSprite(
-		ResourceManager::Get().GetImage(L"brick_rasgulla"),
-		L"brick_rasgulla",
-		_renderer->GetGraphics()	// Enable Caching
-	);
+	InitBrickImage();
 
 	Music::soundManager->InitMusic();
 	Music::soundManager->SetVolume(0.5f);
@@ -174,4 +161,93 @@ Engine* Engine::GetInstance()
 void Engine::DestroyInstance()
 {
 	delete _instance;
+}
+
+void Engine::InitBrickImage()
+{
+	BDefault::AddSprite(
+		ResourceManager::Get().GetImage(L"brick_default"),
+		L"default",
+		_renderer->GetGraphics()	// Enable Caching
+	);
+	BStone::AddSprite(
+		ResourceManager::Get().GetImage(L"brick_stone"),
+		L"stone",
+		_renderer->GetGraphics()	// Enable Caching
+	);
+	BRock::AddSprite(
+		ResourceManager::Get().GetImage(L"brick_rock"),
+		L"rock",
+		_renderer->GetGraphics()	// Enable Caching
+	);
+	BBomb::AddSprite(
+		ResourceManager::Get().GetImage(L"brick_bomb_animation_1"),
+		L"bombR",
+		_renderer->GetGraphics()	// Enable Caching
+	);
+	BBomb::AddSprite(
+		ResourceManager::Get().GetImage(L"brick_bomb_animation_2"),
+		L"bombY",
+		_renderer->GetGraphics()	// Enable Caching
+	);
+	BGold::AddSprite(
+		ResourceManager::Get().GetImage(L"brick_gold"),
+		L"gold",
+		_renderer->GetGraphics()	// Enable Caching
+	);
+	BOxygen::AddSprite(
+		ResourceManager::Get().GetImage(L"brick_air"),
+		L"air",
+		_renderer->GetGraphics()	// Enable Caching
+	);
+	BRasgulla::AddSprite(
+		ResourceManager::Get().GetImage(L"brick_rasgulla"),
+		L"rasgulla",
+		_renderer->GetGraphics()	// Enable Caching
+	);
+
+
+	//break image
+	BDefault::AddSprite(
+		ResourceManager::Get().GetImage(L"B.brick_default"),
+		L"B.default",
+		_renderer->GetGraphics()	// Enable Caching
+	);
+	BStone::AddSprite(
+		ResourceManager::Get().GetImage(L"B.brick_stone"),
+		L"B.stone",
+		_renderer->GetGraphics()	// Enable Caching
+	);
+	BRock::AddSprite(
+		ResourceManager::Get().GetImage(L"B.brick_rock"),
+		L"B.rock",
+		_renderer->GetGraphics()	// Enable Caching
+	);
+	BBomb::AddSprite(
+		ResourceManager::Get().GetImage(L"B.brick_bomb_animation_1"),
+		L"B.bombR",
+		_renderer->GetGraphics()	// Enable Caching
+	);
+	BBomb::AddSprite(
+		ResourceManager::Get().GetImage(L"B.brick_bomb_animation_2"),
+		L"B.bombY",
+		_renderer->GetGraphics()	// Enable Caching
+	);
+	BGold::AddSprite(
+		ResourceManager::Get().GetImage(L"B.brick_gold"),
+		L"B.gold",
+		_renderer->GetGraphics()	// Enable Caching
+	);
+	BOxygen::AddSprite(
+		ResourceManager::Get().GetImage(L"B.brick_air"),
+		L"B.air",
+		_renderer->GetGraphics()	// Enable Caching
+	);
+	BRasgulla::AddSprite(
+		ResourceManager::Get().GetImage(L"B.brick_rasgulla"),
+		L"B.rasgulla",
+		_renderer->GetGraphics()	// Enable Caching
+	);
+
+
 }

@@ -511,7 +511,7 @@ void PlayScene::__InitComponents() {
 }
 
 void PlayScene::__InitSystems() {
-	_brickGenSystem = new BrickGenSystem(_wall);
+	_brickGenSystem = new BrickGenSystem(_wall,_player);
 	_playerOxySystem = new PlayerOxygenSystem(
 		_player, PLAYER_OXYGEN_REDUCE_INITAL_VALUE
 	);
@@ -667,6 +667,9 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 	// DOWN arrow key pressed
 	if (Input::inputManager->IsTurnDn(VK_DOWN))
 	{
+		Music::soundManager->PlayMusic(Music::eSoundList::Attack, Music::eSoundChannel::Effect);
+
+
 		_player->TriggerEffect(PlayerEffect::DOWN_ATTACK);
 		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer(
 			_player->GetPositionY() + 1, _player->GetPositionX(),
@@ -694,6 +697,8 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 		_player->GetPositionX() > 0 && 
 		_wall->GetBrick(_player->GetPositionY(), _player->GetPositionX() - 1).type
 		!= BrickType::NONE) {
+		Music::soundManager->PlayMusic(Music::eSoundList::Attack, Music::eSoundChannel::Effect);
+
 		// Play the left attack effect
 		_player->TriggerEffect(PlayerEffect::LEFT_ATTACK);
 
@@ -723,6 +728,8 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 			_player->GetPositionY(),
 			_player->GetPositionX() + 1
 		).type != BrickType::NONE) {
+		Music::soundManager->PlayMusic(Music::eSoundList::Attack, Music::eSoundChannel::Effect);
+
 		// Play the right attack effect
 		_player->TriggerEffect(PlayerEffect::RIGHT_ATTACK);
 

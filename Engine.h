@@ -28,6 +28,7 @@ public:
 
 	static void DestroyInstance();
 
+	void InitBrickImage();
 };
 
 inline Engine* Engine::_instance = nullptr;
