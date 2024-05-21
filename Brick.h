@@ -132,7 +132,7 @@ inline Gdiplus::CachedBitmap* GetBrickSprite(BrickType brickType, const std::wst
 	}
 	case BrickType::BOMB:
 	{
-		return BRock::GetCachedSprite(tag);
+		return BBomb::GetCachedSprite(tag);
 	}
 	case BrickType::GOLD:
 	{

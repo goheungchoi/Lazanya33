@@ -83,31 +83,9 @@ public:
 				GetBrickSprite((BrickType)std::stoi(data[i][3]),TypeToTag((BrickType)std::stoi(data[i][3]))),
 				GetBrickSprite((BrickType)std::stoi(data[i][4]),TypeToTag((BrickType)std::stoi(data[i][4]))),
 			});
-      //Debug.Log(data[i][0]);
-      //Debug.Log(data[i][1]);
-        //Debug.Log(data[i][2]);
-        //Debug.Log(data[i][3]);
-        //Debug.Log(data[i][4]);
+     
 		}
 
-		/*BrickPattern& p = *_pNextPattern;
-		for (std::size_t i = 0; i < patternNRows; ++i) {
-			_wall->PushBackBricks({
-				Brick(p[i][0]),
-				Brick(p[i][1]),
-				Brick(p[i][2]),
-				Brick(p[i][3]),
-				Brick(p[i][4])
-			});*/
-
-			/*_wall->PushBackBrickSprites({
-				new BDefault(),
-				new BDefault(),
-				new BDefault(),
-				new BDefault(),
-				new BDefault()
-			});*/
-		//}
 	}
   std::vector<std::vector<std::string>> LoadPatternFromCSV(
     const std::string& fileName) {
@@ -280,7 +258,7 @@ public:
     case BrickType::ROCK:
       return L"rock";
     case BrickType::BOMB:
-      return L"bombY";
+      return L"bombR";
     case BrickType::GOLD:
       return L"gold";
     case BrickType::OXYGEN:

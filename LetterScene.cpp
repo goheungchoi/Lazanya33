@@ -41,7 +41,7 @@ void LetterScene::__InitComponents() {
 	_comps._leftBox = new Container(
 		340, 185, screenWidth * 0.55, screenHeight
 	);
-	_comps.letter = new Container(0, 0, 700, 300);
+	_comps.letter = new Container(0, 0, 700, 500);
 
 	_comps.diagrams = new Container(0, 100, 700, 300);
 
