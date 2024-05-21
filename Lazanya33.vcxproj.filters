@@ -261,6 +261,9 @@
     <ClInclude Include="SpritePack.h">
       <Filter>Source Files\Game\Components\Render</Filter>
     </ClInclude>
+    <ClInclude Include="RandomGenerator.h">
+      <Filter>Source Files\Game\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -349,6 +352,9 @@
     </ClCompile>
     <ClCompile Include="LetterScene.cpp">
       <Filter>Source Files\Game\SceneGraph\Scene\Letter</Filter>
+    </ClCompile>
+    <ClCompile Include="GameDataHub.h">
+      <Filter>Source Files\Game\SceneGraph</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -62,7 +62,7 @@ void PlayScene::__InitComponents() {
 	_gamePlayUIComponents._centerBox = new Container(0, 0, 660, screenHeight);
 	_gamePlayUIComponents.oxygenMeter = new Container(0, 0, 58, screenHeight);
 	_gamePlayUIComponents.meterBackground = new Container(0, 0, 58, screenHeight);
-	_gamePlayUIComponents.oxygenLevel = new Container(0, 0, 58, screenHeight - 300);
+	_gamePlayUIComponents.oxygenLevel = new Container(0, 0, 58, screenHeight);
 
 	// Right Box Components Allocation
 	_gamePlayUIComponents._rightBox = new Container(
@@ -98,8 +98,28 @@ void PlayScene::__InitComponents() {
 
 	// Player Sprite Bindings
 	_player->BindImage(
-		ResourceManager::Get().GetImage(L"lazanya_02"),
-		L"lazanya_02"
+		ResourceManager::Get().GetImage(L"lazanya_ingame_1_0_1"),
+		L"left_idle"
+	);
+	_player->BindImage(
+		ResourceManager::Get().GetImage(L"lazanya_ingame_1_0_2"),
+		L"right_idle"
+	);
+	_player->BindImage(
+		ResourceManager::Get().GetImage(L"lazanya_ingame_2_0_1"),
+		L"lazanya_ingame_2_0_1"
+	);
+	_player->BindImage(
+		ResourceManager::Get().GetImage(L"lazanya_ingame_2_0_2"),
+		L"lazanya_ingame_2_0_2"
+	);
+	_player->BindImage(
+		ResourceManager::Get().GetImage(L"lazanya_ingame_3_0_1"),
+		L"lazanya_ingame_3_0_1"
+	);
+	_player->BindImage(
+		ResourceManager::Get().GetImage(L"lazanya_ingame_3_0_2"),
+		L"lazanya_ingame_3_0_2"
 	);
 	_renderSystem->CachingHelper(_player);
 
@@ -353,7 +373,6 @@ void PlayScene::__InitComponents() {
 	_gamePlayUIComponents.oxygenLevel->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
 	_gamePlayUIComponents.oxygenLevel->SetPosition(600, 0);
 	_gamePlayUIComponents.oxygenLevel->SetZValue(5);
-	_gamePlayUIComponents.oxygenLevel->SetY(300);
 	_gamePlayUIComponents.oxygenLevel->EnableFill(true);
 	_gamePlayUIComponents.oxygenLevel->SetFillColor(0, 120, 240);
 
@@ -382,7 +401,7 @@ void PlayScene::__InitComponents() {
 	_gridMapBackground->SetPosition(screenWidth >> 1, screenHeight >> 1);
 	_gridMapBackground->UpdateSpritePivotPosition(H_DIRECTION::CENTER, V_DIRECTION::CENTER);
 
-	_player->ChangeTag(L"lazanya_02");
+	_player->ChangeTag(L"left_idle");
 
 /********** Build UI Hierarchy **********/
 
@@ -455,6 +474,18 @@ void PlayScene::Update(const double deltaTime)
 	//Update Score
 	_gamePlayUIComponents.currentHonor->SetText(__WStringifyCurrentHonor(_player->GetCurrScore()).c_str());
 
+	// Update Oxygen Level.
+	double oxygenRate = _player->GetCurrOxyLevel() / _player->GetMaxOxyLevel();
+	_gamePlayUIComponents.oxygenLevel->SetY(screenHeight * (1.0 - oxygenRate));
+
+
+	// Check if the player is dead
+	if (_player->IsDead()) {
+		// Stop the update
+		// Show pop up windows
+		// Game end
+		// Or retry -> need thorough init process!
+	}
 }
 
 void PlayScene::Draw()
@@ -513,6 +544,7 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 			_player->GetPositionY() + 1, _player->GetPositionX(),
 			VK_DOWN, _countWallPop, deltaTime
 		);
+		_player->ChangeTag(L"lazanya_ingame_2_0_2");
 	}
 	//if getkey Left and it's in the play screen and if brick type is not NONE, MoveLeft
 	if (Input::inputManager->IsTurnDn(VK_LEFT) && 

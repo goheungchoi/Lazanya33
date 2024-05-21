@@ -4,6 +4,8 @@
 template<class T>
 class SingleSpriteRenderable;
 class Container;
+class BlessingContainer;
+class BlessingsOfGodStateController;
 class Button;
 class ButtonEventHandler;
 
@@ -25,9 +27,10 @@ class LetterScene : public IScene
 		Container* _rightBox;
 		Container* text1;
 		Container* blessingsOfGod;
-		Container* firstBlessingOfGod;
-		Container* secondBlessingOfGod;
-		Container* thirdBlessingOfGod;
+		BlessingsOfGodStateController* blessingStateController;
+		BlessingContainer* firstBlessingOfGod;
+		BlessingContainer* secondBlessingOfGod;
+		BlessingContainer* thirdBlessingOfGod;
 
 	} _comps;
 

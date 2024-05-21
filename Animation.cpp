@@ -48,3 +48,111 @@ void TranslateTransition::Update(double dt) {
 	}
 }
 
+ColorTransition::ColorTransition(
+	UIComponent* thisComponent, 
+	std::initializer_list<_uchar> startColor, 
+	std::initializer_list<_uchar> targetColor,
+	double duration, 
+	const CubicBezier& easingFunc, 
+	double delay, 
+	bool loop
+) : IAnimation(0, 0), 
+	_this{ thisComponent },
+	_startR{std::data(startColor)[0]}, 
+	_startG{std::data(startColor)[1]}, 
+	_startB{std::data(startColor)[2]}, 
+	_startA{std::data(startColor)[3]},
+	_currR{_startR}, _currG{_startG}, _currB{_startB}, _currA{_startA},
+	_targetR{std::data(targetColor)[0]}, 
+	_targetG{std::data(targetColor)[1]}, 
+	_targetB{std::data(targetColor)[2]}, 
+	_targetA{std::data(targetColor)[3]},
+	_duration{duration}, _easingFunc{ easingFunc },
+	_delay{ delay }, _loop{ loop } {}
+
+void ColorTransition::Update(double dt) {
+	if (!_isActive) return;
+
+	_delayTimer += dt;
+	if (_delayTimer < _delay) return;
+	_delayTimer = _delay + 1.0;
+
+	_elapsedTime += dt;
+
+	if (_elapsedTime >= _duration) {
+		_elapsedTime -= _duration;
+
+		if (_loop) {
+			_uchar tmpR = _startR;
+			_targetR = _startR;
+			_startR = tmpR;
+			_uchar tmpG = _targetG;
+			_targetG = _startG;
+			_startG = tmpG;
+			_uchar tmpB = _targetB;
+			_targetB = _startB;
+			_startB = tmpB;
+			_uchar tmpA = _targetA;
+			_targetA = _startA;
+			_startA = tmpA;
+		} else {
+			_isActive = false;
+		}
+	} else {
+		double normalizedTime = _elapsedTime / _duration;
+		_currR = _startR + (_targetR - _startR) * _easingFunc(normalizedTime);
+		_currG = _startG + (_targetG - _startG) * _easingFunc(normalizedTime);
+		_currB = _startB + (_targetB - _startB) * _easingFunc(normalizedTime);
+		_currA = _startA + (_targetA - _startA) * _easingFunc(normalizedTime);
+		_this->SetFillColor(_currR, _currG, _currB, _currA);
+	}
+}
+
+ImageTransition::ImageTransition(
+	UIComponent* thisComponent,
+	std::initializer_list<float> startValues,
+	std::initializer_list<float> targetValues,
+	double duration,
+	const CubicBezier& easingFunc,
+	double delay,
+	bool loop
+) : IAnimation(0, 0), 
+	_this{ thisComponent },
+	_startIntensity{std::data(startValues)[0]}, 
+	_startAlpha{std::data(startValues)[1]}, 
+	_currIntensity{_startIntensity}, _currAlpha{_startAlpha},
+	_targetIntensity{std::data(targetValues)[0]}, 
+	_targetAlpha{std::data(targetValues)[1]}, 
+	_duration{duration}, _easingFunc{ easingFunc },
+	_delay{ delay }, _loop{ loop } {}
+
+void ImageTransition::Update(double dt) {
+	if (!_isActive) return;
+
+	_delayTimer += dt;
+	if (_delayTimer < _delay) return;
+	_delayTimer = _delay + 1.0;
+
+	_elapsedTime += dt;
+
+	if (_elapsedTime >= _duration) {
+		_elapsedTime -= _duration;
+
+		if (_loop) {
+			float tmpIntensity = _startIntensity;
+			_targetIntensity = _startIntensity;
+			_startIntensity = tmpIntensity;
+			float tmpAlpha = _targetAlpha;
+			_targetAlpha = _startAlpha;
+			_startAlpha = tmpAlpha;
+		} else {
+			_isActive = false;
+		}
+	} else {
+		double normalizedTime = _elapsedTime / _duration;
+		_currIntensity = _startIntensity + (_targetIntensity - _startIntensity) * _easingFunc(normalizedTime);
+		_currAlpha = _startAlpha + (_targetAlpha - _startAlpha) * _easingFunc(normalizedTime);
+		_this->SetImageIntensity(_currIntensity);
+		_this->SetImageAlpha(255 * _currAlpha);
+	}
+}

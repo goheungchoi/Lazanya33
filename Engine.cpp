@@ -11,6 +11,7 @@
 #include "RenderSystem.h"
 #include "SingleRenderable.h"
 #include "ResourceManager.h"
+#include "RandomGenerator.h"
 
 // Attach images to the brick types
 #ifndef NDEBUG
@@ -19,9 +20,14 @@
 
 Engine::Engine()
 {
+	//Doing Debug:
+	Debug.Get_Console();
 	// Initialize ResourceManager Singleton
   ResourceManager::Create();
+	// Initialize RandomGenerator Singleton
+	RandomGenerator::Create();
 
+	// Initialize Scene Graph
 	_sceneGraph = new SceneGraph;
 
 	// TODO: Drawing Test
@@ -38,11 +44,13 @@ Engine::~Engine()
 {
 	// Destroy ResourceManager Singleton
 	ResourceManager::Destory();
+	RandomGenerator::Destory();
 	delete _sceneGraph;
 }
 
 void Engine::Initialize()
 {
+
 	/*ResourceManager::Get().LoadImageFromFile(
 		L"Assets\\brick_can_00.png", 
 		L"brick_can_00"
@@ -68,8 +76,7 @@ void Engine::Initialize()
 	
 	_sceneGraph->RegisterScene();
 
-	//Doing Debug:
-	Debug.Get_Console();
+	
 #ifndef NDEBUG
 	
 	INT          count = 0;

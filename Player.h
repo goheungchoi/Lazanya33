@@ -101,6 +101,7 @@ public:
   int GetPositionY() { return _gridPos.Y; }
   int GetAttackDamage() override { return _ad; }
   double GetCurrOxyLevel() override { return _oxygenLevel; }
+	double GetMaxOxyLevel() override { return _maxOxygenLevel; }
   int GetCurrHP() override { return _hp; }
   int GetCurrScore() override { return _score; }
   //SeoungWoo Change

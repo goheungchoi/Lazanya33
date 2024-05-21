@@ -6,6 +6,7 @@
 // Graphics
 #include "Button.h"
 #include "Container.h"
+#include "BlessingContainer.h"
 #include "SingleRenderable.h"
 
 // Resource
@@ -51,9 +52,10 @@ void LetterScene::__InitComponents() {
 	);
 	_comps.text1 = new Container(0, 0, 550, 50);
 	_comps.blessingsOfGod = new Container(0, 0, 550, 500);
-	_comps.firstBlessingOfGod = new Container(0, 20, 550, 140);
-	_comps.secondBlessingOfGod = new Container(0, 40, 550, 140);
-	_comps.thirdBlessingOfGod = new Container(0, 60, 550, 140);
+	_comps.blessingStateController = new BlessingsOfGodStateController();
+	_comps.firstBlessingOfGod = new BlessingContainer(1078, 160, 550, 150);
+	_comps.secondBlessingOfGod = new BlessingContainer(1078, 330, 550, 150);
+	_comps.thirdBlessingOfGod = new BlessingContainer(1078, 500, 550, 150);
 
 /********** Load Sprites **********/
 
@@ -123,14 +125,10 @@ void LetterScene::__InitComponents() {
 	_comps.text1->SetText(L"아, 그리고 너 가족력이 뭐였지?");
 	// blessings of God
 	_comps.blessingsOfGod->SetDisplay(Display::BLOCK);
-	// first blessing
-	_comps.firstBlessingOfGod->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
-	_comps.secondBlessingOfGod->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
-	_comps.thirdBlessingOfGod->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
-	// second blessing
-
-	// third blessing
-
+	// first blessingS
+	_comps.firstBlessingOfGod->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
+	_comps.secondBlessingOfGod->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
+	_comps.thirdBlessingOfGod->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 
 	// UI Container property
 	_letterContainer->SetDisplay(Display::INLINE);
@@ -162,6 +160,11 @@ void LetterScene::__InitComponents() {
 	_comps.blessingsOfGod->AddChildComponent(_comps.secondBlessingOfGod);
 	_comps.blessingsOfGod->AddChildComponent(_comps.thirdBlessingOfGod);
 
+	// Blessing State Controller
+	_comps.blessingStateController->AddBlessingContainer(_comps.firstBlessingOfGod);
+	_comps.blessingStateController->AddBlessingContainer(_comps.secondBlessingOfGod);
+	_comps.blessingStateController->AddBlessingContainer(_comps.thirdBlessingOfGod);
+
 	// Attach right box contents to the right box
 	_comps._rightBox->AddChildComponent(_comps.text1);
 	_comps._rightBox->AddChildComponent(_comps.blessingsOfGod);
@@ -192,6 +195,7 @@ void LetterScene::__InitComponents() {
 
 void LetterScene::Update(double dt)
 {
+	
 	// Check the mouse button events
 	_buttonEventHandler->HandleMouseEvent(
 		Input::inputManager->GetMouseClient().x,
@@ -199,7 +203,18 @@ void LetterScene::Update(double dt)
 		Input::inputManager->IsCurrDn(VK_LBUTTON),
 		Input::inputManager->IsCurrUp(VK_LBUTTON)
 	);
+	_comps.blessingStateController->HandleMouseEvent(
+		Input::inputManager->GetMouseClient().x,
+		Input::inputManager->GetMouseClient().y,
+		Input::inputManager->IsCurrDn(VK_LBUTTON),
+		Input::inputManager->IsCurrUp(VK_LBUTTON)
+	);
 
+	_comps.blessingStateController->UpdateContainerState();
+
+	_comps.firstBlessingOfGod->Update(dt);
+	_comps.secondBlessingOfGod->Update(dt);
+	_comps.thirdBlessingOfGod->Update(dt);
 }
 
 void LetterScene::Draw()

@@ -34,6 +34,9 @@ class PlayScene :public IScene
 		Container* ancestors;
 
 		Container* _centerBox;
+		Container* adBox;
+		Container* comboBox;
+
 		Container* oxygenMeter;
 		Container* meterBackground;
 		Container* oxygenLevel;

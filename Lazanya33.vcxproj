@@ -168,6 +168,7 @@
     <ClInclude Include="PlayerOxygenSystem.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Pummeler.h" />
+    <ClInclude Include="RandomGenerator.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SequentialAnimationPack.h" />
     <ClInclude Include="SpritePack.h" />
@@ -212,6 +213,7 @@
     <ClCompile Include="CSound.cpp" />
     <ClCompile Include="DecoratorScene.cpp" />
     <ClCompile Include="DeveloperScene.cpp" />
+    <ClCompile Include="GameDataHub.h" />
     <ClCompile Include="LetterScene.cpp" />
     <ClCompile Include="Naughty.cpp" />
     <ClCompile Include="PlayScene.cpp" />
