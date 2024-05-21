@@ -12,7 +12,7 @@
 
 constexpr int PLAYER_DEFAULT_AD = 10;
 constexpr double PLAYER_DEFAULT_MAX_OXYGEN_LEVEL = 60;
-constexpr int PLAYER_DEFAULT_MAX_HP = 0;
+constexpr int PLAYER_DEFAULT_MAX_HP = 100;
 constexpr int PLAYER_DEFAULT_LASGULA_DURATION = 0;
 constexpr int PLAYER_DEFAULT_COMBO_DURATION = 1;
 
@@ -39,6 +39,8 @@ private:
   double _comboElapsedTime;
   int _comboNumber;
 
+	bool _faceRight{ false };
+
 public:
 	Player()
   : _ad{PLAYER_DEFAULT_AD},
@@ -56,29 +58,29 @@ public:
 		
 		Animation* downAttackAnimation = new Animation(
 			// Sprite Sheet
-			ResourceManager::Get().GetImage(L"motion_sheet"),
+			ResourceManager::Get().GetImage(L"effect_swordtrail_down"),
 		// X, Y, loop
-			0, 120, false
+			0, 110, false
 		);
-		downAttackAnimation->SliceSpriteSheet(32, 32, 0, 0, 32, 32);
+		downAttackAnimation->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
 		downAttackAnimation->SetFrameDurations({ 0.08 });
 
 		Animation* leftAttackAnimation = new Animation(
 			// Sprite Sheet
-			ResourceManager::Get().GetImage(L"motion_sheet"),
+			ResourceManager::Get().GetImage(L"effect_swordtrail_left"),
 		// X, Y, loop
-			-50, 0, false
+			10, 0, false
 		);
-		leftAttackAnimation->SliceSpriteSheet(32, 32, 0, 0, 32, 32);
+		leftAttackAnimation->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
 		leftAttackAnimation->SetFrameDurations({ 0.08 });
 
 		Animation* rightAttackAnimation = new Animation(
 			// Sprite Sheet
-			ResourceManager::Get().GetImage(L"motion_sheet"),
+			ResourceManager::Get().GetImage(L"effect_swordtrail_right"),
 		// X, Y, loop
-			150, 0, false
+			110, 0, false
 		);
-		rightAttackAnimation->SliceSpriteSheet(32, 32, 0, 0, 32, 32);
+		rightAttackAnimation->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
 		rightAttackAnimation->SetFrameDurations({ 0.08 });
 
 		_effectController = new AnimationController();
@@ -103,6 +105,7 @@ public:
   double GetCurrOxyLevel() override { return _oxygenLevel; }
 	double GetMaxOxyLevel() override { return _maxOxygenLevel; }
   int GetCurrHP() override { return _hp; }
+	int GetMaxHP() override { return _maxHP; }
   int GetCurrScore() override { return _score; }
   //SeoungWoo Change
   int GetCurrCombo() override { return _comboNumber; }

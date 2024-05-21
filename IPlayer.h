@@ -21,6 +21,7 @@ public:
   virtual double GetCurrOxyLevel() = 0;
 	virtual double GetMaxOxyLevel() = 0;
   virtual int GetCurrHP() = 0;
+	virtual int GetMaxHP() = 0;
   virtual int GetCurrScore() = 0;
   //SeoungWoo Change
   virtual int GetCurrCombo() = 0;

@@ -16,7 +16,8 @@ public:
   virtual double GetCurrOxyLevel() override { return _player->GetCurrOxyLevel(); }
 	virtual double GetMaxOxyLevel() override { return _player->GetMaxOxyLevel(); }
 	virtual int GetCurrHP() override { return _player->GetCurrHP(); }
-  virtual int GetCurrScore() override { return _player->GetCurrScore(); }
+	virtual int GetMaxHP() override { return _player->GetMaxHP(); }
+	virtual int GetCurrScore() override { return _player->GetCurrScore(); }
   virtual int GetCurrCombo() override { return _player->GetCurrCombo(); }
   virtual double GetComboElapsedTime()override { return _player->GetComboElapsedTime(); }
   virtual double GetComboDuration()override { return _player->GetComboDuration(); }

@@ -521,9 +521,10 @@ public:
 				g.FillRectangle(&_brush, 0, 0, _width, _height);
 
 				// Draw Text
+				RectF textRect{ _textPosition.X, _textPosition.Y, (float)_width, (float)_height };
 				!_text.empty() && 
 				!g.TranslateTransform(_x, _y) &&
-				!g.DrawString(_text.c_str(), -1, _pFont, _textPosition, &_textFormat, &_textBrush) &&
+				!g.DrawString(_text.c_str(), -1, _pFont, textRect, &_textFormat, &_textBrush) &&
 				!g.TranslateTransform(-_x, -_y);
 
 				RenderChildren(g);
@@ -584,9 +585,10 @@ public:
 				g.FillRectangle(&_brush, _x, _y, _width, _height);
 
 				// Draw Text
+				RectF textRect{ _textPosition.X, _textPosition.Y, (float)_width, (float)_height };
 				!_text.empty() && 
 				!g.TranslateTransform(_x, _y) &&
-				!g.DrawString(_text.c_str(), -1, _pFont, _textPosition, &_textFormat, &_textBrush) &&
+				!g.DrawString(_text.c_str(), -1, _pFont, textRect, &_textFormat, &_textBrush) &&
 				!g.TranslateTransform(-_x, -_y);
 
 				RenderChildren(g);
@@ -657,6 +659,41 @@ protected:
 
 		return true;
   }
+
+	bool __SetTextPosition(const Point& cellULCorner, Rect* textRect) {
+		int textWidth = textRect->Width;
+    int textHeight = textRect->Height;
+
+    int frameX = cellULCorner.X;
+    int frameY = cellULCorner.Y;
+
+    switch (_imageHPos) {
+      case H_DIRECTION::LEFT: {
+      } break;
+      case H_DIRECTION::CENTER: {
+				frameX += (_width - textWidth) >> 1;
+      } break;
+      case H_DIRECTION::RIGHT: {
+        frameX += (_width - textWidth);
+      } break;
+    }
+
+    switch (_imageVPos) {
+      case V_DIRECTION::TOP: {
+      } break;
+      case V_DIRECTION::CENTER: {
+        frameY += (_height - textHeight) >> 1;
+      } break;
+      case V_DIRECTION::BOTTOM: {
+        frameY += (_height - textHeight);
+      } break;
+    }
+
+    textRect->X = frameX;
+    textRect->Y = frameY;
+
+		return true;
+	}
 
 private:
 	void multiplyColorMatrices(
