@@ -464,6 +464,9 @@ void PlayScene::__InitComponents() {
 	_gridMapBackground->SetPosition(screenWidth >> 1, screenHeight >> 1);
 	_gridMapBackground->UpdateSpritePivotPosition(H_DIRECTION::CENTER, V_DIRECTION::CENTER);
 
+
+	// The Game End Components
+
 	
 
 /********** Build UI Hierarchy **********/
@@ -846,5 +849,9 @@ void PlayScene::__ResetGame() {
 	_uiComps.currentState->SetState(
 		static_cast<int>(PlayerStateAnimation::IDLE)
 	);
+}
+
+
+std::wstring __WStringifyEndingMessageFirst() {
 
 }

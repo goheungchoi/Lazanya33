@@ -64,6 +64,8 @@ class PlayScene :public IScene
 	// Game End Scene Components
 	Container* _gameEndSceneContainer;
 	struct GameEndComponents {
+		SingleSpriteRenderable<class GridMap>* gameEndBG;
+		Container* text;
 
 	} _endComps;
 
@@ -141,6 +143,11 @@ private:
 		wchar_t buffer[5];
 		swprintf_s(buffer, L"%d", combos);
 		return std::wstring(buffer);
+	}
+
+	std::wstring __WStringifyEndingMessageFirst() {
+		wchar_t buffer[50];
+		swprintf_s(buffer, L"라자냐 [%d]")
 	}
 
 #ifndef NDEBUG

@@ -12,10 +12,18 @@
 SceneGraph::SceneGraph()
 {
 	IScene::_sceneManager = this;
+
+	_pGameDataHub = new GameDataHub();
+	_pGameDataHub->LoadHistoryFromFile(L"Logs/records.txt");
+	_pGameDataHub->Init();
 }
 
 SceneGraph::~SceneGraph()
 {
+	// Save all data when destructing this scene graph.
+	_pGameDataHub->SaveHistoryToFile();
+	delete _pGameDataHub;
+
 	for (auto it = _sceneRegistry.begin(); it != _sceneRegistry.end(); ++it)
 	{
 		delete it->second;
