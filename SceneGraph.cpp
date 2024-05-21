@@ -47,6 +47,8 @@ void SceneGraph::RegisterScene()
 	_sceneRegistry["Play"]->AddSceneDependency(_sceneRegistry["Entry"], "Entry");
 
 	_sceneRegistry["Developer"]->AddSceneDependency(_sceneRegistry["Entry"], "Entry");
+
+	_sceneRegistry["Decorator"]->AddSceneDependency(_sceneRegistry["Entry"], "Entry");
 	//첫 씬
 	//TODO: 데모버젼 ->첫 씬 play 나중에 Entry로 바꾸기
 	_currScenePtr = _sceneRegistry.find("Entry")->second;

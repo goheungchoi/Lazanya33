@@ -10,33 +10,32 @@ DeveloperScene::DeveloperScene()
 	_creditContainer = new Container(0, 0, screenWidth, screenHeight);
 	
 	//backgrond
-	_creditComs.background = new SingleSpriteRenderable<CreditComponents>();
-	_creditComs.background->BindSprite(
+	_creditComps.background = new SingleSpriteRenderable<CreditComponents>();
+	_creditComps.background->BindSprite(
 		ResourceManager::Get().GetImage(L"BG_Credit")
 	);
-	_creditComs.background->BindCachedSprite(
+	_creditComps.background->BindCachedSprite(
 		ResourceManager::Get().GetCachedImage(L"BG_Credit")
 	);
 
 	//goto entrySceneButton
-	_creditComs.EntryButton = new Button(40, 855, 150, 200);
-	_creditComs.EntryButton->SetSizeFitImage(true);
-	_creditComs.EntryButton->SetImage(
+	_creditComps.entryButton = new Button(30, 830, 150, 200);
+	_creditComps.entryButton->SetImage(
 		ResourceManager::Get().GetImage(L"UI_backButton")
 	);
-	_creditComs.EntryButton->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
-	_creditComs.EntryButton->AddEventLister("mouseClick", []() {
+	_creditComps.entryButton->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
+	_creditComps.entryButton->AddEventLister("mouseClick", []() {
 		Music::soundManager->PlayMusic(Music::eSoundList::BackSound, Music::eSoundChannel::Effect);
 		_sceneManager->ChangeScene("Entry");
 		});
-	_buttonEventHandle->AddButton(_creditComs.EntryButton);
+	_buttonEventHandle->AddButton(_creditComps.entryButton);
 
 	//Attach Child Component
-	_creditContainer->AddChildComponent(_creditComs.EntryButton);
+	_creditContainer->AddChildComponent(_creditComps.entryButton);
 	
 #ifndef NDEBUG
-	_creditComs.EntryButton->EnableBorder(true);
-	_creditComs.EntryButton->SetBorder(0, 0, 255);
+	_creditComps.entryButton->EnableBorder(true);
+	_creditComps.entryButton->SetBorder(0, 0, 255);
 #endif
 }
 
@@ -57,7 +56,7 @@ void DeveloperScene::Draw()
 
 void DeveloperScene::InitScene()
 {
-	_renderSystem->RegisterRenderableObject(_creditComs.background);
+	_renderSystem->RegisterRenderableObject(_creditComps.background);
 	_renderSystem->RegisterRenderableObject(_creditContainer);
 }
 

@@ -14,8 +14,8 @@ class DeveloperScene:public IScene
 	struct CreditComponents
 	{
 		SingleSpriteRenderable<CreditComponents>* background;
-		Button* EntryButton;
-	}_creditComs;
+		Button* entryButton;
+	}_creditComps;
 public:
 	DeveloperScene();
 	~DeveloperScene() {};
