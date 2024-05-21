@@ -42,6 +42,8 @@ public:
 		// Graphics
 		_pen(Color(0, 0, 0)),
 		_brush(Color(0, 0, 0)) {
+		if (!spriteSheet)
+			throw std::invalid_argument("Animation: Sprite sheet is null!");
 		_totalWidth = spriteSheet->GetWidth();
 		_totalHeight = spriteSheet->GetHeight();
 	}

@@ -34,8 +34,14 @@ class PlayScene :public IScene
 		Container* ancestors;
 
 		Container* _centerBox;
+		Container* levelUpSign;
+		Container* startMessage;
 		Container* adBox;
+		Container* adText;
+		Container* adValue;
 		Container* comboBox;
+		Container* comboText;
+		Container* comboValue;
 
 		Container* oxygenMeter;
 		Container* meterBackground;
@@ -46,13 +52,20 @@ class PlayScene :public IScene
 		Container* gloryOfFamily;
 		Container* honorOfAncestor;
 		Container* currentHonor;
-		Container* currentState;
-	} _gamePlayUIComponents;
+		// State Display
+		class PlayerStateContainer* currentState;
+	} _uiComps;
 
 	SingleSpriteRenderable<class GridMap>* _gridMapBackground;
 	class GridMap* _gridMap;
 	class IPlayer* _player;
 	class Wall* _wall;
+
+	// Game End Scene Components
+	Container* _gameEndSceneContainer;
+	struct GameEndComponents {
+
+	} _endComps;
 
 	Container* _ui;
 	Container* _uiChild1;
@@ -68,6 +81,20 @@ class PlayScene :public IScene
 // TODO: Test Animation
 	class Animation* _testAnimation;
 
+/* Game States */
+	int _mothersScore{ 70 };
+	int _gloryOfFamilyScore{ 80 };
+
+	double _stateUpdateDuration{ 1.0 };
+	double _stateUpdateElapsedTime{ 0.0 };
+	int _buttonPressedCount{ 0 };
+
+	bool _npcEmerged[5] = { false, };
+
+	bool _initialized{ false };
+	bool _started{ false };
+	bool _ended{ false };
+
 public:
 	PlayScene();
 	~PlayScene();
@@ -81,7 +108,10 @@ private:
 	void __InitComponents();
 	void __InitSystems();
 
+	void __ResetGame();
+
 	void __PlayerUpdate(const double deltaTime);
+	void __TriggerNPCsAnimations();
 
 	std::wstring __WStringifyGloryHall(int glory) {
 		wchar_t buffer[30];
@@ -98,6 +128,18 @@ private:
 	std::wstring __WStringifyCurrentHonor(int currentHonor) {
 		wchar_t buffer[30];
 		swprintf_s(buffer, L"명예: %22d", currentHonor);
+		return std::wstring(buffer);
+	}
+
+	std::wstring __WStringifyAD(int currentAD) {
+		wchar_t buffer[5];
+		swprintf_s(buffer, L"%d", currentAD);
+		return std::wstring(buffer);
+	}
+
+	std::wstring __WStringifyCombos(int combos) {
+		wchar_t buffer[5];
+		swprintf_s(buffer, L"%d", combos);
 		return std::wstring(buffer);
 	}
 

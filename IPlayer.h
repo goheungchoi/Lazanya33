@@ -21,6 +21,7 @@ public:
   virtual double GetCurrOxyLevel() = 0;
 	virtual double GetMaxOxyLevel() = 0;
   virtual int GetCurrHP() = 0;
+	virtual int GetMaxHP() = 0;
   virtual int GetCurrScore() = 0;
   //SeoungWoo Change
   virtual int GetCurrCombo() = 0;
@@ -69,6 +70,10 @@ public:
   virtual void Move(int x, int y) = 0;
 
 	virtual void TriggerEffect(PlayerEffect) = 0;
+
+	virtual void SetFacingRight(bool) = 0;
+	virtual bool IsFacingLeft() = 0;
+	virtual bool IsFacingRight() = 0;
 
 	virtual void Update(double deltaTime) = 0;
 };
