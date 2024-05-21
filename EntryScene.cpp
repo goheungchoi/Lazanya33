@@ -141,7 +141,7 @@ EntryScene::EntryScene()
 	_mainComs.artWorkButton->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
 	_mainComs.artWorkButton->AddEventLister("mouseClick", [this]() {
 		Music::soundManager->PlayMusic(Music::eSoundList::Button, Music::eSoundChannel::Effect);
-		_sceneManager->ChangeScene("ArtWork");
+		_sceneManager->ChangeScene("ArtWork1");
 		});
 
 	_buttonEventHandler->AddButton(_mainComs.artWorkButton);
