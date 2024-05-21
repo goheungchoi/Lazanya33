@@ -157,18 +157,6 @@ EntryScene::EntryScene()
 	_mainMenuContainer->AddChildComponent(_mainComs.age);
 
 
-	//NDEBUG
-#ifndef NDEBUG
-	_mainComs.decoratorButton->EnableBorder(true);
-	_mainComs.decoratorButton->SetBorder(0, 255, 0);
-	_mainComs.playbutton->EnableBorder(true);
-	_mainComs.playbutton->SetBorder(0, 255, 0);
-	_mainComs.developerButton->EnableBorder(true);
-	_mainComs.developerButton->SetBorder(0, 255, 0);
-	_mainComs.artWorkButton->EnableBorder(true);
-	_mainComs.artWorkButton->SetBorder(0, 255, 0);
-#endif // NDEBUG
-
 }
 
 void EntryScene::Update(const double deltaTime)
