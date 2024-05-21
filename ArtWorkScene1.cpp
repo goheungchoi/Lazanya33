@@ -56,4 +56,5 @@ void ArtWorkScene1::InitScene()
 
 void ArtWorkScene1::EndScene()
 {
+	_renderSystem->ClearRenderableRegistry();
 }

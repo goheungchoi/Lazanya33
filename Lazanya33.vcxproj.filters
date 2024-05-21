@@ -252,9 +252,6 @@
     <ClInclude Include="LetterScene.h">
       <Filter>Source Files\Game\SceneGraph\Scene\Letter</Filter>
     </ClInclude>
-    <ClInclude Include="ArtWorkScene.h">
-      <Filter>Source Files\Game\SceneGraph\Scene\ArtWork</Filter>
-    </ClInclude>
     <ClInclude Include="BlessingContainer.h">
       <Filter>Source Files\Game\Components</Filter>
     </ClInclude>
@@ -263,6 +260,9 @@
     </ClInclude>
     <ClInclude Include="RandomGenerator.h">
       <Filter>Source Files\Game\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="ArtWorkScene1.h">
+      <Filter>Source Files\Game\SceneGraph\Scene\ArtWork</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -341,9 +341,6 @@
     <ClCompile Include="AnimationController.h">
       <Filter>Source Files\Game\Components\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="ArtWorkScene.cpp">
-      <Filter>Source Files\Game\SceneGraph\Scene\ArtWork</Filter>
-    </ClCompile>
     <ClCompile Include="DecoratorScene.cpp">
       <Filter>Source Files\Game\SceneGraph\Scene\Decorator</Filter>
     </ClCompile>
@@ -355,6 +352,9 @@
     </ClCompile>
     <ClCompile Include="GameDataHub.h">
       <Filter>Source Files\Game\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="ArtWorkScene1.cpp">
+      <Filter>Source Files\Game\SceneGraph\Scene\ArtWork</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

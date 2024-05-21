@@ -33,10 +33,7 @@ DeveloperScene::DeveloperScene()
 	//Attach Child Component
 	_creditContainer->AddChildComponent(_creditComps.entryButton);
 	
-#ifndef NDEBUG
-	_creditComps.entryButton->EnableBorder(true);
-	_creditComps.entryButton->SetBorder(0, 0, 255);
-#endif
+
 }
 
 void DeveloperScene::Update(double deltaTime)
@@ -62,4 +59,5 @@ void DeveloperScene::InitScene()
 
 void DeveloperScene::EndScene()
 {
+	_renderSystem->ClearRenderableRegistry();
 }

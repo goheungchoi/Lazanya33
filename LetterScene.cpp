@@ -30,8 +30,7 @@ void LetterScene::__InitComponents() {
 	_buttonEventHandler = new ButtonEventHandler();
 
 	// Button
-	_playButton = new Button(1080, 660, 515, 210);
-
+	_playButton = new Button(1110, 764, 468, 100);
 	// Letter Container
 	_letterContainer = new Container(0, 0, screenWidth, screenHeight);
 
@@ -53,9 +52,9 @@ void LetterScene::__InitComponents() {
 	_comps.text1 = new Container(0, 0, 550, 50);
 	_comps.blessingsOfGod = new Container(0, 0, 550, 500);
 	_comps.blessingStateController = new BlessingsOfGodStateController();
-	_comps.firstBlessingOfGod = new BlessingContainer(1078, 160, 550, 150);
-	_comps.secondBlessingOfGod = new BlessingContainer(1078, 330, 550, 150);
-	_comps.thirdBlessingOfGod = new BlessingContainer(1078, 500, 550, 150);
+	_comps.firstBlessingOfGod = new BlessingContainer(1078, 180, 550, 150);
+	_comps.secondBlessingOfGod = new BlessingContainer(1078, 350, 550, 150);
+	_comps.thirdBlessingOfGod = new BlessingContainer(1078, 520, 550, 150);
 
 /********** Load Sprites **********/
 
@@ -146,15 +145,6 @@ void LetterScene::__InitComponents() {
 	// Attach diagrams to the left box
 	_comps._leftBox->AddChildComponent(_comps.diagrams);
 
-#ifndef NDEBUG	// _leftBox debugging borders
-	_comps._leftBox->EnableBorder(true);
-	_comps._leftBox->SetBorder(255, 0, 0);
-	_comps.letter->EnableBorder(true);
-	_comps.letter->SetBorder(255, 0, 0);
-	_comps.diagrams->EnableBorder(true);
-	_comps.diagrams->SetBorder(255, 0, 0);
-#endif // !NDEBUG
-
 	// Attach blessings
 	_comps.blessingsOfGod->AddChildComponent(_comps.firstBlessingOfGod);
 	_comps.blessingsOfGod->AddChildComponent(_comps.secondBlessingOfGod);
@@ -169,22 +159,6 @@ void LetterScene::__InitComponents() {
 	_comps._rightBox->AddChildComponent(_comps.text1);
 	_comps._rightBox->AddChildComponent(_comps.blessingsOfGod);
 
-#ifndef NDEBUG	// _rightbox debugging borders
-	_comps._rightBox->EnableBorder(true);
-	_comps._rightBox->SetBorder(255, 0, 0);
-	_comps.text1->EnableBorder(true);
-	_comps.text1->SetBorder(255, 0, 0);
-	_comps.blessingsOfGod->EnableBorder(true);
-	_comps.blessingsOfGod->SetBorder(255, 0, 0);
-	_comps.firstBlessingOfGod->EnableBorder(true);
-	_comps.firstBlessingOfGod->SetBorder(0, 255, 0);
-	_comps.secondBlessingOfGod->EnableBorder(true);
-	_comps.secondBlessingOfGod->SetBorder(0, 255, 255);
-	_comps.thirdBlessingOfGod->EnableBorder(true);
-	_comps.thirdBlessingOfGod->SetBorder(0, 0, 255);
-	_playButton->EnableBorder(true);
-	_playButton->SetBorder(0, 255, 0);
-#endif // !NDEBUG
 
 	// Attach both left box and right box;
 	_letterContainer->AddChildComponent(_comps._leftBox);

@@ -71,4 +71,5 @@ void DecoratorScene::InitScene()
 
 void DecoratorScene::EndScene()
 {
+	_renderSystem->ClearRenderableRegistry();
 }
