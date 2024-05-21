@@ -31,7 +31,6 @@ class EntryScene: public IScene
 
 	}_mainComs;
 	int testIndex = 90;
-
 public:
 	EntryScene();
 	~EntryScene() {};
@@ -40,6 +39,7 @@ public:
 	void InitScene()override;
 	void EndScene()override;
 	
+	bool playBGM = false;
 private:
 	std::wstring _WStringAgeIndex(int age) {
 		wchar_t buffer[30];

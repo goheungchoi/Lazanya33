@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "LetterScene.h"
-
+#include "EntryScene.h"
 #include "DebugConsole.h"
 
 // Graphics
@@ -99,7 +99,7 @@ void LetterScene::__InitComponents() {
 	// TODO: Need a script file seperate.
 	// letter scripts
 	_comps.letter->SetPositionLayout(PositionLayout::LAYOUT_STATIC);
-	_comps.letter->SetFontFamily(L"Segoe UI");
+	_comps.letter->SetFontFamily(L"경기천년바탕 Bold");
 	_comps.letter->SetText(
 		L"자랑스러운 라자브 가문의 장녀\n" L"라자냐 33세여, "
 		L"폭탄산 무크티니로 가거라.\n\n"
@@ -110,7 +110,7 @@ void LetterScene::__InitComponents() {
 		L"학교를 안 가는걸 명예로 여겨온\n"
 		L"라자브 가문의 후손답게 글을 모르겠지.\n"
 		L"그림으로 설명하마.");
-	_comps.letter->SetFont(24, FontStyleBold);
+	_comps.letter->SetFont(36, FontStyleBold);
 	// diagrams
 	_comps.diagrams->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
 	// diagrams flexbox settings
@@ -120,8 +120,8 @@ void LetterScene::__InitComponents() {
 	
 	//// Right Box Components
 	// text1
-	_comps.text1->SetFontFamily(L"Segoe UI");
-	_comps.text1->SetFont(24, FontStyleBold);
+	_comps.text1->SetFontFamily(L"경기천년바탕 Bold");
+	_comps.text1->SetFont(36, FontStyleBold);
 	_comps.text1->SetText(L"아, 그리고 너 가족력이 뭐였지?");
 	// blessings of God
 	_comps.blessingsOfGod->SetDisplay(Display::BLOCK);
@@ -223,10 +223,13 @@ void LetterScene::Draw()
 }
 
 void LetterScene::InitScene() {
+	
 	_renderSystem->RegisterRenderableObject(_comps.background);
 	_renderSystem->RegisterRenderableObject(_letterContainer);
 }
 
 void LetterScene::EndScene() {
 	_renderSystem->ClearRenderableRegistry();
+	Music::soundManager->StopMusic(Music::eSoundChannel::BGM);
+	
 }
