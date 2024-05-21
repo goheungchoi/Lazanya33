@@ -8,6 +8,7 @@
 // Graphics
 #include "SingleRenderable.h"
 #include "Container.h"
+#include "PlayerStateContainer.h"
 #include "Animation.h"
 #include "SequentialAnimationPack.h"
 
@@ -84,7 +85,7 @@ void PlayScene::__InitComponents() {
 	_uiComps.gloryOfFamily = new Container(5, 5, 530, 110);
 	_uiComps.honorOfAncestor = new Container(5, 10, 530, 110);
 	_uiComps.currentHonor = new Container(5, 15, 530, 110);
-	_uiComps.currentState = new Container(0, 300, 540, 580);
+	_uiComps.currentState = new PlayerStateContainer(0, 300, 540, 580);
 
 	// Grid Map Background
 	_gridMapBackground = new SingleSpriteRenderable<GridMap>();
@@ -109,27 +110,27 @@ void PlayScene::__InitComponents() {
 	// Player Sprite Bindings
 	_player->BindImage(
 		ResourceManager::Get().GetImage(L"lazanya_ingame_1_0_1"),
-		L"left_idle"
-	);
-	_player->BindImage(
-		ResourceManager::Get().GetImage(L"lazanya_ingame_1_0_2"),
 		L"right_idle"
 	);
 	_player->BindImage(
+		ResourceManager::Get().GetImage(L"lazanya_ingame_1_0_2"),
+		L"left_idle"
+	);
+	_player->BindImage(
 		ResourceManager::Get().GetImage(L"lazanya_ingame_2_0_1"),
-		L"lazanya_ingame_2_0_1"
+		L"right_attack"
 	);
 	_player->BindImage(
 		ResourceManager::Get().GetImage(L"lazanya_ingame_2_0_2"),
-		L"lazanya_ingame_2_0_2"
+		L"left_attack"
 	);
 	_player->BindImage(
 		ResourceManager::Get().GetImage(L"lazanya_ingame_3_0_1"),
-		L"lazanya_ingame_3_0_1"
+		L"left_move"
 	);
 	_player->BindImage(
 		ResourceManager::Get().GetImage(L"lazanya_ingame_3_0_2"),
-		L"lazanya_ingame_3_0_2"
+		L"right_move"
 	);
 	_renderSystem->CachingHelper(_player);
 
@@ -222,7 +223,7 @@ void PlayScene::__InitComponents() {
 	_uiComps.currentHonor->EnableFill(true);
 	_uiComps.currentHonor->SetFillColor(0, 220, 170);
 	_uiComps.currentState->EnableFill(true);
-	_uiComps.currentState->SetFillColor(0, 220, 250);
+	_uiComps.currentState->SetFillColor(0, 220, 250, 20);
 
 #endif // !NDEBUG
 
@@ -256,7 +257,6 @@ void PlayScene::__InitComponents() {
 	daughter_animationPack->SetLoop(true);
 	daughter_animationPack->SetLoopRange(2, 4);
 	_uiComps.daughter->AddAnimation(0, daughter_animationPack);
-	_uiComps.daughter->SetState(0); // TODO: Debugging purpose;
 
 	// Husband
 	_uiComps.husband->SetZValue(10);
@@ -286,7 +286,6 @@ void PlayScene::__InitComponents() {
 	husband_animationPack->SetLoop(true);
 	husband_animationPack->SetLoopRange(2, 4);
 	_uiComps.husband->AddAnimation(0, husband_animationPack);
-	_uiComps.husband->SetState(0); // TODO: Debugging purpose;
 
 	// Mother
 	_uiComps.mother->SetZValue(6);
@@ -316,7 +315,6 @@ void PlayScene::__InitComponents() {
 	mother_animationPack->SetLoop(true);
 	mother_animationPack->SetLoopRange(2, 4);
 	_uiComps.mother->AddAnimation(0, mother_animationPack);
-	_uiComps.mother->SetState(0); // TODO: Debugging purpose;
 
 	// Dancing Townspeople
 	_uiComps.dancingTownspeople->SetZValue(4);
@@ -346,7 +344,6 @@ void PlayScene::__InitComponents() {
 	dancingTownspeople_animationPack->SetLoop(true);
 	dancingTownspeople_animationPack->SetLoopRange(2, 4);
 	_uiComps.dancingTownspeople->AddAnimation(0, dancingTownspeople_animationPack);
-	_uiComps.dancingTownspeople->SetState(0); // TODO: Debugging purpose;
 	
 	// Ancestors
 	_uiComps.ancestors->SetZValue(2);
@@ -376,7 +373,6 @@ void PlayScene::__InitComponents() {
 	ancestors_animationPack->SetLoop(true);
 	ancestors_animationPack->SetLoopRange(2, 4);
 	_uiComps.ancestors->AddAnimation(0, ancestors_animationPack);
-	_uiComps.ancestors->SetState(0); // TODO: Debugging purpose;
 	
 	// Center Box Components properties
 	_uiComps._centerBox->SetDisplay(Display::BLOCK);
@@ -454,6 +450,9 @@ void PlayScene::__InitComponents() {
 	_uiComps.currentHonor->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
 	_uiComps.currentHonor->SetFont(52, FontStyleBold);
 	_uiComps.currentHonor->SetTextPosition(5, 25);
+	
+	
+	// Add Animations in the currentState.
 	_uiComps.currentState->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
 
 
@@ -495,6 +494,8 @@ void PlayScene::__InitComponents() {
 	_uiComps.scoreBoard->AddChildComponent(_uiComps.gloryOfFamily);
 	_uiComps.scoreBoard->AddChildComponent(_uiComps.honorOfAncestor);
 	_uiComps.scoreBoard->AddChildComponent(_uiComps.currentHonor);
+
+
 	_uiComps._rightBox->AddChildComponent(_uiComps.scoreBoard);
 	_uiComps._rightBox->AddChildComponent(_uiComps.currentState);
 
@@ -572,6 +573,31 @@ void PlayScene::Update(const double deltaTime)
 		_uiComps.comboValue->SetText(
 			__WStringifyCombos(_player->GetCurrCombo()).c_str()
 		);
+
+		// Update Player State
+		_stateUpdateElapsedTime += deltaTime;
+		_uiComps.currentState->Update(deltaTime);
+		if (_stateUpdateElapsedTime >= _stateUpdateDuration) {
+			_stateUpdateElapsedTime -= _stateUpdateDuration;
+			
+			if (_buttonPressedCount <= 3) {
+				_uiComps.currentState->SetState(
+					static_cast<int>(PlayerStateAnimation::IDLE)
+				);
+			}
+			else if (_buttonPressedCount <= 6) {
+				_uiComps.currentState->SetState(
+					static_cast<int>(PlayerStateAnimation::WARMING)
+				);
+			}
+			else {
+				_uiComps.currentState->SetState(
+					static_cast<int>(PlayerStateAnimation::BURNING)
+				);
+			}
+
+			_buttonPressedCount = 0;
+		}
 	}
 	
 
@@ -580,6 +606,11 @@ void PlayScene::Update(const double deltaTime)
 		// Stop the update
 		_started = false;
 		_ended = true;
+		// Set State image
+		_uiComps.currentState->SetState(
+			static_cast<int>(PlayerStateAnimation::DEAD)
+		);
+
 		// Show pop up windows
 		// Game end
 		// Or retry -> need thorough init process!
@@ -633,7 +664,7 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 		_player->AddComboElapsedTime(-1);
 	}
 
-	//if getkey Down, MoveDown.
+	// DOWN arrow key pressed
 	if (Input::inputManager->IsTurnDn(VK_DOWN))
 	{
 		_player->TriggerEffect(PlayerEffect::DOWN_ATTACK);
@@ -641,36 +672,79 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 			_player->GetPositionY() + 1, _player->GetPositionX(),
 			VK_DOWN, _countWallPop, deltaTime
 		);
-		_player->ChangeTag(L"lazanya_ingame_2_0_2");
+
+		if (_player->IsFacingLeft())
+			_player->ChangeTag(L"left_attack");
+		else
+			_player->ChangeTag(L"right_attack");
+
+		++_buttonPressedCount;
 	}
 
-	if (Input::inputManager->IsCurrUp(VK_DOWN)) {}
+	// DOWN arrow key up
+	if (Input::inputManager->IsTurnUp(VK_DOWN)) {
+		if (_player->IsFacingLeft())
+			_player->ChangeTag(L"left_idle");
+		else
+			_player->ChangeTag(L"right_idle");
+	}
 
-	//if getkey Left and it's in the play screen and if brick type is not NONE, MoveLeft
+	// LEFT arrow key is pressed
 	if (Input::inputManager->IsTurnDn(VK_LEFT) && 
 		_player->GetPositionX() > 0 && 
 		_wall->GetBrick(_player->GetPositionY(), _player->GetPositionX() - 1).type
-		!= BrickType::NONE)
-	{
+		!= BrickType::NONE) {
+		// Play the left attack effect
 		_player->TriggerEffect(PlayerEffect::LEFT_ATTACK);
-		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
-		(_player->GetPositionY(), _player->GetPositionX() - 1,
-			VK_LEFT, _countWallPop,deltaTime);
+
+		// Change the player pose
+		_player->ChangeTag(L"left_attack");
+		_player->SetFacingRight(true);
+
+		// Damage Brick
+		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer(
+			_player->GetPositionY(), 
+			_player->GetPositionX() - 1,
+			VK_LEFT, _countWallPop, deltaTime
+		);
+
+		++_buttonPressedCount;
 	}
 
-	//if getkey Right and it's in the play screen and if brick type is not NONE, MoveRight
-	if (Input::inputManager->IsTurnDn(VK_RIGHT) && 
-		_player->GetPositionX() < 4 && 
-		_wall->GetBrick(
-			_player->GetPositionY(), 
-			_player->GetPositionX() + 1
-		).type != BrickType::NONE)
-	{
-		_player->TriggerEffect(PlayerEffect::RIGHT_ATTACK);
-		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer
-		(_player->GetPositionY(), _player->GetPositionX() + 1,
-			VK_RIGHT, _countWallPop,deltaTime);
+	// LEFT arrow key is up
+	if (Input::inputManager->IsTurnUp(VK_LEFT)) {
+		_player->ChangeTag(L"left_move");
 	}
+	
+	// RIGHT arrow key is pressed
+	if (Input::inputManager->IsTurnDn(VK_RIGHT) &&
+		_player->GetPositionX() < 4 &&
+		_wall->GetBrick(
+			_player->GetPositionY(),
+			_player->GetPositionX() + 1
+		).type != BrickType::NONE) {
+		// Play the right attack effect
+		_player->TriggerEffect(PlayerEffect::RIGHT_ATTACK);
+
+		// Change the player pose
+		_player->ChangeTag(L"right_attack");
+		_player->SetFacingRight(true);
+
+		// Damage Brick
+		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer(
+			_player->GetPositionY(),
+			_player->GetPositionX() + 1,
+			VK_RIGHT, _countWallPop, deltaTime
+		);
+
+		++_buttonPressedCount;
+	}
+
+	// RIGHT arrow key is up
+	if (Input::inputManager->IsTurnUp(VK_RIGHT)) {
+		_player->ChangeTag(L"right_move");
+	}
+	
 
 	//if pop wall three time
 	if (_countWallPop == 3)
@@ -736,7 +810,7 @@ void PlayScene::__ResetGame() {
 	// Reset Player State
 	// Game Play Initialization
 	_player->SetPosition(2, 4);
-	_player->ChangeTag(L"left_idle");
+	_player->ChangeTag(L"right_idle");
 	_player->SetHP(_player->GetMaxHP());
 	_player->SetOxygenLevel(_player->GetMaxOxyLevel());
 
@@ -761,5 +835,9 @@ void PlayScene::__ResetGame() {
 	_uiComps.honorOfAncestor->SetText(__WStringifyMothersHonor(_mothersScore).c_str());
 	_uiComps.currentHonor->SetText(__WStringifyCurrentHonor(_player->GetCurrScore()).c_str());
 
+	// State Display
+	_uiComps.currentState->SetState(
+		static_cast<int>(PlayerStateAnimation::IDLE)
+	);
 
 }

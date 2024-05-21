@@ -73,11 +73,11 @@ public:
 				Brick(p[i][4])
 			});
 			_wall->PushBackBrickSprites({
-				GetBrickSprite(p[i][0], L"brick_can_00"),
-				GetBrickSprite(p[i][1], L"brick_can_00"),
-				GetBrickSprite(p[i][2], L"brick_can_00"),
-				GetBrickSprite(p[i][3], L"brick_can_00"),
-				GetBrickSprite(p[i][4], L"brick_can_00"),
+				GetBrickSprite(p[i][0], L"brick_rasgulla"),
+				GetBrickSprite(p[i][1], L"brick_rasgulla"),
+				GetBrickSprite(p[i][2], L"brick_rasgulla"),
+				GetBrickSprite(p[i][3], L"brick_rasgulla"),
+				GetBrickSprite(p[i][4], L"brick_rasgulla"),
 			});
 
 			/*_wall->PushBackBrickSprites({

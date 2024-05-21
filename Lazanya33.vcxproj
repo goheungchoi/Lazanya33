@@ -173,7 +173,6 @@
     <ClInclude Include="SequentialAnimationPack.h" />
     <ClInclude Include="SpritePack.h" />
     <ClInclude Include="SugarGirl.h" />
-    <ClInclude Include="BrickRenderComponent.h" />
     <ClInclude Include="BrickGenerationSystem.h" />
     <ClInclude Include="BrickPattern.h" />
     <ClInclude Include="CollectiveRenderable.h" />
@@ -216,6 +215,7 @@
     <ClCompile Include="GameDataHub.h" />
     <ClCompile Include="LetterScene.cpp" />
     <ClCompile Include="Naughty.cpp" />
+    <ClCompile Include="PlayerStateContainer.h" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Pummeler.cpp" />
     <ClCompile Include="SugarGirl.cpp" />

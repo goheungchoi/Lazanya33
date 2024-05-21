@@ -378,7 +378,7 @@ public:
   virtual void OnMouseUp() {};
 
 // TODO: Animation Utilities
-private:
+protected:
 	bool _show{ false };
 	AnimationController* _animationController{ new AnimationController()};
 

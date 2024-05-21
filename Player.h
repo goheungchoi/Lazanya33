@@ -39,7 +39,7 @@ private:
   double _comboElapsedTime;
   int _comboNumber;
 
-	bool _faceRight{ false };
+	bool _facingRight{ false };
 
 public:
 	Player()
@@ -69,7 +69,7 @@ public:
 			// Sprite Sheet
 			ResourceManager::Get().GetImage(L"effect_swordtrail_left"),
 		// X, Y, loop
-			10, 0, false
+			-110, 0, false
 		);
 		leftAttackAnimation->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
 		leftAttackAnimation->SetFrameDurations({ 0.08 });
@@ -170,12 +170,24 @@ public:
     _gridPos.Y += y;
   }
 
-	void Update(double deltaTime) {
+	void Update(double deltaTime) override {
 		_effectController->Update(deltaTime);
 	}
 
-	void TriggerEffect(PlayerEffect effect){
+	void TriggerEffect(PlayerEffect effect) override {
 		_effectController->SetState(effect);
+	}
+
+	void SetFacingRight(bool facingRight) override {
+		_facingRight = facingRight;
+	}
+
+	bool IsFacingLeft() override {
+		return !_facingRight;
+	}
+
+	bool IsFacingRight() override {
+		return _facingRight;
 	}
 
 	void Render(Graphics& g) {

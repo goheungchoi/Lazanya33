@@ -64,8 +64,8 @@ void Engine::Initialize()
 
 	// TODO: Sprite pack binding must be done at advance
 	BDefault::AddSprite(
-		ResourceManager::Get().GetImage(L"brick_can_00"),
-		L"brick_can_00",
+		ResourceManager::Get().GetImage(L"brick_rasgulla"),
+		L"brick_rasgulla",
 		_renderer->GetGraphics()	// Enable Caching
 	);
 

@@ -81,5 +81,17 @@ public:
 		_player->TriggerEffect(effect);
 	};
 
+	virtual void SetFacingRight(bool facingRight) override {
+		_player->SetFacingRight(facingRight);
+	}
+
+	virtual bool IsFacingLeft() override {
+		return _player->IsFacingLeft();
+	}
+
+	virtual bool IsFacingRight() override {
+		return _player->IsFacingRight();
+	}
+
 	virtual void Render(Gdiplus::Graphics& g) override { _player->Render(g); }
 };

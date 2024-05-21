@@ -71,5 +71,9 @@ public:
 
 	virtual void TriggerEffect(PlayerEffect) = 0;
 
+	virtual void SetFacingRight(bool) = 0;
+	virtual bool IsFacingLeft() = 0;
+	virtual bool IsFacingRight() = 0;
+
 	virtual void Update(double deltaTime) = 0;
 };

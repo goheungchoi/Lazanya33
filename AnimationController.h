@@ -15,7 +15,10 @@ public:
 
   void SetState(int newState) {
     auto it = _animations.find(newState);
+		
     if (it != _animations.end()) {
+			if (it->second == _currentAnimation) 
+				return;
       _currentAnimation = it->second;
 			_currentAnimation->Trigger();
     }

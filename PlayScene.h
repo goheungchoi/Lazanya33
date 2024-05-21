@@ -52,13 +52,20 @@ class PlayScene :public IScene
 		Container* gloryOfFamily;
 		Container* honorOfAncestor;
 		Container* currentHonor;
-		Container* currentState;
+		// State Display
+		class PlayerStateContainer* currentState;
 	} _uiComps;
 
 	SingleSpriteRenderable<class GridMap>* _gridMapBackground;
 	class GridMap* _gridMap;
 	class IPlayer* _player;
 	class Wall* _wall;
+
+	// Game End Scene Components
+	Container* _gameEndSceneContainer;
+	struct GameEndComponents {
+
+	} _endComps;
 
 	Container* _ui;
 	Container* _uiChild1;
@@ -77,7 +84,13 @@ class PlayScene :public IScene
 /* Game States */
 	int _mothersScore{ 70 };
 	int _gloryOfFamilyScore{ 80 };
-	bool _npcEmerged[5]{ 0 };
+
+	double _stateUpdateDuration{ 1.0 };
+	double _stateUpdateElapsedTime{ 0.0 };
+	int _buttonPressedCount{ 0 };
+
+	bool _npcEmerged[5] = { false, };
+
 	bool _initialized{ false };
 	bool _started{ false };
 	bool _ended{ false };
