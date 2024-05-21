@@ -14,7 +14,7 @@ SceneGraph::SceneGraph()
 	IScene::_sceneManager = this;
 
 	_pGameDataHub = new GameDataHub();
-	_pGameDataHub->LoadHistoryFromFile(L"Logs/records.txt");
+	_pGameDataHub->LoadHistoryFromFile(L"Logs//records.txt");
 	_pGameDataHub->Init();
 }
 

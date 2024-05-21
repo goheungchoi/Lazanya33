@@ -37,10 +37,8 @@ class PlayScene :public IScene
 		Container* levelUpSign;
 		Container* startMessage;
 		Container* adBox;
-		Container* adText;
 		Container* adValue;
 		Container* comboBox;
-		Container* comboText;
 		Container* comboValue;
 
 		Container* oxygenMeter;
@@ -52,6 +50,11 @@ class PlayScene :public IScene
 		Container* gloryOfFamily;
 		Container* honorOfAncestor;
 		Container* currentHonor;
+		// Next row
+		Container* extraInfo;
+		Container* additionalScore;
+		Container* depth;
+
 		// State Display
 		class PlayerStateContainer* currentState;
 	} _uiComps;
@@ -64,14 +67,14 @@ class PlayScene :public IScene
 	// Game End Scene Components
 	Container* _gameEndSceneContainer;
 	struct GameEndComponents {
-		SingleSpriteRenderable<class GridMap>* gameEndBG;
-		Container* text;
+		SingleSpriteRenderable<class GameEndComponents>* gameEndBG;
+		Container* textBox;
+		Container* text1;
+		Container* text2;
+		Container* text3;
 
 	} _endComps;
 
-	Container* _ui;
-	Container* _uiChild1;
-	Container* _uiChild2;
 	//Variables introduced to add walls when pop 3 times
 	int _countWallPop=0;
 
@@ -79,9 +82,6 @@ class PlayScene :public IScene
 	class BrickGenSystem* _brickGenSystem;
 	class PlayerOxygenSystem* _playerOxySystem;
 	class PlayerBricksInteractionSystem* _playerBrickInteractionSystem;
-
-// TODO: Test Animation
-	class Animation* _testAnimation;
 
 /* Game States */
 	int _mothersScore{ 70 };
@@ -93,9 +93,10 @@ class PlayScene :public IScene
 
 	bool _npcEmerged[5] = { false, };
 
-	bool _initialized{ false };
-	bool _started{ false };
-	bool _ended{ false };
+	bool _initialized{ false };	// Check if the game is reset
+	bool _started{ false };	// Check if the game is started by player's action
+	double _delayEnding{ 0.0 };
+	bool _ended{ false };	//
 
 public:
 	PlayScene();
@@ -116,20 +117,20 @@ private:
 	void __TriggerNPCsAnimations();
 
 	std::wstring __WStringifyGloryHall(int glory) {
-		wchar_t buffer[30];
-		swprintf_s(buffer, L"가문의 영광: %8d", glory);
+		wchar_t buffer[32];
+		swprintf_s(buffer, L"%30d", glory);
 		return std::wstring(buffer);
 	}
 
 	std::wstring __WStringifyMothersHonor(int mother) {
-		wchar_t buffer[30];
-		swprintf_s(buffer, L"어머니: %18d", mother);
+		wchar_t buffer[32];
+		swprintf_s(buffer, L"%30d", mother);
 		return std::wstring(buffer);
 	}
 
 	std::wstring __WStringifyCurrentHonor(int currentHonor) {
-		wchar_t buffer[30];
-		swprintf_s(buffer, L"명예: %22d", currentHonor);
+		wchar_t buffer[32];
+		swprintf_s(buffer, L"%30d", currentHonor);
 		return std::wstring(buffer);
 	}
 
@@ -145,10 +146,19 @@ private:
 		return std::wstring(buffer);
 	}
 
-	std::wstring __WStringifyEndingMessageFirst() {
-		wchar_t buffer[50];
-		swprintf_s(buffer, L"라자냐 [%d]")
+	std::wstring __WStringifyDepth(int depth) {
+		wchar_t buffer[5];
+		swprintf_s(buffer, L"%dm", depth);
+		return std::wstring(buffer);
 	}
+
+	std::wstring __WStringifyEndingMessage1();
+
+	std::wstring __WStringifyEndingMessage2_1();
+	std::wstring __WStringifyEndingMessage2_2();
+	std::wstring __WStringifyEndingMessage2_3();
+	
+	std::wstring __WStringifyEndingMessage3();
 
 #ifndef NDEBUG
 	std::wstring StringifyFrameRate(std::size_t fps) {

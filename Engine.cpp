@@ -83,7 +83,7 @@ void Engine::Initialize()
 
 	// Get the array of FontFamily objects.
 	installedFontCollection.GetFamilies(count, pFontFamily, &found);
-	Debug.Log(found);
+	//Debug.Log(found);
 	// The loop below creates a large string that is a comma-separated
 	// list of all font family names.
 	// Allocate a buffer large enough to hold that string.
@@ -92,7 +92,7 @@ void Engine::Initialize()
 	for(INT j = 0; j < count; ++j)
 	{
 		 pFontFamily[j].GetFamilyName(familyName);  
-		 Debug.Log(familyName);
+		 //Debug.Log(familyName);
 	}
 
 	delete [] pFontFamily;

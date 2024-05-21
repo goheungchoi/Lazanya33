@@ -386,3 +386,62 @@ public:
 	void Render(Graphics& g) override {}
 
 };
+
+class TextAnimation : public IAnimation {
+	using _uchar = unsigned char;
+
+	UIComponent* _this;
+
+	std::size_t _numWChars;
+	std::size_t _bufIndex{ 0 };
+	wchar_t* _buffer;
+	std::size_t _typingIndex{ 0 };
+	wchar_t* _typingBuffer;
+	double _duration;
+
+	double _delay;
+
+	bool _loop;
+
+	double _typingSpeed{ 0.0 };
+	double _elapsedTime{ 0.0 };
+	double _delayTimer{ 0.0 };
+	bool _isActive{ false };
+
+public:
+	TextAnimation(
+		UIComponent* thisComponent,
+		const wchar_t* text,
+		double duration,
+		double delay = 0.0,
+		bool loop = false
+	);
+
+	~TextAnimation() {
+		delete[] _buffer;
+		delete[] _typingBuffer;
+	}
+
+	void Trigger() override {
+		_isActive = true;
+		_elapsedTime = 0.0;
+		_bufIndex = 0;
+		_typingIndex = 0;
+	}
+
+	void Reset() override {
+		_isActive = false;
+		_elapsedTime = 0.0;
+		// Reset Buffer index and typing index
+		_bufIndex = 0;
+		_typingIndex = 0;
+		std::memset(_typingBuffer, '\0', sizeof(wchar_t) * (_numWChars + 1));
+	}
+
+	bool IsPlaying() override { return _isActive; }
+
+	void Update(double dt) override;
+
+	void Render(Graphics& g) override {}
+
+};

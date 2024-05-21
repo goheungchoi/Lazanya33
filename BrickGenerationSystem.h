@@ -83,11 +83,11 @@ public:
 				GetBrickSprite((BrickType)std::stoi(data[i][3]),TypeToTag((BrickType)std::stoi(data[i][3]))),
 				GetBrickSprite((BrickType)std::stoi(data[i][4]),TypeToTag((BrickType)std::stoi(data[i][4]))),
 			});
-      Debug.Log(data[i][0]);
-      Debug.Log(data[i][1]);
-        Debug.Log(data[i][2]);
-        Debug.Log(data[i][3]);
-        Debug.Log(data[i][4]);
+      //Debug.Log(data[i][0]);
+      //Debug.Log(data[i][1]);
+        //Debug.Log(data[i][2]);
+        //Debug.Log(data[i][3]);
+        //Debug.Log(data[i][4]);
 		}
 
 		/*BrickPattern& p = *_pNextPattern;

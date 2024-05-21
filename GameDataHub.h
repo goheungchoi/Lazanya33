@@ -21,6 +21,7 @@ struct FetchData {
 	int maxScore;
 	int numPlayedUsers;
 	UserData prevUser;
+	UserData currUser;
 };
 
 class GameDataHub {
@@ -124,7 +125,8 @@ public:
 		return {
 			_playHistory.maxScore,
 			_playHistory.numPlayedUsers,
-			_playHistory.userHistory.back()
+			_playHistory.userHistory.back(),
+			_currUser
 		};
 	}
 
@@ -138,6 +140,8 @@ public:
 	}
 
 	UserData GetPreviousUser() {
+		if (_playHistory.userHistory.empty())
+			return { L"None", -1, -1, -1, 60 };
 		return _playHistory.userHistory.back();
 	}
 

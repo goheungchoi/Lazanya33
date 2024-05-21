@@ -30,6 +30,7 @@ namespace Input
 	void InputSystem::Update()
 	{
 		GetCursorPos(&_mouseClient);
+		//std::cout << _mouseClient.x << ", " << _mouseClient.y << std::endl;
 		ScreenToClient(_hWnd, &_mouseClient);
 		//key상태 변경
 		bool ret = GetKeyboardState((PBYTE)&_byKeyCurr);

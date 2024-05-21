@@ -52,6 +52,8 @@ public:
 	
 // Graphics Utilities
 protected:
+	bool _isActive{ true };
+
 	// The z-value of the layer
 	int _z{ 0 };
 
@@ -83,6 +85,9 @@ protected:
 	ImageAttributes _imageAtt;
 
 public:
+	void SetActive(bool active) {
+		_isActive = active;
+	}
 	// Z-value
 	int GetZValue() { return _z; }
 	/**
@@ -296,13 +301,13 @@ public:
   void SetTextHorizontalAlignment(H_DIRECTION textHAlignment) {
     switch (textHAlignment) {
       case H_DIRECTION::LEFT: {
-        _textFormat.SetLineAlignment(StringAlignmentNear);
+        _textFormat.SetAlignment(StringAlignmentNear);
       } break;
       case H_DIRECTION::CENTER: {
-        _textFormat.SetLineAlignment(StringAlignmentCenter);
+        _textFormat.SetAlignment(StringAlignmentCenter);
       } break;
       case H_DIRECTION::RIGHT: {
-        _textFormat.SetLineAlignment(StringAlignmentFar);
+        _textFormat.SetAlignment(StringAlignmentFar);
       } break;
     }
   } 
@@ -314,13 +319,13 @@ public:
   void SetTextVerticalJustify(V_DIRECTION textVJustification) {
     switch (textVJustification) {
       case V_DIRECTION::TOP: {
-        _textFormat.SetAlignment(StringAlignmentNear);
+        _textFormat.SetLineAlignment(StringAlignmentNear);
       } break;
       case V_DIRECTION::CENTER: {
-        _textFormat.SetAlignment(StringAlignmentCenter);
+        _textFormat.SetLineAlignment(StringAlignmentCenter);
       } break;
       case V_DIRECTION::BOTTOM: {
-        _textFormat.SetAlignment(StringAlignmentFar);
+        _textFormat.SetLineAlignment(StringAlignmentFar);
       } break;
     }
   } 
@@ -379,7 +384,6 @@ public:
 
 // TODO: Animation Utilities
 protected:
-	bool _show{ false };
 	AnimationController* _animationController{ new AnimationController()};
 
 public:
@@ -448,9 +452,11 @@ public:
 
 		
 		// Draw Text
+		RectF textRect{ _textPosition.X, _textPosition.Y, (float)_width, (float)_height };
+		__SetTextPosition(_position, &textRect);
 		!_text.empty() && 
 		!g.TranslateTransform(_x, _y) &&
-		!g.DrawString(_text.c_str(), -1, _pFont, _textPosition, &_textFormat, &_textBrush) &&
+		!g.DrawString(_text.c_str(), -1, _pFont, textRect, &_textFormat, &_textBrush) &&
 		!g.TranslateTransform(-_x, -_y);
 
 		_animationController->Render(g);
@@ -465,6 +471,8 @@ public:
 
 	// Render
 	virtual void Render(Graphics& g) override {
+		if (!_isActive) return;
+
 		// Size adjusting to fit the image
 		_sizeFitImage && _pImage && (_width = _pImage->GetWidth());
 		_sizeFitImage && _pImage && (_height = _pImage->GetHeight());
@@ -522,6 +530,7 @@ public:
 
 				// Draw Text
 				RectF textRect{ _textPosition.X, _textPosition.Y, (float)_width, (float)_height };
+				__SetTextPosition(_position, &textRect);
 				!_text.empty() && 
 				!g.TranslateTransform(_x, _y) &&
 				!g.DrawString(_text.c_str(), -1, _pFont, textRect, &_textFormat, &_textBrush) &&
@@ -586,6 +595,7 @@ public:
 
 				// Draw Text
 				RectF textRect{ _textPosition.X, _textPosition.Y, (float)_width, (float)_height };
+				__SetTextPosition(_position, &textRect);
 				!_text.empty() && 
 				!g.TranslateTransform(_x, _y) &&
 				!g.DrawString(_text.c_str(), -1, _pFont, textRect, &_textFormat, &_textBrush) &&
@@ -660,7 +670,7 @@ protected:
 		return true;
   }
 
-	bool __SetTextPosition(const Point& cellULCorner, Rect* textRect) {
+	bool __SetTextPosition(const Point& cellULCorner, RectF* textRect) {
 		int textWidth = textRect->Width;
     int textHeight = textRect->Height;
 
