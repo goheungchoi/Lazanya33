@@ -82,7 +82,6 @@ EntryScene::EntryScene()
 
 
 
-
 	//playbutton
 	_mainComs.playbutton = new Button(40, 500, 300, 100);
 	_mainComs.playbutton->SetSizeFitImage(true);
@@ -95,9 +94,9 @@ EntryScene::EntryScene()
 		_mainComs.playbutton->GetCenterY()
 	);
 	_mainComs.playbutton->Rotate(-7);
-	_mainComs.playbutton->AddEventLister("mouseClick", []() {
-		Music::soundManager->PlayMusic(Music::eSoundList::Button, Music::eSoundChannel::Effect);
-		_sceneManager->ChangeScene("Letter"); 
+	_mainComs.playbutton->AddEventLister("mouseClick", [this]() {
+		Music::soundManager->PlayMusic(Music::eSoundList::PaperTeraing, Music::eSoundChannel::Effect);
+		_sceneManager->ChangeScene("Letter");
 		});
 
 	_buttonEventHandler->AddButton(_mainComs.playbutton);
@@ -125,7 +124,7 @@ EntryScene::EntryScene()
 		ResourceManager::Get().GetImage(L"Main_Game_Developer")
 	);
 	_mainComs.developerButton->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
-	_mainComs.developerButton->AddEventLister("mouseClick", []() {
+	_mainComs.developerButton->AddEventLister("mouseClick", [this]() {
 		Music::soundManager->PlayMusic(Music::eSoundList::Button, Music::eSoundChannel::Effect);
 		_sceneManager->ChangeScene("Developer");
 		});
@@ -140,9 +139,9 @@ EntryScene::EntryScene()
 		ResourceManager::Get().GetImage(L"Main_Game_Artwork")
 	);
 	_mainComs.artWorkButton->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
-	_mainComs.artWorkButton->AddEventLister("mouseClick", []() {
+	_mainComs.artWorkButton->AddEventLister("mouseClick", [this]() {
 		Music::soundManager->PlayMusic(Music::eSoundList::Button, Music::eSoundChannel::Effect);
-		_sceneManager->ChangeScene("ArtWork");
+		_sceneManager->ChangeScene("ArtWork1");
 		});
 
 	_buttonEventHandler->AddButton(_mainComs.artWorkButton);
@@ -188,6 +187,8 @@ void EntryScene::Update(const double deltaTime)
 			_WStringAgeIndex(testIndex).c_str()
 		);
 	}
+
+
 }
  
 void EntryScene::Draw()
@@ -199,11 +200,16 @@ void EntryScene::InitScene()
 {
 	_renderSystem->RegisterRenderableObject(_mainComs.background);
 	_renderSystem->RegisterRenderableObject(_mainMenuContainer);
-	Music::soundManager->PlayMusic(Music::eSoundList::background01, Music::eSoundChannel::BGM);
+	
+	if (!playBGM) {
+		Music::soundManager->PlayMusic(Music::eSoundList::background01, Music::eSoundChannel::BGM);
+		playBGM = true;
+	}
+	
 }
 
 void EntryScene::EndScene()
 {
 	_renderSystem->ClearRenderableRegistry();
-	Music::soundManager->StopMusic(Music::eSoundChannel::BGM);
 }
+

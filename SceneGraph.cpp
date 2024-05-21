@@ -6,7 +6,7 @@
 #include "PlayScene.h"
 #include "DecoratorScene.h"
 #include "DeveloperScene.h"
-#include "ArtWorkScene.h"
+#include "ArtWorkScene1.h"
 
 
 SceneGraph::SceneGraph()
@@ -33,17 +33,25 @@ void SceneGraph::RegisterScene()
 	_sceneRegistry["Letter"] = new LetterScene;
 	_sceneRegistry["Decorator"] = new DecoratorScene;
 	_sceneRegistry["Developer"] = new DeveloperScene;
-	_sceneRegistry["ArtWork"] = new ArtWorkScene;
+	_sceneRegistry["ArtWork1"] = new ArtWorkScene1;
 	_sceneRegistry["Play"] = new PlayScene;
 	//...scene 추가
 
 	_sceneRegistry["Entry"]->AddSceneDependency(_sceneRegistry["Letter"], "Letter");
 	_sceneRegistry["Entry"]->AddSceneDependency(_sceneRegistry["Decorator"], "Decorator");
 	_sceneRegistry["Entry"]->AddSceneDependency(_sceneRegistry["Developer"], "Developer");
-	_sceneRegistry["Entry"]->AddSceneDependency(_sceneRegistry["ArtWork"], "ArtWork");
+	_sceneRegistry["Entry"]->AddSceneDependency(_sceneRegistry["ArtWork1"], "ArtWork1");
 
 	_sceneRegistry["Letter"]->AddSceneDependency(_sceneRegistry["Play"], "Play");
+
 	_sceneRegistry["Play"]->AddSceneDependency(_sceneRegistry["Entry"], "Entry");
+
+	_sceneRegistry["Developer"]->AddSceneDependency(_sceneRegistry["Entry"], "Entry");
+
+	_sceneRegistry["Decorator"]->AddSceneDependency(_sceneRegistry["Entry"], "Entry");
+
+	_sceneRegistry["ArtWork1"]->AddSceneDependency(_sceneRegistry["Entry"], "Entry");
+
 	//첫 씬
 	//TODO: 데모버젼 ->첫 씬 play 나중에 Entry로 바꾸기
 	_currScenePtr = _sceneRegistry.find("Entry")->second;

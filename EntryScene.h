@@ -38,7 +38,8 @@ public:
 	void Draw()override;
 	void InitScene()override;
 	void EndScene()override;
-
+	
+	bool playBGM = false;
 private:
 	std::wstring _WStringAgeIndex(int age) {
 		wchar_t buffer[30];
