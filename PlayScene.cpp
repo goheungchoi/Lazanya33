@@ -985,8 +985,10 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 	// LEFT arrow key is pressed
 	if (Input::inputManager->IsTurnDn(VK_LEFT) && 
 		_player->GetPositionX() > 0 && 
-		_wall->GetBrick(_player->GetPositionY(), _player->GetPositionX() - 1).type
-		!= BrickType::NONE) {
+		_wall->GetBrick(
+			_player->GetPositionY(), 
+			_player->GetPositionX() - 1
+		).type != BrickType::NONE) {
 		Music::soundManager->PlayMusic(Music::eSoundList::Attack, Music::eSoundChannel::Effect);
 		_player->LeftKeyPressed();
 
@@ -1086,23 +1088,30 @@ void PlayScene::__ResetGame() {
 	_started = false;
 	_ended = false;
 	_canGohistory = false;
-#ifndef NDEBUG
-	for (int i=0; i<100; ++i)
-		_player->AddScore(10);
-#endif
+
 	// Reset NPCs
+	_npcEmerged[0] = false;
+	_uiComps.daughter->ResetAnimation();
 	_uiComps.daughter->SetPosition(0, screenHeight);
 	_uiComps.daughter->SetState(-1); // TODO: Debugging purpose;
 
+	_npcEmerged[1] = false;
+	_uiComps.husband->ResetAnimation();
 	_uiComps.husband->SetPosition(0, screenHeight);
 	_uiComps.husband->SetState(-1); // TODO: Debugging purpose;
 
+	_npcEmerged[2] = false;
+	_uiComps.mother->ResetAnimation();
 	_uiComps.mother->SetPosition(0, screenHeight);
 	_uiComps.mother->SetState(-1); // TODO: Debugging purpose;
 
+	_npcEmerged[3] = false;
+	_uiComps.dancingTownspeople->ResetAnimation();
 	_uiComps.dancingTownspeople->SetPosition(0, screenHeight);
 	_uiComps.dancingTownspeople->SetState(-1); // TODO: Debugging purpose;
 
+	_npcEmerged[4] = false;
+	_uiComps.ancestors->ResetAnimation();
 	_uiComps.ancestors->SetPosition(0, screenHeight);
 	_uiComps.ancestors->SetState(-1); // TODO: Debugging purpose;
 
@@ -1116,6 +1125,7 @@ void PlayScene::__ResetGame() {
 	_player->SetHP(_player->GetMaxHP());
 	_player->SetOxygenLevel(_player->GetMaxOxyLevel());
 	_player->SetScore(0);
+	_player->SetCombo(0);
 	// Set Decorator
 	BlessingType blessingType = static_cast<BlessingType>(
 		GetGameDataHub().GetCurrentUserBlessIndex()
@@ -1161,6 +1171,7 @@ void PlayScene::__ResetGame() {
 	_uiComps.comboValue->SetText(
 		__WStringifyCombos(_player->GetCurrCombo()).c_str()
 	);
+
 	// Oxygen Level
 	double oxygenRate = _player->GetCurrOxyLevel() / _player->GetMaxOxyLevel();
 		_uiComps.oxygenLevel->SetY(screenHeight * (1.0 - oxygenRate));
@@ -1169,6 +1180,9 @@ void PlayScene::__ResetGame() {
 	_uiComps.gloryOfFamily->SetText(__WStringifyGloryHall(_gloryOfFamilyScore).c_str());
 	_uiComps.honorOfAncestor->SetText(__WStringifyMothersHonor(_mothersScore).c_str());
 	_uiComps.currentHonor->SetText(__WStringifyCurrentHonor(_player->GetCurrScore()).c_str());
+
+	_uiComps.additionalScore->SetText(L"00");	// DEBUG
+	_uiComps.depth->SetText(L"00");	// DEBUG
 
 	// State Display
 	_uiComps.currentState->SetState(
