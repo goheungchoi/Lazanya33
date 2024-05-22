@@ -179,6 +179,20 @@ void PlayScene::__InitComponents() {
 	_fpsBox->SetText(StringifyFrameRate(0).c_str());
 #endif
 
+	_uiComps.husband->SetSizeFitImage(true);
+	_uiComps.husband->SetImage(
+		ResourceManager::Get().GetImage(L"70000_NPC_husband")
+	);
+	_uiComps.daughter->SetSizeFitImage(true);
+	_uiComps.daughter->SetImage(
+		ResourceManager::Get().GetImage(L"70001_NPC_daugh")
+	);
+	_uiComps.mother->SetSizeFitImage(true);
+	_uiComps.mother->SetImage(
+		ResourceManager::Get().GetImage(L"70002_NPC_mother")
+	);
+	
+
 #ifndef NDEBUG	// _leftBox debugging borders
 
 	_uiComps.daughter->EnableFill(true);

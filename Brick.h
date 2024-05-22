@@ -40,7 +40,7 @@ struct Brick
     {
     case BrickType::DEFAULT:
     blockScore = 1;
-    blockDownAir = 4; 
+    blockDownAir = 6; 
     blockHealth = 10;
 		maxBlockHealth = 10;
 		this->type = BrickType::DEFAULT;
@@ -48,7 +48,7 @@ struct Brick
 
     case BrickType::STONE:
     blockScore = 1;
-    blockDownAir = 4;
+    blockDownAir = 6;
     blockHealth = 30;
 		maxBlockHealth = 30;
 		this->type = BrickType::STONE;
@@ -56,7 +56,7 @@ struct Brick
 			
     case BrickType::ROCK:
     blockScore = 1;
-    blockDownAir = 4;
+    blockDownAir = 6;
     blockHealth = 60;
 		maxBlockHealth = 60;
 		this->type = BrickType::ROCK;
@@ -64,6 +64,7 @@ struct Brick
 
     case BrickType::BOMB:
 			blockHealth = 10;
+			blockDownAir = -1000;
 			maxBlockHealth = 10;
 		this->type = BrickType::BOMB;
     break;
@@ -71,13 +72,14 @@ struct Brick
     case BrickType::GOLD:
     blockScore = 10;
     blockHealth = 20;
+		blockDownAir = 6;
 		maxBlockHealth = 20;
 		this->type = BrickType::GOLD;
     break;
 
     case BrickType::OXYGEN:
     blockScore = 1;
-    blockDownAir = 0;
+    blockDownAir = 30;
     blockHealth = 20;
 		maxBlockHealth = 20;
 		this->type = BrickType::OXYGEN;
@@ -85,7 +87,7 @@ struct Brick
 
     case BrickType::RASGULLA:
     blockScore = 1;
-    blockDownAir = 4;
+    blockDownAir = 6;
     blockHealth = 1;
 		maxBlockHealth = 1;
 		this->type = BrickType::RASGULLA;
