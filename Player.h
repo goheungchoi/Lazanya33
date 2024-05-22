@@ -210,7 +210,7 @@ public:
 		}
 
 		if (_lasgulaElapsedTime >= _lasgulaDuration) {
-			SetAttackDamage
+			
 			SetImageIntensity(1.f, 1.f, 1.f);
 			_lasgulaEffectElapsedTime = _lasgulaEffectInterval;
 			_lasgulaElapsedTime = 0;

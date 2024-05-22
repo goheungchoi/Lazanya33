@@ -11,12 +11,12 @@ public:
     TextInputField(int x, int y, int width, int height)
         : Container(x, y, width, height),x(x), y(y), width(width), height(height), focus(false) {}
 
-    void draw(Gdiplus::Graphics& graphics) {
+    void Render(Gdiplus::Graphics& graphics)override {
         using namespace Gdiplus;
 
         // Draw the background
-        SolidBrush brush(Color(255, 255, 255)); // White background
-        graphics.FillRectangle(&brush, x, y, width, height);
+        //SolidBrush brush(Color(255, 255, 255)); // White background
+        //graphics.FillRectangle(&brush, x, y, width, height);
 
         // Draw the border
         Pen pen(Color(0, 0, 0)); // Black border
