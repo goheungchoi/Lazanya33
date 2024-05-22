@@ -224,10 +224,10 @@ public:
 
     switch (blockLevel) {
     case 1:
-      numberOfLayers = 13;
+      numberOfLayers = 18;
       break;
     case 2:
-      numberOfLayers = 10;
+      numberOfLayers = 14;
       break;
     case 3:
       numberOfLayers = 10;

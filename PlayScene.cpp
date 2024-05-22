@@ -191,7 +191,20 @@ void PlayScene::__InitComponents() {
 	_uiComps.mother->SetImage(
 		ResourceManager::Get().GetImage(L"70002_NPC_mother")
 	);
+  _endComps.text1->SetRotationPivot(
+	_endComps.text1->GetCenterX(),
+  _endComps.text1->GetCenterY());
+  _endComps.text1->Rotate(-7);
 	
+  _endComps.text2->SetRotationPivot(
+	_endComps.text2->GetCenterX(),                             
+	_endComps.text2->GetCenterY());
+  _endComps.text2->Rotate(-7);
+
+  _endComps.text3->SetRotationPivot(
+	_endComps.text3->GetCenterX(),
+  _endComps.text3->GetCenterY());
+  _endComps.text3->Rotate(-7);
 
 #ifndef NDEBUG	// _leftBox debugging borders
 
@@ -240,23 +253,10 @@ void PlayScene::__InitComponents() {
 	_endComps.textBox->SetBorder(255, 0, 0);
 	_endComps.text1->EnableBorder(true);
 	_endComps.text1->SetBorder(0, 255, 100);
-  _endComps.text1->SetRotationPivot(
-	_endComps.text1->GetCenterX(),
-  _endComps.text1->GetCenterY());
-  _endComps.text1->Rotate(-7);
 	_endComps.text2->EnableBorder(true);
 	_endComps.text2->SetBorder(255, 100, 20);
-  _endComps.text2->SetRotationPivot(
-	_endComps.text3->GetCenterX(),                             
-	_endComps.text3->GetCenterY());
-  _endComps.text2->Rotate(-7);
 	_endComps.text3->EnableBorder(true);
 	_endComps.text3->SetBorder(20, 0, 2550);
-  _endComps.text3->SetRotationPivot(
-	_endComps.text3->GetCenterX(),
-  _endComps.text3->GetCenterY());
-  _endComps.text3->Rotate(-7);
-
 #endif // !NDEBUG
 
 
@@ -1049,7 +1049,7 @@ std::wstring PlayScene::__WStringifyEndingMessage1() {
 	wchar_t buffer[50];
 	swprintf_s(buffer, 
 		L"-라자냐+ [-%d+]세,\n"
-		L"무크티니 동굴 [-%d+]에서 잠들다.", 
+		L"무크티니 동굴 [-%d+]M에서 잠들다.", 
 		GetGameDataHub().GetCurrentGeneration(),
 		_player->GetDownMeter()
 	);
