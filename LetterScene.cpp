@@ -106,17 +106,17 @@ void LetterScene::__InitComponents() {
 	// TODO: Need a script file seperate.
 	// letter scripts 한글
 	_comps.letter->SetPositionLayout(PositionLayout::LAYOUT_STATIC);
-	_comps.letter->SetFontFamily(L"±×³à-ÀÌ¿Á¼±");
+	_comps.letter->SetFontFamily(L"그녀-이옥선");
 	_comps.letter->SetText(
-		L"ÀÚ¶û½º·¯¿î ¶óÀÚºê °¡¹®ÀÇ Àå³à\n" L"¶óÀÚ³Ä 33¼¼¿©, "
-		L"ÆøÅº»ê ¹«Å©Æ¼´Ï·Î °¡°Å¶ó.\n\n"
+		L"자랑스러운 라자브 가문의 장녀,\n" L"라자냐 33세여, "
+		L"폭탄산 무크티니로 가거라.\n\n"
 
-		L"´©±¸º¸´Ù ¹«Å©Æ¼´Ï¸¦ ±í°Ô ÆÄ\n"
-		L"°¡¹®ÀÇ ¿µ±¤ÀÌ µÇ°Å¶ó\n\n"
+		L"누구보다 무크티니를 깊게 파\n"
+		L"가문의 영광이 되거라.\n\n"
 
-		L"ÇÐ±³¸¦ ¾È °¡´Â°É ¸í¿¹·Î ¿©°Ü¿Â\n"
-		L"¶óÀÚºê °¡¹®ÀÇ ÈÄ¼Õ´ä°Ô ±ÛÀ» ¸ð¸£°ÚÁö.\n"
-		L"±×¸²À¸·Î ¼³¸íÇÏ¸¶.");
+		L"학교를 안 가는걸 명예로 여겨온\n"
+		L"라자브 가문의 후손답게 글을 모르겠지.\n"
+		L"그림으로 설명하마.");
 	_comps.letter->SetFont(36, FontStyleBold);
 	// diagrams
 	_comps.diagrams->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
@@ -127,9 +127,9 @@ void LetterScene::__InitComponents() {
 	int a;
 	//// Right Box Components
 	// text1
-	_comps.text1->SetFontFamily(L"±×³à-ÀÌ¿Á¼±");
+	_comps.text1->SetFontFamily(L"그녀-이옥선");
 	_comps.text1->SetFont(36, FontStyleBold);
-	_comps.text1->SetText(L"¾Æ, ±×¸®°í ³Ê °¡Á··ÂÀÌ ¹¹¿´Áö?");
+	_comps.text1->SetText(L"3개의 '가족력'중 하나를 선택해 진행");
 	// blessings of God
 	_comps.blessingsOfGod->SetDisplay(Display::BLOCK);
 	// first blessingS
