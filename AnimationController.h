@@ -26,6 +26,9 @@ public:
   }
 
 	void Reset() {
+		for (auto p : _animations) {
+			p.second->Reset();
+		}
 		_currentAnimation = nullptr;
 	}
 

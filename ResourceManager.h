@@ -16,7 +16,14 @@ public:
   ResourceManager(ResourceManager&&) noexcept = delete;
   ResourceManager& operator=(const ResourceManager&) = delete;
   ResourceManager& operator=(ResourceManager&&) noexcept = delete;
-  ~ResourceManager() {}
+  ~ResourceManager() {
+		for (auto p : _images) {
+			delete p.second;
+		}
+		for (auto p : _cachedImages) {
+			delete p.second;
+		}
+	}
 
   bool LoadImageFromFile(const wchar_t* path, const ImageName& name);
   bool LoadImages(const wchar_t* szPath);

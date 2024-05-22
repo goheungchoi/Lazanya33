@@ -47,6 +47,9 @@ public:
 	{ _player->TurnOnLasgulaState(); }
 	virtual bool IsLasgula() override
 	{ return _player->IsLasgula(); }
+	virtual void ResetLasgulaChanges() {
+		_player->ResetLasgulaChanges();
+	}
 	
 	
 	virtual void SetComboDuration(double comboDuration) 
@@ -86,6 +89,10 @@ public:
   virtual void Move(int x, int y) override { _player->Move(x, y); }
 
 	virtual void Update(double deltaTime) { _player->Update(deltaTime); }
+	virtual void Reset() override {
+		_player->Reset();
+	}
+
 
 	virtual void TriggerEffect(PlayerEffect effect) {
 		_player->TriggerEffect(effect);

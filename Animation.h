@@ -427,6 +427,7 @@ public:
 		_elapsedTime = 0.0;
 		_bufIndex = 0;
 		_typingIndex = 0;
+		std::memset(_typingBuffer, '\0', sizeof(wchar_t) * (_numWChars + 1));
 	}
 
 	void Reset() override {

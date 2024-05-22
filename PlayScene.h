@@ -161,6 +161,12 @@ private:
 		return std::wstring(buffer);
 	}
 
+	// Message Animations
+	class TextAnimation* txt1;
+	class TextAnimation* txt2;
+	class TextAnimation* txt3;
+	class SequentialAnimationPack* sanim;
+
 	std::wstring __WStringifyEndingMessage1();
 
 	std::wstring __WStringifyEndingMessage2_1();

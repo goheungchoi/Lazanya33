@@ -846,13 +846,12 @@ void PlayScene::Update(const double deltaTime)
 				_endComps.gameEndBG->SetActive(true);
 				_gameEndSceneContainer->SetActive(true);
 
-				TextAnimation* txt1 = new TextAnimation(
+				txt1 = new TextAnimation(
 					_endComps.text1,
 					__WStringifyEndingMessage1().c_str(),
 					2.0, 1.0
 				);
 
-				TextAnimation* txt2;
 				int playerScore = _player->GetCurrScore();
 				if (
 					playerScore > GetGameDataHub().GetMaxScore() &&
@@ -882,13 +881,13 @@ void PlayScene::Update(const double deltaTime)
 					);
 				}
 
-				TextAnimation* txt3 = new TextAnimation(
+				txt3 = new TextAnimation(
 					_endComps.text3,
 					__WStringifyEndingMessage3().c_str(),
 					2.0, 1.0
 				);
 
-				SequentialAnimationPack* sanim = new SequentialAnimationPack();
+				sanim = new SequentialAnimationPack();
 				sanim->PushBackAnimation(txt1);
 				sanim->PushBackAnimation(txt2);
 				sanim->PushBackAnimation(txt3);
@@ -944,6 +943,10 @@ void PlayScene::InitScene()
 
 void PlayScene::EndScene()
 {
+	sanim->Reset();
+	_endComps.text1->SetText(L"");
+	_endComps.text2->SetText(L"");
+	_endComps.text3->SetText(L"");
 	_renderSystem->ClearRenderableRegistry();
 }
 
@@ -958,12 +961,6 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 	{
 		_player->SetCombo(0);
 		_player->AddComboElapsedTime(-1);
-	}
-
-	// Lasgula Update
-	_player->UpdateLasgulaState(deltaTime);
-	if (_player->IsLasgula()) {
-
 	}
 
 	// DOWN arrow key pressed
@@ -1046,6 +1043,13 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 	//player oxygen system
 	_playerOxySystem->ReduceOxygen(deltaTime);
 
+	// Lasgula Update
+	if (_player->GetCurrOxyLevel() <= 0 &&
+		_player->IsLasgula()) {
+		_player->ResetLasgulaChanges();
+	}
+	_player->UpdateLasgulaState(deltaTime);
+
 	//Doing Debug:
 	//Debug.Log(_playerOxySystem->GetAmountOfReduceOxy());
 }
@@ -1104,6 +1108,8 @@ void PlayScene::__ResetGame() {
 
 	// Reset Player State
 	_player = _player->GetPlayer();
+	_player->Reset();
+
 	// Game Play Initialization
 	_player->SetPosition(2, 4);
 	_player->ChangeTag(L"down1");

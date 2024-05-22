@@ -55,6 +55,7 @@ public:
 	virtual void UpdateLasgulaState(double) = 0;
 	virtual void TurnOnLasgulaState() = 0;
 	virtual bool IsLasgula() = 0;
+	virtual void ResetLasgulaChanges() = 0;
 
   virtual void SetComboElapsedTime(double) = 0;
 
@@ -93,4 +94,5 @@ public:
 	virtual bool GetRightBool() = 0;
 
 	virtual void Update(double deltaTime) = 0;
+	virtual void Reset() = 0;
 };
