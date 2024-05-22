@@ -89,4 +89,10 @@ class GridDeque {
 
   // 덱이 비어 있는지 여부를 반환하는 함수
   bool IsEmpty() { return numRows == 0; }
+
+	void Clear(){
+		hdPtr=elems;
+		tlPtr=elems;
+		numRows=0;
+	}
 };

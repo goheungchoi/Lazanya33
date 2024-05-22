@@ -391,6 +391,10 @@ public:
 		_animationController->AddAnimation(state, animation);
 	}
 
+	void ResetAnimation() {
+		_animationController->Reset();
+	}
+
 	void SetState(int state) {
 		_animationController->SetState(state);
 	}

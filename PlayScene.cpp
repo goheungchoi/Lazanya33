@@ -777,7 +777,22 @@ void PlayScene::Update(const double deltaTime)
 
 		// Update Additional Score
 		_uiComps.additionalScore->SetText(
-			__WStringifyCombos(0).c_str()
+			[this, currCombo = _player->GetCurrCombo()]() -> std::wstring {
+				switch (currCombo) {
+				case 0:
+				case 1:
+					return __WStringifyCombos(0);
+				case 2:
+					return __WStringifyCombos(1);
+				case 3:
+					return __WStringifyCombos(2);
+				case 4:
+					return __WStringifyCombos(3);
+				case 5:
+				default:
+					return __WStringifyCombos(4);
+				}
+			}().c_str()
 		);
 
 		// Update Depth
@@ -846,13 +861,12 @@ void PlayScene::Update(const double deltaTime)
 				_endComps.gameEndBG->SetActive(true);
 				_gameEndSceneContainer->SetActive(true);
 
-				TextAnimation* txt1 = new TextAnimation(
+				txt1 = new TextAnimation(
 					_endComps.text1,
 					__WStringifyEndingMessage1().c_str(),
 					2.0, 1.0
 				);
 
-				TextAnimation* txt2;
 				int playerScore = _player->GetCurrScore();
 				if (
 					playerScore > GetGameDataHub().GetMaxScore() &&
@@ -882,13 +896,13 @@ void PlayScene::Update(const double deltaTime)
 					);
 				}
 
-				TextAnimation* txt3 = new TextAnimation(
+				txt3 = new TextAnimation(
 					_endComps.text3,
 					__WStringifyEndingMessage3().c_str(),
 					2.0, 1.0
 				);
 
-				SequentialAnimationPack* sanim = new SequentialAnimationPack();
+				sanim = new SequentialAnimationPack();
 				sanim->PushBackAnimation(txt1);
 				sanim->PushBackAnimation(txt2);
 				sanim->PushBackAnimation(txt3);
@@ -944,6 +958,10 @@ void PlayScene::InitScene()
 
 void PlayScene::EndScene()
 {
+	sanim->Reset();
+	_endComps.text1->SetText(L"");
+	_endComps.text2->SetText(L"");
+	_endComps.text3->SetText(L"");
 	_renderSystem->ClearRenderableRegistry();
 }
 
@@ -960,10 +978,9 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 		_player->AddComboElapsedTime(-1);
 	}
 
-	// Lasgula Update
-	_player->UpdateLasgulaState(deltaTime);
-	if (_player->IsLasgula()) {
-
+	// Set combo 99 if over 100
+	if (_player->GetCurrCombo() >= 100) {
+		_player->SetCombo(99);
 	}
 
 	// DOWN arrow key pressed
@@ -988,8 +1005,10 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 	// LEFT arrow key is pressed
 	if (Input::inputManager->IsTurnDn(VK_LEFT) && 
 		_player->GetPositionX() > 0 && 
-		_wall->GetBrick(_player->GetPositionY(), _player->GetPositionX() - 1).type
-		!= BrickType::NONE) {
+		_wall->GetBrick(
+			_player->GetPositionY(), 
+			_player->GetPositionX() - 1
+		).type != BrickType::NONE) {
 		Music::soundManager->PlayMusic(Music::eSoundList::Attack, Music::eSoundChannel::Effect);
 		_player->LeftKeyPressed();
 
@@ -1046,6 +1065,13 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 	//player oxygen system
 	_playerOxySystem->ReduceOxygen(deltaTime);
 
+	// Lasgula Update
+	if (_player->GetCurrOxyLevel() <= 0 &&
+		_player->IsLasgula()) {
+		_player->ResetLasgulaChanges();
+	}
+	_player->UpdateLasgulaState(deltaTime);
+
 	//Doing Debug:
 	//Debug.Log(_playerOxySystem->GetAmountOfReduceOxy());
 }
@@ -1082,34 +1108,44 @@ void PlayScene::__ResetGame() {
 	_started = false;
 	_ended = false;
 	_canGohistory = false;
-#ifndef NDEBUG
-	for (int i=0; i<100; ++i)
-		_player->AddScore(10);
-#endif
+
 	// Reset NPCs
+	_npcEmerged[0] = false;
+	_uiComps.daughter->ResetAnimation();
 	_uiComps.daughter->SetPosition(0, screenHeight);
 	_uiComps.daughter->SetState(-1); // TODO: Debugging purpose;
 
+	_npcEmerged[1] = false;
+	_uiComps.husband->ResetAnimation();
 	_uiComps.husband->SetPosition(0, screenHeight);
 	_uiComps.husband->SetState(-1); // TODO: Debugging purpose;
 
+	_npcEmerged[2] = false;
+	_uiComps.mother->ResetAnimation();
 	_uiComps.mother->SetPosition(0, screenHeight);
 	_uiComps.mother->SetState(-1); // TODO: Debugging purpose;
 
+	_npcEmerged[3] = false;
+	_uiComps.dancingTownspeople->ResetAnimation();
 	_uiComps.dancingTownspeople->SetPosition(0, screenHeight);
 	_uiComps.dancingTownspeople->SetState(-1); // TODO: Debugging purpose;
 
+	_npcEmerged[4] = false;
+	_uiComps.ancestors->ResetAnimation();
 	_uiComps.ancestors->SetPosition(0, screenHeight);
 	_uiComps.ancestors->SetState(-1); // TODO: Debugging purpose;
 
 	// Reset Player State
 	_player = _player->GetPlayer();
+	_player->Reset();
+
 	// Game Play Initialization
 	_player->SetPosition(2, 4);
 	_player->ChangeTag(L"down1");
 	_player->SetHP(_player->GetMaxHP());
 	_player->SetOxygenLevel(_player->GetMaxOxyLevel());
 	_player->SetScore(0);
+	_player->SetCombo(0);
 	// Set Decorator
 	BlessingType blessingType = static_cast<BlessingType>(
 		GetGameDataHub().GetCurrentUserBlessIndex()
@@ -1155,6 +1191,7 @@ void PlayScene::__ResetGame() {
 	_uiComps.comboValue->SetText(
 		__WStringifyCombos(_player->GetCurrCombo()).c_str()
 	);
+
 	// Oxygen Level
 	double oxygenRate = _player->GetCurrOxyLevel() / _player->GetMaxOxyLevel();
 		_uiComps.oxygenLevel->SetY(screenHeight * (1.0 - oxygenRate));
@@ -1163,6 +1200,9 @@ void PlayScene::__ResetGame() {
 	_uiComps.gloryOfFamily->SetText(__WStringifyGloryHall(_gloryOfFamilyScore).c_str());
 	_uiComps.honorOfAncestor->SetText(__WStringifyMothersHonor(_mothersScore).c_str());
 	_uiComps.currentHonor->SetText(__WStringifyCurrentHonor(_player->GetCurrScore()).c_str());
+
+	_uiComps.additionalScore->SetText(L"00");	// DEBUG
+	_uiComps.depth->SetText(L"00");	// DEBUG
 
 	// State Display
 	_uiComps.currentState->SetState(

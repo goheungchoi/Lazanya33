@@ -180,12 +180,12 @@ void LetterScene::Update(double dt)
 	
 	// Check the mouse button events
 	
-		_buttonEventHandler->HandleMouseEvent(
-			Input::inputManager->GetMouseClient().x,
-			Input::inputManager->GetMouseClient().y,
-			Input::inputManager->IsCurrDn(VK_LBUTTON),
-			Input::inputManager->IsCurrUp(VK_LBUTTON)
-		);
+	_buttonEventHandler->HandleMouseEvent(
+		Input::inputManager->GetMouseClient().x,
+		Input::inputManager->GetMouseClient().y,
+		Input::inputManager->IsCurrDn(VK_LBUTTON),
+		Input::inputManager->IsCurrUp(VK_LBUTTON)
+	);
 	
 	_comps.blessingStateController->HandleMouseEvent(
 		Input::inputManager->GetMouseClient().x,
@@ -207,7 +207,9 @@ void LetterScene::Draw()
 }
 
 void LetterScene::InitScene() {
-	
+	_comps.firstBlessingOfGod->Init();
+	_comps.secondBlessingOfGod->Init();
+	_comps.thirdBlessingOfGod->Init();
 	_renderSystem->RegisterRenderableObject(_comps.background);
 	_renderSystem->RegisterRenderableObject(_letterContainer);
 }
@@ -215,5 +217,8 @@ void LetterScene::InitScene() {
 void LetterScene::EndScene() {
 	_renderSystem->ClearRenderableRegistry();
 	Music::soundManager->StopMusic(Music::eSoundChannel::BGM);
-	
+	_comps.firstBlessingOfGod->Reset();
+	_comps.secondBlessingOfGod->Reset();
+	_comps.thirdBlessingOfGod->Reset();
+	_comps.blessingStateController->Reset();
 }

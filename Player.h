@@ -35,6 +35,7 @@ private:
   int _score; // Brick Interation
   int _downMeter;//OxygenLevelSystem
 
+	int _tmp{ 0 };
   double _lasgulaDuration;
   double _lasgulaElapsedTime;
 	double _lasgulaEffectInterval{ 0.2 };
@@ -152,6 +153,10 @@ public:
 		);
 	}
 
+	~Player() {
+
+	}
+
   /* Getters */
 	IPlayer* GetPlayer() override { return this; };
 
@@ -210,6 +215,7 @@ public:
 		}
 
 		if (_lasgulaElapsedTime >= _lasgulaDuration) {
+			ResetLasgulaChanges();
 			
 			SetImageIntensity(1.f, 1.f, 1.f);
 			_lasgulaEffectElapsedTime = _lasgulaEffectInterval;
@@ -220,11 +226,20 @@ public:
 
 	void TurnOnLasgulaState() override {
 		_isLasgula = true;
+		_tmp = GetAttackDamage();
 		SetAttackDamage(100);
 	}
 
 	bool IsLasgula() override {
 		return _isLasgula;
+	}
+
+	void ResetLasgulaChanges() override {
+		SetAttackDamage(_tmp);
+		SetImageIntensity(1.f, 1.f, 1.f);
+		_lasgulaEffectElapsedTime = _lasgulaEffectInterval;
+		_lasgulaElapsedTime = 0;
+		_isLasgula = false;
 	}
 
   
@@ -266,6 +281,10 @@ public:
 
 	void Update(double deltaTime) override {
 		_effectController->Update(deltaTime);
+	}
+
+	void Reset() override {
+		_effectController->Reset();
 	}
 
 	void TriggerEffect(PlayerEffect effect) override {

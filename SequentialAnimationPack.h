@@ -36,6 +36,10 @@ public:
 	}
 
 	void Reset() override {
+		for (auto* anim : _animations) {
+			anim->Reset();
+		}
+
 		_isTriggered = false;
 		_currentIndex = 0;
 		_currentAnimation = _animations[_currentIndex];
