@@ -127,18 +127,18 @@ public:
       int randomValue = dis(gen);
 
       // 1에서 100 사이의 숫자를 생성하여 확률 결정
-      if (randomValue <= 40) {
-        blockLevel = 1;  // 40% 확률
+      if (randomValue <= 70) {
+        blockLevel = 1;  
       }
       else {
-        blockLevel = 2;  // 60% 확률
+        blockLevel = 2;  
       }
     }
     else if (score <= 100) {
       {
         int randomValue = dis(gen);
 
-        if (randomValue <= 40) {
+        if (randomValue <= 50) {
           blockLevel = 1;
         }
         else
@@ -149,10 +149,10 @@ public:
       {
         int randomValue = dis(gen);
 
-        if (randomValue <= 30) {
+        if (randomValue <= 40) {
           blockLevel = 1;
         }
-        else if (randomValue <= 60) {
+        else if (randomValue <= 50) {
           blockLevel = 2;
         }
         else
