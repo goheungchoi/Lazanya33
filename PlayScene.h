@@ -102,6 +102,8 @@ class PlayScene :public IScene
 
 	bool _npcEmerged[5] = { false, };
 
+	bool _reverseArrowKeys{ false };
+
 	bool _initialized{ false };	// Check if the game is reset
 	bool _started{ false };	// Check if the game is started by player's action
 	double _delayEnding{ 0.0 };

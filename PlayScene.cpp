@@ -974,7 +974,7 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 	//Set to combo 0 every ComboDuration second
 	if (_player->GetComboElapsedTime() >= _player->GetComboDuration())
 	{
-		_player->SetCombo(0);
+		_reverseArrowKeys ? _player->SetCombo(2) : _player->SetCombo(0);
 		_player->AddComboElapsedTime(-1);
 	}
 
@@ -1003,7 +1003,7 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 	}
 
 	// LEFT arrow key is pressed
-	if (Input::inputManager->IsTurnDn(VK_LEFT) && 
+	if (Input::inputManager->IsTurnDn(_reverseArrowKeys ? VK_RIGHT : VK_LEFT) && 
 		_player->GetPositionX() > 0 && 
 		_wall->GetBrick(
 			_player->GetPositionY(), 
@@ -1029,7 +1029,7 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 	}
 	
 	// RIGHT arrow key is pressed
-	if (Input::inputManager->IsTurnDn(VK_RIGHT) &&
+	if (Input::inputManager->IsTurnDn(_reverseArrowKeys ? VK_LEFT : VK_RIGHT) &&
 		_player->GetPositionX() < 4 &&
 		_wall->GetBrick(
 			_player->GetPositionY(),
@@ -1054,7 +1054,6 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 		++_buttonPressedCount;
 	}
 	
-
 	//if pop wall three time
 	if (_countWallPop == 3)
 	{
@@ -1105,6 +1104,7 @@ void PlayScene::__TriggerNPCsAnimations() {
 }
 
 void PlayScene::__ResetGame() {
+	_reverseArrowKeys = false;
 	_started = false;
 	_ended = false;
 	_canGohistory = false;
@@ -1161,6 +1161,8 @@ void PlayScene::__ResetGame() {
 		_player = new GoldSeeker(_player);
 		break;
 	case BlessingType::Naughty:
+		_reverseArrowKeys = true;
+		_player->SetCombo(2);
 		_player = new Naughty(_player);
 		break;
 	case BlessingType::Pummeler:
