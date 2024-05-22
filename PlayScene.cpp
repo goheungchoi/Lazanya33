@@ -642,7 +642,7 @@ void PlayScene::__InitComponents() {
 		});
 	_buttonEventHandler->AddButton(_endComps.gotohistory);
 	_gameEndSceneContainer->AddChildComponent(_endComps.gotohistory);
-	
+
 
 
 	//history componenet
@@ -655,15 +655,18 @@ void PlayScene::__InitComponents() {
 		ResourceManager::Get().GetCachedImage(L"30012_UI_Game_Over_History02")
 	);
 	
-
+	//name
 	_historyComps.name = new TextInputField(740, 650, 100, 100);
-	_historyComps.name->SetSizeFitImage(true);
-	_historyComps.name->SetImage(
+	_historyComps.name->SetZValue(8);
+	_historyContainer->AddChildComponent(_historyComps.name);
+	//nametag
+	_historyComps.nameTag = new Container(740, 650, 100, 100);
+	_historyComps.nameTag->SetSizeFitImage(true);
+	_historyComps.nameTag->SetImage(
 		ResourceManager::Get().GetImage(L"30013_UI_Game_Over_History02_Name")
 	);
-	_historyComps.name->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
-	_historyContainer->AddChildComponent(_historyComps.name);
-	
+	_historyComps.nameTag->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
+	_historyContainer->AddChildComponent(_historyComps.nameTag);
 	//button
 	_historyComps.entryButton = new Button(1100, 820, 100, 100);
 	_historyComps.entryButton->SetSizeFitImage(true);
@@ -685,6 +688,7 @@ void PlayScene::__InitComponents() {
 		_sceneManager->ChangeScene("Entry");
 		
 		});
+	
 	_buttonEventHandler->AddButton(_historyComps.entryButton);
 	_historyContainer->AddChildComponent(_historyComps.entryButton);
 
@@ -852,6 +856,22 @@ void PlayScene::Update(const double deltaTime)
 			Input::inputManager->IsCurrUp(VK_LBUTTON)
 		);
 
+		if (_canGohistory == true)
+		{
+			for (int i = 0; i < 256; i++)
+			{
+				if (Input::inputManager->IsTurnDn(i))
+				{
+					if (i >= 'A' && i <= 'Z')
+						_historyComps.name->text.push_back(i);
+					else if (i == 8)
+						_historyComps.name->text.pop_back();
+					else
+						continue;
+				}
+			}
+		}
+
 		// Show pop up windows
 		if (!_ended) {
 
@@ -913,10 +933,7 @@ void PlayScene::Update(const double deltaTime)
 				_endComps.text1->SetState(0);
 
 				_ended = true;
-				if (_canGohistory = true)
-				{
-					//TODO: 이름 입력받기
-				}
+				
 			}
 		}
 
@@ -1224,10 +1241,12 @@ void PlayScene::__ResetGame() {
 
 	// Turn off Game End Components
 	_gameEndSceneContainer->SetActive(false);
+	_endComps.gotohistory->SetActive(false);
 	_endComps.gameEndBG->SetActive(false);
 
 	//Turn off history componets
 	_historyComps.historyBG->SetActive(false);
+	_historyComps.entryButton->SetActive(false);
 	_historyContainer->SetActive(false);
 
 	// Change Systems.

@@ -80,6 +80,7 @@ class PlayScene :public IScene
 	struct HistoryComponents {
 		SingleSpriteRenderable<class HistoryComponents>* historyBG;
 		TextInputField* name;
+		Container* nameTag;
 		Button* entryButton;
 		Container* text;
 	}_historyComps;

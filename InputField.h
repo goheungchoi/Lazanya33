@@ -19,12 +19,12 @@ public:
         //graphics.FillRectangle(&brush, x, y, width, height);
 
         // Draw the border
-        Pen pen(Color(0, 0, 0)); // Black border
-        graphics.DrawRectangle(&pen, x, y, width, height);
+        //Pen pen(Color(0, 0, 0)); // Black border
+        //graphics.DrawRectangle(&pen, x, y, width, height);
 
         // Draw the text
-        FontFamily fontFamily(L"Arial");
-        Font font(&fontFamily, 16, FontStyleRegular, UnitPixel);
+        FontFamily fontFamily(L"±×³à-ÀÌ¿Á¼±");
+        Font font(&fontFamily, 40, FontStyleRegular, UnitPixel);
         PointF origin((REAL)x + 2, (REAL)y + 2); // Small padding from the border
         SolidBrush textBrush(Color(0, 0, 0)); // Black text
         graphics.DrawString(text.c_str(), -1, &font, origin, &textBrush);
