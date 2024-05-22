@@ -24,6 +24,7 @@ struct Brick
   int blockScore = 0; // 브릭의 점수
   double blockDownAir = 0; // 브릭을 부수면 공기의 감소 또는 증가
   int blockHealth = 0;		
+	int maxBlockHealth = 0;
 	BrickType type;
 
 	Brick() {
@@ -41,6 +42,7 @@ struct Brick
     blockScore = 1;
     blockDownAir = 4; 
     blockHealth = 10;
+		maxBlockHealth = 10;
 		this->type = BrickType::DEFAULT;
     break;
 
@@ -48,6 +50,7 @@ struct Brick
     blockScore = 1;
     blockDownAir = 4;
     blockHealth = 30;
+		maxBlockHealth = 30;
 		this->type = BrickType::STONE;
 		break;
 			
@@ -55,17 +58,20 @@ struct Brick
     blockScore = 1;
     blockDownAir = 4;
     blockHealth = 60;
+		maxBlockHealth = 60;
 		this->type = BrickType::ROCK;
     break;
 
     case BrickType::BOMB:
 			blockHealth = 10;
+			maxBlockHealth = 10;
 		this->type = BrickType::BOMB;
     break;
 
     case BrickType::GOLD:
     blockScore = 10;
     blockHealth = 20;
+		maxBlockHealth = 20;
 		this->type = BrickType::GOLD;
     break;
 
@@ -73,6 +79,7 @@ struct Brick
     blockScore = 1;
     blockDownAir = 0;
     blockHealth = 20;
+		maxBlockHealth = 20;
 		this->type = BrickType::OXYGEN;
     break;
 
@@ -80,6 +87,7 @@ struct Brick
     blockScore = 1;
     blockDownAir = 4;
     blockHealth = 1;
+		maxBlockHealth = 1;
 		this->type = BrickType::RASGULLA;
     break;
 
@@ -87,6 +95,7 @@ struct Brick
     blockScore = 1;
     blockDownAir = 10;
     blockHealth = 1;
+		maxBlockHealth = 1;
 		this->type = BrickType::GULAB_JAMUN;
     break;
     }
