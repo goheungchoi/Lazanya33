@@ -35,11 +35,11 @@ class BlessingContainer : public Container {
 	bool _isPressed{ false };  // 눌렸는지 체크하는 불리안 변수
   std::unordered_map<std::string, std::function<void()>> _eventHandlers;  // 이벤트 콜백 함수 담는 해쉬 맵
 
-	BlessingType _blessingType;
-	Bitmap* _default;
-	Bitmap* _selected;
+	BlessingType _blessingType{ BlessingType::Virago };
+	Bitmap* _default{ nullptr };
+	Bitmap* _selected{ nullptr };
 
-	bool _isDarker{ false };
+	bool _isDarker{ true };
 	ImageTransition _darkenImageTransition;
 	ImageTransition _brightenImageTransition;
 
@@ -55,7 +55,9 @@ public:
 			this, 
 			{0.3, 1.0}, 
 			{1.0, 1.0},
-			0.5, bezier::ease_in_out) {
+			0.5, bezier::ease_in_out) {	}
+
+	void Init() {
 		if (count == 0) {
 			check[0] = true;
 			_blessingType = BlessingType::Virago;
@@ -81,7 +83,24 @@ public:
 		AddAnimation(0, &_darkenImageTransition);
 		AddAnimation(1, &_brightenImageTransition);
 
+		// Darken default
+		SetImageIntensity(0.3);
+
 		++count;
+	}
+
+	void Reset() {
+		count = 0;
+		for (int i = 0; i < BLESSING_TYPE_NUM; ++i) {
+			check[i] = false;
+		}
+		_blessingType = BlessingType::Virago;
+		_default = nullptr;
+		_selected = nullptr;
+		_isDarker = true;
+		_blessingType = BlessingType::Virago;
+		_darkenImageTransition.Reset();
+		_brightenImageTransition.Reset();
 	}
 
 	BlessingType GetBlessingType() {
@@ -196,6 +215,12 @@ class BlessingsOfGodStateController {
 public:
 	BlessingsOfGodStateController() {}
 
+	void Reset() {
+		_selectionChanged = false;
+		_prevSelectedIndex = -1;
+		_currSelectedIndex = -1;
+	}
+
 	void AddBlessingContainer(BlessingContainer* bc) {
 		int index = _blessingContainers.size();
 		bc->AddEventLister("mouseClick", [this, index]() {
@@ -235,41 +260,43 @@ public:
 		if (!_selectionChanged) return;
 		_selectionChanged = false;
 
+		// ?
+		Music::soundManager->PlayMusic(Music::eSoundList::BackSound, Music::eSoundChannel::Effect);
+
 		if (_currSelectedIndex < 0) {	// When index is -1
 			// Reset all
 			isSelected = false;
-			for (int i = 0; i < _blessingContainers.size(); ++i) {
-				auto* bc = _blessingContainers[i];
-				if (i == _prevSelectedIndex) {
-					bc->SetImage(bc->_default);
-				} else {	// If it was darkened
-					bc->SetState(1);	// brighten
-					bc->_isDarker = false;
-				}
+
+			// Darken the selected
+			auto* bc = _blessingContainers[_prevSelectedIndex];
+			if (bc->_isDarker) {
+				bc->SetImage(bc->_selected);
+				bc->SetState(1);
+				bc->_isDarker = false;
+			}
+			else {
+				bc->SetImage(bc->_default);
+				bc->SetState(0);
+				bc->_isDarker = true;
 			}
 		} else {	// Otherwise
 			if (!isSelected)
 				isSelected = true;
-			for (int i = 0; i < _blessingContainers.size(); ++i) {
-				auto* bc = _blessingContainers[i];
-				// Selected container
-				if (i == _currSelectedIndex) {
-					// Mark that it is selected
-					bc->SetImage(bc->_selected);
-					if (bc->_isDarker) {	// If it was darkened
-						bc->SetState(1);	// brighten
-						bc->_isDarker = false;
-					}
-					continue;
-				}
-
-				// The other containers
-				bc->SetImage(bc->_default);
-				if (!bc->_isDarker) {	// If it's not darkened
-					Music::soundManager->PlayMusic(Music::eSoundList::BackSound, Music::eSoundChannel::Effect);
-					bc->SetState(0);	// darken
-					bc->_isDarker = true;
-				}
+			
+			// Brighten the selected image
+			auto* bc = _blessingContainers[_currSelectedIndex];
+			// Selected container
+			// Mark that it is selected
+			bc->SetImage(bc->_selected);
+			bc->SetState(1);	// brighten
+			bc->_isDarker = false;
+			
+			// The previously selected containers if any
+			if (_prevSelectedIndex >= 0) {
+				auto* prevSelected = _blessingContainers[_prevSelectedIndex];
+				prevSelected->SetImage(prevSelected->_default);
+				prevSelected->SetState(0);	// darken
+				prevSelected->_isDarker = true;
 			}
 		}
 	}

@@ -180,9 +180,6 @@
     <ClInclude Include="Wall.h">
       <Filter>Source Files\Game\GameObjects\Wall</Filter>
     </ClInclude>
-    <ClInclude Include="BrickRenderComponent.h">
-      <Filter>Source Files\Game\Components</Filter>
-    </ClInclude>
     <ClInclude Include="BrickPattern.h">
       <Filter>Source Files\Game\Components</Filter>
     </ClInclude>
@@ -263,6 +260,9 @@
     </ClInclude>
     <ClInclude Include="ArtWorkScene1.h">
       <Filter>Source Files\Game\SceneGraph\Scene\ArtWork</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainedAnimationPack.h">
+      <Filter>Source Files\Game\Components\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -355,6 +355,12 @@
     </ClCompile>
     <ClCompile Include="ArtWorkScene1.cpp">
       <Filter>Source Files\Game\SceneGraph\Scene\ArtWork</Filter>
+    </ClCompile>
+    <ClCompile Include="InputField.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStateContainer.h">
+      <Filter>Source Files\Game\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
