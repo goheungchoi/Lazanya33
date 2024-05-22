@@ -1049,7 +1049,7 @@ std::wstring PlayScene::__WStringifyEndingMessage1() {
 	wchar_t buffer[50];
 	swprintf_s(buffer, 
 		L"-라자냐+ [-%d+]세,\n"
-		L"무스티니 동굴 [-%d+]에서 잠들다.", 
+		L"무크티니 동굴 [-%d+]에서 잠들다.", 
 		GetGameDataHub().GetCurrentGeneration(),
 		_player->GetDownMeter()
 	);
