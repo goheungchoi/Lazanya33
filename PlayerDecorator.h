@@ -83,16 +83,28 @@ public:
 		_player->TriggerEffect(effect);
 	};
 
-	virtual void SetFacingRight(bool facingRight) override {
-		_player->SetFacingRight(facingRight);
+	void DownKeyPressed() override {
+		_player->DownKeyPressed();
 	}
 
-	virtual bool IsFacingLeft() override {
-		return _player->IsFacingLeft();
+	bool GetDownBool() override {
+		return _player->GetDownBool();
 	}
 
-	virtual bool IsFacingRight() override {
-		return _player->IsFacingRight();
+	void LeftKeyPressed() override {
+		_player->LeftKeyPressed();
+	}
+
+	bool GetLeftBool() override {
+		return _player->GetLeftBool();
+	}
+
+	void RightKeyPressed() override {
+		_player->RightKeyPressed();
+	}
+
+	bool GetRightBool() override {
+		return _player->GetRightBool();
 	}
 
 	virtual void Render(Gdiplus::Graphics& g) override { _player->Render(g); }

@@ -65,7 +65,7 @@ void PlayScene::__InitComponents() {
 
 	// Center Box Components Allocation
 	_uiComps.levelUpSign = new Container(0, 0, 600, 200);
-	_uiComps.startMessage = new Container(0, 0, 100, 36);
+	_uiComps.startMessage = new Container(0, 0, 110, 36);
 	_uiComps.adBox = new Container(0, 0, 200, 150);
 	_uiComps.adValue = new Container(0, 0, 128, 64);
 	_uiComps.comboBox = new Container(0, 0, 200, 150);
@@ -403,7 +403,7 @@ void PlayScene::__InitComponents() {
 	
 	// Start Message
 	_uiComps.startMessage->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
-	_uiComps.startMessage->SetPosition(978, 340);
+	_uiComps.startMessage->SetPosition(975, 340);
 	_uiComps.startMessage->SetFontFamily(L"Broadway");	// TODO: Change it to Broadway
 	_uiComps.startMessage->SetFontColor(220, 220, 220, 120);
 	_uiComps.startMessage->SetFont(24, FontStyleBold);
@@ -449,18 +449,17 @@ void PlayScene::__InitComponents() {
 	_uiComps.comboValue->SetText(L"00");
 
 	// Oxygen Level
-	_uiComps.oxygenMeter->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
 	_uiComps.oxygenMeter->SetPosition(600+CENTERBOX_OFFSET, 0);
 	_uiComps.oxygenMeter->EnableBorder(true);
 	_uiComps.oxygenMeter->SetBorder(0, 0, 0, -1, 5.f);
 	_uiComps.oxygenMeter->SetZValue(10);
-	_uiComps.meterBackground->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
 	_uiComps.meterBackground->SetPosition(600+CENTERBOX_OFFSET, 0);
 	_uiComps.meterBackground->EnableFill(true);
+	_uiComps.meterBackground->SetZValue(8);
 	_uiComps.meterBackground->SetFillColor(255, 255, 255);
 	_uiComps.oxygenLevel->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
 	_uiComps.oxygenLevel->SetPosition(600+CENTERBOX_OFFSET, 0);
-	_uiComps.oxygenLevel->SetZValue(5);
+	_uiComps.oxygenLevel->SetZValue(9);
 	_uiComps.oxygenLevel->EnableFill(true);
 	_uiComps.oxygenLevel->SetFillColor(0, 120, 240);
 
@@ -787,9 +786,6 @@ void PlayScene::Draw()
 void PlayScene::InitScene()
 {
 	__ResetGame();
-	// DEBUG: 
-	//_player->SetOxygenLevel(0);
-
 
 	// RenderSystem Registration
 	// Rendering order of the GamePlay scene
@@ -818,7 +814,7 @@ void PlayScene::EndScene()
 
 void PlayScene::__PlayerUpdate(const double deltaTime)
 {
-	_player->GetPlayer()->Update(deltaTime);
+	_player->Update(deltaTime);
 	//comboDuration++
 	_player->AddComboElapsedTime(deltaTime);
 
@@ -833,28 +829,19 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 	if (Input::inputManager->IsTurnDn(VK_DOWN))
 	{
 		Music::soundManager->PlayMusic(Music::eSoundList::Attack, Music::eSoundChannel::Effect);
+		_player->DownKeyPressed();
 
-
-		_player->GetPlayer()->TriggerEffect(PlayerEffect::DOWN_ATTACK);
 		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer(
 			_player->GetPositionY() + 1, _player->GetPositionX(),
 			VK_DOWN, _countWallPop, deltaTime
 		);
 
-		if (_player->IsFacingLeft())
-			_player->GetPlayer()->ChangeTag(L"left_attack");
+		if (!_player->GetDownBool())
+			_player->GetPlayer()->ChangeTag(L"down1");
 		else
-			_player->GetPlayer()->ChangeTag(L"right_attack");
+			_player->GetPlayer()->ChangeTag(L"down2");
 
 		++_buttonPressedCount;
-	}
-
-	// DOWN arrow key up
-	if (Input::inputManager->IsTurnUp(VK_DOWN)) {
-		if (_player->IsFacingLeft())
-			_player->GetPlayer()->ChangeTag(L"left_idle");
-		else
-			_player->GetPlayer()->ChangeTag(L"right_idle");
 	}
 
 	// LEFT arrow key is pressed
@@ -863,13 +850,13 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 		_wall->GetBrick(_player->GetPositionY(), _player->GetPositionX() - 1).type
 		!= BrickType::NONE) {
 		Music::soundManager->PlayMusic(Music::eSoundList::Attack, Music::eSoundChannel::Effect);
-
-		// Play the left attack effect
-		_player->GetPlayer()->TriggerEffect(PlayerEffect::LEFT_ATTACK);
+		_player->LeftKeyPressed();
 
 		// Change the player pose
-		_player->GetPlayer()->ChangeTag(L"left_attack");
-		_player->SetFacingRight(true);
+		if (!_player->GetLeftBool())
+			_player->GetPlayer()->ChangeTag(L"left1");
+		else
+			_player->GetPlayer()->ChangeTag(L"left2");
 
 		// Damage Brick
 		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer(
@@ -880,11 +867,6 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 
 		++_buttonPressedCount;
 	}
-
-	// LEFT arrow key is up
-	if (Input::inputManager->IsTurnUp(VK_LEFT)) {
-		_player->GetPlayer()->ChangeTag(L"left_move");
-	}
 	
 	// RIGHT arrow key is pressed
 	if (Input::inputManager->IsTurnDn(VK_RIGHT) &&
@@ -894,13 +876,13 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 			_player->GetPositionX() + 1
 		).type != BrickType::NONE) {
 		Music::soundManager->PlayMusic(Music::eSoundList::Attack, Music::eSoundChannel::Effect);
-
-		// Play the right attack effect
-		_player->GetPlayer()->TriggerEffect(PlayerEffect::RIGHT_ATTACK);
-
+		_player->RightKeyPressed();
+		
 		// Change the player pose
-		_player->GetPlayer()->ChangeTag(L"right_attack");
-		_player->SetFacingRight(true);
+		if (!_player->GetRightBool())
+			_player->GetPlayer()->ChangeTag(L"right1");
+		else
+			_player->GetPlayer()->ChangeTag(L"right2");
 
 		// Damage Brick
 		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer(
@@ -910,11 +892,6 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 		);
 
 		++_buttonPressedCount;
-	}
-
-	// RIGHT arrow key is up
-	if (Input::inputManager->IsTurnUp(VK_RIGHT)) {
-		_player->GetPlayer()->ChangeTag(L"right_move");
 	}
 	
 
@@ -983,7 +960,7 @@ void PlayScene::__ResetGame() {
 	_player = _player->GetPlayer();
 	// Game Play Initialization
 	_player->SetPosition(2, 4);
-	_player->ChangeTag(L"right_idle");
+	_player->ChangeTag(L"down1");
 	_player->SetHP(_player->GetMaxHP());
 	_player->SetOxygenLevel(_player->GetMaxOxyLevel());
 	// Set Decorator

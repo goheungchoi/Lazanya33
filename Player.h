@@ -24,6 +24,9 @@ class Player : public IPlayer {
 
 	/* Properties */
 private:
+	int& _x;
+	int& _y;
+
   int _ad;    // Brick Interation
   double _maxOxygenLevel;
   double _oxygenLevel;     // OxygenLevelSystem
@@ -39,11 +42,14 @@ private:
   double _comboElapsedTime;
   int _comboNumber;
 
-	bool _facingRight{ false };
+	bool _downBool{ false };
+	bool _leftBool{ false };
+	bool _rightBool{ false };
 
 public:
 	Player()
-  : _ad{PLAYER_DEFAULT_AD},
+  : _x{_position.X}, _y{_position.Y},
+		_ad{PLAYER_DEFAULT_AD},
     _maxOxygenLevel{PLAYER_DEFAULT_MAX_OXYGEN_LEVEL},
     _oxygenLevel{PLAYER_DEFAULT_MAX_OXYGEN_LEVEL},
     _maxHP{PLAYER_DEFAULT_MAX_HP},
@@ -64,10 +70,12 @@ public:
 		);
 		downAttackAnimation1->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
 		downAttackAnimation1->SetFrameDurations({ 0.08 });
+		downAttackAnimation1->EnableBorder(true);
+		downAttackAnimation1->SetBorder(255, 255, 0);
 
 		Animation* downAttackAnimation2 = new Animation(
 			// Sprite Sheet
-			ResourceManager::Get().GetImage(L"effect_swordtrail_down_1"),
+			ResourceManager::Get().GetImage(L"effect_swordtrail_down_2"),
 		// X, Y, loop
 			0, 110, false
 		);
@@ -115,16 +123,28 @@ public:
 
 		_effectController = new AnimationController();
 		_effectController->AddAnimation(
-			PlayerEffect::DOWN_ATTACK, 
+			PlayerEffect::DOWN_ATTACK1, 
 			downAttackAnimation1
 		);
 		_effectController->AddAnimation(
-			PlayerEffect::LEFT_ATTACK, 
+			PlayerEffect::DOWN_ATTACK2, 
+			downAttackAnimation2
+		);
+		_effectController->AddAnimation(
+			PlayerEffect::LEFT_ATTACK1, 
 			leftAttackAnimation1
 		);
 		_effectController->AddAnimation(
-			PlayerEffect::RIGHT_ATTACK, 
+			PlayerEffect::LEFT_ATTACK2, 
+			leftAttackAnimation2
+		);
+		_effectController->AddAnimation(
+			PlayerEffect::RIGHT_ATTACK1, 
 			rightAttackAnimation1
+		);
+		_effectController->AddAnimation(
+			PlayerEffect::RIGHT_ATTACK2, 
+			rightAttackAnimation2
 		);
 	}
 
@@ -210,24 +230,41 @@ public:
 		_effectController->SetState(effect);
 	}
 
-	void SetFacingRight(bool facingRight) override {
-		_facingRight = facingRight;
+	void DownKeyPressed() {
+		_downBool = !_downBool;
+		_effectController->SetState(!_downBool);
 	}
 
-	bool IsFacingLeft() override {
-		return !_facingRight;
+	bool GetDownBool() {
+		return _downBool;
 	}
 
-	bool IsFacingRight() override {
-		return _facingRight;
+	void LeftKeyPressed() {
+		_leftBool = !_leftBool;
+		_effectController->SetState(!_leftBool + 2);
+	}
+
+	bool GetLeftBool() {
+		return _leftBool;
+	}
+
+	void RightKeyPressed() {
+		_rightBool = !_rightBool;
+		_effectController->SetState(!_rightBool + 4);
+	}
+
+	bool GetRightBool() {
+		return _rightBool;
 	}
 
 	void Render(Graphics& g) {
 		IPlayer::Render(g);
 
 		auto* effect = _effectController->GetCurrentAnimation();
-		g.TranslateTransform(_position.X, _position.Y);
-		effect ? effect->Render(g) : []() {}();
-		g.TranslateTransform(-_position.X, -_position.Y);
+		if (effect) {
+			effect->SetPosition(effect->GetX() + _x, effect->GetY() + _y);
+			effect->Render(g);
+			effect->SetPosition(effect->GetX() - _x, effect->GetY() - _y);
+		}
 	}
 };
