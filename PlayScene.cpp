@@ -947,8 +947,8 @@ void PlayScene::__TriggerNPCsAnimations() {
 void PlayScene::__ResetGame() {
 	_started = false;
 #ifndef NDEBUG
-	for (int i=0; i<49; ++i)
-		_player->AddDownMeter();
+	for (int i=0; i<100; ++i)
+		_player->AddScore(10);
 #endif
 	// Reset NPCs
 	_uiComps.daughter->SetPosition(0, screenHeight);
