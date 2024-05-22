@@ -56,75 +56,75 @@ public:
     _downMeter{0},
     _score{0} {
 		
-		Animation* downAttackAnimation = new Animation(
+		Animation* downAttackAnimation1 = new Animation(
 			// Sprite Sheet
 			ResourceManager::Get().GetImage(L"effect_swordtrail_down_1"),
 		// X, Y, loop
 			0, 110, false
 		);
-		downAttackAnimation->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
-		downAttackAnimation->SetFrameDurations({ 0.08 });
+		downAttackAnimation1->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
+		downAttackAnimation1->SetFrameDurations({ 0.08 });
 
-		Animation* downAttackAnimation = new Animation(
+		Animation* downAttackAnimation2 = new Animation(
 			// Sprite Sheet
 			ResourceManager::Get().GetImage(L"effect_swordtrail_down_1"),
 		// X, Y, loop
 			0, 110, false
 		);
-		downAttackAnimation->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
-		downAttackAnimation->SetFrameDurations({ 0.08 });
+		downAttackAnimation2->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
+		downAttackAnimation2->SetFrameDurations({ 0.08 });
 
 
-		Animation* leftAttackAnimation = new Animation(
+		Animation* leftAttackAnimation1 = new Animation(
 			// Sprite Sheet
 			ResourceManager::Get().GetImage(L"effect_swordtrail_left_1"),
 		// X, Y, loop
 			-110, 0, false
 		);
-		leftAttackAnimation->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
-		leftAttackAnimation->SetFrameDurations({ 0.08 });
+		leftAttackAnimation1->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
+		leftAttackAnimation1->SetFrameDurations({ 0.08 });
 
-		Animation* leftAttackAnimation = new Animation(
+		Animation* leftAttackAnimation2 = new Animation(
 			// Sprite Sheet
 			ResourceManager::Get().GetImage(L"effect_swordtrail_left_2"),
 		// X, Y, loop
 			-110, 0, false
 		);
-		leftAttackAnimation->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
-		leftAttackAnimation->SetFrameDurations({ 0.08 });
+		leftAttackAnimation2->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
+		leftAttackAnimation2->SetFrameDurations({ 0.08 });
 
 
-		Animation* rightAttackAnimation = new Animation(
+		Animation* rightAttackAnimation1 = new Animation(
 			// Sprite Sheet
 			ResourceManager::Get().GetImage(L"effect_swordtrail_right_1"),
 		// X, Y, loop
 			110, 0, false
 		);
-		rightAttackAnimation->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
-		rightAttackAnimation->SetFrameDurations({ 0.08 });
+		rightAttackAnimation1->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
+		rightAttackAnimation1->SetFrameDurations({ 0.08 });
 
-		Animation* rightAttackAnimation = new Animation(
+		Animation* rightAttackAnimation2 = new Animation(
 			// Sprite Sheet
 			ResourceManager::Get().GetImage(L"effect_swordtrail_right_2"),
 		// X, Y, loop
 			110, 0, false
 		);
-		rightAttackAnimation->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
-		rightAttackAnimation->SetFrameDurations({ 0.08 });
+		rightAttackAnimation2->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
+		rightAttackAnimation2->SetFrameDurations({ 0.08 });
 
 
 		_effectController = new AnimationController();
 		_effectController->AddAnimation(
 			PlayerEffect::DOWN_ATTACK, 
-			downAttackAnimation
+			downAttackAnimation1
 		);
 		_effectController->AddAnimation(
 			PlayerEffect::LEFT_ATTACK, 
-			leftAttackAnimation
+			leftAttackAnimation1
 		);
 		_effectController->AddAnimation(
 			PlayerEffect::RIGHT_ATTACK, 
-			rightAttackAnimation
+			rightAttackAnimation1
 		);
 	}
 
