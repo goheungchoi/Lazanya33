@@ -463,7 +463,7 @@ public:
 
 		
 		// Draw Text
-		RectF textRect{ _x + _textPosition.X, _y + _textPosition.Y, (float)_width, (float)_height };
+		RectF textRect{ (float)_x, (float)_y, (float)_width, (float)_height };
 		!_text.empty() &&
 		!g.DrawString(_text.c_str(), -1, _pFont, textRect, &_textFormat, &_textBrush);
 
@@ -473,7 +473,6 @@ public:
 
 		// Reset Transform
 		g.ResetTransform();
-
 	}
 
 	virtual void RenderChildren(Graphics& g) override {

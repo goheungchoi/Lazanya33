@@ -154,6 +154,7 @@
     <ClInclude Include="BlessingContainer.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ChainedAnimationPack.h" />
     <ClInclude Include="CSound.h" />
     <ClInclude Include="DebugConsole.h" />
     <ClInclude Include="Container.h" />

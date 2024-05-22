@@ -36,6 +36,8 @@ public:
 			idle_img->GetHeight(), 
 			0, 0, 0, 0
 		);
+		player_idle->SetX(x);
+		player_idle->SetY(y);
 
 		// WARMING
 		Bitmap* warming_img = ResourceManager::Get().GetImage(L"tenacious_dwarf");
@@ -47,6 +49,8 @@ public:
 			warming_img->GetHeight(), 
 			0, 0, 0, 0
 		);
+		player_warming->SetX(x);
+		player_warming->SetY(y);
 
 		// BURNING
 		Bitmap* burning_img = ResourceManager::Get().GetImage(L"naughty");
@@ -58,6 +62,8 @@ public:
 			burning_img->GetHeight(), 
 			0, 0, 0, 0
 		);
+		player_burning->SetX(x);
+		player_burning->SetY(y);
 		
 		// DEAD
 		Bitmap* dead_img = ResourceManager::Get().GetImage(L"play_button");
@@ -69,6 +75,8 @@ public:
 			dead_img->GetHeight(), 
 			0, 0, 0, 0
 		);
+		player_dead->SetX(x);
+		player_dead->SetY(y);
 
 		// Register animations
 		AddAnimation(

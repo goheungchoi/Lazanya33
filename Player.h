@@ -58,30 +58,60 @@ public:
 		
 		Animation* downAttackAnimation = new Animation(
 			// Sprite Sheet
-			ResourceManager::Get().GetImage(L"effect_swordtrail_down"),
+			ResourceManager::Get().GetImage(L"effect_swordtrail_down_1"),
 		// X, Y, loop
 			0, 110, false
 		);
 		downAttackAnimation->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
 		downAttackAnimation->SetFrameDurations({ 0.08 });
 
+		Animation* downAttackAnimation = new Animation(
+			// Sprite Sheet
+			ResourceManager::Get().GetImage(L"effect_swordtrail_down_1"),
+		// X, Y, loop
+			0, 110, false
+		);
+		downAttackAnimation->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
+		downAttackAnimation->SetFrameDurations({ 0.08 });
+
+
 		Animation* leftAttackAnimation = new Animation(
 			// Sprite Sheet
-			ResourceManager::Get().GetImage(L"effect_swordtrail_left"),
+			ResourceManager::Get().GetImage(L"effect_swordtrail_left_1"),
 		// X, Y, loop
 			-110, 0, false
 		);
 		leftAttackAnimation->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
 		leftAttackAnimation->SetFrameDurations({ 0.08 });
 
+		Animation* leftAttackAnimation = new Animation(
+			// Sprite Sheet
+			ResourceManager::Get().GetImage(L"effect_swordtrail_left_2"),
+		// X, Y, loop
+			-110, 0, false
+		);
+		leftAttackAnimation->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
+		leftAttackAnimation->SetFrameDurations({ 0.08 });
+
+
 		Animation* rightAttackAnimation = new Animation(
 			// Sprite Sheet
-			ResourceManager::Get().GetImage(L"effect_swordtrail_right"),
+			ResourceManager::Get().GetImage(L"effect_swordtrail_right_1"),
 		// X, Y, loop
 			110, 0, false
 		);
 		rightAttackAnimation->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
 		rightAttackAnimation->SetFrameDurations({ 0.08 });
+
+		Animation* rightAttackAnimation = new Animation(
+			// Sprite Sheet
+			ResourceManager::Get().GetImage(L"effect_swordtrail_right_2"),
+		// X, Y, loop
+			110, 0, false
+		);
+		rightAttackAnimation->SliceSpriteSheet(120, 120, 0, 0, 0, 0);
+		rightAttackAnimation->SetFrameDurations({ 0.08 });
+
 
 		_effectController = new AnimationController();
 		_effectController->AddAnimation(

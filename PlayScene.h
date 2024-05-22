@@ -23,8 +23,10 @@ class PlayScene :public IScene
 /* Scene Graphics Components */
 	
 	// Game Play Scene Components
+	Container* _gamePlayUIContainer;
 	struct GamePlayComponents {
 		// TODO: Might need to be animated
+		Container* _leftBox;
 		Container* daughter;
 		Container* husband;
 		Container* mother;
@@ -42,6 +44,7 @@ class PlayScene :public IScene
 		Container* meterBackground;
 		Container* oxygenLevel;
 
+		Container* _rightBox;
 		Container* scoreBoard;
 		Container* gloryOfFamily;
 		Container* honorOfAncestor;
