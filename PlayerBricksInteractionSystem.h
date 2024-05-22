@@ -38,7 +38,7 @@ public:
 		{
 			PlayBrickDestroySound(_wall->GetBirckType(row, col));
 			RewardPlayer(row, col);
-			_wall->DestroyBrick(row, col);
+			_wall->DestroyBrick(row, col, key == VK_DOWN);
 			_player->SetPosition(col, 4);
 			if (key == VK_DOWN)
 			{
@@ -90,6 +90,11 @@ public:
 			_player->AddOxygen(currBrickData.blockDownAir);
 		}
 		
+		else if (currBrickData.type == BrickType::RASGULLA)
+		{
+			_player->TurnOnLasgulaState();
+		}
+
 
 		//If the broken brick is else thing
 		else

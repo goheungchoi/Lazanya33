@@ -53,6 +53,15 @@ protected:
   H_DIRECTION _horizontal{H_DIRECTION::LEFT};
   V_DIRECTION _vertical{V_DIRECTION::TOP};
 
+	// Color Attribute
+	ColorMatrix _imageColorMat 
+		{1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+    0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+    0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+    0.0f, 0.0f, 0.0f,	1.0f, 0.0f,
+    0.0f, 0.0f, 0.0f, 0.0f, 1.0f};
+	ImageAttributes _imageAtt;
+
 public:
 	GridItem() : 
 		// Cache Data
@@ -120,6 +129,26 @@ public:
 	void EnableFill(bool enable) { _fill = enable; }
 	void DisableFill(bool disable) { _fill = disable; }
 
+	// Color Intensity
+	float GetImageIntensity() {
+		return _imageColorMat.m[0][0];
+	}
+
+	void SetImageIntensity(float ir, float ig, float ib) {
+		_imageColorMat.m[0][0] = ir;
+		_imageColorMat.m[1][1] = ig;
+		_imageColorMat.m[2][2] = ib;
+		_imageAtt.SetColorMatrix(
+			&_imageColorMat, 
+			ColorMatrixFlagsDefault, 
+			ColorAdjustTypeBitmap
+		);
+	}
+
+	void SetCaching(bool cache) {
+		_caching = cache;
+	}
+
 	void ChangeTag(const wchar_t* tag) {
 		if (_caching) {
 			// Check if the cached sprite exists
@@ -161,7 +190,15 @@ public:
 
 		!_caching && 
 		_currentSprite && 
-		g.DrawImage(_currentSprite, *_currentSpriteRect);
+		g.DrawImage(
+			_currentSprite, 
+			*_currentSpriteRect,
+			0, 0,
+			_currentSprite->GetWidth(),
+			_currentSprite->GetHeight(),
+			UnitPixel,
+			&_imageAtt
+		);
 
 		_border && 
 		g.DrawRectangle(&_pen, *_currentSpriteRect);

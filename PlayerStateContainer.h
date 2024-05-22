@@ -27,46 +27,49 @@ public:
 	PlayerStateContainer(int x, int y, int w, int h)
 	: Container(x, y, w, h) {
 		// IDLE
-		Bitmap* idle_img = ResourceManager::Get().GetImage(L"anaerobic");
+		Bitmap* idle_img = ResourceManager::Get().GetImage(L"ui_idle_state");
 		Animation* player_idle = new Animation(
 			idle_img, 0, 300, true
 		);
 		player_idle->SliceSpriteSheet(
-			idle_img->GetWidth(),
-			idle_img->GetHeight(), 
+			540,
+			580, 
 			0, 0, 0, 0
 		);
+		player_idle->SetFrameDurations({ 0.2 });
 		player_idle->SetX(x);
 		player_idle->SetY(y);
 
 		// WARMING
-		Bitmap* warming_img = ResourceManager::Get().GetImage(L"tenacious_dwarf");
+		Bitmap* warming_img = ResourceManager::Get().GetImage(L"ui_warming_state");
 		Animation* player_warming = new Animation(
 			warming_img, 0, 300, true
 		);
 		player_warming->SliceSpriteSheet(
-			warming_img->GetWidth(),
-			warming_img->GetHeight(), 
+			540,
+			580, 
 			0, 0, 0, 0
 		);
+		player_warming->SetFrameDurations({ 0.1 });
 		player_warming->SetX(x);
 		player_warming->SetY(y);
 
 		// BURNING
-		Bitmap* burning_img = ResourceManager::Get().GetImage(L"naughty");
+		Bitmap* burning_img = ResourceManager::Get().GetImage(L"ui_burning_state");
 		Animation* player_burning = new Animation(
 			burning_img, 0, 300, true
 		);
 		player_burning->SliceSpriteSheet(
-			burning_img->GetWidth(),
-			burning_img->GetHeight(), 
+			540,
+			580, 
 			0, 0, 0, 0
 		);
+		player_burning->SetFrameDurations({ 0.1 });
 		player_burning->SetX(x);
 		player_burning->SetY(y);
 		
 		// DEAD
-		Bitmap* dead_img = ResourceManager::Get().GetImage(L"play_button");
+		Bitmap* dead_img = ResourceManager::Get().GetImage(L"ui_dead_state");
 		Animation* player_dead = new Animation(
 			dead_img, 0, 300, true
 		);

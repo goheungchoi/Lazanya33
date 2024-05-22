@@ -52,6 +52,10 @@ public:
 
 
   virtual void SetLasgulaDuration(double) = 0;
+	virtual void UpdateLasgulaState(double) = 0;
+	virtual void TurnOnLasgulaState() = 0;
+	virtual bool IsLasgula() = 0;
+
   virtual void SetComboElapsedTime(double) = 0;
 
   /* Modifiers */

@@ -162,7 +162,7 @@ void PlayScene::__InitComponents() {
 		ResourceManager::Get().GetImage(L"lazanya_ingame_headstone"),
 		L"headstone"
 	);
-	_renderSystem->CachingHelper(_player);
+	_player->SetCaching(false);
 
 	// Game End Background
 	_endComps.gameEndBG->BindSprite(
@@ -445,7 +445,7 @@ void PlayScene::__InitComponents() {
 		_uiComps.adBox->GetCenterX() - (_uiComps.adValue->GetWidth() >> 1),
 		_uiComps.adBox->GetCenterY() - (_uiComps.adValue->GetHeight() >> 1)
 	);
-	_uiComps.adValue->SetTextHorizontalAlignment(H_DIRECTION::CENTER);
+	_uiComps.adValue->SetTextHorizontalAlignment(H_DIRECTION::LEFT);
 	_uiComps.adValue->SetTextVerticalJustify(V_DIRECTION::CENTER);
 	_uiComps.adValue->SetFont(42, FontStyleBold);
 	_uiComps.adValue->SetText(L"00");
@@ -463,8 +463,9 @@ void PlayScene::__InitComponents() {
 		_uiComps.comboBox->GetCenterX() - (_uiComps.comboValue->GetWidth() >> 1),
 		_uiComps.comboBox->GetCenterY() - (_uiComps.comboValue->GetHeight() >> 1)
 	);
-	_uiComps.comboValue->SetTextHorizontalAlignment(H_DIRECTION::CENTER);	
+	_uiComps.comboValue->SetTextHorizontalAlignment(H_DIRECTION::RIGHT);	
 	_uiComps.comboValue->SetTextVerticalJustify(V_DIRECTION::BOTTOM);
+	_uiComps.comboValue->SetFontColor(255, 0, 0);
 	_uiComps.comboValue->SetFont(52, FontStyleBold);
 	_uiComps.comboValue->SetText(L"00");
 
@@ -727,6 +728,8 @@ void PlayScene::Update(const double deltaTime)
 	}
 #endif
 
+	_wall->Update(deltaTime);
+
 	if (_started) {
 		// Update player
 		__PlayerUpdate(deltaTime);
@@ -955,6 +958,12 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 	{
 		_player->SetCombo(0);
 		_player->AddComboElapsedTime(-1);
+	}
+
+	// Lasgula Update
+	_player->UpdateLasgulaState(deltaTime);
+	if (_player->IsLasgula()) {
+
 	}
 
 	// DOWN arrow key pressed

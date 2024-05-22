@@ -41,7 +41,15 @@ public:
 
   virtual void SetLasgulaDuration(double lasgulaDuration) 
   { _player->SetLasgulaDuration(lasgulaDuration); }
-  virtual void SetComboDuration(double comboDuration) 
+  virtual void UpdateLasgulaState(double dt) override
+	{ _player->UpdateLasgulaState(dt); }
+	virtual void TurnOnLasgulaState() override
+	{ _player->TurnOnLasgulaState(); }
+	virtual bool IsLasgula() override
+	{ return _player->IsLasgula(); }
+	
+	
+	virtual void SetComboDuration(double comboDuration) 
   { _player->SetComboDuration(comboDuration); }
   virtual void SetCombo(int combo) override
   {_player->SetCombo(combo);}

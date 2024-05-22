@@ -17,8 +17,9 @@ public:
     auto it = _animations.find(newState);
 		
     if (it != _animations.end()) {
-			if (it->second == _currentAnimation) 
-				return;
+			if (it->second == _currentAnimation &&
+				_currentAnimation->IsPlaying()
+			) return;
       _currentAnimation = it->second;
 			_currentAnimation->Trigger();
     }
