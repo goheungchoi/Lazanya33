@@ -216,6 +216,11 @@ public:
 
 		if (_lasgulaElapsedTime >= _lasgulaDuration) {
 			ResetLasgulaChanges();
+			
+			SetImageIntensity(1.f, 1.f, 1.f);
+			_lasgulaEffectElapsedTime = _lasgulaEffectInterval;
+			_lasgulaElapsedTime = 0;
+			_isLasgula = false;
 		}
 	}
 

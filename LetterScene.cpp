@@ -124,7 +124,7 @@ void LetterScene::__InitComponents() {
 	_comps.diagrams->SetDisplay(Display::FLEX);
 	_comps.diagrams->SetFlexAlignItem(FlexAlignItem::FLEX_START);
 	_comps.diagrams->SetFlexJustifyContent(FlexJustifyContent::SPACE_EVENLY);
-	
+	int a;
 	//// Right Box Components
 	// text1
 	_comps.text1->SetFontFamily(L"±×³à-ÀÌ¿Á¼±");
