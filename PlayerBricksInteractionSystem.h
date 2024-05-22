@@ -27,11 +27,7 @@ public:
 		{
 			_wall->_brickSprites.At(row, col) = GetBrickSprite(_wall->GetBirckType(row, col), TypeToTag(_wall->GetBirckType(row,col)));
 		}
-		//if bomb destroy
-		if (_wall->GetBirckType(row, col) == BrickType::BOMB)
-		{
-			_player->SetOxygenLevel(0.0);
-		}
+		
 
 		// if brick destory
 		if (_wall->GetBrick(row, col).blockHealth <= 0)
@@ -74,16 +70,22 @@ public:
 		else if (currBrickData.type == BrickType::OXYGEN)
 		{
 			_player->AddScoreFromOxyBlock(currBrickData.blockScore);
+			_player->AddOxygenFromOxyBlock(currBrickData.blockDownAir);
 
 			if (_player->GetPositionY() != row)
 			{
-				_player->AddOxygenFromOxyBlock(currBrickData.blockDownAir);
 				//SeoungWoo Change
 				_player->AddCombo();
 				_player->SetComboElapsedTime(0);
 				_player->AddDownMeter();
 			}
 		}
+
+		else if (currBrickData.type == BrickType::BOMB)
+		{
+			_player->AddOxygen(currBrickData.blockDownAir);
+		}
+		
 
 		//If the broken brick is else thing
 		else

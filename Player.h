@@ -11,7 +11,7 @@
 #include "ResourceManager.h"
 
 constexpr int PLAYER_DEFAULT_AD = 10;
-constexpr double PLAYER_DEFAULT_MAX_OXYGEN_LEVEL = 6000;
+constexpr double PLAYER_DEFAULT_MAX_OXYGEN_LEVEL = 10000;
 constexpr int PLAYER_DEFAULT_MAX_HP = 100;
 constexpr int PLAYER_DEFAULT_LASGULA_DURATION = 0;
 constexpr int PLAYER_DEFAULT_COMBO_DURATION = 1;
