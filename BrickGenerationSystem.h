@@ -224,16 +224,16 @@ public:
 
     switch (blockLevel) {
     case 1:
-      numberOfLayers = 14;
+      numberOfLayers = 13;
       break;
     case 2:
       numberOfLayers = 10;
       break;
     case 3:
-      numberOfLayers = 12;
+      numberOfLayers = 10;
       break;
     case 4:
-      numberOfLayers = 13;
+      numberOfLayers = 10;
       break;
     case 5:
       numberOfLayers = 13;
@@ -242,8 +242,8 @@ public:
     std::uniform_int_distribution<int> layerRand(1, numberOfLayers);
     tileLayer = layerRand(gen);
 
-    nameOfCSV = "Dirty//block_Lv" + std::to_string(blockLevel) +
-      "_Tile Layer " + std::to_string(tileLayer)+".csv";
+    nameOfCSV = "Block_Lv//Lv" + std::to_string(blockLevel) +
+      +"//block_Lv"+std::to_string(blockLevel)+ "_Tile Layer " + std::to_string(tileLayer) + ".csv";
     return nameOfCSV;
   }
 

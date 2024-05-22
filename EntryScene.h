@@ -19,6 +19,7 @@ class EntryScene: public IScene
 		Container* lazanya;
 		Container* title;
 		Container* highScore;
+		Container* highScoreName;
 
 		Container* age;
 
@@ -28,7 +29,7 @@ class EntryScene: public IScene
 		Button* artWorkButton;
 
 	}_mainComs;
-	int testIndex = 90;
+
 public:
 	EntryScene();
 	~EntryScene() {};

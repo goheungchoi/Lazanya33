@@ -231,12 +231,13 @@ public:
     }
   }
 
-	void UpdateContainerState() {
+	void UpdateContainerState(bool &isSelected) {
 		if (!_selectionChanged) return;
 		_selectionChanged = false;
 
 		if (_currSelectedIndex < 0) {	// When index is -1
 			// Reset all
+			isSelected = false;
 			for (int i = 0; i < _blessingContainers.size(); ++i) {
 				auto* bc = _blessingContainers[i];
 				if (i == _prevSelectedIndex) {
@@ -247,6 +248,8 @@ public:
 				}
 			}
 		} else {	// Otherwise
+			if (!isSelected)
+				isSelected = true;
 			for (int i = 0; i < _blessingContainers.size(); ++i) {
 				auto* bc = _blessingContainers[i];
 				// Selected container

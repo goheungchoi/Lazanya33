@@ -41,15 +41,15 @@ void LetterScene::__InitComponents() {
 	_comps._leftBox = new Container(
 		340, 185, screenWidth * 0.55, screenHeight
 	);
-	_comps.letter = new Container(0, 0, 700, 500);
+	_comps.letter = new Container(350, 200, 700, 500);
 
-	_comps.diagrams = new Container(0, 100, 700, 300);
+	_comps.diagrams = new Container(350, 600, 700, 300);
 
 	// RightBox Elemenst
 	_comps._rightBox = new Container(
 		20, 100, screenWidth * 0.45, screenHeight - 100
 	);
-	_comps.text1 = new Container(0, 0, 550, 50);
+	_comps.text1 = new Container(1100, 120, 550, 50);
 	_comps.blessingsOfGod = new Container(0, 0, 550, 500);
 	_comps.blessingStateController = new BlessingsOfGodStateController();
 	_comps.firstBlessingOfGod = new BlessingContainer(1078, 180, 550, 150);
@@ -88,15 +88,18 @@ void LetterScene::__InitComponents() {
 		_playButton->SetImageIntensity(1/2.0f);
 	});
 	_playButton->AddEventLister("mouseClick", [this]() {
-		Music::soundManager->PlayMusic(
-			Music::eSoundList::Button, Music::eSoundChannel::Effect
-		);
-		GetGameDataHub().SetCurrentUserBlessIndex(
-			static_cast<int>(
-				_comps.blessingStateController->GetCurrentSelectedBlessingType()
-			)
-		);
-		_sceneManager->ChangeScene("Play");
+		if (isBlessingSelected)
+		{
+			Music::soundManager->PlayMusic(
+				Music::eSoundList::Button, Music::eSoundChannel::Effect
+			);
+			GetGameDataHub().SetCurrentUserBlessIndex(
+				static_cast<int>(
+					_comps.blessingStateController->GetCurrentSelectedBlessingType()
+					)
+			);
+			_sceneManager->ChangeScene("Play");
+		}
 	});
 
 	//// Left Box Components
@@ -176,12 +179,14 @@ void LetterScene::Update(double dt)
 {
 	
 	// Check the mouse button events
-	_buttonEventHandler->HandleMouseEvent(
-		Input::inputManager->GetMouseClient().x,
-		Input::inputManager->GetMouseClient().y,
-		Input::inputManager->IsCurrDn(VK_LBUTTON),
-		Input::inputManager->IsCurrUp(VK_LBUTTON)
-	);
+	
+		_buttonEventHandler->HandleMouseEvent(
+			Input::inputManager->GetMouseClient().x,
+			Input::inputManager->GetMouseClient().y,
+			Input::inputManager->IsCurrDn(VK_LBUTTON),
+			Input::inputManager->IsCurrUp(VK_LBUTTON)
+		);
+	
 	_comps.blessingStateController->HandleMouseEvent(
 		Input::inputManager->GetMouseClient().x,
 		Input::inputManager->GetMouseClient().y,
@@ -189,7 +194,7 @@ void LetterScene::Update(double dt)
 		Input::inputManager->IsCurrUp(VK_LBUTTON)
 	);
 
-	_comps.blessingStateController->UpdateContainerState();
+	_comps.blessingStateController->UpdateContainerState(isBlessingSelected);
 
 	_comps.firstBlessingOfGod->Update(dt);
 	_comps.secondBlessingOfGod->Update(dt);

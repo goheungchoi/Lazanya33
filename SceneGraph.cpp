@@ -24,10 +24,10 @@ SceneGraph::~SceneGraph()
 	_pGameDataHub->SaveHistoryToFile();
 	delete _pGameDataHub;
 
-	for (auto it = _sceneRegistry.begin(); it != _sceneRegistry.end(); ++it)
+	/*for (auto it = _sceneRegistry.begin(); it != _sceneRegistry.end(); ++it)
 	{
 		delete it->second;
-	}
+	}*/
 }
 
 IScene* SceneGraph::GetCurrentScene()

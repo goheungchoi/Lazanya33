@@ -33,6 +33,7 @@ class LetterScene : public IScene
 		BlessingContainer* thirdBlessingOfGod;
 
 	} _comps;
+	bool isBlessingSelected = false;
 
 public:
 	LetterScene();

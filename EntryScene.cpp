@@ -48,21 +48,29 @@ EntryScene::EntryScene()
 	_mainComs.lazanya->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 
 	//age
-	_mainComs.age = new Container(500, 35, 100, 100);
+	_mainComs.age = new Container(500, 70,400,200);
 	_mainComs.age->SetRotationPivot(
 		_mainComs.age->GetCenterX(),
 		_mainComs.age->GetCenterY()
 	);
 	_mainComs.age->Rotate(10);
-	_mainComs.age->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_mainComs.age->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 	_mainComs.age->SetFontFamily(L"Her-Leeoksun");
-	_mainComs.age->SetFontColor(255, 255, 255, 255);
-	_mainComs.age->SetFont(170, FontStyleRegular);
+	_mainComs.age->SetFontColor(233, 233, 233, 255);
+	_mainComs.age->SetFont(150 , FontStyleRegular);
 	_mainComs.age->SetText(
-		_WStringAgeIndex(testIndex).c_str()
+		_WStringAgeIndex(GetGameDataHub().GetCurrentGeneration()).c_str()
 	);
+	_mainComs.age->EnableBorder(true);
+	_mainComs.age->SetBorder(0, 0, 255);
+	
+	//highscoreName
+	_mainComs.highScoreName = new Container(300, 300, 300, 300);
+	//_mainComs.highScoreName->SetText(
 
-
+	//)
+	_mainComs.highScoreName->EnableBorder(true);
+	_mainComs.highScoreName->SetBorder(0, 0, 255);
 
 	//playbutton
 	_mainComs.playbutton = new Button(40, 500, 300, 100);
@@ -149,16 +157,6 @@ void EntryScene::Update(const double deltaTime)
 		Input::inputManager->IsCurrDn(VK_LBUTTON),
 		Input::inputManager->IsCurrUp(VK_LBUTTON)
 	);
-
-	if (Input::inputManager->IsTurnDn(VK_SPACE))
-	{
-		testIndex++;
-		_mainComs.age->SetText(
-			_WStringAgeIndex(testIndex).c_str()
-		);
-	}
-
-
 }
  
 void EntryScene::Draw()
