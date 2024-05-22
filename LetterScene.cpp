@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "LetterScene.h"
 #include "EntryScene.h"
 #include "DebugConsole.h"
@@ -104,19 +104,19 @@ void LetterScene::__InitComponents() {
 
 	//// Left Box Components
 	// TODO: Need a script file seperate.
-	// letter scripts
+	// letter scripts í•œê¸€
 	_comps.letter->SetPositionLayout(PositionLayout::LAYOUT_STATIC);
-	_comps.letter->SetFontFamily(L"±×³à-ÀÌ¿Á¼±");
+	_comps.letter->SetFontFamily(L"Â±Ã—Â³Ã -Ã€ÃŒÂ¿ÃÂ¼Â±");
 	_comps.letter->SetText(
-		L"ÀÚ¶û½º·¯¿î ¶óÀÚºê °¡¹®ÀÇ Àå³à\n" L"¶óÀÚ³Ä 33¼¼¿©, "
-		L"ÆøÅº»ê ¹«Å©Æ¼´Ï·Î °¡°Å¶ó.\n\n"
+		L"Ã€ÃšÂ¶Ã»Â½ÂºÂ·Â¯Â¿Ã® Â¶Ã³Ã€ÃšÂºÃª Â°Â¡Â¹Â®Ã€Ã‡ Ã€Ã¥Â³Ã \n" L"Â¶Ã³Ã€ÃšÂ³Ã„ 33Â¼Â¼Â¿Â©, "
+		L"Ã†Ã¸Ã…ÂºÂ»Ãª Â¹Â«Ã…Â©Ã†Â¼Â´ÃÂ·ÃŽ Â°Â¡Â°Ã…Â¶Ã³.\n\n"
 
-		L"´©±¸º¸´Ù ¹«Å©Æ¼´Ï¸¦ ±í°Ô ÆÄ\n"
-		L"°¡¹®ÀÇ ¿µ±¤ÀÌ µÇ°Å¶ó\n\n"
+		L"Â´Â©Â±Â¸ÂºÂ¸Â´Ã™ Â¹Â«Ã…Â©Ã†Â¼Â´ÃÂ¸Â¦ Â±Ã­Â°Ã” Ã†Ã„\n"
+		L"Â°Â¡Â¹Â®Ã€Ã‡ Â¿ÂµÂ±Â¤Ã€ÃŒ ÂµÃ‡Â°Ã…Â¶Ã³\n\n"
 
-		L"ÇÐ±³¸¦ ¾È °¡´Â°É ¸í¿¹·Î ¿©°Ü¿Â\n"
-		L"¶óÀÚºê °¡¹®ÀÇ ÈÄ¼Õ´ä°Ô ±ÛÀ» ¸ð¸£°ÚÁö.\n"
-		L"±×¸²À¸·Î ¼³¸íÇÏ¸¶.");
+		L"Ã‡ÃÂ±Â³Â¸Â¦ Â¾Ãˆ Â°Â¡Â´Ã‚Â°Ã‰ Â¸Ã­Â¿Â¹Â·ÃŽ Â¿Â©Â°ÃœÂ¿Ã‚\n"
+		L"Â¶Ã³Ã€ÃšÂºÃª Â°Â¡Â¹Â®Ã€Ã‡ ÃˆÃ„Â¼Ã•Â´Ã¤Â°Ã” Â±Ã›Ã€Â» Â¸Ã°Â¸Â£Â°ÃšÃÃ¶.\n"
+		L"Â±Ã—Â¸Â²Ã€Â¸Â·ÃŽ Â¼Â³Â¸Ã­Ã‡ÃÂ¸Â¶.");
 	_comps.letter->SetFont(36, FontStyleBold);
 	// diagrams
 	_comps.diagrams->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
@@ -127,9 +127,9 @@ void LetterScene::__InitComponents() {
 	int a;
 	//// Right Box Components
 	// text1
-	_comps.text1->SetFontFamily(L"±×³à-ÀÌ¿Á¼±");
+	_comps.text1->SetFontFamily(L"Â±Ã—Â³Ã -Ã€ÃŒÂ¿ÃÂ¼Â±");
 	_comps.text1->SetFont(36, FontStyleBold);
-	_comps.text1->SetText(L"¾Æ, ±×¸®°í ³Ê °¡Á··ÂÀÌ ¹¹¿´Áö?");
+	_comps.text1->SetText(L"Â¾Ã†, Â±Ã—Â¸Â®Â°Ã­ Â³ÃŠ Â°Â¡ÃÂ·Â·Ã‚Ã€ÃŒ Â¹Â¹Â¿Â´ÃÃ¶?");
 	// blessings of God
 	_comps.blessingsOfGod->SetDisplay(Display::BLOCK);
 	// first blessingS
