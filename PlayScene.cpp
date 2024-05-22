@@ -777,7 +777,22 @@ void PlayScene::Update(const double deltaTime)
 
 		// Update Additional Score
 		_uiComps.additionalScore->SetText(
-			__WStringifyCombos(0).c_str()
+			[this, currCombo = _player->GetCurrCombo()]() -> std::wstring {
+				switch (currCombo) {
+				case 0:
+				case 1:
+					return __WStringifyCombos(0);
+				case 2:
+					return __WStringifyCombos(1);
+				case 3:
+					return __WStringifyCombos(2);
+				case 4:
+					return __WStringifyCombos(3);
+				case 5:
+				default:
+					return __WStringifyCombos(4);
+				}
+			}().c_str()
 		);
 
 		// Update Depth
@@ -961,6 +976,11 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 	{
 		_player->SetCombo(0);
 		_player->AddComboElapsedTime(-1);
+	}
+
+	// Set combo 99 if over 100
+	if (_player->GetCurrCombo() >= 100) {
+		_player->SetCombo(99);
 	}
 
 	// DOWN arrow key pressed

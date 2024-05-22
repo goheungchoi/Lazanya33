@@ -110,10 +110,26 @@ public:
 				_player->AddDownMeter();
 			}
 		}
-		// 플레이어의 양옆 벽돌이 파괴됐으면 (player.y == brick.y) 
-		// 플레이어 점수 o
-		// 
-		// 산소 x
+		
+		// Combo Additional Scores
+		switch (_player->GetCurrCombo()) {
+			case 0:
+			case 1:
+				break;
+			case 2:
+				_player->AddScore(1);		// One additional score
+				break;
+			case 3:
+				_player->AddScore(2);
+				break;
+			case 4:
+				_player->AddScore(3);
+				break;
+			case 5:
+			default:
+				_player->AddScore(4);
+				break;
+		}
 	}
 
 	//TODO: bircktype sound play
