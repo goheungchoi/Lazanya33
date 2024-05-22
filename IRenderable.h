@@ -30,6 +30,14 @@ public:
 		_position.Y = y;
 	}
 
+	virtual int GetX() {
+		return _position.X;
+	}
+
+	virtual int GetY() {
+		return _position.Y;
+	}
+
 	virtual void Render(Graphics& g) = 0;
 
 	virtual void CacheData(Graphics& g) {}

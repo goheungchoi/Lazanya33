@@ -4,9 +4,12 @@
 #include "GridItem.h"
 
 enum PlayerEffect {
-	DOWN_ATTACK,
-	LEFT_ATTACK,
-	RIGHT_ATTACK
+	DOWN_ATTACK1,
+	DOWN_ATTACK2,
+	LEFT_ATTACK1,
+	LEFT_ATTACK2,
+	RIGHT_ATTACK1,
+	RIGHT_ATTACK2
 };
 
 class IPlayer : public GridItem {
@@ -73,9 +76,17 @@ public:
 
 	virtual void TriggerEffect(PlayerEffect) = 0;
 
-	virtual void SetFacingRight(bool) = 0;
-	virtual bool IsFacingLeft() = 0;
-	virtual bool IsFacingRight() = 0;
+	virtual void DownKeyPressed() = 0;
+
+	virtual bool GetDownBool() = 0;
+
+	virtual void LeftKeyPressed() = 0;
+
+	virtual bool GetLeftBool() = 0;
+
+	virtual void RightKeyPressed() = 0;
+
+	virtual bool GetRightBool() = 0;
 
 	virtual void Update(double deltaTime) = 0;
 };
