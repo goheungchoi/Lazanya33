@@ -26,6 +26,7 @@ public:
 
 	void UpdateAmountOfRedeuceOxy()
 	{
+		if(_amountOfReduceOxy<=22)
 		_amountOfReduceOxy -= static_cast<double>((_player->GetDownMeter() % 50==0) * 2);
 	}
 };
