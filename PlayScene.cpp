@@ -385,6 +385,7 @@ void PlayScene::__InitComponents() {
 	// Center Box Components properties
 	
 	// LevelUp Sign
+	_uiComps.levelUpSign->SetActive(false);
 	_uiComps.levelUpSign->SetImageStrecth(false);
 	_uiComps.levelUpSign->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 	_uiComps.levelUpSign->SetPosition(CENTERBOX_OFFSET, 200);
@@ -609,6 +610,12 @@ void PlayScene::Update(const double deltaTime)
 	if (_started) {
 		// Update player
 		__PlayerUpdate(deltaTime);
+		__AutoValveCondition([this]() {
+			return _player->GetDownMeter() >= _nextLevelUpCeiling;
+		});
+
+		// Update Level Up Animation
+		LevelUpAnimationUpdate(deltaTime);
 
 		// Trigger NPC animation if any condition meets;
 		__TriggerNPCsAnimations();
@@ -1066,4 +1073,44 @@ std::wstring PlayScene::__WStringifyEndingMessage3() {
 		GetGameDataHub().GetCurrentGeneration() + 1
 	);
 	return std::wstring(buffer);
+}
+
+void PlayScene::__AutoValveCondition(std::function<bool()> condition) {
+	static bool valve = true;
+	if (valve) {	// valve is true 
+		if (condition()) {	// true
+			_nextLevelUpCeiling = _nextLevelUpCeiling + 50;
+			_isLevelUpAnimationPlaying = true;	
+			valve = false;	// Lock the valve
+		}
+	}
+	else {
+		valve = !condition();
+	}
+}
+
+
+void PlayScene::LevelUpAnimationUpdate(double dt) {
+	static int count = 0;
+	static double elapsedTime = 0.0;
+
+	if (!_isLevelUpAnimationPlaying) return;
+
+	elapsedTime += dt;
+
+	while (elapsedTime >= 0.2) {
+		elapsedTime -= 0.2;
+
+		if (count & 0b1) {
+			_uiComps.levelUpSign->SetActive(false);
+		} else {
+			_uiComps.levelUpSign->SetActive(true);
+		}
+
+		if (count++ > 10) {
+			count = 0;
+			elapsedTime = 0.0;
+			_isLevelUpAnimationPlaying = false;
+		}
+	}
 }

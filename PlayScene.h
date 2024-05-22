@@ -159,6 +159,12 @@ private:
 	
 	std::wstring __WStringifyEndingMessage3();
 
+	int _nextLevelUpCeiling{ 50 };	// Next level up meter min
+	int _levelUpMeterInterval{ 50 }; // Level up meter interval
+	bool _isLevelUpAnimationPlaying{ false };
+	void __AutoValveCondition(std::function<bool()> condition);
+	void LevelUpAnimationUpdate(double dt);
+
 #ifndef NDEBUG
 	std::wstring StringifyFrameRate(std::size_t fps) {
 		wchar_t buffer[12];
