@@ -28,7 +28,7 @@ public:
 	void Trigger() override {
 		if (_animations.empty()) return;
 		_isTriggered = true;
-		_currentAnimation = _animations[_currentIndex];
+		_currentAnimation = _animations[_currentIndex % _animations.size() ];
 		_currentAnimation->Trigger();
 	}
 
