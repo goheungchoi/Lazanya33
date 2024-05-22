@@ -13,7 +13,7 @@
 constexpr int PLAYER_DEFAULT_AD = 10;
 constexpr double PLAYER_DEFAULT_MAX_OXYGEN_LEVEL = 80;
 constexpr int PLAYER_DEFAULT_MAX_HP = 100;
-constexpr int PLAYER_DEFAULT_LASGULA_DURATION = 0;
+constexpr int PLAYER_DEFAULT_LASGULA_DURATION = 3;
 constexpr int PLAYER_DEFAULT_COMBO_DURATION = 1;
 
 /**
@@ -37,6 +37,10 @@ private:
 
   double _lasgulaDuration;
   double _lasgulaElapsedTime;
+	double _lasgulaEffectInterval{ 0.2 };
+	double _lasgulaEffectElapsedTime{ 0.2 };
+	bool _lasgulaEffectBool{ false };
+	bool _isLasgula{ false };
 
   double _comboDuration;
   double _comboElapsedTime;
@@ -184,7 +188,45 @@ public:
   void SetDownMeter(int meter)override { _downMeter = meter; }
 
   //TODO: lasgula
-  void SetLasgulaDuration(double) override { /*TODO*/ }
+  void SetLasgulaDuration(double lasgulaDuration) override { 
+		_lasgulaDuration = lasgulaDuration;
+	}
+	void UpdateLasgulaState(double dt) override {
+		if (!_isLasgula) return;
+
+		_lasgulaElapsedTime += dt;
+		_lasgulaEffectElapsedTime += dt;
+
+		while (_lasgulaEffectElapsedTime >= _lasgulaEffectInterval) {
+			_lasgulaEffectElapsedTime -= _lasgulaEffectInterval;
+
+			if (!_lasgulaEffectBool) {
+				SetImageIntensity(5.0f, 3.0f, 0.5f);
+			}
+			else {
+				SetImageIntensity(1.f, 1.f, 1.f);
+			}
+			_lasgulaEffectBool = !_lasgulaEffectBool;
+		}
+
+		if (_lasgulaElapsedTime >= _lasgulaDuration) {
+			SetAttackDamage
+			SetImageIntensity(1.f, 1.f, 1.f);
+			_lasgulaEffectElapsedTime = _lasgulaEffectInterval;
+			_lasgulaElapsedTime = 0;
+			_isLasgula = false;
+		}
+	}
+
+	void TurnOnLasgulaState() override {
+		_isLasgula = true;
+		SetAttackDamage(100);
+	}
+
+	bool IsLasgula() override {
+		return _isLasgula;
+	}
+
   
   //TODO: combo
   void SetComboElapsedTime(double comboElapsedTime) override { _comboElapsedTime = comboElapsedTime; }
