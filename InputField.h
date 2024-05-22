@@ -30,8 +30,8 @@ public:
 
         // Draw the cursor if focused
         if (focus) {
-            int textWidth = (int)graphics.MeasureString(text.c_str(), -1, &font, origin, nullptr).Width;
-            graphics.DrawLine(&pen, x + 2 + textWidth, y + 2, x + 2 + textWidth, y + height - 4);
+            //int textWidth = (int)graphics.MeasureString(text.c_str(), -1, &font, origin, nullptr).Width;
+            //graphics.DrawLine(&pen, x + 2 + textWidth, y + 2, x + 2 + textWidth, y + height - 4);
         }
     }
 

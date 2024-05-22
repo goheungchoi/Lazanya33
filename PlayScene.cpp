@@ -48,13 +48,10 @@ void PlayScene::__InitComponents() {
 
 /********** Allocate Memory **********/
 
-	_gamePlayUIContainer = new Container(0, 0, screenWidth, screenHeight);
 	_gameEndSceneContainer = new Container(0, 0, screenWidth, screenHeight);
 
 	// Left Box Components Allocation
-	_uiComps._leftBox = new Container(
-		0, 0, (screenWidth - 600) * 0.5 + 58, screenHeight
-	);
+
 	// TODO: Might need to be animated
 	_uiComps.daughter = new Container(0, 0, 385, 465);
 	_uiComps.husband = new Container(0, 0, 340, 400);
@@ -63,7 +60,6 @@ void PlayScene::__InitComponents() {
 	_uiComps.ancestors = new Container(0, 0, 720, 460);
 
 	// Center Box Components Allocation
-	_uiComps._centerBox = new Container(0, 0, 660, screenHeight);
 	_uiComps.levelUpSign = new Container(0, 0, 600, 200);
 	_uiComps.startMessage = new Container(0, 0, 100, 36);
 	_uiComps.adBox = new Container(0, 0, 200, 150);
@@ -76,9 +72,7 @@ void PlayScene::__InitComponents() {
 	_uiComps.oxygenLevel = new Container(0, 0, 58, screenHeight);
 
 	// Right Box Components Allocation
-	_uiComps._rightBox = new Container(
-		0, 0, 540, screenHeight
-	);
+
 	_uiComps.scoreBoard = new Container(
 		-5, 50, 540, 320
 	);
@@ -170,331 +164,331 @@ void PlayScene::__InitComponents() {
 
 /********** Set UI Component Properties **********/
 
-#ifndef NDEBUG	// Performance measure
+//#ifndef NDEBUG	// Performance measure
 	_fpsBox = new Container(5, 5, 100, 50);
-	_fpsBox->SetFont(24, FontStyleBold);
-	_fpsBox->SetText(StringifyFrameRate(0).c_str());
-#endif
-
-#ifndef NDEBUG	// _leftBox debugging borders
-	_uiComps._leftBox->EnableFill(true);
-	_uiComps._leftBox->SetFillColor(255, 255, 255);
-	_uiComps._leftBox->EnableBorder(true);
-	_uiComps._leftBox->SetBorder(255, 0, 0);
-	_uiComps._centerBox->EnableBorder(true);
-	_uiComps._centerBox->SetBorder(0, 255, 0);
-	_uiComps._rightBox->EnableFill(true);
-	_uiComps._rightBox->SetFillColor(255, 255, 255);
-	_uiComps._rightBox->EnableBorder(true);
-	_uiComps._rightBox->SetBorder(0, 0, 255);
-
-	_uiComps.daughter->EnableFill(true);
-	_uiComps.daughter->SetFillColor(145, 25, 90);
-	_uiComps.husband->EnableFill(true);
-	_uiComps.husband->SetFillColor(25, 240, 170);
-	_uiComps.mother->EnableFill(true);
-	_uiComps.mother->SetFillColor(180, 100, 10);
-	_uiComps.dancingTownspeople->EnableFill(true);
-	_uiComps.dancingTownspeople->SetFillColor(46, 25, 250);
-	_uiComps.ancestors->EnableFill(true);
-	_uiComps.ancestors->SetFillColor(200, 120, 150);
-
-	_uiComps.levelUpSign->EnableBorder(true);
-	_uiComps.levelUpSign->SetBorder(250, 0, 0);
-	_uiComps.startMessage->EnableBorder(true);
-	_uiComps.startMessage->SetBorder(150, 250, 0);
-	_uiComps.adBox->EnableBorder(true);
-	_uiComps.adBox->SetBorder(100, 250, 100);
-	_uiComps.adValue->EnableBorder(true);
-	_uiComps.adValue->SetBorder(210, 46, 120);
-	_uiComps.comboBox->EnableBorder(true);
-	_uiComps.comboBox->SetBorder(100, 250, 100);
-	_uiComps.comboValue->EnableBorder(true);
-	_uiComps.comboValue->SetBorder(210, 46, 120);
-
-	_uiComps.scoreBoard->EnableBorder(true);
-	_uiComps.scoreBoard->SetBorder(0, 0, 0, 255);
-	_uiComps.gloryOfFamily->EnableBorder(true);
-	_uiComps.gloryOfFamily->SetBorder(0, 220, 10);
-	_uiComps.honorOfAncestor->EnableBorder(true);
-	_uiComps.honorOfAncestor->SetBorder(0, 220, 90);
-	_uiComps.currentHonor->EnableBorder(true);
-	_uiComps.currentHonor->SetBorder(0, 220, 170);
-	_uiComps.currentState->EnableBorder(true);
-	_uiComps.currentState->SetBorder(0, 220, 250);
-	_uiComps.extraInfo->EnableBorder(true);
-	_uiComps.extraInfo->SetBorder(0, 220, 170);
-	_uiComps.additionalScore->EnableBorder(true);
-	_uiComps.additionalScore->SetBorder(0, 220, 10);
-	_uiComps.depth->EnableBorder(true);
-	_uiComps.depth->SetBorder(210, 46, 120);
-
-	_endComps.textBox->EnableBorder(true);
-	_endComps.textBox->SetBorder(255, 0, 0);
-	_endComps.text1->EnableBorder(true);
-	_endComps.text1->SetBorder(0, 255, 100);
-	_endComps.text2->EnableBorder(true);
-	_endComps.text2->SetBorder(255, 100, 20);
-	_endComps.text3->EnableBorder(true);
-	_endComps.text3->SetBorder(20, 0, 2550);
-
-#endif // !NDEBUG
-
-
-	// Left Box Components properties
-	// Daughter
-	_uiComps.daughter->SetZValue(8);
-	_uiComps.daughter->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
-	_uiComps.daughter->SetPosition(0, screenHeight);
-	// Daughter pop-up animation
-	IAnimation* daughter_shootup = new TranslateTransition(
-		_uiComps.daughter,
-		-100, screenHeight, 0, 300, 0.5, bezier::ease_out
-	);
-	IAnimation* daughter_comedown = new TranslateTransition(
-		_uiComps.daughter,
-		0, 300, 30, 810, 0.3, bezier::ease_in
-	);
-	IAnimation* daughter_moveup = new TranslateTransition(
-		_uiComps.daughter,
-		30, 810, 30, 600, 0.3, bezier::ease_out
-	);
-	IAnimation* daughter_movedown = new TranslateTransition(
-		_uiComps.daughter,
-		30, 600, 30, 810, 0.3, bezier::ease_in
-	);
-	SequentialAnimationPack* daughter_animationPack = new SequentialAnimationPack();
-	daughter_animationPack->PushBackAnimation(
-		{ daughter_shootup, daughter_comedown, daughter_moveup, daughter_movedown }
-	);
-	daughter_animationPack->SetLoop(true);
-	daughter_animationPack->SetLoopRange(2, 4);
-	_uiComps.daughter->AddAnimation(0, daughter_animationPack);
-
-	// Husband
-	_uiComps.husband->SetZValue(10);
-	_uiComps.husband->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
-	_uiComps.husband->SetPosition(0, screenHeight);
-	// Husband pop-up animation
-	IAnimation* husband_shootup = new TranslateTransition(
-		_uiComps.husband,
-		-200, screenHeight-100, 160, 100, 0.5, bezier::ease_out
-	);
-	IAnimation* husband_comedown = new TranslateTransition(
-		_uiComps.husband,
-		160, 100, 320, 615, 0.3, bezier::ease_in
-	);
-	IAnimation* husband_moveup = new TranslateTransition(
-		_uiComps.husband,
-		320, 615, 320, 400, 0.3, bezier::ease_out
-	);
-	IAnimation* husband_movedown = new TranslateTransition(
-		_uiComps.husband,
-		320, 400, 320, 615, 0.3, bezier::ease_in
-	);
-	SequentialAnimationPack* husband_animationPack = new SequentialAnimationPack();
-	husband_animationPack->PushBackAnimation(
-		{ husband_shootup, husband_comedown, husband_moveup, husband_movedown }
-	);
-	husband_animationPack->SetLoop(true);
-	husband_animationPack->SetLoopRange(2, 4);
-	_uiComps.husband->AddAnimation(0, husband_animationPack);
-
-	// Mother
-	_uiComps.mother->SetZValue(6);
-	_uiComps.mother->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
-	_uiComps.mother->SetPosition(0, screenHeight);
-	// Mother pop-up animation
-	IAnimation* mother_shootup = new TranslateTransition(
-		_uiComps.mother,
-		500, screenHeight-100, 250, 100, 0.5, bezier::ease_out
-	);
-	IAnimation* mother_comedown = new TranslateTransition(
-		_uiComps.mother,
-		250, 100, 0, 580, 0.3, bezier::ease_in
-	);
-	IAnimation* mother_moveup = new TranslateTransition(
-		_uiComps.mother,
-		0, 580, 0, 380, 0.3, bezier::ease_out
-	);
-	IAnimation* mother_movedown = new TranslateTransition(
-		_uiComps.mother,
-		0, 380, 0, 580, 0.3, bezier::ease_in
-	);
-	SequentialAnimationPack* mother_animationPack = new SequentialAnimationPack();
-	mother_animationPack->PushBackAnimation(
-		{ mother_shootup, mother_comedown, mother_moveup, mother_movedown }
-	);
-	mother_animationPack->SetLoop(true);
-	mother_animationPack->SetLoopRange(2, 4);
-	_uiComps.mother->AddAnimation(0, mother_animationPack);
-
-	// Dancing Townspeople
-	_uiComps.dancingTownspeople->SetZValue(4);
-	_uiComps.dancingTownspeople->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
-	_uiComps.dancingTownspeople->SetPosition(0, screenHeight);
-	// Dancing Townspeople pop-up animation
-	IAnimation* dancingTownspeople_shootup = new TranslateTransition(
-		_uiComps.dancingTownspeople,
-		0, screenHeight-100, 0, -100, 0.5, bezier::ease_out
-	);
-	IAnimation* dancingTownspeople_comedown = new TranslateTransition(
-		_uiComps.dancingTownspeople,
-		0, -100, 0, 345, 0.3, bezier::ease_in
-	);
-	IAnimation* dancingTownspeople_moveup = new TranslateTransition(
-		_uiComps.dancingTownspeople,
-		0, 345, 0, 195, 0.3, bezier::ease_out
-	);
-	IAnimation* dancingTownspeople_movedown = new TranslateTransition(
-		_uiComps.dancingTownspeople,
-		0, 195, 0, 345, 0.3, bezier::ease_in
-	);
-	SequentialAnimationPack* dancingTownspeople_animationPack = new SequentialAnimationPack();
-	dancingTownspeople_animationPack->PushBackAnimation(
-		{ dancingTownspeople_shootup, dancingTownspeople_comedown, dancingTownspeople_moveup, dancingTownspeople_movedown }
-	);
-	dancingTownspeople_animationPack->SetLoop(true);
-	dancingTownspeople_animationPack->SetLoopRange(2, 4);
-	_uiComps.dancingTownspeople->AddAnimation(0, dancingTownspeople_animationPack);
-	
-	// Ancestors
-	_uiComps.ancestors->SetZValue(2);
-	_uiComps.ancestors->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
-	_uiComps.ancestors->SetPosition(0, screenHeight);
-	// Daughter pop-up animation
-	IAnimation* ancestors_shootup = new TranslateTransition(
-		_uiComps.ancestors,
-		0, screenHeight, 0, 0, 1.5, bezier::ease_in_out
-	);
-	IAnimation* ancestors_comedown = new TranslateTransition(
-		_uiComps.ancestors,
-		0, 0, 0, 30, 1, bezier::ease_in
-	);
-	IAnimation* ancestors_moveup = new TranslateTransition(
-		_uiComps.ancestors,
-		0, 30, 0, -10, 0.5, bezier::ease_out
-	);
-	IAnimation* ancestors_movedown = new TranslateTransition(
-		_uiComps.ancestors,
-		0, -10, 0, 30, 0.5, bezier::ease_in
-	);
-	SequentialAnimationPack* ancestors_animationPack = new SequentialAnimationPack();
-	ancestors_animationPack->PushBackAnimation(
-		{ ancestors_shootup, ancestors_comedown, ancestors_moveup, ancestors_movedown }
-	);
-	ancestors_animationPack->SetLoop(true);
-	ancestors_animationPack->SetLoopRange(2, 4);
-	_uiComps.ancestors->AddAnimation(0, ancestors_animationPack);
-	
-	// Center Box Components properties
-	_uiComps._centerBox->SetDisplay(Display::FLEX);
-	
-	// LevelUp Sign
-	_uiComps.levelUpSign->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
-	_uiComps.levelUpSign->SetPosition(718, 200);
-	
-	// Start Message
-	_uiComps.startMessage->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
-	_uiComps.startMessage->SetPosition(978, 340);
-	_uiComps.startMessage->SetFontFamily(L"Arial");	// TODO: Change it to Broadway
-	_uiComps.startMessage->SetFontColor(220, 220, 220, 120);
-	_uiComps.startMessage->SetFont(24, FontStyleBold);
-	_uiComps.startMessage->SetText(L"Press ↓");
-
-	// attackDamageBox?
-	_uiComps.adBox->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
-	_uiComps.adBox->SetPosition(718, 50);
-	_uiComps.adBox->SetImageStrecth(false);
-	_uiComps.adBox->SetImageAlignment(H_DIRECTION::CENTER, V_DIRECTION::TOP);
-	_uiComps.adBox->SetDisplay(Display::FLEX);
-	_uiComps.adBox->SetFlexDirection(FlexDirection::COLUMN);
-	_uiComps.adBox->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
-	_uiComps.adBox->SetFlexJustifyContent(FlexJustifyContent::SPACE_AROUND);
-	_uiComps.adValue->SetTextHorizontalAlignment(H_DIRECTION::CENTER);
-	_uiComps.adValue->SetTextVerticalJustify(V_DIRECTION::CENTER);
-	_uiComps.adValue->SetFont(42, FontStyleBold);
-	_uiComps.adValue->SetText(L"00");
-	
-	// comboBox
-	_uiComps.comboBox->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
-	_uiComps.comboBox->SetPosition(1118, 50);
-	_uiComps.comboBox->SetImageStrecth(false);
-	_uiComps.comboBox->SetImageAlignment(H_DIRECTION::CENTER, V_DIRECTION::TOP);
-	_uiComps.comboBox->SetDisplay(Display::FLEX);
-	_uiComps.comboBox->SetFlexDirection(FlexDirection::COLUMN);
-	_uiComps.comboBox->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
-	_uiComps.comboBox->SetFlexJustifyContent(FlexJustifyContent::SPACE_AROUND);
-	_uiComps.comboValue->SetPosition(-12, -4);
-	_uiComps.comboValue->SetTextHorizontalAlignment(H_DIRECTION::CENTER);	
-	_uiComps.comboValue->SetTextVerticalJustify(V_DIRECTION::BOTTOM);
-	_uiComps.comboValue->SetFont(52, FontStyleBold);
-	_uiComps.comboValue->SetText(L"00");
-
-	// Oxygen Level
-	_uiComps.oxygenMeter->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
-	_uiComps.oxygenMeter->SetPosition(600, 0);
-	_uiComps.oxygenMeter->EnableBorder(true);
-	_uiComps.oxygenMeter->SetBorder(0, 0, 0, -1, 5.f);
-	_uiComps.oxygenMeter->SetZValue(10);
-	_uiComps.meterBackground->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
-	_uiComps.meterBackground->SetPosition(600, 0);
-	_uiComps.meterBackground->EnableFill(true);
-	_uiComps.meterBackground->SetFillColor(255, 255, 255);
-	_uiComps.oxygenLevel->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
-	_uiComps.oxygenLevel->SetPosition(600, 0);
-	_uiComps.oxygenLevel->SetZValue(5);
-	_uiComps.oxygenLevel->EnableFill(true);
-	_uiComps.oxygenLevel->SetFillColor(0, 120, 240);
-
-	// Right Box Components properties
-	_uiComps._rightBox->SetDisplay(Display::BLOCK);
-	_uiComps.scoreBoard->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
-	_uiComps.gloryOfFamily->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
-	_uiComps.gloryOfFamily->SetTextHorizontalAlignment(H_DIRECTION::RIGHT);
-	_uiComps.gloryOfFamily->SetTextVerticalJustify(V_DIRECTION::BOTTOM);
-	_uiComps.gloryOfFamily->SetFont(52, FontStyleBold);
-	_uiComps.gloryOfFamily->SetTextPosition(5, 25);
-
-	_uiComps.honorOfAncestor->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
-	_uiComps.honorOfAncestor->SetTextHorizontalAlignment(H_DIRECTION::RIGHT);
-	_uiComps.honorOfAncestor->SetTextVerticalJustify(V_DIRECTION::BOTTOM);
-	_uiComps.honorOfAncestor->SetFont(52, FontStyleBold);
-	_uiComps.honorOfAncestor->SetTextPosition(5, 25);
-
-	_uiComps.extraInfo->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
-	_uiComps.extraInfo->SetDisplay(Display::FLEX);
-	_uiComps.extraInfo->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
-	_uiComps.extraInfo->SetFlexJustifyContent(FlexJustifyContent::SPACE_BETWEEN);
-
-	_uiComps.additionalScore->SetTextHorizontalAlignment(H_DIRECTION::CENTER);
-	_uiComps.additionalScore->SetTextVerticalJustify(V_DIRECTION::BOTTOM);
-	_uiComps.additionalScore->SetFont(52, FontStyleBold);
-	_uiComps.additionalScore->SetText(L"00");	// DEBUG
-
-	_uiComps.depth->SetTextHorizontalAlignment(H_DIRECTION::CENTER);
-	_uiComps.depth->SetTextVerticalJustify(V_DIRECTION::BOTTOM);
-	_uiComps.depth->SetFont(52, FontStyleBold);
-	_uiComps.depth->SetText(L"00 M");	// DEBUG
-
-	_uiComps.currentHonor->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
-	_uiComps.currentHonor->SetTextHorizontalAlignment(H_DIRECTION::RIGHT);
-	_uiComps.currentHonor->SetTextVerticalJustify(V_DIRECTION::BOTTOM);
-	_uiComps.currentHonor->SetFont(52, FontStyleBold);
-	_uiComps.currentHonor->SetTextPosition(5, 25);
-	
-	
-	// Add Animations in the currentState.
-	_uiComps.currentState->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
-
-
-	// The UI Container
-	_gamePlayUIContainer->SetDisplay(Display::FLEX);
-	_gamePlayUIContainer->SetFlexJustifyContent(FlexJustifyContent::FLEX_START);
-
-
-	_gridMapBackground->SetPosition(screenWidth >> 1, screenHeight >> 1);
-	_gridMapBackground->UpdateSpritePivotPosition(H_DIRECTION::CENTER, V_DIRECTION::CENTER);
+//	_fpsBox->SetFont(24, FontStyleBold);
+//	_fpsBox->SetText(StringifyFrameRate(0).c_str());
+//#endif
+//
+//#ifndef NDEBUG	// _leftBox debugging borders
+//	_uiComps._leftBox->EnableFill(true);
+//	_uiComps._leftBox->SetFillColor(255, 255, 255);
+//	_uiComps._leftBox->EnableBorder(true);
+//	_uiComps._leftBox->SetBorder(255, 0, 0);
+//	_uiComps._centerBox->EnableBorder(true);
+//	_uiComps._centerBox->SetBorder(0, 255, 0);
+//	_uiComps._rightBox->EnableFill(true);
+//	_uiComps._rightBox->SetFillColor(255, 255, 255);
+//	_uiComps._rightBox->EnableBorder(true);
+//	_uiComps._rightBox->SetBorder(0, 0, 255);
+//
+//	_uiComps.daughter->EnableFill(true);
+//	_uiComps.daughter->SetFillColor(145, 25, 90);
+//	_uiComps.husband->EnableFill(true);
+//	_uiComps.husband->SetFillColor(25, 240, 170);
+//	_uiComps.mother->EnableFill(true);
+//	_uiComps.mother->SetFillColor(180, 100, 10);
+//	_uiComps.dancingTownspeople->EnableFill(true);
+//	_uiComps.dancingTownspeople->SetFillColor(46, 25, 250);
+//	_uiComps.ancestors->EnableFill(true);
+//	_uiComps.ancestors->SetFillColor(200, 120, 150);
+//
+//	_uiComps.levelUpSign->EnableBorder(true);
+//	_uiComps.levelUpSign->SetBorder(250, 0, 0);
+//	_uiComps.startMessage->EnableBorder(true);
+//	_uiComps.startMessage->SetBorder(150, 250, 0);
+//	_uiComps.adBox->EnableBorder(true);
+//	_uiComps.adBox->SetBorder(100, 250, 100);
+//	_uiComps.adValue->EnableBorder(true);
+//	_uiComps.adValue->SetBorder(210, 46, 120);
+//	_uiComps.comboBox->EnableBorder(true);
+//	_uiComps.comboBox->SetBorder(100, 250, 100);
+//	_uiComps.comboValue->EnableBorder(true);
+//	_uiComps.comboValue->SetBorder(210, 46, 120);
+//
+//	_uiComps.scoreBoard->EnableBorder(true);
+//	_uiComps.scoreBoard->SetBorder(0, 0, 0, 255);
+//	_uiComps.gloryOfFamily->EnableBorder(true);
+//	_uiComps.gloryOfFamily->SetBorder(0, 220, 10);
+//	_uiComps.honorOfAncestor->EnableBorder(true);
+//	_uiComps.honorOfAncestor->SetBorder(0, 220, 90);
+//	_uiComps.currentHonor->EnableBorder(true);
+//	_uiComps.currentHonor->SetBorder(0, 220, 170);
+//	_uiComps.currentState->EnableBorder(true);
+//	_uiComps.currentState->SetBorder(0, 220, 250);
+//	_uiComps.extraInfo->EnableBorder(true);
+//	_uiComps.extraInfo->SetBorder(0, 220, 170);
+//	_uiComps.additionalScore->EnableBorder(true);
+//	_uiComps.additionalScore->SetBorder(0, 220, 10);
+//	_uiComps.depth->EnableBorder(true);
+//	_uiComps.depth->SetBorder(210, 46, 120);
+//
+//	_endComps.textBox->EnableBorder(true);
+//	_endComps.textBox->SetBorder(255, 0, 0);
+//	_endComps.text1->EnableBorder(true);
+//	_endComps.text1->SetBorder(0, 255, 100);
+//	_endComps.text2->EnableBorder(true);
+//	_endComps.text2->SetBorder(255, 100, 20);
+//	_endComps.text3->EnableBorder(true);
+//	_endComps.text3->SetBorder(20, 0, 2550);
+//
+//#endif // !NDEBUG
+//
+//
+//	// Left Box Components properties
+//	// Daughter
+//	_uiComps.daughter->SetZValue(8);
+//	_uiComps.daughter->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+//	_uiComps.daughter->SetPosition(0, screenHeight);
+//	// Daughter pop-up animation
+//	IAnimation* daughter_shootup = new TranslateTransition(
+//		_uiComps.daughter,
+//		-100, screenHeight, 0, 300, 0.5, bezier::ease_out
+//	);
+//	IAnimation* daughter_comedown = new TranslateTransition(
+//		_uiComps.daughter,
+//		0, 300, 30, 810, 0.3, bezier::ease_in
+//	);
+//	IAnimation* daughter_moveup = new TranslateTransition(
+//		_uiComps.daughter,
+//		30, 810, 30, 600, 0.3, bezier::ease_out
+//	);
+//	IAnimation* daughter_movedown = new TranslateTransition(
+//		_uiComps.daughter,
+//		30, 600, 30, 810, 0.3, bezier::ease_in
+//	);
+//	SequentialAnimationPack* daughter_animationPack = new SequentialAnimationPack();
+//	daughter_animationPack->PushBackAnimation(
+//		{ daughter_shootup, daughter_comedown, daughter_moveup, daughter_movedown }
+//	);
+//	daughter_animationPack->SetLoop(true);
+//	daughter_animationPack->SetLoopRange(2, 4);
+//	_uiComps.daughter->AddAnimation(0, daughter_animationPack);
+//
+//	// Husband
+//	_uiComps.husband->SetZValue(10);
+//	_uiComps.husband->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+//	_uiComps.husband->SetPosition(0, screenHeight);
+//	// Husband pop-up animation
+//	IAnimation* husband_shootup = new TranslateTransition(
+//		_uiComps.husband,
+//		-200, screenHeight-100, 160, 100, 0.5, bezier::ease_out
+//	);
+//	IAnimation* husband_comedown = new TranslateTransition(
+//		_uiComps.husband,
+//		160, 100, 320, 615, 0.3, bezier::ease_in
+//	);
+//	IAnimation* husband_moveup = new TranslateTransition(
+//		_uiComps.husband,
+//		320, 615, 320, 400, 0.3, bezier::ease_out
+//	);
+//	IAnimation* husband_movedown = new TranslateTransition(
+//		_uiComps.husband,
+//		320, 400, 320, 615, 0.3, bezier::ease_in
+//	);
+//	SequentialAnimationPack* husband_animationPack = new SequentialAnimationPack();
+//	husband_animationPack->PushBackAnimation(
+//		{ husband_shootup, husband_comedown, husband_moveup, husband_movedown }
+//	);
+//	husband_animationPack->SetLoop(true);
+//	husband_animationPack->SetLoopRange(2, 4);
+//	_uiComps.husband->AddAnimation(0, husband_animationPack);
+//
+//	// Mother
+//	_uiComps.mother->SetZValue(6);
+//	_uiComps.mother->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+//	_uiComps.mother->SetPosition(0, screenHeight);
+//	// Mother pop-up animation
+//	IAnimation* mother_shootup = new TranslateTransition(
+//		_uiComps.mother,
+//		500, screenHeight-100, 250, 100, 0.5, bezier::ease_out
+//	);
+//	IAnimation* mother_comedown = new TranslateTransition(
+//		_uiComps.mother,
+//		250, 100, 0, 580, 0.3, bezier::ease_in
+//	);
+//	IAnimation* mother_moveup = new TranslateTransition(
+//		_uiComps.mother,
+//		0, 580, 0, 380, 0.3, bezier::ease_out
+//	);
+//	IAnimation* mother_movedown = new TranslateTransition(
+//		_uiComps.mother,
+//		0, 380, 0, 580, 0.3, bezier::ease_in
+//	);
+//	SequentialAnimationPack* mother_animationPack = new SequentialAnimationPack();
+//	mother_animationPack->PushBackAnimation(
+//		{ mother_shootup, mother_comedown, mother_moveup, mother_movedown }
+//	);
+//	mother_animationPack->SetLoop(true);
+//	mother_animationPack->SetLoopRange(2, 4);
+//	_uiComps.mother->AddAnimation(0, mother_animationPack);
+//
+//	// Dancing Townspeople
+//	_uiComps.dancingTownspeople->SetZValue(4);
+//	_uiComps.dancingTownspeople->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+//	_uiComps.dancingTownspeople->SetPosition(0, screenHeight);
+//	// Dancing Townspeople pop-up animation
+//	IAnimation* dancingTownspeople_shootup = new TranslateTransition(
+//		_uiComps.dancingTownspeople,
+//		0, screenHeight-100, 0, -100, 0.5, bezier::ease_out
+//	);
+//	IAnimation* dancingTownspeople_comedown = new TranslateTransition(
+//		_uiComps.dancingTownspeople,
+//		0, -100, 0, 345, 0.3, bezier::ease_in
+//	);
+//	IAnimation* dancingTownspeople_moveup = new TranslateTransition(
+//		_uiComps.dancingTownspeople,
+//		0, 345, 0, 195, 0.3, bezier::ease_out
+//	);
+//	IAnimation* dancingTownspeople_movedown = new TranslateTransition(
+//		_uiComps.dancingTownspeople,
+//		0, 195, 0, 345, 0.3, bezier::ease_in
+//	);
+//	SequentialAnimationPack* dancingTownspeople_animationPack = new SequentialAnimationPack();
+//	dancingTownspeople_animationPack->PushBackAnimation(
+//		{ dancingTownspeople_shootup, dancingTownspeople_comedown, dancingTownspeople_moveup, dancingTownspeople_movedown }
+//	);
+//	dancingTownspeople_animationPack->SetLoop(true);
+//	dancingTownspeople_animationPack->SetLoopRange(2, 4);
+//	_uiComps.dancingTownspeople->AddAnimation(0, dancingTownspeople_animationPack);
+//	
+//	// Ancestors
+//	_uiComps.ancestors->SetZValue(2);
+//	_uiComps.ancestors->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+//	_uiComps.ancestors->SetPosition(0, screenHeight);
+//	// Daughter pop-up animation
+//	IAnimation* ancestors_shootup = new TranslateTransition(
+//		_uiComps.ancestors,
+//		0, screenHeight, 0, 0, 1.5, bezier::ease_in_out
+//	);
+//	IAnimation* ancestors_comedown = new TranslateTransition(
+//		_uiComps.ancestors,
+//		0, 0, 0, 30, 1, bezier::ease_in
+//	);
+//	IAnimation* ancestors_moveup = new TranslateTransition(
+//		_uiComps.ancestors,
+//		0, 30, 0, -10, 0.5, bezier::ease_out
+//	);
+//	IAnimation* ancestors_movedown = new TranslateTransition(
+//		_uiComps.ancestors,
+//		0, -10, 0, 30, 0.5, bezier::ease_in
+//	);
+//	SequentialAnimationPack* ancestors_animationPack = new SequentialAnimationPack();
+//	ancestors_animationPack->PushBackAnimation(
+//		{ ancestors_shootup, ancestors_comedown, ancestors_moveup, ancestors_movedown }
+//	);
+//	ancestors_animationPack->SetLoop(true);
+//	ancestors_animationPack->SetLoopRange(2, 4);
+//	_uiComps.ancestors->AddAnimation(0, ancestors_animationPack);
+//	
+//	// Center Box Components properties
+//	_uiComps._centerBox->SetDisplay(Display::FLEX);
+//	
+//	// LevelUp Sign
+//	_uiComps.levelUpSign->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
+//	_uiComps.levelUpSign->SetPosition(718, 200);
+//	
+//	// Start Message
+//	_uiComps.startMessage->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
+//	_uiComps.startMessage->SetPosition(978, 340);
+//	_uiComps.startMessage->SetFontFamily(L"Arial");	// TODO: Change it to Broadway
+//	_uiComps.startMessage->SetFontColor(220, 220, 220, 120);
+//	_uiComps.startMessage->SetFont(24, FontStyleBold);
+//	_uiComps.startMessage->SetText(L"Press ↓");
+//
+//	// attackDamageBox?
+//	_uiComps.adBox->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
+//	_uiComps.adBox->SetPosition(718, 50);
+//	_uiComps.adBox->SetImageStrecth(false);
+//	_uiComps.adBox->SetImageAlignment(H_DIRECTION::CENTER, V_DIRECTION::TOP);
+//	_uiComps.adBox->SetDisplay(Display::FLEX);
+//	_uiComps.adBox->SetFlexDirection(FlexDirection::COLUMN);
+//	_uiComps.adBox->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
+//	_uiComps.adBox->SetFlexJustifyContent(FlexJustifyContent::SPACE_AROUND);
+//	_uiComps.adValue->SetTextHorizontalAlignment(H_DIRECTION::CENTER);
+//	_uiComps.adValue->SetTextVerticalJustify(V_DIRECTION::CENTER);
+//	_uiComps.adValue->SetFont(42, FontStyleBold);
+//	_uiComps.adValue->SetText(L"00");
+//	
+//	// comboBox
+//	_uiComps.comboBox->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
+//	_uiComps.comboBox->SetPosition(1118, 50);
+//	_uiComps.comboBox->SetImageStrecth(false);
+//	_uiComps.comboBox->SetImageAlignment(H_DIRECTION::CENTER, V_DIRECTION::TOP);
+//	_uiComps.comboBox->SetDisplay(Display::FLEX);
+//	_uiComps.comboBox->SetFlexDirection(FlexDirection::COLUMN);
+//	_uiComps.comboBox->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
+//	_uiComps.comboBox->SetFlexJustifyContent(FlexJustifyContent::SPACE_AROUND);
+//	_uiComps.comboValue->SetPosition(-12, -4);
+//	_uiComps.comboValue->SetTextHorizontalAlignment(H_DIRECTION::CENTER);	
+//	_uiComps.comboValue->SetTextVerticalJustify(V_DIRECTION::BOTTOM);
+//	_uiComps.comboValue->SetFont(52, FontStyleBold);
+//	_uiComps.comboValue->SetText(L"00");
+//
+//	// Oxygen Level
+//	_uiComps.oxygenMeter->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+//	_uiComps.oxygenMeter->SetPosition(600, 0);
+//	_uiComps.oxygenMeter->EnableBorder(true);
+//	_uiComps.oxygenMeter->SetBorder(0, 0, 0, -1, 5.f);
+//	_uiComps.oxygenMeter->SetZValue(10);
+//	_uiComps.meterBackground->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+//	_uiComps.meterBackground->SetPosition(600, 0);
+//	_uiComps.meterBackground->EnableFill(true);
+//	_uiComps.meterBackground->SetFillColor(255, 255, 255);
+//	_uiComps.oxygenLevel->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+//	_uiComps.oxygenLevel->SetPosition(600, 0);
+//	_uiComps.oxygenLevel->SetZValue(5);
+//	_uiComps.oxygenLevel->EnableFill(true);
+//	_uiComps.oxygenLevel->SetFillColor(0, 120, 240);
+//
+//	// Right Box Components properties
+//	_uiComps._rightBox->SetDisplay(Display::BLOCK);
+//	_uiComps.scoreBoard->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
+//	_uiComps.gloryOfFamily->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
+//	_uiComps.gloryOfFamily->SetTextHorizontalAlignment(H_DIRECTION::RIGHT);
+//	_uiComps.gloryOfFamily->SetTextVerticalJustify(V_DIRECTION::BOTTOM);
+//	_uiComps.gloryOfFamily->SetFont(52, FontStyleBold);
+//	_uiComps.gloryOfFamily->SetTextPosition(5, 25);
+//
+//	_uiComps.honorOfAncestor->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
+//	_uiComps.honorOfAncestor->SetTextHorizontalAlignment(H_DIRECTION::RIGHT);
+//	_uiComps.honorOfAncestor->SetTextVerticalJustify(V_DIRECTION::BOTTOM);
+//	_uiComps.honorOfAncestor->SetFont(52, FontStyleBold);
+//	_uiComps.honorOfAncestor->SetTextPosition(5, 25);
+//
+//	_uiComps.extraInfo->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
+//	_uiComps.extraInfo->SetDisplay(Display::FLEX);
+//	_uiComps.extraInfo->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
+//	_uiComps.extraInfo->SetFlexJustifyContent(FlexJustifyContent::SPACE_BETWEEN);
+//
+//	_uiComps.additionalScore->SetTextHorizontalAlignment(H_DIRECTION::CENTER);
+//	_uiComps.additionalScore->SetTextVerticalJustify(V_DIRECTION::BOTTOM);
+//	_uiComps.additionalScore->SetFont(52, FontStyleBold);
+//	_uiComps.additionalScore->SetText(L"00");	// DEBUG
+//
+//	_uiComps.depth->SetTextHorizontalAlignment(H_DIRECTION::CENTER);
+//	_uiComps.depth->SetTextVerticalJustify(V_DIRECTION::BOTTOM);
+//	_uiComps.depth->SetFont(52, FontStyleBold);
+//	_uiComps.depth->SetText(L"00 M");	// DEBUG
+//
+//	_uiComps.currentHonor->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
+//	_uiComps.currentHonor->SetTextHorizontalAlignment(H_DIRECTION::RIGHT);
+//	_uiComps.currentHonor->SetTextVerticalJustify(V_DIRECTION::BOTTOM);
+//	_uiComps.currentHonor->SetFont(52, FontStyleBold);
+//	_uiComps.currentHonor->SetTextPosition(5, 25);
+//	
+//	
+//	// Add Animations in the currentState.
+//	_uiComps.currentState->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
+//
+//
+//	// The UI Container
+//	_gamePlayUIContainer->SetDisplay(Display::FLEX);
+//	_gamePlayUIContainer->SetFlexJustifyContent(FlexJustifyContent::FLEX_START);
+//
+//
+//	_gridMapBackground->SetPosition(screenWidth >> 1, screenHeight >> 1);
+//	_gridMapBackground->UpdateSpritePivotPosition(H_DIRECTION::CENTER, V_DIRECTION::CENTER);
 
 
 	// The Game End Components
@@ -528,53 +522,23 @@ void PlayScene::__InitComponents() {
 /********** Build UI Hierarchy **********/
 
 	// Left Box Components
-	_uiComps._leftBox->AddChildComponent(_uiComps.daughter);
-	_uiComps._leftBox->AddChildComponent(_uiComps.husband);
-	_uiComps._leftBox->AddChildComponent(_uiComps.mother);
-	_uiComps._leftBox->AddChildComponent(_uiComps.dancingTownspeople);
-	_uiComps._leftBox->AddChildComponent(_uiComps.ancestors);
-
-	// Center Box Components
-	_uiComps.adBox->AddChildComponent(_uiComps.adValue);
-
-	_uiComps.comboBox->AddChildComponent(_uiComps.comboValue);
-
-	_uiComps._centerBox->AddChildComponent(_uiComps.oxygenMeter);
-	_uiComps._centerBox->AddChildComponent(_uiComps.meterBackground);
-	_uiComps._centerBox->AddChildComponent(_uiComps.oxygenLevel);
-	_uiComps._centerBox->AddChildComponent(_uiComps.levelUpSign);
-	_uiComps._centerBox->AddChildComponent(_uiComps.startMessage);
-	_uiComps._centerBox->AddChildComponent(_uiComps.adBox);
-	_uiComps._centerBox->AddChildComponent(_uiComps.comboBox);
-
-	// Right Box Components
-	_uiComps.scoreBoard->AddChildComponent(_uiComps.gloryOfFamily);
-	_uiComps.scoreBoard->AddChildComponent(_uiComps.honorOfAncestor);
-	_uiComps.scoreBoard->AddChildComponent(_uiComps.currentHonor);
-
-	_uiComps.extraInfo->AddChildComponent(_uiComps.additionalScore);
-	_uiComps.extraInfo->AddChildComponent(_uiComps.depth);
-
-	_uiComps._rightBox->AddChildComponent(_uiComps.scoreBoard);
-	_uiComps._rightBox->AddChildComponent(_uiComps.extraInfo);
-	_uiComps._rightBox->AddChildComponent(_uiComps.currentState);
 
 	// Bind Player and Wall to GridMap
 	_gridMap->AddGridItem(_wall);
 	_gridMap->AddGridItem(_player);
 
-	// UI Container binding
-	_gamePlayUIContainer->AddChildComponent(_uiComps._leftBox);
-	_gamePlayUIContainer->AddChildComponent(_uiComps._centerBox);
-	_gamePlayUIContainer->AddChildComponent(_uiComps._rightBox);
+	//// UI Container binding
+	//_gamePlayUIContainer->AddChildComponent(_uiComps._leftBox);
+	//_gamePlayUIContainer->AddChildComponent(_uiComps._centerBox);
+	//_gamePlayUIContainer->AddChildComponent(_uiComps._rightBox);
 
 
 	// Game End Components
-	_endComps.textBox->AddChildComponent(_endComps.text1);
-	_endComps.textBox->AddChildComponent(_endComps.text2);
-	_endComps.textBox->AddChildComponent(_endComps.text3);
+	//_endComps.textBox->AddChildComponent(_endComps.text1);
+	//_endComps.textBox->AddChildComponent(_endComps.text2);
+	//_endComps.textBox->AddChildComponent(_endComps.text3);
 
-	_gameEndSceneContainer->AddChildComponent(_endComps.textBox);
+	//_gameEndSceneContainer->AddChildComponent(_endComps.textBox);
 
 }
 
@@ -784,7 +748,30 @@ void PlayScene::InitScene()
 	// 2. GamePlay UI components
 	_renderSystem->RegisterRenderableObject(_gridMapBackground);
 	_renderSystem->RegisterRenderableObject(_gridMap);
-	_renderSystem->RegisterRenderableObject(_gamePlayUIContainer);
+	_renderSystem->RegisterRenderableObject(_uiComps.daughter);
+	_renderSystem->RegisterRenderableObject(_uiComps.husband);
+	_renderSystem->RegisterRenderableObject(_uiComps.mother);
+	_renderSystem->RegisterRenderableObject(_uiComps.dancingTownspeople);
+	_renderSystem->RegisterRenderableObject(_uiComps.ancestors);
+	_renderSystem->RegisterRenderableObject(_uiComps.levelUpSign);
+	_renderSystem->RegisterRenderableObject(_uiComps.startMessage);
+	_renderSystem->RegisterRenderableObject(_uiComps.adBox);
+	_renderSystem->RegisterRenderableObject(_uiComps.adValue);
+	_renderSystem->RegisterRenderableObject(_uiComps.comboBox);
+	_renderSystem->RegisterRenderableObject(_uiComps.comboValue);
+	_renderSystem->RegisterRenderableObject(_uiComps.oxygenMeter);
+	_renderSystem->RegisterRenderableObject(_uiComps.meterBackground);
+	_renderSystem->RegisterRenderableObject(_uiComps.oxygenLevel);
+	
+	_renderSystem->RegisterRenderableObject(_uiComps.scoreBoard);
+	_renderSystem->RegisterRenderableObject(_uiComps.gloryOfFamily);
+	_renderSystem->RegisterRenderableObject(_uiComps.honorOfAncestor);
+	_renderSystem->RegisterRenderableObject(_uiComps.currentHonor);
+
+	_renderSystem->RegisterRenderableObject(_uiComps.extraInfo);
+	_renderSystem->RegisterRenderableObject(_uiComps.additionalScore);
+	_renderSystem->RegisterRenderableObject(_uiComps.depth);
+
 	_renderSystem->RegisterRenderableObject(_endComps.gameEndBG);
 	_renderSystem->RegisterRenderableObject(_gameEndSceneContainer);
 

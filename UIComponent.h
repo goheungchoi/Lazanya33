@@ -403,8 +403,19 @@ public:
 public:
 	// Default Render
 	void DefaultRender(Graphics& g) {
+		
+	}
+
+	// Render
+	virtual void Render(Graphics& g) override {
+		if (!_isActive) return;
+
+		// Size adjusting to fit the image
+		_sizeFitImage && _pImage && (_width = _pImage->GetWidth());
+		_sizeFitImage && _pImage && (_height = _pImage->GetHeight());
+
 		// Set Transform
-		g.MultiplyTransform(&_transform);
+		g.SetTransform(&_transform);
 
 		// Draw image if exists
 		Rect imageRect;
@@ -452,178 +463,23 @@ public:
 
 		
 		// Draw Text
-		RectF textRect{ _textPosition.X, _textPosition.Y, (float)_width, (float)_height };
-		__SetTextPosition(_position, &textRect);
-		!_text.empty() && 
-		!g.TranslateTransform(_x, _y) &&
-		!g.DrawString(_text.c_str(), -1, _pFont, textRect, &_textFormat, &_textBrush) &&
-		!g.TranslateTransform(-_x, -_y);
+		RectF textRect{ _x + _textPosition.X, _y + _textPosition.Y, (float)_width, (float)_height };
+		!_text.empty() &&
+		!g.DrawString(_text.c_str(), -1, _pFont, textRect, &_textFormat, &_textBrush);
 
 		_animationController->Render(g);
 
 		RenderChildren(g);
 
 		// Reset Transform
-		Matrix* mClone = _transform.Clone();
-		mClone->Invert();
-		g.MultiplyTransform(mClone);
-	}
+		g.ResetTransform();
 
-	// Render
-	virtual void Render(Graphics& g) override {
-		if (!_isActive) return;
-
-		// Size adjusting to fit the image
-		_sizeFitImage && _pImage && (_width = _pImage->GetWidth());
-		_sizeFitImage && _pImage && (_height = _pImage->GetHeight());
-
-		if (!_parentComponent) {
-			DefaultRender(g);
-			return;
-		}
-
-		switch (_positionLayout) {
-			case PositionLayout::LAYOUT_STATIC: {
-				// Ignore the position of itself, 
-				// but follow the layout of the parent
-				
-				// Draw image if exists
-				Rect imageRect;
-				_stretch ? 
-				(imageRect = { 0, 0, _width, _height}) :
-				(imageRect = {0, 0, (int)_pImage->GetWidth(), (int)_pImage->GetHeight()});
-				!_stretch && __SetImagePosition({0, 0}, &imageRect);
-
-				_pImage && _stretch &&
-				g.DrawImage(
-					_pImage,
-					Rect(0, 0, _width, _height),
-					0, 0, 
-					_width, _height, 
-					UnitPixel, 
-					&_imageAtt
-				);
-
-				// No stretch
-				_pImage && !_stretch &&
-				g.DrawImage(
-					_pImage,
-					Rect(
-						imageRect.X, imageRect.Y, 
-						imageRect.Width, imageRect.Height
-					),
-					0, 0, 
-					imageRect.Width, imageRect.Height,
-					UnitPixel, 
-					&_imageAtt
-				);
-
-				// Draw border if enabled
-				_border && 
-				//g.DrawRectangle(&_pen, *_currentSpriteRect);
-				g.DrawRectangle(&_pen, 0, 0, _width, _height);
-
-				// Fill Rect if enabled
-				_fill && 
-				//g.FillRectangle(&_brush, *_currentSpriteRect);
-				g.FillRectangle(&_brush, 0, 0, _width, _height);
-
-				// Draw Text
-				RectF textRect{ _textPosition.X, _textPosition.Y, (float)_width, (float)_height };
-				__SetTextPosition(_position, &textRect);
-				!_text.empty() && 
-				!g.TranslateTransform(_x, _y) &&
-				!g.DrawString(_text.c_str(), -1, _pFont, textRect, &_textFormat, &_textBrush) &&
-				!g.TranslateTransform(-_x, -_y);
-
-				RenderChildren(g);
-
-			} break;
-			case PositionLayout::LAYOUT_ABSOLUTE: {
-				// Use the absolute screen coordinate
-				// Reset the global transformation
-				Matrix tmp;
-				g.GetTransform(&tmp);
-				g.SetTransform(&_transform);
-
-				// Draw
-				// 
-				// Draw image if exists
-
-				Rect imageRect;
-				_stretch ? 
-				(imageRect = { 0, 0, _width, _height}) :
-				(imageRect = {0, 0, (int)_pImage->GetWidth(), (int)_pImage->GetHeight()});
-				!_stretch && __SetImagePosition(_position, &imageRect);
-
-				_pImage && _stretch &&
-				g.DrawImage(
-					_pImage,
-					Rect(_x, _y, _width, _height),
-					0, 0, 
-					_width, _height, 
-					UnitPixel, 
-					&_imageAtt
-				);
-
-				// No stretch
-				_pImage && !_stretch &&
-				g.DrawImage(
-					_pImage,
-					Rect(
-						imageRect.X, imageRect.Y, 
-						imageRect.Width, imageRect.Height
-					),
-					0, 0, 
-					imageRect.Width, imageRect.Height,
-					UnitPixel, 
-					&_imageAtt
-				);
-
-				// TODO: When drawing borders,
-				// Don't apply scaling
-				// Draw border if enabled
-
-				_border && 
-				//g.DrawRectangle(&_pen, *_currentSpriteRect);
-				g.DrawRectangle(&_pen, _x, _y, _width, _height);
-
-				// Fill Rect if enabled
-				_fill && 
-				//g.FillRectangle(&_brush, *_currentSpriteRect);
-				g.FillRectangle(&_brush, _x, _y, _width, _height);
-
-				// Draw Text
-				RectF textRect{ _textPosition.X, _textPosition.Y, (float)_width, (float)_height };
-				__SetTextPosition(_position, &textRect);
-				!_text.empty() && 
-				!g.TranslateTransform(_x, _y) &&
-				!g.DrawString(_text.c_str(), -1, _pFont, textRect, &_textFormat, &_textBrush) &&
-				!g.TranslateTransform(-_x, -_y);
-
-				RenderChildren(g);
-
-				// Restore the global transformation
-				g.SetTransform(&tmp);
-
-			} break;
-			case PositionLayout::LAYOUT_FIXED: {
-				// Set the relatively fixed position
-				// Will be checked by the parent
-			}
-			case PositionLayout::LAYOUT_RELATIVE: {
-				// Passively relatively placed x, y 
-				DefaultRender(g);
-			} break;
-		}
 	}
 
 	virtual void RenderChildren(Graphics& g) override {
 		for (UIComponent* pChildComp : _childComponents) {
 			// Default behavior is LAYOUT_FIXED
-			g.TranslateTransform(_x, _y);
 			pChildComp->Render(g);
-			g.TranslateTransform(-_x, -_y);
 		}
 	}
 

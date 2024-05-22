@@ -192,9 +192,7 @@ protected:
    * @param g
    */
   virtual void Render(Gdiplus::Graphics& g) override {
-		Matrix t;
-		g.GetTransform(&t);
-		g.ResetTransform();
+
 
 		__AdjustSpriteRect(_currentSprite, *_currentSpriteRect);
 
@@ -250,7 +248,6 @@ protected:
 		/*g.FillRectangle(&_brush, _position.X, _position.Y,
 		_currentSpriteRect->Width, _currentSpriteRect->Height);*/
 	
-		g.SetTransform(&t);
 	}
 
 private:

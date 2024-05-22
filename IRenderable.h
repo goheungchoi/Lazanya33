@@ -47,11 +47,9 @@ public:
 	virtual void RenderChildren(Graphics& g) {
 		// Translate the position of children in accordance with 
 		// the parent position!
-		g.TranslateTransform(_position.X, _position.Y);
 		for (auto pChild : _children) {
 			pChild->Render(g);
 		}
-		g.TranslateTransform(0, 0);
 	}
 };
 
