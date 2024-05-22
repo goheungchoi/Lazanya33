@@ -14,6 +14,8 @@ public:
 	
 	~IPlayer() {}
 
+	virtual IPlayer* GetPlayer() = 0;
+
   /* Getters */
 	virtual int GetPositionX() = 0;
 	virtual int GetPositionY() = 0;

@@ -213,6 +213,7 @@
     <ClCompile Include="DecoratorScene.cpp" />
     <ClCompile Include="DeveloperScene.cpp" />
     <ClCompile Include="GameDataHub.h" />
+    <ClCompile Include="InputField.h" />
     <ClCompile Include="LetterScene.cpp" />
     <ClCompile Include="Naughty.cpp" />
     <ClCompile Include="PlayerStateContainer.h" />

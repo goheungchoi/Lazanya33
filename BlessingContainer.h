@@ -84,6 +84,10 @@ public:
 		++count;
 	}
 
+	BlessingType GetBlessingType() {
+		return _blessingType;
+	}
+
 	bool HitTest(int mouseX, int mouseY) {
     return mouseX >= _x && mouseX <= (_x + _width) &&
       mouseY >= _y && mouseY <= (_y + _height);
@@ -207,6 +211,11 @@ public:
 
     _blessingContainers.push_back(bc);
   }
+
+	BlessingType GetCurrentSelectedBlessingType() {
+		if (_currSelectedIndex < 0) return BlessingType::Virago;
+		return _blessingContainers[_currSelectedIndex]->GetBlessingType();
+	}
 
 	void HandleMouseEvent(int mouseX, int mouseY, bool isDown, bool isUp) {
 		for (auto* bc : _blessingContainers) {

@@ -99,6 +99,8 @@ public:
 	}
 
   /* Getters */
+	IPlayer* GetPlayer() override { return this; };
+
   int GetPositionX() { return _gridPos.X; }
   int GetPositionY() { return _gridPos.Y; }
   int GetAttackDamage() override { return _ad; }

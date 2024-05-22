@@ -28,6 +28,14 @@ public:
     _renderableObjects.push_back(renderableObject);
   }
 
+	void SubstitudeRenderableObject(IRenderable* from, IRenderable* to) {
+		for (int i = 0; i < _renderableObjects.size(); ++i) {
+			if (_renderableObjects[i] == from) {
+				_renderableObjects[i] = to;
+			}
+		}
+	}
+
   void ClearRenderableRegistry() {
     _renderableObjects.clear();
   }

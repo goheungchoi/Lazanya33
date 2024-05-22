@@ -87,9 +87,14 @@ void LetterScene::__InitComponents() {
 	_playButton->AddEventLister("mouseLeave", [this]() {
 		_playButton->SetImageIntensity(1/2.0f);
 	});
-	_playButton->AddEventLister("mouseClick", []() {
+	_playButton->AddEventLister("mouseClick", [this]() {
 		Music::soundManager->PlayMusic(
 			Music::eSoundList::Button, Music::eSoundChannel::Effect
+		);
+		GetGameDataHub().SetCurrentUserBlessIndex(
+			static_cast<int>(
+				_comps.blessingStateController->GetCurrentSelectedBlessingType()
+			)
 		);
 		_sceneManager->ChangeScene("Play");
 	});

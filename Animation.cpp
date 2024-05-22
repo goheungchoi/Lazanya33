@@ -156,3 +156,53 @@ void ImageTransition::Update(double dt) {
 		_this->SetImageAlpha(255 * _currAlpha);
 	}
 }
+
+TextAnimation::TextAnimation(
+	UIComponent* thisComponent,
+	const wchar_t* text,
+	double duration,
+	double delay,
+	bool loop
+) : IAnimation(0, 0),
+	_this{ thisComponent },
+	_numWChars{0},
+	_duration{ duration },
+	_delay{ delay },
+	_loop{ loop } {
+	while (text[_numWChars++] != '\0') {}
+	_buffer = new wchar_t[_numWChars+1];
+	_typingBuffer = new wchar_t[_numWChars+1];
+	wcsncpy_s(_buffer, _numWChars+1, text, _numWChars + 1);
+	(_buffer, text, _numWChars+1);
+	std::memset(_typingBuffer, '\0', sizeof(wchar_t) * (_numWChars + 1));
+	_typingSpeed = duration / _numWChars;
+}
+
+void TextAnimation::Update(double dt) {
+	if (!_isActive) return;
+
+	_elapsedTime += dt;
+
+	if (_elapsedTime >= _typingSpeed) {
+		_elapsedTime -= _typingSpeed;
+
+		wchar_t nextc = _buffer[_bufIndex];
+
+		if (nextc == L'-') {
+			_typingSpeed *= 0.5;
+		}
+		else if (nextc == L'+') {
+			_typingSpeed *= 2.0;
+		}
+		else {
+			_typingBuffer[_typingIndex++] = nextc;
+			_this->SetText(_typingBuffer);
+		}
+
+		++_bufIndex;
+
+		if (_bufIndex == _numWChars) {
+			_isActive = false;
+		}
+	}
+}
