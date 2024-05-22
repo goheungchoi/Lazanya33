@@ -177,7 +177,7 @@ public:
 
   void SetMaxHP(int maxHP) override { _maxHP = maxHP; }
   void SetHP(int hp) override { _hp = (hp <= _maxHP) * hp + (hp > _maxHP) *_maxHP; }
-
+	void SetScore(int score) { _score = score; }
   //SeoungWoo Change
   void SetCombo(int combo)override { _comboNumber = combo; }
   void SetComboDuration(double comboDuration)override { _comboDuration = comboDuration; }

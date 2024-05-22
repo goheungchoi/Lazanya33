@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "SceneGraph.h"
-
+#include "InputField.h"
+#include "Button.h"
 constexpr int GRID_MAP_POSITION_X = 720;
 constexpr int GRID_MAP_POSITION_Y = -120;
 constexpr int GRID_ITEM_WIDTH = 120;
@@ -19,7 +20,7 @@ class PlayScene :public IScene
 	std::size_t _frames{ 0 };
 	std::size_t _frameRate{ 0 };
 #endif
-
+	ButtonEventHandler* _buttonEventHandler;
 /* Scene Graphics Components */
 	
 	// Game Play Scene Components
@@ -71,8 +72,17 @@ class PlayScene :public IScene
 		Container* text1;
 		Container* text2;
 		Container* text3;
+		Button* gotohistory;
 
 	} _endComps;
+
+	Container* _historyContainer;
+	struct HistoryComponents {
+		SingleSpriteRenderable<class HistoryComponents>* historyBG;
+		TextInputField* name;
+		Button* entryButton;
+		Container* text;
+	}_historyComps;
 
 	//Variables introduced to add walls when pop 3 times
 	int _countWallPop=0;
@@ -96,7 +106,7 @@ class PlayScene :public IScene
 	bool _started{ false };	// Check if the game is started by player's action
 	double _delayEnding{ 0.0 };
 	bool _ended{ false };	//
-
+	bool _canGohistory{ false };
 public:
 	PlayScene();
 	~PlayScene();
@@ -147,7 +157,7 @@ private:
 
 	std::wstring __WStringifyDepth(int depth) {
 		wchar_t buffer[5];
-		swprintf_s(buffer, L"%dm", depth);
+		swprintf_s(buffer, L"%dM", depth);
 		return std::wstring(buffer);
 	}
 

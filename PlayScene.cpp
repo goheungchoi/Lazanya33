@@ -27,6 +27,7 @@
 #include "PlayerBricksInteractionSystem.h"
 #include "PlayerOxygenSystem.h"
 
+
 // Resource
 #include "ResourceManager.h"
 
@@ -49,6 +50,7 @@ PlayScene::~PlayScene() {
 
 void PlayScene::__InitComponents() {
 
+	_buttonEventHandler = new ButtonEventHandler();
 /********** Allocate Memory **********/
 
 	_gamePlayUIContainer = new Container(0, 0, screenWidth, screenHeight);
@@ -109,7 +111,6 @@ void PlayScene::__InitComponents() {
 	_endComps.text1 = new Container(580, 350, 850, 120);
 	_endComps.text2 = new Container(700, 450, 750, 300);
 	_endComps.text3 = new Container(650, 700, 850, 120);
-
 /********** Load Sprites **********/
 
 	// UI Components
@@ -190,6 +191,10 @@ void PlayScene::__InitComponents() {
 	_uiComps.mother->SetSizeFitImage(true);
 	_uiComps.mother->SetImage(
 		ResourceManager::Get().GetImage(L"70002_NPC_mother")
+	);
+	_uiComps.dancingTownspeople->SetSizeFitImage(true);
+	_uiComps.dancingTownspeople->SetImage(
+		ResourceManager::Get().GetImage(L"70003_NPC_villagers_final")
 	);
   _endComps.text1->SetRotationPivot(
 	_endComps.text1->GetCenterX(),
@@ -332,15 +337,15 @@ void PlayScene::__InitComponents() {
 	);
 	IAnimation* mother_comedown = new TranslateTransition(
 		_uiComps.mother,
-		250, 100, 0, 580, 0.3, bezier::ease_in
+		250, 100, 200, 580, 0.3, bezier::ease_in
 	);
 	IAnimation* mother_moveup = new TranslateTransition(
 		_uiComps.mother,
-		0, 580, 0, 380, 0.3, bezier::ease_out
+		200, 580, 200, 380, 0.3, bezier::ease_out
 	);
 	IAnimation* mother_movedown = new TranslateTransition(
 		_uiComps.mother,
-		0, 380, 0, 580, 0.3, bezier::ease_in
+		200, 380, 200, 580, 0.3, bezier::ease_in
 	);
 	SequentialAnimationPack* mother_animationPack = new SequentialAnimationPack();
 	mother_animationPack->PushBackAnimation(
@@ -361,15 +366,15 @@ void PlayScene::__InitComponents() {
 	);
 	IAnimation* dancingTownspeople_comedown = new TranslateTransition(
 		_uiComps.dancingTownspeople,
-		0, -100, 0, 345, 0.3, bezier::ease_in
+		0, -100, 0, 250, 0.3, bezier::ease_in
 	);
 	IAnimation* dancingTownspeople_moveup = new TranslateTransition(
 		_uiComps.dancingTownspeople,
-		0, 345, 0, 195, 0.3, bezier::ease_out
+		0, 250, 0, 120, 0.3, bezier::ease_out
 	);
 	IAnimation* dancingTownspeople_movedown = new TranslateTransition(
 		_uiComps.dancingTownspeople,
-		0, 195, 0, 345, 0.3, bezier::ease_in
+		0, 120, 0, 250, 0.3, bezier::ease_in
 	);
 	SequentialAnimationPack* dancingTownspeople_animationPack = new SequentialAnimationPack();
 	dancingTownspeople_animationPack->PushBackAnimation(
@@ -604,13 +609,102 @@ void PlayScene::__InitComponents() {
 
 	_gameEndSceneContainer->AddChildComponent(_endComps.textBox);
 
+
+
+
+	_endComps.gotohistory = new Button(1150, 850, 200, 200);
+	_endComps.gotohistory->SetSizeFitImage(true);
+	_endComps.gotohistory->SetImage(
+		ResourceManager::Get().GetImage(L"30011_UI_Game_Over_History01_Button")
+	);
+	_endComps.gotohistory->SetRotationPivot(
+		_endComps.gotohistory->GetCenterX(),
+		_endComps.gotohistory->GetCenterY()
+	);
+	_endComps.gotohistory->Rotate(-7);
+
+	_endComps.gotohistory->AddEventLister("mouseEnter", [this]() {
+		_endComps.gotohistory->SetImageIntensity(2.0f);
+		});
+	_endComps.gotohistory->AddEventLister("mouseLeave", [this]() {
+		_endComps.gotohistory->SetImageIntensity(1 / 2.0f);
+		});
+
+	_endComps.gotohistory->AddEventLister("mouseClick", [this]() {
+		if (_delayEnding > 3)
+		{
+			Music::soundManager->PlayMusic(Music::eSoundList::PaperTeraing, Music::eSoundChannel::Effect);
+			_canGohistory = true;
+			_historyComps.historyBG->SetActive(true);
+			_historyContainer->SetActive(true);
+		}
+		});
+	_buttonEventHandler->AddButton(_endComps.gotohistory);
+	_gameEndSceneContainer->AddChildComponent(_endComps.gotohistory);
+	
+
+
+	//history componenet
+	_historyContainer = new Container(0, 0, screenWidth, screenHeight);
+	_historyComps.historyBG = new SingleSpriteRenderable<HistoryComponents>();
+	_historyComps.historyBG->BindSprite(
+		ResourceManager::Get().GetImage(L"30012_UI_Game_Over_History02")
+	);
+	_historyComps.historyBG->BindCachedSprite(
+		ResourceManager::Get().GetCachedImage(L"30012_UI_Game_Over_History02")
+	);
+	
+
+	_historyComps.name = new TextInputField(740, 650, 100, 100);
+	_historyComps.name->SetSizeFitImage(true);
+	_historyComps.name->SetImage(
+		ResourceManager::Get().GetImage(L"30013_UI_Game_Over_History02_Name")
+	);
+	_historyComps.name->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
+	_historyContainer->AddChildComponent(_historyComps.name);
+	
+	//button
+	_historyComps.entryButton = new Button(1100, 820, 100, 100);
+	_historyComps.entryButton->SetSizeFitImage(true);
+	_historyComps.entryButton->SetImage(
+		ResourceManager::Get().GetImage(L"30014_UI_Game_Over_History02_Button")
+	);
+	_historyComps.entryButton->AddEventLister("mouseEnter", [this]() {
+		_historyComps.entryButton->SetImageIntensity(2.0f);
+		});
+	_historyComps.entryButton->AddEventLister("mouseLeave", [this]() {
+		_historyComps.entryButton->SetImageIntensity(1 / 2.0f);
+		});
+	_historyComps.entryButton->AddEventLister("mouseClick", [this]() {
+		_delayEnding = 0.0;
+		_wall->ResetWalls(_countWallPop);
+		_countWallPop = 0;
+		_player->SetDownMeter(0);
+		_uiComps.depth->SetText(L"00 M");
+		_sceneManager->ChangeScene("Entry");
+		
+		});
+	_buttonEventHandler->AddButton(_historyComps.entryButton);
+	_historyContainer->AddChildComponent(_historyComps.entryButton);
+
+	//text
+	_historyComps.text = new Container(770, 420, 100, 100);
+	_historyComps.text->SetSizeFitImage(true);
+	_historyComps.text->SetImage(
+		ResourceManager::Get().GetImage(L"UI_Game_Over_History02_text")
+	);
+	_historyComps.name->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
+	_historyContainer->AddChildComponent(_historyComps.text);
 }
 
 void PlayScene::__InitSystems() {
-	_brickGenSystem = new BrickGenSystem(_wall,_player);
+	if(_brickGenSystem==nullptr)
+		_brickGenSystem = new BrickGenSystem(_wall,_player);
+	if(_playerOxySystem==nullptr)
 	_playerOxySystem = new PlayerOxygenSystem(
 		_player, PLAYER_OXYGEN_REDUCE_INITAL_VALUE
 	);
+	if(_playerBrickInteractionSystem==nullptr)
 	_playerBrickInteractionSystem = new PlayerBricksInteractionSystem(
 		_player, _wall, _playerOxySystem
 	);
@@ -730,11 +824,22 @@ void PlayScene::Update(const double deltaTime)
 		_uiComps.currentState->SetState(
 			static_cast<int>(PlayerStateAnimation::DEAD)
 		);
+		_buttonEventHandler->HandleMouseEvent(
+			Input::inputManager->GetMouseClient().x,
+			Input::inputManager->GetMouseClient().y,
+			Input::inputManager->IsCurrDn(VK_LBUTTON),
+			Input::inputManager->IsCurrUp(VK_LBUTTON)
+		);
 
 		// Show pop up windows
 		if (!_ended) {
+
 			_delayEnding += deltaTime;
 			if (_delayEnding > 3) {
+
+				
+
+				Music::soundManager->StopMusic(Music::eSoundChannel::BGM);
 				_endComps.gameEndBG->SetActive(true);
 				_gameEndSceneContainer->SetActive(true);
 
@@ -789,6 +894,10 @@ void PlayScene::Update(const double deltaTime)
 				_endComps.text1->SetState(0);
 
 				_ended = true;
+				if (_canGohistory = true)
+				{
+					//TODO: 이름 입력받기
+				}
 			}
 		}
 
@@ -820,6 +929,8 @@ void PlayScene::InitScene()
 	_renderSystem->RegisterRenderableObject(_endComps.gameEndBG);
 	_renderSystem->RegisterRenderableObject(_gameEndSceneContainer);
 
+	_renderSystem->RegisterRenderableObject(_historyComps.historyBG);
+	_renderSystem->RegisterRenderableObject(_historyContainer);
 #ifndef NDEBUG	// Performance measure
 	_renderSystem->RegisterRenderableObject(_fpsBox);
 #endif
@@ -960,6 +1071,8 @@ void PlayScene::__TriggerNPCsAnimations() {
 
 void PlayScene::__ResetGame() {
 	_started = false;
+	_ended = false;
+	_canGohistory = false;
 #ifndef NDEBUG
 	for (int i=0; i<100; ++i)
 		_player->AddScore(10);
@@ -987,6 +1100,7 @@ void PlayScene::__ResetGame() {
 	_player->ChangeTag(L"down1");
 	_player->SetHP(_player->GetMaxHP());
 	_player->SetOxygenLevel(_player->GetMaxOxyLevel());
+	_player->SetScore(0);
 	// Set Decorator
 	BlessingType blessingType = static_cast<BlessingType>(
 		GetGameDataHub().GetCurrentUserBlessIndex()
@@ -1050,8 +1164,13 @@ void PlayScene::__ResetGame() {
 	_gameEndSceneContainer->SetActive(false);
 	_endComps.gameEndBG->SetActive(false);
 
+	//Turn off history componets
+	_historyComps.historyBG->SetActive(false);
+	_historyContainer->SetActive(false);
+
 	// Change Systems.
 	__InitSystems();
+
 }
 
 

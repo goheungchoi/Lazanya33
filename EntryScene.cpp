@@ -61,16 +61,10 @@ EntryScene::EntryScene()
 	_mainComs.age->SetText(
 		_WStringAgeIndex(GetGameDataHub().GetCurrentGeneration()).c_str()
 	);
-	_mainComs.age->EnableBorder(true);
-	_mainComs.age->SetBorder(0, 0, 255);
+	
 	
 	//highscoreName
-	_mainComs.highScoreName = new Container(300, 300, 300, 300);
-	//_mainComs.highScoreName->SetText(
-
-	//)
-	_mainComs.highScoreName->EnableBorder(true);
-	_mainComs.highScoreName->SetBorder(0, 0, 255);
+	
 
 	//playbutton
 	_mainComs.playbutton = new Button(40, 500, 300, 100);
@@ -169,11 +163,8 @@ void EntryScene::InitScene()
 	_renderSystem->RegisterRenderableObject(_mainComs.background);
 	_renderSystem->RegisterRenderableObject(_mainMenuContainer);
 	
-	if (!playBGM) {
-		Music::soundManager->PlayMusic(Music::eSoundList::background01, Music::eSoundChannel::BGM);
-		playBGM = true;
-	}
 	
+	Music::soundManager->PlayMusic(Music::eSoundList::background01, Music::eSoundChannel::BGM);
 }
 
 void EntryScene::EndScene()

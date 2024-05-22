@@ -44,7 +44,7 @@ public:
 
   virtual void SetMaxHP(int) = 0;
   virtual void SetHP(int) = 0;
-
+  virtual void SetScore(int) = 0;
   //SeoungWoo Change
   virtual void SetCombo(int) = 0;
   virtual void SetComboDuration(double) = 0;

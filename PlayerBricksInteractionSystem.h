@@ -22,6 +22,10 @@ public:
 
 	void ApplyDamageToBrickByPlayer(int row, int col,BYTE key,int& count, const double& deltaTime) {
 		//player damage to birck
+		if (_wall->GetBirckType(row, col) == BrickType::NONE)
+		{
+			return;
+		}
 		_wall->DamageBrick(row, col, _player->GetAttackDamage());
 		if (_wall->GetBrick(row, col).blockHealth * 2 <= _wall->GetBrick(row, col).maxBlockHealth)
 		{

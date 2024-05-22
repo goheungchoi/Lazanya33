@@ -49,7 +49,7 @@ public:
   { _player->SetComboElapsedTime(comboElapsedTime); }
   virtual void SetDownMeter(int meter)override 
   { _player->SetDownMeter(meter); }
-
+  void SetScore(int)override{}
 
   /* Modifiers */
   virtual void AddHP(int hp) override { _player->AddHP(hp); }

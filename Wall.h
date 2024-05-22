@@ -87,5 +87,32 @@ public:
 		// Reset the global transformation.
 		g.SetTransform(&t);
 	}
+	
+	void ResetWalls(const int count)
+	{
+		switch(count)
+		{
+		case 0:
+			for (int i = 0; i < 14; ++i)
+			{
+				_bricks.PopFront();
+				_brickSprites.PopFront();
+			}
+			break;
+		case 1:
+			for (int i = 0; i < 13; ++i)
+			{
+				_bricks.PopFront();
+				_brickSprites.PopFront();
+			}
+		case 2:
+			for (int i = 0; i < 12; ++i)
+			{
+				_bricks.PopFront();
+				_brickSprites.PopFront();
+			}
+		}
+
+	}
   
 };

@@ -1,6 +1,7 @@
 // ChatGPT Generated
+#include "Container.h"
 
-class TextInputField {
+class TextInputField:public Container {
 public:
     std::wstring text;  // Stores input from the user
     int x, y;           // Position of the text input field
@@ -8,7 +9,7 @@ public:
     bool focus;         // Whether the text field is currently focused
 
     TextInputField(int x, int y, int width, int height)
-        : x(x), y(y), width(width), height(height), focus(false) {}
+        : Container(x, y, width, height),x(x), y(y), width(width), height(height), focus(false) {}
 
     void draw(Gdiplus::Graphics& graphics) {
         using namespace Gdiplus;
@@ -40,18 +41,30 @@ public:
         focus = (mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + height);
     }
 
-    void onKeyPress(WPARAM wParam) {
-        if (!focus) return;
+    void onKeyPress(BYTE key) {
+      if (!focus) return;
 
-        switch (wParam) {
-            case VK_BACK:
-                if (!text.empty()) text.pop_back();
-                break;
-            default:
-                if (wParam >= 0x20 && wParam <= 0x7E) { // Printable characters
-                    text += static_cast<wchar_t>(wParam);
-                }
-                break;
+      // 키보드 상태를 얻어옵니다.
+      BYTE keyboardState[256];
+      if (!GetKeyboardState(keyboardState)) {
+        return; // 키보드 상태를 얻어오지 못했을 경우
+      }
+
+      // 키 코드와 키보드 상태를 사용하여 유니코드 문자로 변환합니다.
+      WCHAR unicodeChar[3] = { 0 };  // 한글의 경우 최대 2개의 WCHAR가 필요할 수 있습니다.
+      int count = ToUnicodeEx(key, 0, keyboardState, unicodeChar, 2, 0, NULL);
+
+      // 실제 문자가 변환되었는지 확인합니다.
+      if (count > 0 && unicodeChar[0] != '\0') {
+        if (unicodeChar[0] == '\b' && !text.empty()) {
+          // 백스페이스 처리
+          text.pop_back();
         }
+        else {
+          // 변환된 문자열을 텍스트에 추가합니다.
+          text.append(unicodeChar, count);  // count 만큼의 문자를 추가합니다.
+        }
+      }
     }
+
 };
