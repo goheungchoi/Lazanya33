@@ -701,7 +701,7 @@ void PlayScene::Update(const double deltaTime)
 		// Show pop up windows
 		if (!_ended) {
 			_delayEnding += deltaTime;
-			if (_delayEnding > 3) {
+			if (_delayEnding > 1.5) {
 				_endComps.gameEndBG->SetActive(true);
 				_gameEndSceneContainer->SetActive(true);
 
