@@ -572,11 +572,11 @@ void PlayScene::__InitComponents() {
 	_gamePlayUIContainer->AddChildComponent(_uiComps._rightBox);
 	
 	// Game End Components
-	//_endComps.textBox->AddChildComponent(_endComps.text1);
-	//_endComps.textBox->AddChildComponent(_endComps.text2);
-	//_endComps.textBox->AddChildComponent(_endComps.text3);
+	_endComps.textBox->AddChildComponent(_endComps.text1);
+	_endComps.textBox->AddChildComponent(_endComps.text2);
+	_endComps.textBox->AddChildComponent(_endComps.text3);
 
-	//_gameEndSceneContainer->AddChildComponent(_endComps.textBox);
+	_gameEndSceneContainer->AddChildComponent(_endComps.textBox);
 
 }
 
