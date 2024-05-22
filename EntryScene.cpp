@@ -58,9 +58,7 @@ EntryScene::EntryScene()
 	_mainComs.age->SetFontFamily(L"Her-Leeoksun");
 	_mainComs.age->SetFontColor(233, 233, 233, 255);
 	_mainComs.age->SetFont(150 , FontStyleRegular);
-	_mainComs.age->SetText(
-		_WStringAgeIndex(GetGameDataHub().GetCurrentGeneration()).c_str()
-	);
+	
 	
 	
 	//highscoreName
@@ -160,6 +158,10 @@ void EntryScene::Draw()
 
 void EntryScene::InitScene()
 {
+	_mainComs.age->SetText(
+		_WStringAgeIndex(GetGameDataHub().GetCurrentGeneration()).c_str()
+	);
+
 	_renderSystem->RegisterRenderableObject(_mainComs.background);
 	_renderSystem->RegisterRenderableObject(_mainMenuContainer);
 	

@@ -93,8 +93,8 @@ class PlayScene :public IScene
 	class PlayerBricksInteractionSystem* _playerBrickInteractionSystem;
 
 /* Game States */
-	int _mothersScore{ 70 };
-	int _gloryOfFamilyScore{ 80 };
+	int _mothersScore{ 60 };
+	int _gloryOfFamilyScore{ 100 };
 
 	double _stateUpdateDuration{ 1.0 };
 	double _stateUpdateElapsedTime{ 0.0 };

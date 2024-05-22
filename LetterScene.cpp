@@ -49,7 +49,8 @@ void LetterScene::__InitComponents() {
 	_comps._rightBox = new Container(
 		20, 100, screenWidth * 0.45, screenHeight - 100
 	);
-	_comps.text1 = new Container(1100, 120, 550, 50);
+	_comps.text1 = new Container(1060, 120, 600, 50);
+	_comps.runningInFamily = new Container(1150, 120, 144, 50);
 	_comps.blessingsOfGod = new Container(0, 0, 550, 500);
 	_comps.blessingStateController = new BlessingsOfGodStateController();
 	_comps.firstBlessingOfGod = new BlessingContainer(1078, 180, 550, 150);
@@ -107,16 +108,7 @@ void LetterScene::__InitComponents() {
 	// letter scripts 한글
 	_comps.letter->SetPositionLayout(PositionLayout::LAYOUT_STATIC);
 	_comps.letter->SetFontFamily(L"그녀-이옥선");
-	_comps.letter->SetText(
-		L"자랑스러운 라자브 가문의 장녀,\n" L"라자냐 33세여, "
-		L"폭탄산 무크티니로 가거라.\n\n"
-
-		L"누구보다 무크티니를 깊게 파\n"
-		L"가문의 영광이 되거라.\n\n"
-
-		L"학교를 안 가는걸 명예로 여겨온\n"
-		L"라자브 가문의 후손답게 글을 모르겠지.\n"
-		L"그림으로 설명하마.");
+	_comps.letter->SetText(__WStringifyLetterText().c_str());
 	_comps.letter->SetFont(36, FontStyleBold);
 	// diagrams
 	_comps.diagrams->SetPositionLayout(PositionLayout::LAYOUT_RELATIVE);
@@ -127,9 +119,16 @@ void LetterScene::__InitComponents() {
 	int a;
 	//// Right Box Components
 	// text1
-	_comps.text1->SetFontFamily(L"그녀-이옥선");
+	_comps.text1->SetFontFamily(L"GyeonggiBatang Bold");
 	_comps.text1->SetFont(36, FontStyleBold);
-	_comps.text1->SetText(L"3개의 '가족력'중 하나를 선택해 진행");
+	_comps.text1->SetText(L"3개의             중 하나를 선택해 진행.");
+	// running In Family
+	_comps.runningInFamily->SetFontFamily(L"GyeonggiBatang Bold");
+	_comps.runningInFamily->SetFont(38, FontStyleBold);
+	_comps.runningInFamily->SetFontColor(181, 0, 0);
+	_comps.runningInFamily->SetTextHorizontalAlignment(H_DIRECTION::CENTER);
+	_comps.runningInFamily->SetText(L"'가족력'");
+
 	// blessings of God
 	_comps.blessingsOfGod->SetDisplay(Display::BLOCK);
 	// first blessingS
@@ -165,6 +164,7 @@ void LetterScene::__InitComponents() {
 
 	// Attach right box contents to the right box
 	_comps._rightBox->AddChildComponent(_comps.text1);
+	_comps._rightBox->AddChildComponent(_comps.runningInFamily);
 	_comps._rightBox->AddChildComponent(_comps.blessingsOfGod);
 
 
@@ -177,7 +177,7 @@ void LetterScene::__InitComponents() {
 
 void LetterScene::Update(double dt)
 {
-	
+	_playButton->SetActive(isBlessingSelected);
 	// Check the mouse button events
 	
 	_buttonEventHandler->HandleMouseEvent(
@@ -207,6 +207,7 @@ void LetterScene::Draw()
 }
 
 void LetterScene::InitScene() {
+	_playButton->SetActive(false);
 	_comps.firstBlessingOfGod->Init();
 	_comps.secondBlessingOfGod->Init();
 	_comps.thirdBlessingOfGod->Init();

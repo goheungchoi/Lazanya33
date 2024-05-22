@@ -88,6 +88,9 @@ public:
 	void SetActive(bool active) {
 		_isActive = active;
 	}
+	bool IsActive() {
+		return _isActive;
+	}
 	// Z-value
 	int GetZValue() { return _z; }
 	/**

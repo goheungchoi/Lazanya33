@@ -197,6 +197,9 @@ public:
 
   void HandleMouseEvent(int mouseX, int mouseY, bool isDown, bool isUp) {
     for (auto* button : buttons) {
+			// If not active 
+			if (!button->IsActive()) continue;
+
       if (button->HitTest(mouseX, mouseY)) {
         if (isDown) {
           button->OnMouseDown();

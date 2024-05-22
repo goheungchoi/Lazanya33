@@ -751,11 +751,14 @@ void PlayScene::Update(const double deltaTime)
 		_uiComps.ancestors->Update(deltaTime);
 
 		// Update 
-		_uiComps.honorOfAncestor->SetText(
-			__WStringifyMothersHonor(GetGameDataHub().GetMaxScore()).c_str()
+		_uiComps.gloryOfFamily->SetText(
+			__WStringifyGloryHall(
+				_gloryOfFamilyScore < _player->GetCurrScore() ?
+				_player->GetCurrScore() : _gloryOfFamilyScore
+			).c_str()
 		);
 		_uiComps.honorOfAncestor->SetText(
-			__WStringifyMothersHonor(GetGameDataHub().GetPreviousUser().score).c_str()
+			__WStringifyMothersHonor(_mothersScore).c_str()
 		);
 		_uiComps.currentHonor->SetText(
 			__WStringifyCurrentHonor(_player->GetCurrScore()).c_str()
@@ -852,10 +855,9 @@ void PlayScene::Update(const double deltaTime)
 		// Show pop up windows
 		if (!_ended) {
 
+			// Ending delay 3 seconds
 			_delayEnding += deltaTime;
 			if (_delayEnding > 3) {
-
-				
 
 				Music::soundManager->StopMusic(Music::eSoundChannel::BGM);
 				_endComps.gameEndBG->SetActive(true);
@@ -869,7 +871,7 @@ void PlayScene::Update(const double deltaTime)
 
 				int playerScore = _player->GetCurrScore();
 				if (
-					playerScore > GetGameDataHub().GetMaxScore() &&
+					playerScore > _gloryOfFamilyScore &&
 					playerScore >= 100
 				) {
 					txt2 = new TextAnimation(
@@ -879,7 +881,7 @@ void PlayScene::Update(const double deltaTime)
 					);
 				}
 				else if (
-					playerScore > GetGameDataHub().GetPreviousUser().score &&
+					playerScore > _mothersScore &&
 					playerScore >= 60
 				) {
 					txt2 = new TextAnimation(
@@ -963,6 +965,11 @@ void PlayScene::EndScene()
 	_endComps.text2->SetText(L"");
 	_endComps.text3->SetText(L"");
 	_renderSystem->ClearRenderableRegistry();
+
+	GetGameDataHub().SetCurrentUserName(L"Hello");
+	GetGameDataHub().SetCurrentUserDepth(_player->GetDownMeter());
+	GetGameDataHub().SetCurrentUserScore(_player->GetCurrScore());
+	GetGameDataHub().DispatchCurrentUserData();
 }
 
 void PlayScene::__PlayerUpdate(const double deltaTime)
@@ -1199,6 +1206,10 @@ void PlayScene::__ResetGame() {
 		_uiComps.oxygenLevel->SetY(screenHeight * (1.0 - oxygenRate));
 
 	// Score board
+	_gloryOfFamilyScore = GetGameDataHub().GetMaxScore();
+	_gloryOfFamilyScore = _gloryOfFamilyScore > 100 ? _gloryOfFamilyScore : 100;
+	_mothersScore = GetGameDataHub().GetPreviousUser().score;
+	_mothersScore = _mothersScore > 60 ? _mothersScore : 60;
 	_uiComps.gloryOfFamily->SetText(__WStringifyGloryHall(_gloryOfFamilyScore).c_str());
 	_uiComps.honorOfAncestor->SetText(__WStringifyMothersHonor(_mothersScore).c_str());
 	_uiComps.currentHonor->SetText(__WStringifyCurrentHonor(_player->GetCurrScore()).c_str());
