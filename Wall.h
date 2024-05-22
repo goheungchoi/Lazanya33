@@ -11,7 +11,6 @@ class Wall :public GridItem
 private:
 	GridDeque<Brick> _bricks;
 	//GridDeque<Gdiplus::CachedBitmap*> _brickSprites;
-	GridDeque<CachedBitmap*> _brickSprites;
 
 public:
 	Wall() :
@@ -20,6 +19,7 @@ public:
 		///_brickSprites(WALL_NUM_ROWS, WALL_NUM_COLS){}
 	~Wall(){}	
 
+	GridDeque<CachedBitmap*> _brickSprites;
 
 	void PopFrontBricks()
 	{

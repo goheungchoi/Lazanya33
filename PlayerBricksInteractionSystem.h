@@ -23,7 +23,10 @@ public:
 	void ApplyDamageToBrickByPlayer(int row, int col,BYTE key,int& count, const double& deltaTime) {
 		//player damage to birck
 		_wall->DamageBrick(row, col, _player->GetAttackDamage());
-		
+		if (_wall->GetBrick(row, col).blockHealth * 2 <= _wall->GetBrick(row, col).maxBlockHealth)
+		{
+			_wall->_brickSprites.At(row, col) = GetBrickSprite(_wall->GetBirckType(row, col), TypeToTag(_wall->GetBirckType(row,col)));
+		}
 		//if bomb destroy
 		if (_wall->GetBirckType(row, col) == BrickType::BOMB)
 		{
@@ -126,6 +129,30 @@ public:
 		case BrickType::RASGULLA:
 			Music::soundManager->PlayMusic(Music::eSoundList::rasgula, Music::eSoundChannel::Lasgulla);
 			break;
+		}
+	}
+
+
+	std::wstring TypeToTag(BrickType type)
+	{
+		switch (type)
+		{
+		case BrickType::DEFAULT:
+			return L"B.default";
+		case BrickType::STONE:
+			return L"B.stone";
+		case BrickType::ROCK:
+			return L"B.rock";
+		case BrickType::BOMB:
+			return L"B.bombR";
+		case BrickType::GOLD:
+			return L"B.gold";
+		case BrickType::OXYGEN:
+			return L"B.air";
+		case BrickType::RASGULLA:
+			return L"B.rasgulla";
+		case BrickType::GULAB_JAMUN:
+			return L"B.gulabjamun";
 		}
 	}
 };
