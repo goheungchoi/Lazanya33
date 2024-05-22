@@ -21,8 +21,6 @@ class EntryScene: public IScene
 		Container* highScore;
 
 		Container* age;
-		Container* ageChildTextIndex;
-		Container* ageChildText;
 
 		Button* playbutton;
 		Button* decoratorButton;

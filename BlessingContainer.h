@@ -254,6 +254,7 @@ public:
 				// The other containers
 				bc->SetImage(bc->_default);
 				if (!bc->_isDarker) {	// If it's not darkened
+					Music::soundManager->PlayMusic(Music::eSoundList::BackSound, Music::eSoundChannel::Effect);
 					bc->SetState(0);	// darken
 					bc->_isDarker = true;
 				}

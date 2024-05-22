@@ -5,7 +5,12 @@
 #include "SceneGraph.h"
 #include "InputSystem.h"
 #include "CSound.h"
+
+#ifndef  NDEBUG
+
 #include "DebugConsole.h"
+#endif // ! NDEBUG
+
 
 // Rendering Libraries
 #include "RenderSystem.h"
@@ -14,14 +19,15 @@
 #include "RandomGenerator.h"
 
 // Attach images to the brick types
-#ifndef NDEBUG
+
 #include "Brick.h"
-#endif
 
 Engine::Engine()
 {
-	//Doing Debug:
+#ifndef NDEBUG
 	Debug.Get_Console();
+#endif // !NDEBUG
+
 	// Initialize ResourceManager Singleton
   ResourceManager::Create();
 	// Initialize RandomGenerator Singleton
@@ -114,8 +120,12 @@ void Engine::Render()
 
 void Engine::Finalize()
 {
-	//Doing Debug:
+	int a;
+#ifndef NDEBUG
+
 	Debug.Close_Console();
+#endif // !NDEBUG
+
 }
 
 void Engine::Run()
@@ -129,23 +139,30 @@ void Engine::Run()
 	//Main loop
 	while (true)
 	{
-		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+		{
 			// WM_QUIT, break the loop
 			if (msg.message == WM_QUIT)
 				break;
 
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
+			else
+			{
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
 		}
 
-		//Update dt
-		currTime = Timer::GetTick();
-		deltaTime = currTime - prevTime;
-		prevTime = currTime;
+		else
+		{
+			//Update dt
+			currTime = Timer::GetTick();
+			deltaTime = currTime - prevTime;
+			prevTime = currTime;
 
-		Update(deltaTime);
+			Update(deltaTime);
 
-		Render();
+			Render();
+		}
 	}
 }
 

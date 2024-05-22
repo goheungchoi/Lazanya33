@@ -98,13 +98,13 @@ void LetterScene::__InitComponents() {
 	// TODO: Need a script file seperate.
 	// letter scripts
 	_comps.letter->SetPositionLayout(PositionLayout::LAYOUT_STATIC);
-	_comps.letter->SetFontFamily(L"경기천년바탕 Bold");
+	_comps.letter->SetFontFamily(L"그녀-이옥선");
 	_comps.letter->SetText(
 		L"자랑스러운 라자브 가문의 장녀\n" L"라자냐 33세여, "
 		L"폭탄산 무크티니로 가거라.\n\n"
 
-		L"누구보다 폭탄산 무크티니를 깊게 파\n"
-		L"라자브 가문의 영광이 되거라\n\n"
+		L"누구보다 무크티니를 깊게 파\n"
+		L"가문의 영광이 되거라\n\n"
 
 		L"학교를 안 가는걸 명예로 여겨온\n"
 		L"라자브 가문의 후손답게 글을 모르겠지.\n"
@@ -119,7 +119,7 @@ void LetterScene::__InitComponents() {
 	
 	//// Right Box Components
 	// text1
-	_comps.text1->SetFontFamily(L"경기천년바탕 Bold");
+	_comps.text1->SetFontFamily(L"그녀-이옥선");
 	_comps.text1->SetFont(36, FontStyleBold);
 	_comps.text1->SetText(L"아, 그리고 너 가족력이 뭐였지?");
 	// blessings of God

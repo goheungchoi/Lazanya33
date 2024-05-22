@@ -17,7 +17,7 @@ EntryScene::EntryScene()
 	_mainComs.title = new Container(30, 30, 100, 100);
 	_mainComs.title->SetSizeFitImage(true);
 	_mainComs.title->SetImage(
-		ResourceManager::Get().GetImage(L"Razanya Title")
+		ResourceManager::Get().GetImage(L"Main_Title")
 	);
 	_mainComs.title->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 
@@ -48,37 +48,19 @@ EntryScene::EntryScene()
 	_mainComs.lazanya->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 
 	//age
-	_mainComs.age = new Container(500, 40, 100, 100);
-	_mainComs.age->SetSizeFitImage(true);
-	_mainComs.age->SetImage(
-	ResourceManager::Get().GetImage(L"Age")
-	);
+	_mainComs.age = new Container(500, 35, 100, 100);
 	_mainComs.age->SetRotationPivot(
 		_mainComs.age->GetCenterX(),
 		_mainComs.age->GetCenterY()
 	);
 	_mainComs.age->Rotate(10);
-	_mainComs.age->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
-
-	_mainComs.ageChildText = new Container(225, 20, 700, 300);
-	_mainComs.ageChildText->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
-	_mainComs.ageChildText->SetFontFamily(L"Her-Leeoksun");
-	_mainComs.ageChildText->SetFontColor(0, 0, 0, 255);
-	_mainComs.ageChildText->SetFont(150, FontStyleRegular);
-	_mainComs.ageChildText->SetText(
-	L"¼¼"
-	);
-	_mainComs.age->AddChildComponent(_mainComs.ageChildText);
-
-	_mainComs.ageChildTextIndex = new Container(20, 5, 100, 100);
-	_mainComs.ageChildTextIndex->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
-	_mainComs.ageChildTextIndex->SetFontFamily(L"Her-Leeoksun");
-	_mainComs.ageChildTextIndex->SetFontColor(255, 255, 255, 255);
-	_mainComs.ageChildTextIndex->SetFont(170, FontStyleRegular);
-	_mainComs.ageChildTextIndex->SetText(
+	_mainComs.age->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	_mainComs.age->SetFontFamily(L"Her-Leeoksun");
+	_mainComs.age->SetFontColor(255, 255, 255, 255);
+	_mainComs.age->SetFont(170, FontStyleRegular);
+	_mainComs.age->SetText(
 		_WStringAgeIndex(testIndex).c_str()
 	);
-	_mainComs.age->AddChildComponent(_mainComs.ageChildTextIndex);
 
 
 
@@ -171,7 +153,7 @@ void EntryScene::Update(const double deltaTime)
 	if (Input::inputManager->IsTurnDn(VK_SPACE))
 	{
 		testIndex++;
-		_mainComs.ageChildTextIndex->SetText(
+		_mainComs.age->SetText(
 			_WStringAgeIndex(testIndex).c_str()
 		);
 	}

@@ -21,8 +21,7 @@ public:
 	{
 		
 		_player->AddOxygen(_amountOfReduceOxy*deltaTime);
-		//Doing Debug:
-		//Debug.Log(_player->GetCurrOxyLevel());
+		
 	}
 
 	void UpdateAmountOfRedeuceOxy()

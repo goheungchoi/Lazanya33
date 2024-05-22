@@ -24,6 +24,12 @@ public:
 		//player damage to birck
 		_wall->DamageBrick(row, col, _player->GetAttackDamage());
 		
+		//if bomb destroy
+		if (_wall->GetBirckType(row, col) == BrickType::BOMB)
+		{
+			_player->SetOxygenLevel(0.0);
+		}
+
 		// if brick destory
 		if (_wall->GetBrick(row, col).blockHealth <= 0)
 		{
@@ -100,7 +106,26 @@ public:
 	void PlayBrickDestroySound(BrickType type){
 		switch (type) {
 		case BrickType::DEFAULT:
-			Music::soundManager->PlayMusic(Music::eSoundList::block00_destroy_Malang, Music::eSoundChannel::BrickDestory);
+			Music::soundManager->PlayMusic(Music::eSoundList::block00_destroy_Malang, Music::eSoundChannel::Default);
+			break;
+		case BrickType::STONE:
+			Music::soundManager->PlayMusic(Music::eSoundList::block01_destroy_Dan, Music::eSoundChannel::Stone);
+			break;
+		case BrickType::ROCK:
+			Music::soundManager->PlayMusic(Music::eSoundList::block02_destroy_DDak, Music::eSoundChannel::Rock);
+			break;
+		case BrickType::BOMB:
+			Music::soundManager->PlayMusic(Music::eSoundList::Block04_Destroy, Music::eSoundChannel::Bomb);
+			break;
+		case BrickType::GOLD:
+			Music::soundManager->PlayMusic(Music::eSoundList::Block05_destroy_gold, Music::eSoundChannel::Gold);
+			break;
+		case BrickType::OXYGEN:
+			Music::soundManager->PlayMusic(Music::eSoundList::Block06_destroy_air, Music::eSoundChannel::Oxygen);
+			break;
+		case BrickType::RASGULLA:
+			Music::soundManager->PlayMusic(Music::eSoundList::rasgula, Music::eSoundChannel::Lasgulla);
+			break;
 		}
 	}
 };

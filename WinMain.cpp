@@ -26,7 +26,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	global::GetWinApp().Finalize();
 
-	} catch (const std::exception& e) {
+	}
+	catch (const std::exception& e) {
     const char* w = e.what();
 		std::wstring wstr;
 		wstr.append(L"\t-> ");

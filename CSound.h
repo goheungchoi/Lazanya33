@@ -21,7 +21,13 @@ namespace Music
     BGM,
     Effect,
     BrickDamage,
-    BrickDestory,
+    Default,
+    Stone,
+    Rock, 
+    Bomb,
+    Gold,
+    Oxygen,
+    Lasgulla,
     Size
   };
 

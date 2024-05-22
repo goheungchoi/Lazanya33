@@ -59,6 +59,7 @@ struct Brick
     break;
 
     case BrickType::BOMB:
+			blockHealth = 10;
 		this->type = BrickType::BOMB;
     break;
 
