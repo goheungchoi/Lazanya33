@@ -106,9 +106,9 @@ void PlayScene::__InitComponents() {
 	// Game End Scene Components
 	_endComps.gameEndBG = new SingleSpriteRenderable<GameEndComponents>();
 	_endComps.textBox = new Container(0, 0, 850, 650);
-	_endComps.text1 = new Container(0, 0, 850, 120);
-	_endComps.text2 = new Container(0, 0, 850, 300);
-	_endComps.text3 = new Container(0, 0, 850, 120);
+	_endComps.text1 = new Container(580, 350, 850, 120);
+	_endComps.text2 = new Container(700, 450, 750, 300);
+	_endComps.text3 = new Container(650, 700, 850, 120);
 
 /********** Load Sprites **********/
 
@@ -226,10 +226,22 @@ void PlayScene::__InitComponents() {
 	_endComps.textBox->SetBorder(255, 0, 0);
 	_endComps.text1->EnableBorder(true);
 	_endComps.text1->SetBorder(0, 255, 100);
+  _endComps.text1->SetRotationPivot(
+	_endComps.text1->GetCenterX(),
+  _endComps.text1->GetCenterY());
+  _endComps.text1->Rotate(-7);
 	_endComps.text2->EnableBorder(true);
 	_endComps.text2->SetBorder(255, 100, 20);
+  _endComps.text2->SetRotationPivot(
+	_endComps.text3->GetCenterX(),                             
+	_endComps.text3->GetCenterY());
+  _endComps.text2->Rotate(-7);
 	_endComps.text3->EnableBorder(true);
 	_endComps.text3->SetBorder(20, 0, 2550);
+  _endComps.text3->SetRotationPivot(
+	_endComps.text3->GetCenterX(),
+  _endComps.text3->GetCenterY());
+  _endComps.text3->Rotate(-7);
 
 #endif // !NDEBUG
 
@@ -702,7 +714,7 @@ void PlayScene::Update(const double deltaTime)
 		// Show pop up windows
 		if (!_ended) {
 			_delayEnding += deltaTime;
-			if (_delayEnding > 1.5) {
+			if (_delayEnding > 3) {
 				_endComps.gameEndBG->SetActive(true);
 				_gameEndSceneContainer->SetActive(true);
 
@@ -716,7 +728,7 @@ void PlayScene::Update(const double deltaTime)
 				int playerScore = _player->GetCurrScore();
 				if (
 					playerScore > GetGameDataHub().GetMaxScore() &&
-					playerScore > 100
+					playerScore >= 100
 				) {
 					txt2 = new TextAnimation(
 						_endComps.text2,
@@ -726,7 +738,7 @@ void PlayScene::Update(const double deltaTime)
 				}
 				else if (
 					playerScore > GetGameDataHub().GetPreviousUser().score &&
-					playerScore > 60
+					playerScore >= 60
 				) {
 					txt2 = new TextAnimation(
 						_endComps.text2,
@@ -1071,10 +1083,10 @@ std::wstring PlayScene::__WStringifyEndingMessage2_2() {
 	return std::wstring(buffer);
 }
 std::wstring PlayScene::__WStringifyEndingMessage2_3() {
-	wchar_t buffer[50];
+	wchar_t buffer[80];
 	swprintf_s(buffer, 
 		L"그녀의 활약은 [-%d+] 만큼 훌륭했으며,\n"
-		L"그녀의 어머니를 능가했고,\n",
+		L"그녀의 어머니를 능가했고,\n"
 		L"가문의 영광이 되었다.\n",
 		_player->GetCurrScore()
 	);
