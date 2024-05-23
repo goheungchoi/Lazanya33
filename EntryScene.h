@@ -15,6 +15,7 @@ class EntryScene: public IScene
 	class Container* _mainMenuContainer;
 	struct MainMenuComponents
 	{
+		Container* backgroundCorona;
 		SingleSpriteRenderable<MainMenuComponents>* background;
 		Container* lazanya;
 		Container* title;
