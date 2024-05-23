@@ -1266,10 +1266,10 @@ void PlayScene::__ResetGame() {
 	_player->ChangeTag(L"down1");
 	_player->SetHP(_player->GetMaxHP());
 	_player->SetAttackDamage(PLAYER_DEFAULT_AD);
+	_player->SetMaxOxygenLevel(PLAYER_DEFAULT_MAX_OXYGEN_LEVEL);
 	_player->SetOxygenLevel(_player->GetMaxOxyLevel());
 	_player->SetScore(0);
 	_player->SetCombo(0);
-	_player->SetMaxOxygenLevel(PLAYER_DEFAULT_MAX_OXYGEN_LEVEL);
 	// Set Decorator
 	BlessingType blessingType = static_cast<BlessingType>(
 		GetGameDataHub().GetCurrentUserBlessIndex()
