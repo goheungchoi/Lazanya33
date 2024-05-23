@@ -101,7 +101,13 @@ public:
 	 * @brief 현재 가지고 있는 유저 대이타를 스트럭화 해서 유저 히스토리에 푸쉬합니다.
 	 */
 	void DispatchCurrentUserData() {
-		int maxScore = _hist.userHistory[_hist.maxScoreUserIndex].score;
+		int maxScore = 0;
+		if (_hist.maxScoreUserIndex == -1)
+		{
+			maxScore = 100;
+		}
+		else
+			maxScore = _hist.userHistory[_hist.maxScoreUserIndex].score;
 
 		// Update Play History
 		_hist.maxScoreUserIndex =

@@ -641,6 +641,7 @@ void PlayScene::__InitComponents() {
 			Music::soundManager->PlayMusic(Music::eSoundList::PaperTeraing, Music::eSoundChannel::Effect);
 			_canGohistory = true;
 			_historyComps.historyBG->SetActive(true);
+			_historyComps.entryButton->SetActive(true);
 			_historyContainer->SetActive(true);
 		}
 		});
@@ -660,7 +661,7 @@ void PlayScene::__InitComponents() {
 	);
 	
 	//name
-	_historyComps.name = new TextInputField(740, 650, 100, 100);
+	_historyComps.name = new TextInputField(900, 680, 100, 100);
 	_historyComps.name->SetZValue(8);
 	_historyContainer->AddChildComponent(_historyComps.name);
 	//nametag
@@ -703,6 +704,7 @@ void PlayScene::__InitComponents() {
 		ResourceManager::Get().GetImage(L"UI_Game_Over_History02_text")
 	);
 	_historyComps.name->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
+	_historyComps.name->SetFont(40, FontStyleBold);
 	_historyContainer->AddChildComponent(_historyComps.text);
 }
 
@@ -866,12 +868,19 @@ void PlayScene::Update(const double deltaTime)
 			{
 				if (Input::inputManager->IsTurnDn(i))
 				{
-					if (i >= 'A' && i <= 'Z')
+					if (i >= 'A' && i <= 'Z'&&_historyComps.name->text.length()<6)
+					{
 						_historyComps.name->text.push_back(i);
-					else if (i == 8)
+						_historyComps.name->text.push_back(' ');
+					}
+					else if (i == 8 && !_historyComps.name->text.empty())
+					{
 						_historyComps.name->text.pop_back();
+						_historyComps.name->text.pop_back();
+					}
 					else
 						continue;
+					
 				}
 			}
 		}
@@ -885,6 +894,7 @@ void PlayScene::Update(const double deltaTime)
 
 				Music::soundManager->StopMusic(Music::eSoundChannel::BGM);
 				_endComps.gameEndBG->SetActive(true);
+				_endComps.gotohistory->SetActive(true);
 				_gameEndSceneContainer->SetActive(true);
 
 				txt1 = new TextAnimation(
@@ -987,7 +997,7 @@ void PlayScene::EndScene()
 	_endComps.text3->SetText(L"");
 	_renderSystem->ClearRenderableRegistry();
 
-	GetGameDataHub().SetCurrentUserName(L"Hello");
+	GetGameDataHub().SetCurrentUserName(_historyComps.name->text.c_str());
 	GetGameDataHub().SetCurrentUserDepth(_player->GetDownMeter());
 	GetGameDataHub().SetCurrentUserScore(_player->GetCurrScore());
 	GetGameDataHub().DispatchCurrentUserData();
@@ -1235,8 +1245,8 @@ void PlayScene::__ResetGame() {
 	_uiComps.honorOfAncestor->SetText(__WStringifyMothersHonor(_mothersScore).c_str());
 	_uiComps.currentHonor->SetText(__WStringifyCurrentHonor(_player->GetCurrScore()).c_str());
 
-	_uiComps.additionalScore->SetText(L"00");	// DEBUG
-	_uiComps.depth->SetText(L"00");	// DEBUG
+	_uiComps.additionalScore->SetText(L"0");	// DEBUG
+	_uiComps.depth->SetText(L"0M");	// DEBUG
 
 	// State Display
 	_uiComps.currentState->SetState(
