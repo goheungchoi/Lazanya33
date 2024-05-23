@@ -153,13 +153,13 @@ public:
 
 	// Getters
 	int GetMaxScore() {
-		if (_hist.userHistory.empty())
+		if (_hist.maxScoreUserIndex = -1)
 			return 100;
 		return _hist.userHistory[_hist.maxScoreUserIndex].score;
 	}
 
 	UserData GetMaxScoreUser() {
-		if (_hist.userHistory.empty())
+		if (_hist.maxScoreUserIndex = -1)
 			return { L"None", -1, -1, -1, 100 };
 		return _hist.userHistory[_hist.maxScoreUserIndex];
 	}
