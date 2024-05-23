@@ -36,7 +36,7 @@ public:
 				0, 0, false
 			);
 			brickAnim->SliceSpriteSheet(145, 145, 0, 0, 0, 0);
-			brickAnim->SetFrameDurations({ 0.05 });
+			brickAnim->SetFrameDurations({ 0.1 });
 
 			_brickDestructionAnimationPool[i] = brickAnim;
 		}
@@ -116,7 +116,7 @@ public:
 			Animation* anim = _brickDestructionAnimationPool[i];
 			Point screenPos{ col, row - isDown };
 			_gridTransform.TransformPoints(&screenPos);
-			anim->SetPosition(screenPos.X, screenPos.Y);
+			anim->SetPosition(screenPos.X-13, screenPos.Y-13);
 			anim->Trigger();
 			_destroyAnimationList.push_back(anim);
 		}break;
