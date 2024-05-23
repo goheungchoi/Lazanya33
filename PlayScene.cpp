@@ -67,7 +67,7 @@ void PlayScene::__InitComponents() {
 
 	// Center Box Components Allocation
 	_uiComps.levelUpSign = new Container(0, 0, 600, 200);
-	_uiComps.startMessage = new Container(0, 0, 110, 36);
+	_uiComps.startMessage = new Container(0, 0, 130, 36);
 	_uiComps.adBox = new Container(0, 0, 200, 150);
 	_uiComps.adValue = new Container(0, 0, 128, 64);
 	_uiComps.comboBox = new Container(0, 0, 200, 150);
@@ -427,8 +427,9 @@ void PlayScene::__InitComponents() {
 	
 	// Start Message
 	_uiComps.startMessage->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
-	_uiComps.startMessage->SetPosition(975, 340);
-	_uiComps.startMessage->SetFontFamily(L"Broadway");	// TODO: Change it to Broadway
+	_uiComps.startMessage->SetPosition(955, 330);
+	_uiComps.startMessage->SetTextHorizontalAlignment(H_DIRECTION::CENTER);
+	_uiComps.startMessage->SetFontFamily(L"Threat");
 	_uiComps.startMessage->SetFontColor(220, 220, 220, 120);
 	_uiComps.startMessage->SetFont(24, FontStyleBold);
 	_uiComps.startMessage->SetText(L"PRESS ↓");
@@ -465,17 +466,15 @@ void PlayScene::__InitComponents() {
 	_uiComps.comboBox->SetFlexJustifyContent(FlexJustifyContent::SPACE_AROUND);
 	_uiComps.comboEffect = new Animation(
 		ResourceManager::Get().GetImage(L"combo_fire_effect"),
-		_uiComps.comboBox->GetX(), _uiComps.comboBox->GetY(), true
+		_uiComps.comboBox->GetX()+55, _uiComps.comboBox->GetY()-20, true
 	);
 	_uiComps.comboEffect->SliceSpriteSheet(160, 160, 0, 0, 0, 0);
-	_uiComps.comboEffect->SetFrameDurations({ 1.0 });
-	/*_uiComps.comboEffect->SetX(-50);
-	_uiComps.comboEffect->SetY(-10);*/
+	_uiComps.comboEffect->SetFrameDurations({ 0.01 });
 	_uiComps.comboBox->AddAnimation(0, _uiComps.comboEffect);
 
 	_uiComps.comboValue->SetPosition(	// Center position
 		_uiComps.comboBox->GetCenterX() - (_uiComps.comboValue->GetWidth() >> 1),
-		_uiComps.comboBox->GetCenterY() - (_uiComps.comboValue->GetHeight() >> 1)
+		_uiComps.comboBox->GetCenterY() - (_uiComps.comboValue->GetHeight() >> 1) + 5
 	);
 	_uiComps.textShake = new TranslateTransition(
 		_uiComps.comboValue,
@@ -817,10 +816,9 @@ void PlayScene::Update(const double deltaTime)
 			_uiComps.comboValue->SetState(0);
 		}
 
-		if (_player->GetCurrCombo() < 2) {
+		if (_player->GetCurrCombo() < 5) {
 			_uiComps.comboBox->SetState(-1);
-		}
-		else {
+		} else {
 			_uiComps.comboBox->SetState(0);
 		}
 
@@ -832,17 +830,13 @@ void PlayScene::Update(const double deltaTime)
 				case 1:
 					return __WStringifyCombos(0);
 				case 2:
-					_uiComps.comboEffect->SetFrameDurations({ 0.5 });
 					return __WStringifyCombos(1);
 				case 3:
-					_uiComps.comboEffect->SetFrameDurations({ 0.25 });
 					return __WStringifyCombos(2);
 				case 4:
-					_uiComps.comboEffect->SetFrameDurations({ 0.1 });
 					return __WStringifyCombos(3);
 				case 5:
 				default:
-					_uiComps.comboEffect->SetFrameDurations({ 0.01 });
 					return __WStringifyCombos(4);
 				}
 			}().c_str()

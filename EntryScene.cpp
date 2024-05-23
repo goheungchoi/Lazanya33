@@ -36,6 +36,9 @@ EntryScene::EntryScene()
 	_mainComs.highScoreName->SetFont(35, FontStyleBold);
 	_mainComs.highScoreName->SetFontColor(230, 35, 38);
 	_mainComs.highScoreName->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
+	
+	// Background Sunrays
+
 	// Background Corona
 	_mainComs.backgroundCorona = new Container(0, 0, 1990, 1080);
 
