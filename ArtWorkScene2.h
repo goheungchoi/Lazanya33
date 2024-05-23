@@ -7,19 +7,19 @@ class Container;
 class Button;
 class ButtonEventHandler;
 
-class ArtWorkScene1:public IScene
+class ArtWorkScene2 :public IScene
 {
 	ButtonEventHandler* _buttonEventHandle;
-	class Container* _artWork1Container;
-	struct ArtWork1Components
+	class Container* _artWork2Container;
+	struct ArtWork2Components
 	{
-		SingleSpriteRenderable<ArtWork1Components>* background;
-		Button* entryButton;
+		SingleSpriteRenderable<ArtWork2Components>* background;
+		Button* prevButton;
 		Button* nextButton;
-	}_artWork1Comps;
+	}_artWork2Comps;
 public:
-	ArtWorkScene1();
-	~ArtWorkScene1() {};
+	ArtWorkScene2();
+	~ArtWorkScene2() {};
 	void Update(double deltaTime)override;
 	void Draw()override;
 	void InitScene()override;
