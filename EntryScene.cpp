@@ -52,12 +52,9 @@ EntryScene::EntryScene()
 	);
 
 	//lazanya
+	std::wstring entryRazanyaImageName{};
 	_mainComs.lazanya = new Container(1200,150,600,950);
 	_mainComs.lazanya->SetSizeFitImage(true);
-	_mainComs.lazanya->SetImage(
-		ResourceManager::Get().GetImage(L"Main_character.razanya.original.001")
-	);
-	;
 	_mainComs.lazanya->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 
 	//age
@@ -171,6 +168,12 @@ void EntryScene::Draw()
 
 void EntryScene::InitScene()
 {
+	_mainComs.lazanya->SetImage(
+		ResourceManager::Get().GetImage(
+			L"entry_razanya_" + 
+			std::to_wstring(GetGameDataHub().GetCurrentGeneration() % 3)
+		)
+	);
 	_mainComs.age->SetText(
 		_WStringAgeIndex(GetGameDataHub().GetCurrentGeneration()).c_str()
 	);

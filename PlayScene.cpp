@@ -133,31 +133,6 @@ void PlayScene::__InitComponents() {
 		ResourceManager::Get().GetCachedImage(L"ui_tile_background")
 	);
 
-	// Player Sprite Bindings
-	_player->BindImage(
-		ResourceManager::Get().GetImage(L"Razanya1_down01"),
-		L"down1"
-	);
-	_player->BindImage(
-		ResourceManager::Get().GetImage(L"Razanya1_down02"),
-		L"down2"
-	);
-	_player->BindImage(
-		ResourceManager::Get().GetImage(L"Razanya1_Left01"),
-		L"left1"
-	);
-	_player->BindImage(
-		ResourceManager::Get().GetImage(L"Razanya1_Left02"),
-		L"left2"
-	);
-	_player->BindImage(
-		ResourceManager::Get().GetImage(L"Razanya1_Right01"),
-		L"right1"
-	);
-	_player->BindImage(
-		ResourceManager::Get().GetImage(L"Razanya1_Right02"),
-		L"right2"
-	);
 	_player->BindImage(
 		ResourceManager::Get().GetImage(L"lazanya_ingame_headstone"),
 		L"headstone"
@@ -1174,6 +1149,8 @@ void PlayScene::__TriggerNPCsAnimations() {
 }
 
 void PlayScene::__ResetGame() {
+	
+	// Reset states
 	_reverseArrowKeys = false;
 	_started = false;
 	_ended = false;
@@ -1211,6 +1188,47 @@ void PlayScene::__ResetGame() {
 	// Reset Player State
 	_player = _player->GetPlayer();
 	_player->Reset();
+
+	// Setup the Razanya index
+	_currRazanyaIndex = GetGameDataHub().GetCurrentGeneration() % 3;
+
+	// Player Sprite Bindings
+	_player->BindImage(
+		ResourceManager::Get().GetImage(L"Razanya" + 
+			std::to_wstring(_currRazanyaIndex) +
+			L"_down01"),
+		L"down1"
+	);
+	_player->BindImage(
+		ResourceManager::Get().GetImage(L"Razanya" + 
+			std::to_wstring(_currRazanyaIndex) +
+			L"_down02"),
+		L"down2"
+	);
+	_player->BindImage(
+		ResourceManager::Get().GetImage(L"Razanya" + 
+			std::to_wstring(_currRazanyaIndex) +
+			L"_Left01"),
+		L"left1"
+	);
+	_player->BindImage(
+		ResourceManager::Get().GetImage(L"Razanya" + 
+			std::to_wstring(_currRazanyaIndex) +
+			L"_Left02"),
+		L"left2"
+	);
+	_player->BindImage(
+		ResourceManager::Get().GetImage(L"Razanya" + 
+			std::to_wstring(_currRazanyaIndex) +
+			L"_Right01"),
+		L"right1"
+	);
+	_player->BindImage(
+		ResourceManager::Get().GetImage(L"Razanya" + 
+			std::to_wstring(_currRazanyaIndex) +
+			L"_Right02"),
+		L"right2"
+	);
 
 	// Game Play Initialization
 	_player->SetPosition(2, 4);
