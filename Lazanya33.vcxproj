@@ -150,6 +150,8 @@
     <ClInclude Include="Anaerobic.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="ArtWorkScene1.h" />
+    <ClInclude Include="ArtWorkScene2.h" />
+    <ClInclude Include="ArtWorkScene3.h" />
     <ClInclude Include="BlcokIntroduction.h" />
     <ClInclude Include="BlendedAnimationPack.h" />
     <ClInclude Include="BlessingContainer.h" />
@@ -210,6 +212,8 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationController.h" />
     <ClCompile Include="ArtWorkScene1.cpp" />
+    <ClCompile Include="ArtWorkScene2.cpp" />
+    <ClCompile Include="ArtWorkScene3.cpp" />
     <ClCompile Include="BlcokIntroduction.cpp" />
     <ClCompile Include="CSound.cpp" />
     <ClCompile Include="DecoratorScene.cpp" />

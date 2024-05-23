@@ -8,6 +8,8 @@
 #include "DeveloperScene.h"
 #include "BlcokIntroduction.h"
 #include "ArtWorkScene1.h"
+#include "ArtWorkScene2.h"
+#include "ArtWorkScene3.h"
 
 SceneGraph::SceneGraph()
 {
@@ -41,6 +43,8 @@ void SceneGraph::RegisterScene()
 	_sceneRegistry["Decorator"] = new DecoratorScene;
 	_sceneRegistry["Developer"] = new DeveloperScene;
 	_sceneRegistry["ArtWork1"] = new ArtWorkScene1;
+	_sceneRegistry["ArtWork2"] = new ArtWorkScene2;
+	_sceneRegistry["ArtWork3"] = new ArtWorkScene3;
 	_sceneRegistry["Play"] = new PlayScene;
 	_sceneRegistry["Block"] = new BlcokIntroduction;
 	//...scene Ãß°¡
@@ -60,6 +64,12 @@ void SceneGraph::RegisterScene()
 	_sceneRegistry["Decorator"]->AddSceneDependency(_sceneRegistry["Entry"], "Entry");
 
 	_sceneRegistry["ArtWork1"]->AddSceneDependency(_sceneRegistry["Entry"], "Entry");
+	_sceneRegistry["ArtWork1"]->AddSceneDependency(_sceneRegistry["ArtWork2"], "ArtWork2");
+
+	_sceneRegistry["ArtWork2"]->AddSceneDependency(_sceneRegistry["ArtWork1"], "ArtWork1");
+	_sceneRegistry["ArtWork2"]->AddSceneDependency(_sceneRegistry["ArtWork3"], "ArtWork3");
+
+	_sceneRegistry["ArtWork3"]->AddSceneDependency(_sceneRegistry["ArtWork2"], "ArtWork2");
 
 	_sceneRegistry["Block"]->AddSceneDependency(_sceneRegistry["Entry"], "Entry");
 

@@ -29,8 +29,20 @@ ArtWorkScene1::ArtWorkScene1()
 		});
 	_buttonEventHandle->AddButton(_artWork1Comps.entryButton);
 
+	//nextbutton
+	_artWork1Comps.nextButton = new Button(1740, 830, 150, 200);
+	_artWork1Comps.nextButton->SetImage(
+		ResourceManager::Get().GetImage(L"UI_frontButton")
+	);
+	_artWork1Comps.nextButton->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
+	_artWork1Comps.nextButton->AddEventLister("mouseClick", []() {
+		Music::soundManager->PlayMusic(Music::eSoundList::BackSound, Music::eSoundChannel::Effect);
+		_sceneManager->ChangeScene("ArtWork2");
+		});
+	_buttonEventHandle->AddButton(_artWork1Comps.nextButton);
 	//attach child component
 	_artWork1Container->AddChildComponent(_artWork1Comps.entryButton);
+	_artWork1Container->AddChildComponent(_artWork1Comps.nextButton);
 }
 
 void ArtWorkScene1::Update(double deltaTime)
