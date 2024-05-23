@@ -108,8 +108,8 @@ void PlayScene::__InitComponents() {
 	// Game End Scene Components
 	_endComps.gameEndBG = new SingleSpriteRenderable<GameEndComponents>();
 	_endComps.textBox = new Container(0, 0, 850, 650);
-	_endComps.text1 = new Container(580, 350, 850, 120);
-	_endComps.text2 = new Container(700, 450, 750, 300);
+	_endComps.text1 = new Container(580, 300, 850, 120);
+	_endComps.text2 = new Container(700, 400, 750, 300);
 	_endComps.text3 = new Container(650, 700, 850, 120);
 /********** Load Sprites **********/
 
@@ -196,16 +196,20 @@ void PlayScene::__InitComponents() {
 	_uiComps.dancingTownspeople->SetImage(
 		ResourceManager::Get().GetImage(L"70003_NPC_villagers_final")
 	);
+
+	_endComps.text1->SetFontFamily(L"가평한석봉 큰붓 B");
   _endComps.text1->SetRotationPivot(
 	_endComps.text1->GetCenterX(),
   _endComps.text1->GetCenterY());
   _endComps.text1->Rotate(-7);
 	
+	_endComps.text2->SetFontFamily(L"가평한석봉 큰붓 B");
   _endComps.text2->SetRotationPivot(
 	_endComps.text2->GetCenterX(),                             
 	_endComps.text2->GetCenterY());
   _endComps.text2->Rotate(-7);
 
+	_endComps.text3->SetFontFamily(L"가평한석봉 큰붓 B");
   _endComps.text3->SetRotationPivot(
 	_endComps.text3->GetCenterX(),
   _endComps.text3->GetCenterY());
@@ -427,7 +431,7 @@ void PlayScene::__InitComponents() {
 	_uiComps.startMessage->SetFontFamily(L"Broadway");	// TODO: Change it to Broadway
 	_uiComps.startMessage->SetFontColor(220, 220, 220, 120);
 	_uiComps.startMessage->SetFont(24, FontStyleBold);
-	_uiComps.startMessage->SetText(L"Press ↓");
+	_uiComps.startMessage->SetText(L"PRESS ↓");
 
 	// Level Up Message
 	_uiComps.levelUpSign->SetImageAlignment(H_DIRECTION::CENTER, V_DIRECTION::CENTER);
@@ -459,10 +463,30 @@ void PlayScene::__InitComponents() {
 	_uiComps.comboBox->SetFlexDirection(FlexDirection::COLUMN);
 	_uiComps.comboBox->SetFlexAlignItem(FlexAlignItem::FLEX_CENTER);
 	_uiComps.comboBox->SetFlexJustifyContent(FlexJustifyContent::SPACE_AROUND);
-	_uiComps.comboValue->SetPosition(
+	_uiComps.comboEffect = new Animation(
+		ResourceManager::Get().GetImage(L"combo_fire_effect"),
+		_uiComps.comboBox->GetX(), _uiComps.comboBox->GetY(), true
+	);
+	_uiComps.comboEffect->SliceSpriteSheet(160, 160, 0, 0, 0, 0);
+	_uiComps.comboEffect->SetFrameDurations({ 1.0 });
+	/*_uiComps.comboEffect->SetX(-50);
+	_uiComps.comboEffect->SetY(-10);*/
+	_uiComps.comboBox->AddAnimation(0, _uiComps.comboEffect);
+
+	_uiComps.comboValue->SetPosition(	// Center position
 		_uiComps.comboBox->GetCenterX() - (_uiComps.comboValue->GetWidth() >> 1),
 		_uiComps.comboBox->GetCenterY() - (_uiComps.comboValue->GetHeight() >> 1)
 	);
+	_uiComps.textShake = new TranslateTransition(
+		_uiComps.comboValue,
+		_uiComps.comboValue->GetX(), _uiComps.comboValue->GetY()-10,
+		_uiComps.comboValue->GetX(), _uiComps.comboValue->GetY(),
+		0.5, bezier::linear
+	);
+	_uiComps.comboValue->AddAnimation(0, _uiComps.textShake);
+
+	
+
 	_uiComps.comboValue->SetTextHorizontalAlignment(H_DIRECTION::RIGHT);	
 	_uiComps.comboValue->SetTextVerticalJustify(V_DIRECTION::BOTTOM);
 	_uiComps.comboValue->SetFontColor(255, 0, 0);
@@ -784,6 +808,22 @@ void PlayScene::Update(const double deltaTime)
 			__WStringifyCombos(_player->GetCurrCombo()).c_str()
 		);
 
+		// Update Combo Animation
+		_uiComps.comboBox->Update(deltaTime);
+		_uiComps.comboValue->Update(deltaTime);
+		
+		if (_player->NotifyComboChange()) {
+			_uiComps.textShake->Trigger();
+			_uiComps.comboValue->SetState(0);
+		}
+
+		if (_player->GetCurrCombo() < 2) {
+			_uiComps.comboBox->SetState(-1);
+		}
+		else {
+			_uiComps.comboBox->SetState(0);
+		}
+
 		// Update Additional Score
 		_uiComps.additionalScore->SetText(
 			[this, currCombo = _player->GetCurrCombo()]() -> std::wstring {
@@ -792,13 +832,17 @@ void PlayScene::Update(const double deltaTime)
 				case 1:
 					return __WStringifyCombos(0);
 				case 2:
+					_uiComps.comboEffect->SetFrameDurations({ 0.5 });
 					return __WStringifyCombos(1);
 				case 3:
+					_uiComps.comboEffect->SetFrameDurations({ 0.25 });
 					return __WStringifyCombos(2);
 				case 4:
+					_uiComps.comboEffect->SetFrameDurations({ 0.1 });
 					return __WStringifyCombos(3);
 				case 5:
 				default:
+					_uiComps.comboEffect->SetFrameDurations({ 0.01 });
 					return __WStringifyCombos(4);
 				}
 			}().c_str()
@@ -808,8 +852,6 @@ void PlayScene::Update(const double deltaTime)
 		_uiComps.depth->SetText(
 			__WStringifyDepth(_player->GetDownMeter()).c_str()
 		);
-
-		// TODO: Update Level Up Sign!!!
 
 		// Update Player State
 		_stateUpdateElapsedTime += deltaTime;
@@ -1168,6 +1210,9 @@ void PlayScene::__ResetGame() {
 	_uiComps.ancestors->ResetAnimation();
 	_uiComps.ancestors->SetPosition(0, screenHeight);
 	_uiComps.ancestors->SetState(-1); // TODO: Debugging purpose;
+
+	_uiComps.comboBox->ResetAnimation();
+	_uiComps.comboValue->ResetAnimation();
 
 	// Reset Player State
 	_player = _player->GetPlayer();

@@ -43,6 +43,7 @@ private:
 	bool _lasgulaEffectBool{ false };
 	bool _isLasgula{ false };
 
+	bool _comboChangeNotify{ false };
   double _comboDuration;
   double _comboElapsedTime;
   int _comboNumber;
@@ -251,7 +252,12 @@ public:
   void SetComboElapsedTime(double comboElapsedTime) override { _comboElapsedTime = comboElapsedTime; }
   /* Modifiers */
   //SeoungWoo Change
-  void AddCombo()override { _comboNumber++; }
+	bool NotifyComboChange() override{ 
+		bool tmp = _comboChangeNotify; 
+		_comboChangeNotify = false; 
+		return tmp; 
+	}
+	void AddCombo()override { _comboChangeNotify = true; _comboNumber++; }
   void AddComboElapsedTime(const double& deltaTime) override{ _comboElapsedTime += deltaTime; }
   void AddDownMeter()override { _downMeter++; }
 

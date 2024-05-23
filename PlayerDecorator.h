@@ -51,7 +51,8 @@ public:
 		_player->ResetLasgulaChanges();
 	}
 	
-	
+	virtual bool NotifyComboChange() override 
+	{ return _player->NotifyComboChange(); }
 	virtual void SetComboDuration(double comboDuration) 
   { _player->SetComboDuration(comboDuration); }
   virtual void SetCombo(int combo) override

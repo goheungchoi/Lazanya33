@@ -209,7 +209,6 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationController.h" />
     <ClCompile Include="ArtWorkScene1.cpp" />
-    <ClCompile Include="AssetParser.cpp" />
     <ClCompile Include="CSound.cpp" />
     <ClCompile Include="DecoratorScene.cpp" />
     <ClCompile Include="DeveloperScene.cpp" />
