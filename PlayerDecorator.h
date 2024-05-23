@@ -76,7 +76,7 @@ public:
   virtual void AddScore(int score) override 
   { _player->AddScore(score); }
   virtual void AddScoreFromOxyBlock(int score) override 
-  { _player->AddOxygenFromOxyBlock(score); }
+  { _player->AddScoreFromOxyBlock(score); }
   virtual void AddScoreSpecialCase(int score) override 
   { _player->AddScoreSpecialCase(score); }
 

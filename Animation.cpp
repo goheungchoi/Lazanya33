@@ -1,5 +1,5 @@
 #include "Animation.h"
-
+#include "CSound.h"
 #include "UIComponent.h"
 
 TranslateTransition::TranslateTransition(
@@ -182,12 +182,11 @@ void TextAnimation::Update(double dt) {
 	if (!_isActive) return;
 
 	_elapsedTime += dt;
-
 	if (_elapsedTime >= _typingSpeed) {
 		_elapsedTime -= _typingSpeed;
 
 		wchar_t nextc = _buffer[_bufIndex];
-
+		
 		if (nextc == L'-') {
 			_typingSpeed *= 0.5;
 		}
@@ -197,12 +196,22 @@ void TextAnimation::Update(double dt) {
 		else {
 			_typingBuffer[_typingIndex++] = nextc;
 			_this->SetText(_typingBuffer);
+			if (_typeDelay % 9 == 0)
+				Music::soundManager->PlayMusic(Music::eSoundList::TypeName, Music::eSoundChannel::Type1);
+			
+			else if(_typeDelay %9==3)
+				Music::soundManager->PlayMusic(Music::eSoundList::TypeName, Music::eSoundChannel::Type3);
+	
+			else if (_typeDelay % 9 == 6)
+				Music::soundManager->PlayMusic(Music::eSoundList::TypeName, Music::eSoundChannel::Type5);
+			_typeDelay++;
 		}
 
 		++_bufIndex;
 
 		if (_bufIndex == _numWChars) {
 			_isActive = false;
+			_typeDelay = 0;
 		}
 	}
 }

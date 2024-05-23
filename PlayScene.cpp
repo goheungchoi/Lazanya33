@@ -944,7 +944,7 @@ void PlayScene::Update(const double deltaTime)
 				txt1 = new TextAnimation(
 					_endComps.text1,
 					__WStringifyEndingMessage1().c_str(),
-					2.0, 1.0
+					1.0, 1.0
 				);
 
 				int playerScore = _player->GetCurrScore();
@@ -952,28 +952,28 @@ void PlayScene::Update(const double deltaTime)
 					txt2 = new TextAnimation(
 						_endComps.text2,
 						__WStringifyEndingMessage2_3().c_str(),
-						3.0, 1.0
+						1.5, 1.0
 					);
 				}
 				else if (playerScore > _mothersScore) {
 					txt2 = new TextAnimation(
 						_endComps.text2,
 						__WStringifyEndingMessage2_2().c_str(),
-						2.0, 1.0
+						1.0, 1.0
 					);
 				}
 				else {
 					txt2 = new TextAnimation(
 						_endComps.text2,
 						__WStringifyEndingMessage2_1().c_str(),
-						1.0, 1.0
+						0.5, 1.0
 					);
 				}
 
 				txt3 = new TextAnimation(
 					_endComps.text3,
 					__WStringifyEndingMessage3().c_str(),
-					2.0, 1.0
+					1.0, 1.0
 				);
 
 				sanim = new SequentialAnimationPack();

@@ -400,7 +400,7 @@ class TextAnimation : public IAnimation {
 	double _duration;
 
 	double _delay;
-
+	int _typeDelay;
 	bool _loop;
 
 	double _typingSpeed{ 0.0 };
