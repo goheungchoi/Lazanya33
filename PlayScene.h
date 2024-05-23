@@ -11,6 +11,7 @@ template<class T>
 class SingleSpriteRenderable;
 class Container;
 class BlessingContainer;
+class Animation;
 
 class PlayScene :public IScene
 {
@@ -39,7 +40,10 @@ class PlayScene :public IScene
 		Container* adBox;
 		Container* adValue;
 		Container* comboBox;
+		Animation* comboEffect;
 		Container* comboValue;
+		class TranslateTransition* textShake;
+
 
 		Container* oxygenMeter;
 		Container* meterBackground;

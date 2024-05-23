@@ -61,6 +61,7 @@ public:
 
   /* Modifiers */
   //SeoungWoo Change
+	virtual bool NotifyComboChange() = 0;
   virtual void AddCombo() = 0;
   virtual void AddComboElapsedTime(const double&) = 0;
   virtual void AddDownMeter() = 0;
