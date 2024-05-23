@@ -108,8 +108,8 @@ void PlayScene::__InitComponents() {
 	// Game End Scene Components
 	_endComps.gameEndBG = new SingleSpriteRenderable<GameEndComponents>();
 	_endComps.textBox = new Container(0, 0, 850, 650);
-	_endComps.text1 = new Container(580, 350, 850, 120);
-	_endComps.text2 = new Container(700, 450, 750, 300);
+	_endComps.text1 = new Container(580, 300, 850, 120);
+	_endComps.text2 = new Container(700, 400, 750, 300);
 	_endComps.text3 = new Container(650, 700, 850, 120);
 /********** Load Sprites **********/
 
@@ -196,16 +196,20 @@ void PlayScene::__InitComponents() {
 	_uiComps.dancingTownspeople->SetImage(
 		ResourceManager::Get().GetImage(L"70003_NPC_villagers_final")
 	);
+
+	_endComps.text1->SetFontFamily(L"가평한석봉 큰붓 B");
   _endComps.text1->SetRotationPivot(
 	_endComps.text1->GetCenterX(),
   _endComps.text1->GetCenterY());
   _endComps.text1->Rotate(-7);
 	
+	_endComps.text2->SetFontFamily(L"가평한석봉 큰붓 B");
   _endComps.text2->SetRotationPivot(
 	_endComps.text2->GetCenterX(),                             
 	_endComps.text2->GetCenterY());
   _endComps.text2->Rotate(-7);
 
+	_endComps.text3->SetFontFamily(L"가평한석봉 큰붓 B");
   _endComps.text3->SetRotationPivot(
 	_endComps.text3->GetCenterX(),
   _endComps.text3->GetCenterY());

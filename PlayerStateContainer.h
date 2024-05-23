@@ -78,8 +78,8 @@ public:
 			dead_img->GetHeight(), 
 			0, 0, 0, 0
 		);
-		player_dead->SetX(x);
-		player_dead->SetY(y);
+		player_dead->SetX(x-60);
+		player_dead->SetY(y+80);
 
 		// Register animations
 		AddAnimation(
