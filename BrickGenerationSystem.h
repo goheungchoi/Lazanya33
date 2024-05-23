@@ -2,6 +2,7 @@
 //#include"BrickPattern.h"
 #include"Wall.h"
 #include "IPlayer.h"
+#include "RandomGenerator.h"
 // 블락 컴포넌트랑 블락 패턴 이용해서 블락 계속해서 생성
 #define BRICKS 15
 
@@ -113,18 +114,16 @@ public:
   }
 
   std::string ChangeTilePattern() {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dis(1, 100);
     int blockLevel;
+    int meter = _player->GetDownMeter();
     int tileLayer;
     int numberOfLayers;
     std::string nameOfCSV;
-   
+    
     int score = _player->GetCurrScore();
     // 스코어 60이하 일때
-    if (score <= 60) {
-      int randomValue = dis(gen);
+    if (meter <= 30) {
+      int randomValue = RandomGenerator::Get(1,100);
 
       // 1에서 100 사이의 숫자를 생성하여 확률 결정
       if (randomValue <= 70) {
@@ -133,10 +132,9 @@ public:
       else {
         blockLevel = 2;  
       }
-    }
-    else if (score <= 100) {
+    } else if (meter <= 50) {
       {
-        int randomValue = dis(gen);
+        int randomValue = RandomGenerator::Get(1, 100);
 
         if (randomValue <= 50) {
           blockLevel = 1;
@@ -144,10 +142,9 @@ public:
         else
           blockLevel = 2;
       }
-    }
-    else if (score <= 150) {
+    } else if (meter <= 70) {
       {
-        int randomValue = dis(gen);
+        int randomValue = RandomGenerator::Get(1, 100);
 
         if (randomValue <= 40) {
           blockLevel = 1;
@@ -158,9 +155,8 @@ public:
         else
           blockLevel = 3;
       }
-    }
-    else if (score <= 200) {
-      int randomValue = dis(gen);
+    } else if (meter <= 85) {
+      int randomValue = RandomGenerator::Get(1,100);
 
       if (randomValue <= 30) {
         blockLevel = 1;
@@ -170,9 +166,8 @@ public:
       }
       else
         blockLevel = 3;
-    }
-    else if (score <= 300) {
-      int randomValue = dis(gen);
+    } else if (meter <= 100) {
+      int randomValue = RandomGenerator::Get(1,100);
 
       if (randomValue <= 20) {
         blockLevel = 1;
@@ -186,9 +181,8 @@ public:
       else {
         blockLevel = 4;
       }
-    }
-    else if (score <= 400) {
-      int randomValue = dis(gen);
+    } else if (meter <= 125) {
+      int randomValue = RandomGenerator::Get(1,100);
 
       if (randomValue <= 10) {
         blockLevel = 1;
@@ -207,7 +201,7 @@ public:
       }
     }
     else {
-      int randomValue = dis(gen);
+      int randomValue = RandomGenerator::Get(1,100);
 
       if (randomValue <= 10) {
         blockLevel = 2;
@@ -239,8 +233,7 @@ public:
       numberOfLayers = 13;
       break;
     }
-    std::uniform_int_distribution<int> layerRand(1, numberOfLayers);
-    tileLayer = layerRand(gen);
+    tileLayer = RandomGenerator::Get(1, numberOfLayers);   
 
     nameOfCSV = "Block_Lv//Lv" + std::to_string(blockLevel) +
       +"//block_Lv"+std::to_string(blockLevel)+ "_Tile Layer " + std::to_string(tileLayer) + ".csv";
