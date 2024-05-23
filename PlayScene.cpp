@@ -637,7 +637,7 @@ void PlayScene::__InitComponents() {
 
 
 
-	_endComps.gotohistory = new Button(1150, 850, 200, 200);
+	_endComps.gotohistory = new Button(1000, 850, 200, 200);
 	_endComps.gotohistory->SetSizeFitImage(true);
 	_endComps.gotohistory->SetImage(
 		ResourceManager::Get().GetImage(L"30011_UI_Game_Over_History01_Button")

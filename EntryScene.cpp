@@ -137,6 +137,21 @@ EntryScene::EntryScene()
 		});
 
 	_buttonEventHandler->AddButton(_mainComs.artWorkButton);
+
+	//block intro button
+	_mainComs.blockButton = new Button(300, 700, 300, 100);
+	_mainComs.blockButton->SetSizeFitImage(true);
+	_mainComs.blockButton->SetImage(
+		ResourceManager::Get().GetImage(L"Stone_Dictionary")
+	);
+	_mainComs.blockButton->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+	
+	_mainComs.blockButton->AddEventLister("mouseClick", [this]() {
+		Music::soundManager->PlayMusic(Music::eSoundList::PaperTeraing, Music::eSoundChannel::Effect);
+		_sceneManager->ChangeScene("Block");
+		});
+
+	_buttonEventHandler->AddButton(_mainComs.blockButton);
 	
 	//Attach Child Component
 	_mainMenuContainer->AddChildComponent(_mainComs.title);
@@ -145,10 +160,10 @@ EntryScene::EntryScene()
 	_mainMenuContainer->AddChildComponent(_mainComs.decoratorButton);
 	_mainMenuContainer->AddChildComponent(_mainComs.developerButton);
 	_mainMenuContainer->AddChildComponent(_mainComs.artWorkButton);
+	_mainMenuContainer->AddChildComponent(_mainComs.blockButton);
 	_mainMenuContainer->AddChildComponent(_mainComs.highScoreTag);
 	_mainMenuContainer->AddChildComponent(_mainComs.age);
 	_mainMenuContainer->AddChildComponent(_mainComs.highScoreName);
-
 }
 
 void EntryScene::Update(const double deltaTime)
