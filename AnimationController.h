@@ -22,7 +22,10 @@ public:
 			) return;
       _currentAnimation = it->second;
 			_currentAnimation->Trigger();
-    }
+		}
+		else {
+			Reset();
+		}
   }
 
 	void Reset() {
