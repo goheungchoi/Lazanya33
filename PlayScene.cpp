@@ -735,7 +735,7 @@ void PlayScene::Update(const double deltaTime)
 		_frames = 0;
 	}
 
-	Debug.Log(_player->GetCurrOxyLevel());
+	std::cout << _player->GetPositionX() << ", " << _player->GetPositionY() << std::endl;
 #endif
 
 	_wall->Update(deltaTime);

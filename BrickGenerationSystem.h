@@ -35,12 +35,12 @@ public:
 		for (int i = 0; i < 5; ++i)
 		{
 			_wall->PushBackBricks({
-			BrickType::NONE,
-			BrickType::NONE,
-			BrickType::NONE,
-			BrickType::NONE,
-			BrickType::NONE
-				});
+				BrickType::NONE,
+				BrickType::NONE,
+				BrickType::NONE,
+				BrickType::NONE,
+				BrickType::NONE
+			});
 
 			_wall->PushBackBrickSprites({
 				nullptr, 
