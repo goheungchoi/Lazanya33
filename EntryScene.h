@@ -19,6 +19,7 @@ class EntryScene: public IScene
 		SingleSpriteRenderable<MainMenuComponents>* background;
 		Container* lazanya;
 		Container* title;
+		Container* highScoreTag;
 		Container* highScore;
 		Container* highScoreName;
 
@@ -45,6 +46,15 @@ private:
 		wchar_t buffer[30];
 		swprintf_s(buffer, L"%2d", age);
 		return std::wstring(buffer);
+	}
+
+	std::wstring __WStringifyLetterText() {
+		std::wstring a = L" : ";
+		std::wstring b = GetGameDataHub().GetMaxScoreUser().userName;
+		std::wstring c = std::to_wstring(GetGameDataHub().GetMaxScoreUser().score);
+		std::wstring d = L" ¸í¿¹";
+		std::wstring newName = b + a+c+d;
+		return newName;
 	}
 };
 

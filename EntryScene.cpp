@@ -22,13 +22,20 @@ EntryScene::EntryScene()
 	_mainComs.title->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 
 	//Highst honor
-	_mainComs.highScore = new Container(30, 300, 100, 100);
-	_mainComs.highScore->SetSizeFitImage(true);
-	_mainComs.highScore->SetImage(
+	_mainComs.highScoreTag = new Container(30, 300, 500, 100);
+	_mainComs.highScoreTag->SetSizeFitImage(true);
+	_mainComs.highScoreTag->SetImage(
 		ResourceManager::Get().GetImage(L"Main_Game_Honor")
 	);
-	_mainComs.highScore->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
-
+	_mainComs.highScoreTag->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
+	
+	//highscore name
+	_mainComs.highScoreName= new Container(100, 380, 500, 100);
+	_mainComs.highScoreName->SetText(__WStringifyLetterText().c_str());
+	_mainComs.highScoreName->SetFontFamily(L"°¡ÆòÇÑ¼®ºÀ Å«º× B");
+	_mainComs.highScoreName->SetFont(35, FontStyleBold);
+	_mainComs.highScoreName->SetFontColor(230, 35, 38);
+	_mainComs.highScoreName->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 	// Background Corona
 	_mainComs.backgroundCorona = new Container(0, 0, 1990, 1080);
 
@@ -42,7 +49,7 @@ EntryScene::EntryScene()
 	);
 
 	//lazanya
-	_mainComs.lazanya = new Container(1200,50,600,950);
+	_mainComs.lazanya = new Container(1200,150,600,950);
 	_mainComs.lazanya->SetSizeFitImage(true);
 	_mainComs.lazanya->SetImage(
 		ResourceManager::Get().GetImage(L"Main_character.razanya.original.001")
@@ -138,9 +145,9 @@ EntryScene::EntryScene()
 	_mainMenuContainer->AddChildComponent(_mainComs.decoratorButton);
 	_mainMenuContainer->AddChildComponent(_mainComs.developerButton);
 	_mainMenuContainer->AddChildComponent(_mainComs.artWorkButton);
-	_mainMenuContainer->AddChildComponent(_mainComs.highScore);
+	_mainMenuContainer->AddChildComponent(_mainComs.highScoreTag);
 	_mainMenuContainer->AddChildComponent(_mainComs.age);
-
+	_mainMenuContainer->AddChildComponent(_mainComs.highScoreName);
 
 }
 
@@ -164,7 +171,7 @@ void EntryScene::InitScene()
 	_mainComs.age->SetText(
 		_WStringAgeIndex(GetGameDataHub().GetCurrentGeneration()).c_str()
 	);
-
+	_mainComs.highScoreName->SetText(__WStringifyLetterText().c_str());
 	_renderSystem->RegisterRenderableObject(_mainComs.background);
 	_renderSystem->RegisterRenderableObject(_mainMenuContainer);
 	

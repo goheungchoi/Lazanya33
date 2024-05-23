@@ -158,6 +158,12 @@ public:
 		return _hist.userHistory[_hist.maxScoreUserIndex].score;
 	}
 
+	UserData GetMaxScoreUser() {
+		if (_hist.userHistory.empty())
+			return { L"None", -1, -1, -1, 100 };
+		return _hist.userHistory[_hist.maxScoreUserIndex];
+	}
+
 	int GetCurrentGeneration() {
 		return _hist.numPlayedUsers + 33;
 	}
