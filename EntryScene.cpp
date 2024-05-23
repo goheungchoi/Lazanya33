@@ -29,6 +29,9 @@ EntryScene::EntryScene()
 	);
 	_mainComs.highScore->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 
+	// Background Corona
+	_mainComs.backgroundCorona = new Container(0, 0, 1990, 1080);
+
 	//background
 	_mainComs.background = new SingleSpriteRenderable<MainMenuComponents>();
 	_mainComs.background->BindSprite(

@@ -225,9 +225,13 @@ public:
 	}
 
 	void TurnOnLasgulaState() override {
-		_isLasgula = true;
-		_tmp = GetAttackDamage();
-		SetAttackDamage(100);
+    if (_isLasgula) {
+      _lasgulaElapsedTime = 0.0;
+    } else {
+			_isLasgula = true;
+			_tmp = GetAttackDamage();
+			SetAttackDamage(100);
+    }
 	}
 
 	bool IsLasgula() override {
