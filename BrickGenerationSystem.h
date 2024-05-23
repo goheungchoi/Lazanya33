@@ -29,6 +29,10 @@ public:
 	}
 	~BrickGenSystem(){}
 
+	void SetIPlayer(IPlayer* player) {
+		_player = player;
+	}
+
 	void BrickGenInit()
 	{
 		//pushBack none block

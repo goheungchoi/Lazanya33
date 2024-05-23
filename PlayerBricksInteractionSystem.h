@@ -20,6 +20,10 @@ public:
 		PlayerOxygenSystem* playerOxySystem
 	) :_player{ player }, _wall{ wall }, _playerOxySystem{ playerOxySystem } {}
 
+	void SetIPlayer(IPlayer* player) {
+		_player = player;
+	}
+
 	void ApplyDamageToBrickByPlayer(int row, int col,BYTE key,int& count, const double& deltaTime) {
 		//player damage to birck
 		if (_wall->GetBirckType(row, col) == BrickType::NONE)
