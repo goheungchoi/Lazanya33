@@ -5,7 +5,7 @@
 class TenaciousDwarf : public PlayerDecorator {
 public:
   TenaciousDwarf(IPlayer* player) : PlayerDecorator(player) {
-    player->SetMaxHP(40);
+    player->SetMaxOxygenLevel(60);
   }
 
   void AddOxygen(double amountOfOxygen) override {

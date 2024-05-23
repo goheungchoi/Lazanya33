@@ -221,13 +221,13 @@ public:
       numberOfLayers = 18;
       break;
     case 2:
-      numberOfLayers = 14;
+      numberOfLayers = 18;
       break;
     case 3:
-      numberOfLayers = 10;
+      numberOfLayers = 16;
       break;
     case 4:
-      numberOfLayers = 10;
+      numberOfLayers = 13;
       break;
     case 5:
       numberOfLayers = 13;

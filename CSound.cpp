@@ -52,6 +52,9 @@ namespace Music
     LoadMusic(eSoundList::background01, true, "sound//21_background01.mp3");
     LoadMusic(eSoundList::BackGround02, true, "sound//22_BackGround02.mp3");
     LoadMusic(eSoundList::LevelUP, false, "sound//23_LevelUP.mp3");
+    LoadMusic(eSoundList::FiveCombo, false, "sound//24_5ComboChant01.mp3");//o
+    LoadMusic(eSoundList::PaperSwap, false, "sound//25_PaperSwap01.mp3");
+    LoadMusic(eSoundList::TypeName, false, "sound//26_InitialSound01_1.mp3");//o
   }
 
   void SoundManager::LoadMusic(eSoundList soundlist, bool loopcheck, const char* music)

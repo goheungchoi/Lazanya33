@@ -636,7 +636,7 @@ void PlayScene::__InitComponents() {
 	_endComps.gotohistory->AddEventLister("mouseClick", [this]() {
 		if (_delayEnding > 3)
 		{
-			Music::soundManager->PlayMusic(Music::eSoundList::PaperTeraing, Music::eSoundChannel::Effect);
+			Music::soundManager->PlayMusic(Music::eSoundList::PaperSwap, Music::eSoundChannel::Effect);
 			_canGohistory = true;
 			_historyComps.historyBG->SetActive(true);
 			_historyComps.entryButton->SetActive(true);
@@ -696,11 +696,11 @@ void PlayScene::__InitComponents() {
 	_historyContainer->AddChildComponent(_historyComps.entryButton);
 
 	//text
-	_historyComps.text = new Container(770, 420, 100, 100);
-	_historyComps.text->SetSizeFitImage(true);
-	_historyComps.text->SetImage(
-		ResourceManager::Get().GetImage(L"UI_Game_Over_History02_text")
-	);
+	_historyComps.text = new Container(630, 420, 1000, 200);
+	_historyComps.text->SetFontFamily(L"가평한석봉 큰붓 B");
+	_historyComps.text->SetFont(100, FontStyleBold);
+	_historyComps.text->SetFontColor(255, 255, 255);
+	_historyComps.text->SetText(L"당신의 이니셜은?");
 	_historyComps.name->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 	_historyComps.name->SetFont(40, FontStyleBold);
 	_historyContainer->AddChildComponent(_historyComps.text);
@@ -734,6 +734,8 @@ void PlayScene::Update(const double deltaTime)
 		_elapsedTime -= 1.0;
 		_frames = 0;
 	}
+
+	Debug.Log(_player->GetCurrOxyLevel());
 #endif
 
 	_wall->Update(deltaTime);
@@ -799,6 +801,11 @@ void PlayScene::Update(const double deltaTime)
 			_uiComps.comboBox->SetState(-1);
 		} else {
 			_uiComps.comboBox->SetState(0);
+		}
+
+		if (_player->GetCurrCombo() == 5&&!_fiveComboSound) {
+			Music::soundManager->PlayMusic(Music::eSoundList::FiveCombo, Music::eSoundChannel::Combo);
+			_fiveComboSound = true;
 		}
 
 		// Update Additional Score
@@ -879,19 +886,34 @@ void PlayScene::Update(const double deltaTime)
 			{
 				if (Input::inputManager->IsTurnDn(i))
 				{
-					if (i >= 'A' && i <= 'Z'&&_historyComps.name->text.length()<6)
+					if (i >= 'A' && i <= 'Z'&&_historyComps
+						.name->text.length()<6)
 					{
 						_historyComps.name->text.push_back(i);
 						_historyComps.name->text.push_back(' ');
+						if(_typingCount==0)
+							Music::soundManager->PlayMusic(Music::eSoundList::TypeName, Music::eSoundChannel::Type1);
+						else if(_typingCount==1)
+							Music::soundManager->PlayMusic(Music::eSoundList::TypeName, Music::eSoundChannel::Type2);
+						else if(_typingCount==2)
+							Music::soundManager->PlayMusic(Music::eSoundList::TypeName, Music::eSoundChannel::Type3);
+						_typingCount++;
 					}
 					else if (i == 8 && !_historyComps.name->text.empty())
 					{
 						_historyComps.name->text.pop_back();
 						_historyComps.name->text.pop_back();
+						if (_typingCount == 0)
+							Music::soundManager->PlayMusic(Music::eSoundList::TypeName, Music::eSoundChannel::Type1);
+						else if (_typingCount == 1)
+							Music::soundManager->PlayMusic(Music::eSoundList::TypeName, Music::eSoundChannel::Type2);
+						else if (_typingCount == 2)
+							Music::soundManager->PlayMusic(Music::eSoundList::TypeName, Music::eSoundChannel::Type3);
+						_typingCount--;
 					}
 					else
 						continue;
-					
+					Debug.Log((int)_historyComps.name->text.length());
 				}
 			}
 			_historyComps.entryButton->SetActive(_historyComps.name->text.length() > 0);
@@ -900,11 +922,15 @@ void PlayScene::Update(const double deltaTime)
 		// Show pop up windows
 		if (!_ended) {
 
+			if (!_playDeathSound)
+			{
+				Music::soundManager->PlayMusic(Music::eSoundList::death, Music::eSoundChannel::Death);
+				_playDeathSound = true;
+			}
 			// Ending delay 3 seconds
 			_delayEnding += deltaTime;
 			if (_delayEnding > 3) {
 
-				Music::soundManager->StopMusic(Music::eSoundChannel::BGM);
 				_endComps.gameEndBG->SetActive(true);
 				_endComps.gotohistory->SetActive(true);
 				_gameEndSceneContainer->SetActive(true);
@@ -953,6 +979,7 @@ void PlayScene::Update(const double deltaTime)
 				_endComps.text1->SetState(0);
 
 				_ended = true;
+				_playDeathSound = false;
 				
 			}
 		}
@@ -1007,6 +1034,7 @@ void PlayScene::EndScene()
 	GetGameDataHub().SetCurrentUserDepth(_player->GetDownMeter());
 	GetGameDataHub().SetCurrentUserScore(_player->GetCurrScore());
 	GetGameDataHub().DispatchCurrentUserData();
+	Music::soundManager->PlayMusic(Music::eSoundList::background01, Music::eSoundChannel::BGM);
 }
 
 void PlayScene::__PlayerUpdate(const double deltaTime)
@@ -1020,6 +1048,7 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 	{
 		_reverseArrowKeys ? _player->SetCombo(2) : _player->SetCombo(0);
 		_player->AddComboElapsedTime(-1);
+		_fiveComboSound = false;
 	}
 
 	// Set combo 99 if over 100
@@ -1030,7 +1059,7 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 	// DOWN arrow key pressed
 	if (Input::inputManager->IsTurnDn(VK_DOWN))
 	{
-		Music::soundManager->PlayMusic(Music::eSoundList::Attack, Music::eSoundChannel::Effect);
+		Music::soundManager->PlayMusic(Music::eSoundList::Attack, Music::eSoundChannel::Attack);
 		_player->DownKeyPressed();
 
 		_playerBrickInteractionSystem->ApplyDamageToBrickByPlayer(
@@ -1053,7 +1082,7 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 			_player->GetPositionY(), 
 			_player->GetPositionX() - 1
 		).type != BrickType::NONE) {
-		Music::soundManager->PlayMusic(Music::eSoundList::Attack, Music::eSoundChannel::Effect);
+		Music::soundManager->PlayMusic(Music::eSoundList::Attack, Music::eSoundChannel::Attack);
 		_player->LeftKeyPressed();
 
 		// Change the player pose
@@ -1079,7 +1108,7 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 			_player->GetPositionY(),
 			_player->GetPositionX() + 1
 		).type != BrickType::NONE) {
-		Music::soundManager->PlayMusic(Music::eSoundList::Attack, Music::eSoundChannel::Effect);
+		Music::soundManager->PlayMusic(Music::eSoundList::Attack, Music::eSoundChannel::Attack);
 		_player->RightKeyPressed();
 		
 		// Change the player pose
@@ -1137,11 +1166,13 @@ void PlayScene::__TriggerNPCsAnimations() {
 	}
 	if (!_npcEmerged[3] && 
 		_player->GetCurrScore() >= _mothersScore) {
+		Music::soundManager->PlayMusic(Music::eSoundList::mother, Music::eSoundChannel::Mother);
 		_uiComps.mother->SetState(0);
 		_npcEmerged[3] = true;
 	}
 	if (!_npcEmerged[4] && 
 		_player->GetCurrScore() >= _gloryOfFamilyScore) {
+		Music::soundManager->PlayMusic(Music::eSoundList::bestScore, Music::eSoundChannel::Acient);
 		_uiComps.ancestors->SetState(0);
 		_npcEmerged[4] = true;
 	}
@@ -1149,6 +1180,7 @@ void PlayScene::__TriggerNPCsAnimations() {
 
 void PlayScene::__ResetGame() {
 	
+	_typingCount = 0;
 	// Reset states
 	_reverseArrowKeys = false;
 	_started = false;
@@ -1233,10 +1265,11 @@ void PlayScene::__ResetGame() {
 	_player->SetPosition(2, 4);
 	_player->ChangeTag(L"down1");
 	_player->SetHP(_player->GetMaxHP());
-	_player->SetAttackDamage(10);
+	_player->SetAttackDamage(PLAYER_DEFAULT_AD);
 	_player->SetOxygenLevel(_player->GetMaxOxyLevel());
 	_player->SetScore(0);
 	_player->SetCombo(0);
+	_player->SetMaxOxygenLevel(PLAYER_DEFAULT_MAX_OXYGEN_LEVEL);
 	// Set Decorator
 	BlessingType blessingType = static_cast<BlessingType>(
 		GetGameDataHub().GetCurrentUserBlessIndex()
@@ -1271,9 +1304,9 @@ void PlayScene::__ResetGame() {
 	default:
 		break;
 
-		_playerOxySystem->ResetReduceOxy();
 	}
 
+	_playerOxySystem->ResetReduceOxy();
 	// Reset Bricks
 	_brickGenSystem->BrickGenInit();
 
@@ -1318,7 +1351,14 @@ void PlayScene::__ResetGame() {
 
 	// Change Systems.
 	__InitSystems();
-
+	int length = (int)_historyComps.name->text.length();
+	if (!_historyComps.name->text.empty())
+	{
+		for (int i = 0; i < length; ++i)
+		{
+			_historyComps.name->text.pop_back();
+		}
+	}
 }
 
 
