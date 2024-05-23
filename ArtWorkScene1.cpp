@@ -11,10 +11,10 @@ ArtWorkScene1::ArtWorkScene1()
 	//background
 	_artWork1Comps.background = new SingleSpriteRenderable<ArtWork1Components>();
 	_artWork1Comps.background->BindSprite(
-		ResourceManager::Get().GetImage(L"UI_darkened_backGround")
+		ResourceManager::Get().GetImage(L"artwork01_Kim")
 	);
 	_artWork1Comps.background->BindCachedSprite(
-		ResourceManager::Get().GetCachedImage(L"UI_darkened_backGround")
+		ResourceManager::Get().GetCachedImage(L"artwork01_Kim")
 	);
 
 	//goto entryscene button
