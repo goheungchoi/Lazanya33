@@ -12,12 +12,22 @@ class ButtonEventHandler;
 class EntryScene: public IScene
 {
 	ButtonEventHandler* _buttonEventHandler;
+
+	struct SunFlares { int sentinel; };
+	struct Sun { int sentinel; };
+	struct Temple { int sentinel; };
 	class Container* _mainMenuContainer;
 	struct MainMenuComponents
 	{
+		Container* backgroundContainers;
 		Container* backgroundSunrays;
 		Container* backgroundCorona;
+		
+		SingleSpriteRenderable<SunFlares>* SunFlares;
+		SingleSpriteRenderable<Sun>* Sun;
+		SingleSpriteRenderable<Temple>* temple;
 		SingleSpriteRenderable<MainMenuComponents>* background;
+
 		Container* lazanya;
 		Container* title;
 		Container* highScoreTag;

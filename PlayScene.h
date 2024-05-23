@@ -116,6 +116,7 @@ class PlayScene :public IScene
 	double _delayEnding{ 0.0 };
 	bool _ended{ false };	//
 	bool _canGohistory{ false };
+	bool _isInitialsFull{ false };
 public:
 	PlayScene();
 	~PlayScene();
