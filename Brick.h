@@ -41,7 +41,7 @@ struct Brick
     case BrickType::DEFAULT:
     blockScore = 1;
     blockDownAir = 6; 
-    blockHealth = 10;
+    blockHealth = 1;
 		maxBlockHealth = 10;
 		this->type = BrickType::DEFAULT;
     break;

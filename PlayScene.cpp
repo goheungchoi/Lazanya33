@@ -182,19 +182,23 @@ void PlayScene::__InitComponents() {
 
 	_uiComps.husband->SetSizeFitImage(true);
 	_uiComps.husband->SetImage(
-		ResourceManager::Get().GetImage(L"70000_NPC_husband")
+		ResourceManager::Get().GetImage(L"70000_NPC_husband_bigger")
 	);
 	_uiComps.daughter->SetSizeFitImage(true);
 	_uiComps.daughter->SetImage(
-		ResourceManager::Get().GetImage(L"70001_NPC_daugh")
+		ResourceManager::Get().GetImage(L"70001_NPC_daugh_bigger")
 	);
 	_uiComps.mother->SetSizeFitImage(true);
 	_uiComps.mother->SetImage(
-		ResourceManager::Get().GetImage(L"70002_NPC_mother")
+		ResourceManager::Get().GetImage(L"70002_NPC_mother_bigger")
 	);
 	_uiComps.dancingTownspeople->SetSizeFitImage(true);
 	_uiComps.dancingTownspeople->SetImage(
 		ResourceManager::Get().GetImage(L"70003_NPC_villagers_final")
+	);
+	_uiComps.ancestors->SetSizeFitImage(true);
+	_uiComps.ancestors->SetImage(
+		ResourceManager::Get().GetImage(L"70004_NPC_ancestors")
 	);
 
 	_endComps.text1->SetFontFamily(L"가평한석봉 큰붓 B");
@@ -283,15 +287,15 @@ void PlayScene::__InitComponents() {
 	);
 	IAnimation* daughter_comedown = new TranslateTransition(
 		_uiComps.daughter,
-		0, 300, 30, 810, 0.3, bezier::ease_in
+		0, 300, 30, 700, 0.3, bezier::ease_in
 	);
 	IAnimation* daughter_moveup = new TranslateTransition(
 		_uiComps.daughter,
-		30, 810, 30, 600, 0.3, bezier::ease_out
+		10, 700, 10, 500, 0.3, bezier::ease_out
 	);
 	IAnimation* daughter_movedown = new TranslateTransition(
 		_uiComps.daughter,
-		30, 600, 30, 810, 0.3, bezier::ease_in
+		10, 500, 10, 700, 0.3, bezier::ease_in
 	);
 	SequentialAnimationPack* daughter_animationPack = new SequentialAnimationPack();
 	daughter_animationPack->PushBackAnimation(
@@ -312,15 +316,15 @@ void PlayScene::__InitComponents() {
 	);
 	IAnimation* husband_comedown = new TranslateTransition(
 		_uiComps.husband,
-		160, 100, 320, 615, 0.3, bezier::ease_in
+		160, 100, 290, 615, 0.3, bezier::ease_in
 	);
 	IAnimation* husband_moveup = new TranslateTransition(
 		_uiComps.husband,
-		320, 615, 320, 400, 0.3, bezier::ease_out
+		290, 615, 290, 400, 0.3, bezier::ease_out
 	);
 	IAnimation* husband_movedown = new TranslateTransition(
 		_uiComps.husband,
-		320, 400, 320, 615, 0.3, bezier::ease_in
+		290, 400, 290, 615, 0.3, bezier::ease_in
 	);
 	SequentialAnimationPack* husband_animationPack = new SequentialAnimationPack();
 	husband_animationPack->PushBackAnimation(
@@ -331,7 +335,7 @@ void PlayScene::__InitComponents() {
 	_uiComps.husband->AddAnimation(0, husband_animationPack);
 
 	// Mother
-	_uiComps.mother->SetZValue(6);
+	_uiComps.mother->SetZValue(9);
 	_uiComps.mother->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
 	_uiComps.mother->SetPosition(0, screenHeight);
 	// Mother pop-up animation
@@ -341,15 +345,15 @@ void PlayScene::__InitComponents() {
 	);
 	IAnimation* mother_comedown = new TranslateTransition(
 		_uiComps.mother,
-		250, 100, 200, 580, 0.3, bezier::ease_in
+		250, 100, 125, 580, 0.3, bezier::ease_in
 	);
 	IAnimation* mother_moveup = new TranslateTransition(
 		_uiComps.mother,
-		200, 580, 200, 380, 0.3, bezier::ease_out
+		125, 580, 125, 380, 0.3, bezier::ease_out
 	);
 	IAnimation* mother_movedown = new TranslateTransition(
 		_uiComps.mother,
-		200, 380, 200, 580, 0.3, bezier::ease_in
+		125, 380, 125, 580, 0.3, bezier::ease_in
 	);
 	SequentialAnimationPack* mother_animationPack = new SequentialAnimationPack();
 	mother_animationPack->PushBackAnimation(
@@ -636,7 +640,7 @@ void PlayScene::__InitComponents() {
 
 
 
-	_endComps.gotohistory = new Button(1000, 850, 200, 200);
+	_endComps.gotohistory = new Button(950, 850, 200, 200);
 	_endComps.gotohistory->SetSizeFitImage(true);
 	_endComps.gotohistory->SetImage(
 		ResourceManager::Get().GetImage(L"30011_UI_Game_Over_History01_Button")
@@ -680,7 +684,7 @@ void PlayScene::__InitComponents() {
 	);
 	
 	//name
-	_historyComps.name = new TextInputField(900, 680, 100, 100);
+	_historyComps.name = new TextInputField(860, 680, 100, 100);
 	_historyComps.name->SetZValue(8);
 	_historyContainer->AddChildComponent(_historyComps.name);
 	//nametag
@@ -1216,6 +1220,7 @@ void PlayScene::__ResetGame() {
 	_player->SetPosition(2, 4);
 	_player->ChangeTag(L"down1");
 	_player->SetHP(_player->GetMaxHP());
+	_player->SetAttackDamage(10);
 	_player->SetOxygenLevel(_player->GetMaxOxyLevel());
 	_player->SetScore(0);
 	_player->SetCombo(0);
@@ -1252,6 +1257,8 @@ void PlayScene::__ResetGame() {
 		break;
 	default:
 		break;
+
+		_playerOxySystem->ResetReduceOxy();
 	}
 
 	// Reset Bricks
