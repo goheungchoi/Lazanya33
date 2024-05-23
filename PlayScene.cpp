@@ -696,11 +696,11 @@ void PlayScene::__InitComponents() {
 	_historyContainer->AddChildComponent(_historyComps.entryButton);
 
 	//text
-	_historyComps.text = new Container(770, 420, 100, 100);
-	_historyComps.text->SetSizeFitImage(true);
-	_historyComps.text->SetImage(
-		ResourceManager::Get().GetImage(L"UI_Game_Over_History02_text")
-	);
+	_historyComps.text = new Container(630, 420, 1000, 200);
+	_historyComps.text->SetFontFamily(L"가평한석봉 큰붓 B");
+	_historyComps.text->SetFont(100, FontStyleBold);
+	_historyComps.text->SetFontColor(255, 255, 255);
+	_historyComps.text->SetText(L"당신의 이니셜은?");
 	_historyComps.name->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 	_historyComps.name->SetFont(40, FontStyleBold);
 	_historyContainer->AddChildComponent(_historyComps.text);
@@ -879,7 +879,8 @@ void PlayScene::Update(const double deltaTime)
 			{
 				if (Input::inputManager->IsTurnDn(i))
 				{
-					if (i >= 'A' && i <= 'Z'&&_historyComps.name->text.length()<6)
+					if (i >= 'A' && i <= 'Z'&&_historyComps
+						.name->text.length()<6)
 					{
 						_historyComps.name->text.push_back(i);
 						_historyComps.name->text.push_back(' ');
@@ -891,7 +892,7 @@ void PlayScene::Update(const double deltaTime)
 					}
 					else
 						continue;
-					
+					Debug.Log((int)_historyComps.name->text.length());
 				}
 			}
 		}
@@ -1276,9 +1277,9 @@ void PlayScene::__ResetGame() {
 	default:
 		break;
 
-		_playerOxySystem->ResetReduceOxy();
 	}
 
+	_playerOxySystem->ResetReduceOxy();
 	// Reset Bricks
 	_brickGenSystem->BrickGenInit();
 
@@ -1325,7 +1326,14 @@ void PlayScene::__ResetGame() {
 
 	// Change Systems.
 	__InitSystems();
-
+	int length = (int)_historyComps.name->text.length();
+	if (!_historyComps.name->text.empty())
+	{
+		for (int i = 0; i < length; ++i)
+		{
+			_historyComps.name->text.pop_back();
+		}
+	}
 }
 
 
