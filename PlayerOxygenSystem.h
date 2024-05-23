@@ -33,9 +33,14 @@ public:
 
 	void UpdateAmountOfRedeuceOxy()
 	{
-		if(_amountOfReduceOxy<=22)
-		_amountOfReduceOxy -= static_cast<double>((_player->GetDownMeter() % 50==0) * 2);
-		Debug.Log(_amountOfReduceOxy);
+#ifndef NDEBUG
+			Debug.Log(_player->GetDownMeter());
+#endif // !NDEBUG
+		if (_amountOfReduceOxy <= 22)
+		{
+			_amountOfReduceOxy -= static_cast<double>((_player->GetDownMeter() % 50 == 0) * 2);
+			if(_player->GetDownMeter() % 50 == 0)
+				Music::soundManager->PlayMusic(Music::eSoundList::LevelUP, Music::eSoundChannel::LevelUP);
+		}
 	}
 };
-

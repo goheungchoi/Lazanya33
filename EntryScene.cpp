@@ -196,8 +196,11 @@ void EntryScene::InitScene()
 	_renderSystem->RegisterRenderableObject(_mainComs.background);
 	_renderSystem->RegisterRenderableObject(_mainMenuContainer);
 	
-	
-	Music::soundManager->PlayMusic(Music::eSoundList::background01, Music::eSoundChannel::BGM);
+	if (!playBGM)
+	{
+		Music::soundManager->PlayMusic(Music::eSoundList::background01, Music::eSoundChannel::BGM);
+		playBGM = true;
+	}
 }
 
 void EntryScene::EndScene()

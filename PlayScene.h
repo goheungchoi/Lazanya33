@@ -91,7 +91,7 @@ class PlayScene :public IScene
 
 	//Variables introduced to add walls when pop 3 times
 	int _countWallPop=0;
-
+	int _typingCount = 0;
 /* Systems */
 	class BrickGenSystem* _brickGenSystem;
 	class PlayerOxygenSystem* _playerOxySystem;
@@ -116,6 +116,8 @@ class PlayScene :public IScene
 	double _delayEnding{ 0.0 };
 	bool _ended{ false };	//
 	bool _canGohistory{ false };
+	bool _playDeathSound{ false };
+	bool _fiveComboSound{ false };
 public:
 	PlayScene();
 	~PlayScene();

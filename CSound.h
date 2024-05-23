@@ -23,11 +23,20 @@ namespace Music
     BrickDamage,
     Default,
     Stone,
-    Rock, 
+    Rock,
     Bomb,
     Gold,
     Oxygen,
     Lasgulla,
+    LevelUP,
+    Death,
+    Mother,
+    Acient,
+    Type1,
+    Type2,
+    Type3,
+    Attack,
+    Combo,
     Size
   };
 
@@ -52,6 +61,9 @@ namespace Music
     background01,
     BackGround02,
     LevelUP,
+    FiveCombo,
+    PaperSwap,
+    TypeName,
     Size
   };
   class SoundManager;  // 클래스 전방 선언
