@@ -26,10 +26,14 @@ public:
 		{
 			return;
 		}
+
 		_wall->DamageBrick(row, col, _player->GetAttackDamage());
 		if (_wall->GetBrick(row, col).blockHealth * 2 <= _wall->GetBrick(row, col).maxBlockHealth)
 		{
-			_wall->_brickSprites.At(row, col) = GetBrickSprite(_wall->GetBirckType(row, col), TypeToTag(_wall->GetBirckType(row,col)));
+			_wall->_brickSprites.At(row, col) = GetBrickSprite(
+				_wall->GetBirckType(row, col), 
+				TypeToTag(_wall->GetBirckType(row,col))
+			);
 		}
 		
 

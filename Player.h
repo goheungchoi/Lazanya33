@@ -176,7 +176,7 @@ public:
   int GetDownMeter()override { return _downMeter; }
 
   /* Setters */
-	void SetPosition(int x, int y) {
+	void SetPosition(int x, int y) override {
 		SetGridPos(x, y);
 	}
   void SetAttackDamage(int ad) { _ad = ad; };
