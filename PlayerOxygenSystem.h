@@ -17,6 +17,10 @@ public:
 	{}
 	~PlayerOxygenSystem() {}
 
+	void SetIPlayer(IPlayer* player) {
+		_player = player;
+	}
+
 	double GetAmountOfReduceOxy() { return _amountOfReduceOxy; }
 
 	void ReduceOxygen(const double deltaTime)

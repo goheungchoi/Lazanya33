@@ -707,16 +707,24 @@ void PlayScene::__InitComponents() {
 }
 
 void PlayScene::__InitSystems() {
-	if(_brickGenSystem==nullptr)
-		_brickGenSystem = new BrickGenSystem(_wall,_player);
-	if(_playerOxySystem==nullptr)
-	_playerOxySystem = new PlayerOxygenSystem(
-		_player, PLAYER_OXYGEN_REDUCE_INITAL_VALUE
-	);
-	if(_playerBrickInteractionSystem==nullptr)
-	_playerBrickInteractionSystem = new PlayerBricksInteractionSystem(
-		_player, _wall, _playerOxySystem
-	);
+	if (_brickGenSystem == nullptr)
+		_brickGenSystem = new BrickGenSystem(_wall, _player);
+	else
+		_brickGenSystem->SetIPlayer(_player);
+
+	if (_playerOxySystem == nullptr)
+		_playerOxySystem = new PlayerOxygenSystem(
+			_player, PLAYER_OXYGEN_REDUCE_INITAL_VALUE
+		);
+	else
+		_playerOxySystem->SetIPlayer(_player);
+
+	if (_playerBrickInteractionSystem == nullptr)
+		_playerBrickInteractionSystem = new PlayerBricksInteractionSystem(
+			_player, _wall, _playerOxySystem
+		);
+	else
+		_playerBrickInteractionSystem->SetIPlayer(_player);
 }
 
 void PlayScene::Update(const double deltaTime)
