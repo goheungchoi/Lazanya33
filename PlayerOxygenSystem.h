@@ -33,9 +33,6 @@ public:
 
 	void UpdateAmountOfRedeuceOxy()
 	{
-#ifndef NDEBUG
-			Debug.Log(_player->GetDownMeter());
-#endif // !NDEBUG
 		if (_amountOfReduceOxy <= 22)
 		{
 			_amountOfReduceOxy -= static_cast<double>((_player->GetDownMeter() % 50 == 0) * 2);

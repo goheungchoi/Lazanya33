@@ -735,7 +735,6 @@ void PlayScene::Update(const double deltaTime)
 		_frames = 0;
 	}
 
-	Debug.Log(_player->GetCurrOxyLevel());
 #endif
 
 	_wall->Update(deltaTime);
@@ -913,7 +912,6 @@ void PlayScene::Update(const double deltaTime)
 					}
 					else
 						continue;
-					Debug.Log((int)_historyComps.name->text.length());
 				}
 			}
 			_historyComps.entryButton->SetActive(_historyComps.name->text.length() > 0);
@@ -1144,8 +1142,6 @@ void PlayScene::__PlayerUpdate(const double deltaTime)
 	}
 	_player->UpdateLasgulaState(deltaTime);
 
-	//Doing Debug:
-	//Debug.Log(_playerOxySystem->GetAmountOfReduceOxy());
 }
 
 void PlayScene::__TriggerNPCsAnimations() {
