@@ -98,6 +98,8 @@ class PlayScene :public IScene
 	class PlayerBricksInteractionSystem* _playerBrickInteractionSystem;
 
 /* Game States */
+	int _currRazanyaIndex{ 0 };
+
 	int _mothersScore{ 60 };
 	int _gloryOfFamilyScore{ 100 };
 
