@@ -38,18 +38,82 @@ EntryScene::EntryScene()
 	_mainComs.highScoreName->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 	
 	// Background Sunrays
+	_mainComs.backgroundSunrays = new Container(0, 0, 2500, 2500);
+	_mainComs.backgroundSunrays->SetImage(
+		ResourceManager::Get().GetImage(L"Sun_moving02")
+	);
+	_mainComs.backgroundSunrays->SetX((int(screenWidth - 2500) >> 1)+100);
+	_mainComs.backgroundSunrays->SetY((int(screenHeight - 2500) >> 1)-100);
+	_mainComs.backgroundSunrays->SetImageAlignment(H_DIRECTION::CENTER, V_DIRECTION::CENTER);
+	_mainComs.backgroundSunrays->SetRotationPivot(
+		_mainComs.backgroundSunrays->GetCenterX(),
+		_mainComs.backgroundSunrays->GetCenterY()
+	);
 
 	// Background Corona
-	_mainComs.backgroundCorona = new Container(0, 0, 1990, 1080);
+	_mainComs.backgroundCorona = new Container(0, 0, 829, 832);
+	_mainComs.backgroundCorona->SetSizeFitImage(true);
+	_mainComs.backgroundCorona->SetZValue(10);
+	_mainComs.backgroundCorona->SetImage(
+		ResourceManager::Get().GetImage(L"Sun_moving01")
+	);
+	_mainComs.backgroundCorona->SetX(((screenWidth - 830) >> 1) + 110);
+	_mainComs.backgroundCorona->SetY(((screenHeight - 830) >> 1) - 30);
+	_mainComs.backgroundCorona->SetRotationPivot(
+		_mainComs.backgroundCorona->GetCenterX(),
+		_mainComs.backgroundCorona->GetCenterY()
+	);
 
-	//background
-	_mainComs.background = new SingleSpriteRenderable<MainMenuComponents>();
-	_mainComs.background->BindSprite(
-		ResourceManager::Get().GetImage(L"Main_BackGround_Image")
+	// Background Container
+	_mainComs.backgroundContainers = new Container();
+	_mainComs.backgroundContainers->AddChildComponent(_mainComs.backgroundCorona);
+	_mainComs.backgroundContainers->AddChildComponent(_mainComs.backgroundSunrays);
+
+	// Sun Flares
+	Bitmap* sunFlaresSprite = ResourceManager::Get().GetImage(L"Sun_circle_fixed");
+	_mainComs.SunFlares = new SingleSpriteRenderable<SunFlares>();
+	_mainComs.SunFlares->BindSprite(sunFlaresSprite);
+	_mainComs.SunFlares->SetPosition(
+		1068,
+		530
 	);
-	_mainComs.background->BindCachedSprite(
-		ResourceManager::Get().GetCachedImage(L"Main_BackGround_Image")
+	_mainComs.SunFlares->UpdateSpritePivotPosition(
+		H_DIRECTION::CENTER, V_DIRECTION::CENTER
 	);
+	_mainComs.SunFlares->BindCachedSprite(
+		ResourceManager::Get().GetCachedImage(L"Sun_circle_fixed")
+	);
+
+	// Sun
+	Bitmap* sunSprite = ResourceManager::Get().GetImage(L"Sun_Face_fixed");
+	_mainComs.Sun = new SingleSpriteRenderable<Sun>();
+	_mainComs.Sun->BindSprite(sunSprite);
+	_mainComs.Sun->SetPosition(
+		1040,
+		530
+	);
+	_mainComs.Sun->UpdateSpritePivotPosition(
+		H_DIRECTION::CENTER, V_DIRECTION::CENTER
+	);
+	_mainComs.Sun->BindCachedSprite(
+		ResourceManager::Get().GetCachedImage(L"Sun_Face_fixed")
+	);
+
+	// Temple
+	_mainComs.temple = new SingleSpriteRenderable<Temple>();
+	_mainComs.temple->BindSprite(
+		ResourceManager::Get().GetImage(L"Cave_fixed")
+	);
+	_mainComs.temple->SetPosition(0, 455);
+	_mainComs.temple->BindCachedSprite(
+		ResourceManager::Get().GetCachedImage(L"Cave_fixed")
+	);
+
+	// Background
+	_mainComs.background = new SingleSpriteRenderable<MainMenuComponents>(false);
+	_mainComs.background->AttachChildRenderable(_mainComs.Sun);
+	_mainComs.background->AttachChildRenderable(_mainComs.SunFlares);
+	_mainComs.background->AttachChildRenderable(_mainComs.temple);
 
 	//lazanya
 	std::wstring entryRazanyaImageName{};
@@ -168,6 +232,8 @@ EntryScene::EntryScene()
 
 void EntryScene::Update(const double deltaTime)
 {
+	_mainComs.backgroundSunrays->Rotate(deltaTime*20.0);
+	_mainComs.backgroundCorona->Rotate(-deltaTime*20.0);
 	_buttonEventHandler->HandleMouseEvent(
 		Input::inputManager->GetMouseClient().x,
 		Input::inputManager->GetMouseClient().y,
@@ -193,6 +259,7 @@ void EntryScene::InitScene()
 		_WStringAgeIndex(GetGameDataHub().GetCurrentGeneration()).c_str()
 	);
 	_mainComs.highScoreName->SetText(__WStringifyLetterText().c_str());
+	_renderSystem->RegisterRenderableObject(_mainComs.backgroundContainers);
 	_renderSystem->RegisterRenderableObject(_mainComs.background);
 	_renderSystem->RegisterRenderableObject(_mainMenuContainer);
 	

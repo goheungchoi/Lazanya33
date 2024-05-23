@@ -36,7 +36,7 @@ public:
 			580, 
 			0, 0, 0, 0
 		);
-		player_idle->SetFrameDurations({ 0.2 });
+		player_idle->SetFrameDurations({ 0.05 });
 		player_idle->SetX(x);
 		player_idle->SetY(y);
 

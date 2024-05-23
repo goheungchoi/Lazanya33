@@ -916,6 +916,7 @@ void PlayScene::Update(const double deltaTime)
 					Debug.Log((int)_historyComps.name->text.length());
 				}
 			}
+			_historyComps.entryButton->SetActive(_historyComps.name->text.length() > 0);
 		}
 
 		// Show pop up windows

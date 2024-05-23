@@ -264,6 +264,9 @@
     <ClInclude Include="ChainedAnimationPack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BlcokIntroduction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -356,8 +359,11 @@
     <ClCompile Include="InputField.h">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="BlcokIntroduction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="PlayerStateContainer.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\Game\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

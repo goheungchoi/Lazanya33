@@ -219,8 +219,8 @@ void LetterScene::InitScene() {
 void LetterScene::EndScene() {
 	_renderSystem->ClearRenderableRegistry();
 	Music::soundManager->StopMusic(Music::eSoundChannel::BGM);
-	_comps.firstBlessingOfGod->Reset();
+	/*_comps.firstBlessingOfGod->Reset();
 	_comps.secondBlessingOfGod->Reset();
 	_comps.thirdBlessingOfGod->Reset();
-	_comps.blessingStateController->Reset();
+	_comps.blessingStateController->Reset();*/
 }
