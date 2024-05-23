@@ -28,7 +28,7 @@ class GameDataHub {
 	wchar_t _filedir[FILE_NAME_MAX_SIZE];
 
 	bool _requestUpdate;
-	PlayHistory _hist;
+	PlayHistory _hist{ -1, 0 };
 	UserData _currUser;
 public:
 //////////// FILE STREAMS ////////////////////////////////
@@ -147,6 +147,8 @@ public:
 
 	// Getters
 	int GetMaxScore() {
+		if (_hist.userHistory.empty())
+			return 100;
 		return _hist.userHistory[_hist.maxScoreUserIndex].score;
 	}
 
