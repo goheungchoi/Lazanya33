@@ -30,6 +30,7 @@ class EntryScene: public IScene
 		Button* decoratorButton;
 		Button* developerButton;
 		Button* artWorkButton;
+		Button* blockButton;
 
 	}_mainComs;
 
