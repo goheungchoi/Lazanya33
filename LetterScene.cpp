@@ -207,6 +207,7 @@ void LetterScene::Draw()
 }
 
 void LetterScene::InitScene() {
+	isBlessingSelected = false;
 	_playButton->SetActive(false);
 	_comps.firstBlessingOfGod->Init();
 	_comps.secondBlessingOfGod->Init();

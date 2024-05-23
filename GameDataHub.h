@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-constexpr std::size_t MAX_USER_NAME = 6;
+constexpr std::size_t MAX_USER_NAME = 10;
 constexpr std::size_t FILE_NAME_MAX_SIZE = 256;
 
 struct UserData {
@@ -101,18 +101,16 @@ public:
 	 * @brief 현재 가지고 있는 유저 대이타를 스트럭화 해서 유저 히스토리에 푸쉬합니다.
 	 */
 	void DispatchCurrentUserData() {
-		int maxScore = 0;
-		if (_hist.maxScoreUserIndex == -1)
-		{
-			maxScore = 100;
-		}
-		else
+		int maxScore = -1;
+		if (!_hist.userHistory.empty())
 			maxScore = _hist.userHistory[_hist.maxScoreUserIndex].score;
 
 		// Update Play History
 		_hist.maxScoreUserIndex =
 			(maxScore < _currUser.score) * _hist.userHistory.size() +
 			(maxScore >= _currUser.score) * _hist.maxScoreUserIndex;
+
+		// Num Played Users plus one
 		_hist.numPlayedUsers += 1;
 
 		// Push the current user data
@@ -153,14 +151,14 @@ public:
 
 	// Getters
 	int GetMaxScore() {
-		if (_hist.maxScoreUserIndex = -1)
+		if (_hist.userHistory.empty())
 			return 100;
 		return _hist.userHistory[_hist.maxScoreUserIndex].score;
 	}
 
 	UserData GetMaxScoreUser() {
-		if (_hist.maxScoreUserIndex = -1)
-			return { L"None", -1, -1, -1, 100 };
+		if (_hist.userHistory.empty())
+			return { L"Razanya I", -1, -1, -1, 100 };
 		return _hist.userHistory[_hist.maxScoreUserIndex];
 	}
 
@@ -170,7 +168,7 @@ public:
 
 	UserData GetPreviousUser() {
 		if (_hist.userHistory.empty())
-			return { L"None", -1, -1, -1, 60 };
+			return { L"Razanya I", -1, -1, -1, 60 };
 		return _hist.userHistory.back();
 	}
 

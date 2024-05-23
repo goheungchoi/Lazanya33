@@ -916,20 +916,14 @@ void PlayScene::Update(const double deltaTime)
 				);
 
 				int playerScore = _player->GetCurrScore();
-				if (
-					playerScore > _gloryOfFamilyScore &&
-					playerScore >= 100
-				) {
+				if (playerScore > _gloryOfFamilyScore) {
 					txt2 = new TextAnimation(
 						_endComps.text2,
 						__WStringifyEndingMessage2_3().c_str(),
 						3.0, 1.0
 					);
 				}
-				else if (
-					playerScore > _mothersScore &&
-					playerScore >= 60
-				) {
+				else if (playerScore > _mothersScore) {
 					txt2 = new TextAnimation(
 						_endComps.text2,
 						__WStringifyEndingMessage2_2().c_str(),
@@ -1299,9 +1293,7 @@ void PlayScene::__ResetGame() {
 
 	// Score board
 	_gloryOfFamilyScore = GetGameDataHub().GetMaxScore();
-	_gloryOfFamilyScore = _gloryOfFamilyScore > 100 ? _gloryOfFamilyScore : 100;
 	_mothersScore = GetGameDataHub().GetPreviousUser().score;
-	_mothersScore = _mothersScore > 60 ? _mothersScore : 60;
 	_uiComps.gloryOfFamily->SetText(__WStringifyGloryHall(_gloryOfFamilyScore).c_str());
 	_uiComps.honorOfAncestor->SetText(__WStringifyMothersHonor(_mothersScore).c_str());
 	_uiComps.currentHonor->SetText(__WStringifyCurrentHonor(_player->GetCurrScore()).c_str());
