@@ -32,7 +32,7 @@ EntryScene::EntryScene()
 	//highscore name
 	_mainComs.highScoreName= new Container(100, 380, 500, 100);
 	_mainComs.highScoreName->SetText(__WStringifyLetterText().c_str());
-	_mainComs.highScoreName->SetFontFamily(L"°¡ÆòÇÑ¼®ºÀ Å«º× B");
+	_mainComs.highScoreName->SetFontFamilyByPath(L"°¡ÆòÇÑ¼®ºÀ Å«º× B", L"Font/GapyeongHanseokbongB.ttf");
 	_mainComs.highScoreName->SetFont(35, FontStyleBold);
 	_mainComs.highScoreName->SetFontColor(230, 35, 38);
 	_mainComs.highScoreName->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
@@ -129,7 +129,7 @@ EntryScene::EntryScene()
 	);
 	_mainComs.age->Rotate(10);
 	_mainComs.age->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
-	_mainComs.age->SetFontFamily(L"Her-Leeoksun");
+	_mainComs.age->SetFontFamilyByPath(L"Her-Leeoksun", L"font/Her_.ttf");
 	_mainComs.age->SetFontColor(233, 233, 233, 255);
 	_mainComs.age->SetFont(150 , FontStyleRegular);
 	

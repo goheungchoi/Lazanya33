@@ -4,6 +4,7 @@
 
 #include "AnimationController.h"
 #include "Animation.h"
+#include "cassert"
 
 using namespace Gdiplus;
 
@@ -274,6 +275,18 @@ public:
     if (_pFontFamily) delete _pFontFamily;
     _pFontFamily = new FontFamily(fontFamily);
   }
+
+	/**
+ * @brief Set font family by path
+ * @param fontFamily font family name e.i. L"Arial"
+ * @param _path filepath e.i. L"font/(fontname).ttf"
+ */
+	void SetFontFamilyByPath(const wchar_t* fontFamily, const wchar_t* _path) {
+		if (AddFontResource(_path) == 0) { assert(false); }
+
+		_pFontFamily = new FontFamily(fontFamily);
+
+	}
 
   /**
    * @brief Set font properties

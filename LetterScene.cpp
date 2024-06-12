@@ -107,7 +107,7 @@ void LetterScene::__InitComponents() {
 	// TODO: Need a script file seperate.
 	// letter scripts 한글
 	_comps.letter->SetPositionLayout(PositionLayout::LAYOUT_STATIC);
-	_comps.letter->SetFontFamily(L"그녀-이옥선");
+	_comps.letter->SetFontFamilyByPath(L"그녀-이옥선", L"font/Her_.ttf");
 	_comps.letter->SetText(__WStringifyLetterText().c_str());
 	_comps.letter->SetFont(36, FontStyleBold);
 	// diagrams
@@ -119,11 +119,11 @@ void LetterScene::__InitComponents() {
 	int a;
 	//// Right Box Components
 	// text1
-	_comps.text1->SetFontFamily(L"GyeonggiBatang Bold");
+	_comps.text1->SetFontFamilyByPath(L"GyeonggiBatang Bold", L"font/GyeonggiTitleV_Bold.ttf");
 	_comps.text1->SetFont(36, FontStyleBold);
 	_comps.text1->SetText(L"3개의             중 하나를 선택해 진행.");
 	// running In Family
-	_comps.runningInFamily->SetFontFamily(L"GyeonggiBatang Bold");
+	_comps.runningInFamily->SetFontFamilyByPath(L"GyeonggiBatang Bold", L"font/GyeonggiTitleV_Bold.ttf");
 	_comps.runningInFamily->SetFont(38, FontStyleBold);
 	_comps.runningInFamily->SetFontColor(181, 0, 0);
 	_comps.runningInFamily->SetTextHorizontalAlignment(H_DIRECTION::CENTER);

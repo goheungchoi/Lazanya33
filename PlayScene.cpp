@@ -176,19 +176,19 @@ void PlayScene::__InitComponents() {
 		ResourceManager::Get().GetImage(L"70004_NPC_ancestors")
 	);
 
-	_endComps.text1->SetFontFamily(L"가평한석봉 큰붓 B");
+	_endComps.text1->SetFontFamilyByPath(L"가평한석봉 큰붓 B", L"font/GapyeongHanseokbongB.ttf");
   _endComps.text1->SetRotationPivot(
 	_endComps.text1->GetCenterX(),
   _endComps.text1->GetCenterY());
   _endComps.text1->Rotate(-7);
 	
-	_endComps.text2->SetFontFamily(L"가평한석봉 큰붓 B");
+	_endComps.text2->SetFontFamilyByPath(L"가평한석봉 큰붓 B", L"font/GapyeongHanseokbongB.ttf");
   _endComps.text2->SetRotationPivot(
 	_endComps.text2->GetCenterX(),                             
 	_endComps.text2->GetCenterY());
   _endComps.text2->Rotate(-7);
 
-	_endComps.text3->SetFontFamily(L"가평한석봉 큰붓 B");
+	_endComps.text3->SetFontFamilyByPath(L"가평한석봉 큰붓 B", L"font/GapyeongHanseokbongB.ttf");
   _endComps.text3->SetRotationPivot(
 	_endComps.text3->GetCenterX(),
   _endComps.text3->GetCenterY());
@@ -408,7 +408,7 @@ void PlayScene::__InitComponents() {
 	_uiComps.startMessage->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
 	_uiComps.startMessage->SetPosition(955, 330);
 	_uiComps.startMessage->SetTextHorizontalAlignment(H_DIRECTION::CENTER);
-	_uiComps.startMessage->SetFontFamily(L"Threat");
+	_uiComps.startMessage->SetFontFamilyByPath(L"Threat", L"font/Threat.otf");
 	_uiComps.startMessage->SetFontColor(220, 220, 220, 120);
 	_uiComps.startMessage->SetFont(24, FontStyleBold);
 	_uiComps.startMessage->SetText(L"PRESS ↓");
@@ -697,7 +697,7 @@ void PlayScene::__InitComponents() {
 
 	//text
 	_historyComps.text = new Container(630, 420, 1000, 200);
-	_historyComps.text->SetFontFamily(L"가평한석봉 큰붓 B");
+	_historyComps.text->SetFontFamilyByPath(L"가평한석봉 큰붓 B", L"font/GapyeongHanseokbongB.ttf");
 	_historyComps.text->SetFont(100, FontStyleBold);
 	_historyComps.text->SetFontColor(255, 255, 255);
 	_historyComps.text->SetText(L"당신의 이니셜은?");
