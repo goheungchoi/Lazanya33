@@ -129,7 +129,7 @@ EntryScene::EntryScene()
 	);
 	_mainComs.age->Rotate(10);
 	_mainComs.age->SetPositionLayout(PositionLayout::LAYOUT_ABSOLUTE);
-	_mainComs.age->SetFontFamilyByPath(L"Her-Leeoksun", L"font/Her_.ttf");
+	_mainComs.age->SetFontFamilyByPath(L"Her-Leeoksun", L"Font/Her_.ttf");
 	_mainComs.age->SetFontColor(233, 233, 233, 255);
 	_mainComs.age->SetFont(150 , FontStyleRegular);
 	

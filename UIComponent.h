@@ -279,7 +279,7 @@ public:
 	/**
  * @brief Set font family by path
  * @param fontFamily font family name e.i. L"Arial"
- * @param _path filepath e.i. L"font/(fontname).ttf"
+ * @param _path filepath e.i. L"Font/(fontname).ttf"
  */
 	void SetFontFamilyByPath(const wchar_t* fontFamily, const wchar_t* _path) {
 		if (AddFontResource(_path) == 0) { assert(false); }
