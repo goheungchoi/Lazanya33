@@ -65,7 +65,7 @@ struct Brick
     break;
 
     case BrickType::GOLD:
-    blockScore = 10;
+    blockScore = 30;
     blockHealth = 20;
 		blockDownAir = 6;
 		maxBlockHealth = 20;
