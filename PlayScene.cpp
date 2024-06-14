@@ -1419,7 +1419,7 @@ void PlayScene::__AutoValveCondition(std::function<bool()> condition) {
 	static bool valve = true;
 	if (valve) {	// valve is true 
 		if (condition()) {	// true
-			_nextLevelUpCeiling = _nextLevelUpCeiling + 50;
+			_nextLevelUpCeiling = _nextLevelUpCeiling + _levelUpMeterInterval;
 			_isLevelUpAnimationPlaying = true;	
 			valve = false;	// Lock the valve
 		}
