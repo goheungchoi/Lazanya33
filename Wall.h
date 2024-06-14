@@ -21,6 +21,10 @@ private:
 	std::size_t bombExplosionAnimationIndex{ 0 };
 	std::vector<Animation*> _bombExplosionAnimationPool;
 	std::list<Animation*> _destroyAnimationList;
+
+	bool _bombR{ true };
+	float _bombElapsedTime = 0.0f;
+	float _bombSpriteChangeDuration = 0.1f;
 public:
 	Wall() :
 		_bricks(WALL_NUM_ROWS, WALL_NUM_COLS),
@@ -54,6 +58,8 @@ public:
 			bombAnim->SetFrameDurations({ 0.08 });
 			_bombExplosionAnimationPool[i] = bombAnim;
 		}
+
+		bombSprite = BBomb::GetCachedSprite(L"bombR");
 	}
 		///_brickSprites(WALL_NUM_ROWS, WALL_NUM_COLS){}
 	~Wall(){}	
@@ -140,6 +146,27 @@ public:
 				++it;
 			}
     }
+		_bombElapsedTime += dt;
+
+		if (_bombElapsedTime >= _bombSpriteChangeDuration) {
+			_bombElapsedTime -= _bombSpriteChangeDuration;
+			_bombR = !_bombR;
+			for (int row = 0; row < WALL_NUM_ROWS; row++)
+			{
+				for (int col = 0; col < WALL_NUM_COLS; col++)
+				{
+					if (_bricks.At(row, col).type == BrickType::BOMB)
+					{
+						
+						_brickSprites.At(row, col) = _bombR ? BBomb::GetCachedSprite(L"bombR") : BBomb::GetCachedSprite(L"bombY");
+					}
+				}
+			}
+		}
+		
+
+			//bombSprite = _bombR ? BBomb::GetCachedSprite(L"bombR") : BBomb::GetCachedSprite(L"bombY");
+		
 	}
 
 	void Render(Graphics& g) override {

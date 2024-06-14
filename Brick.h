@@ -128,6 +128,8 @@ class BOxygen : public BrickGraphics<BOxygen> {};
 
 class BRasgulla :public BrickGraphics<BRasgulla> {};
 
+
+inline CachedBitmap* bombSprite = nullptr;
 inline Gdiplus::CachedBitmap* GetBrickSprite(BrickType brickType, const std::wstring& tag) {
 	switch (brickType)
 	{
@@ -145,7 +147,7 @@ inline Gdiplus::CachedBitmap* GetBrickSprite(BrickType brickType, const std::wst
 	}
 	case BrickType::BOMB:
 	{
-		return BBomb::GetCachedSprite(tag);
+		return bombSprite;
 	}
 	case BrickType::GOLD:
 	{
