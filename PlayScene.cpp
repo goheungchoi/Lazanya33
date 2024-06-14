@@ -753,7 +753,9 @@ void PlayScene::Update(const double deltaTime)
 		__AutoValveCondition([this]() {
 			return _player->GetDownMeter() >= _nextLevelUpCeiling;
 		});
-
+#ifndef NDEBUG
+		Debug.Log(_nextLevelUpCeiling);
+#endif
 		// Update Level Up Animation
 		LevelUpAnimationUpdate(deltaTime);
 
@@ -1040,6 +1042,7 @@ void PlayScene::EndScene()
 	GetGameDataHub().SetCurrentUserDepth(_player->GetDownMeter());
 	GetGameDataHub().SetCurrentUserScore(_player->GetCurrScore());
 	GetGameDataHub().DispatchCurrentUserData();
+	_nextLevelUpCeiling = { 50 };
 	Music::soundManager->PlayMusic(Music::eSoundList::background01, Music::eSoundChannel::BGM);
 }
 
