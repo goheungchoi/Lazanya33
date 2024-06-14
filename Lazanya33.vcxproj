@@ -162,6 +162,7 @@
     <ClInclude Include="DebugConsole.h" />
     <ClInclude Include="Container.h" />
     <ClInclude Include="DecoratorScene.h" />
+    <ClInclude Include="DescriptionScene.h" />
     <ClInclude Include="DeveloperScene.h" />
     <ClInclude Include="GridDeque.h" />
     <ClInclude Include="GridItem.h" />
@@ -217,6 +218,7 @@
     <ClCompile Include="BlcokIntroduction.cpp" />
     <ClCompile Include="CSound.cpp" />
     <ClCompile Include="DecoratorScene.cpp" />
+    <ClCompile Include="DescriptionScene.cpp" />
     <ClCompile Include="DeveloperScene.cpp" />
     <ClCompile Include="GameDataHub.h" />
     <ClCompile Include="InputField.h" />

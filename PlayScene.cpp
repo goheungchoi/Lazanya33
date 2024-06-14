@@ -484,7 +484,7 @@ void PlayScene::__InitComponents() {
 	_uiComps.oxygenLevel->SetPosition(600+CENTERBOX_OFFSET, 0);
 	_uiComps.oxygenLevel->SetZValue(9);
 	_uiComps.oxygenLevel->EnableFill(true);
-	_uiComps.oxygenLevel->SetFillColor(0, 120, 240);
+	_uiComps.oxygenLevel->SetFillColor(12, 243, 178);
 
 	// Right Box Components properties
 	_uiComps._rightBox->SetPosition(RIGHTBOX_OFFSET-250, 0);
