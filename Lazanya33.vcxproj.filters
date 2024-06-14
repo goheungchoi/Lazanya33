@@ -103,6 +103,12 @@
     <Filter Include="Source Files\Game\SceneGraph\Scene\ArtWork">
       <UniqueIdentifier>{3c61bf94-591f-477c-83ef-5cde5b564e16}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\SceneGraph\Scene\Description">
+      <UniqueIdentifier>{ba7a2ee5-700a-4dad-980f-f6f3389f13a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\SceneGraph\Scene\BlockIntro">
+      <UniqueIdentifier>{f13ef181-3623-472c-8332-2a8da40feef2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -264,8 +270,17 @@
     <ClInclude Include="ChainedAnimationPack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ArtWorkScene2.h">
+      <Filter>Source Files\Game\SceneGraph\Scene\ArtWork</Filter>
+    </ClInclude>
+    <ClInclude Include="ArtWorkScene3.h">
+      <Filter>Source Files\Game\SceneGraph\Scene\ArtWork</Filter>
+    </ClInclude>
     <ClInclude Include="BlcokIntroduction.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\Game\SceneGraph\Scene\BlockIntro</Filter>
+    </ClInclude>
+    <ClInclude Include="DescriptionScene.h">
+      <Filter>Source Files\Game\SceneGraph\Scene\Description</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -359,11 +374,20 @@
     <ClCompile Include="InputField.h">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="BlcokIntroduction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerStateContainer.h">
       <Filter>Source Files\Game\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ArtWorkScene2.cpp">
+      <Filter>Source Files\Game\SceneGraph\Scene\ArtWork</Filter>
+    </ClCompile>
+    <ClCompile Include="ArtWorkScene3.cpp">
+      <Filter>Source Files\Game\SceneGraph\Scene\ArtWork</Filter>
+    </ClCompile>
+    <ClCompile Include="BlcokIntroduction.cpp">
+      <Filter>Source Files\Game\SceneGraph\Scene\BlockIntro</Filter>
+    </ClCompile>
+    <ClCompile Include="DescriptionScene.cpp">
+      <Filter>Source Files\Game\SceneGraph\Scene\Description</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
