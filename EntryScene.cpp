@@ -216,6 +216,21 @@ EntryScene::EntryScene()
 		});
 
 	_buttonEventHandler->AddButton(_mainComs.blockButton);
+
+	//description button
+	_mainComs.descriptionButton = new Button(1300, 20, 300, 100);
+	_mainComs.descriptionButton->SetSizeFitImage(true);
+	_mainComs.descriptionButton->SetImage(
+		ResourceManager::Get().GetImage(L"Main_Game_Manual")
+	);
+	_mainComs.descriptionButton->SetPositionLayout(PositionLayout::LAYOUT_FIXED);
+
+	_mainComs.descriptionButton->AddEventLister("mouseClick", [this]() {
+		Music::soundManager->PlayMusic(Music::eSoundList::PaperTeraing, Music::eSoundChannel::Effect);
+		_sceneManager->ChangeScene("Description");
+		});
+
+	_buttonEventHandler->AddButton(_mainComs.descriptionButton);
 	
 	//Attach Child Component
 	_mainMenuContainer->AddChildComponent(_mainComs.title);
@@ -225,6 +240,7 @@ EntryScene::EntryScene()
 	_mainMenuContainer->AddChildComponent(_mainComs.developerButton);
 	_mainMenuContainer->AddChildComponent(_mainComs.artWorkButton);
 	_mainMenuContainer->AddChildComponent(_mainComs.blockButton);
+	_mainMenuContainer->AddChildComponent(_mainComs.descriptionButton);
 	_mainMenuContainer->AddChildComponent(_mainComs.highScoreTag);
 	_mainMenuContainer->AddChildComponent(_mainComs.age);
 	_mainMenuContainer->AddChildComponent(_mainComs.highScoreName);
