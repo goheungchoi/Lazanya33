@@ -32,7 +32,7 @@ public:
 		}
 
 		_wall->DamageBrick(row, col, _player->GetAttackDamage());
-		if (_wall->GetBrick(row, col).blockHealth * 2 <= _wall->GetBrick(row, col).maxBlockHealth)
+		if ((float)_wall->GetBrick(row, col).blockHealth * 1.1f <= (float)_wall->GetBrick(row, col).maxBlockHealth)
 		{
 			_wall->_brickSprites.At(row, col) = GetBrickSprite(
 				_wall->GetBirckType(row, col), 
@@ -40,6 +40,25 @@ public:
 			);
 		}
 		
+		if ((float)_wall->GetBrick(row, col).blockHealth * 2.f <= (float)_wall->GetBrick(row, col).maxBlockHealth
+			&&
+			_wall->GetBrick(row, col).type == BrickType::ROCK)
+		{
+			_wall->_brickSprites.At(row, col) = GetBrickSprite(
+				_wall->GetBirckType(row, col),
+				TypeToTag2(_wall->GetBirckType(row, col))
+			);
+		}
+		if ((float)_wall->GetBrick(row, col).blockHealth * 4.f <= (float)_wall->GetBrick(row, col).maxBlockHealth
+			&&
+			_wall->GetBrick(row, col).type == BrickType::ROCK)
+		{
+			_wall->_brickSprites.At(row, col) = GetBrickSprite(
+				_wall->GetBirckType(row, col),
+				TypeToTag3(_wall->GetBirckType(row, col))
+			);
+		}
+
 
 		// if brick destory
 		if (_wall->GetBrick(row, col).blockHealth <= 0)
@@ -189,5 +208,13 @@ public:
 		case BrickType::GULAB_JAMUN:
 			return L"B.gulabjamun";
 		}
+	}
+	std::wstring TypeToTag2(BrickType type)
+	{
+		return L"B2.rock";
+	}
+	std::wstring TypeToTag3(BrickType type)
+	{
+		return L"B3.rock";
 	}
 };

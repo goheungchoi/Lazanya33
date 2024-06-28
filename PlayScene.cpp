@@ -31,6 +31,8 @@
 // Resource
 #include "ResourceManager.h"
 
+#include "GameDataHub.h"
+
 constexpr double PLAYER_OXYGEN_REDUCE_INITAL_VALUE = 10.0;
 
 constexpr int CENTERBOX_OFFSET = 718;
@@ -851,16 +853,19 @@ void PlayScene::Update(const double deltaTime)
 			if (_buttonPressedCount <= 3) {
 				_uiComps.currentState->SetState(
 					static_cast<int>(PlayerStateAnimation::IDLE)
+					+(GetGameDataHub().GetCurrentGeneration()%3)*3
 				);
 			}
 			else if (_buttonPressedCount <= 6) {
 				_uiComps.currentState->SetState(
 					static_cast<int>(PlayerStateAnimation::WARMING)
+					+ (GetGameDataHub().GetCurrentGeneration() % 3) * 3
 				);
 			}
 			else {
 				_uiComps.currentState->SetState(
 					static_cast<int>(PlayerStateAnimation::BURNING)
+					+ (GetGameDataHub().GetCurrentGeneration() % 3) * 3
 				);
 			}
 
@@ -1344,6 +1349,7 @@ void PlayScene::__ResetGame() {
 	// State Display
 	_uiComps.currentState->SetState(
 		static_cast<int>(PlayerStateAnimation::IDLE)
+		+ (GetGameDataHub().GetCurrentGeneration() % 3) * 3
 	);
 
 	// Turn off Game End Components

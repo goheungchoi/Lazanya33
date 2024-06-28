@@ -224,6 +224,7 @@
     <ClCompile Include="InputField.h" />
     <ClCompile Include="LetterScene.cpp" />
     <ClCompile Include="Naughty.cpp" />
+    <ClCompile Include="PlayerStateContainer.cpp" />
     <ClCompile Include="PlayerStateContainer.h" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Pummeler.cpp" />

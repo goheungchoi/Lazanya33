@@ -266,5 +266,16 @@ void Engine::InitBrickImage()
 		_renderer->GetGraphics()	// Enable Caching
 	);
 
+	BRock::AddSprite(
+		ResourceManager::Get().GetImage(L"B2.brick_rock"),
+		L"B2.rock",
+		_renderer->GetGraphics()	// Enable Caching
+	);
+	BRock::AddSprite(
+		ResourceManager::Get().GetImage(L"B3.brick_rock"),
+		L"B3.rock",
+		_renderer->GetGraphics()	// Enable Caching
+	);
+
 
 }
